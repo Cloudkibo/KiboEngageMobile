@@ -28,10 +28,42 @@ MERGED from [com.facebook.react:react-native:0.35.0] D:\Setup-Software\Git\KiboE
 MERGED from [com.facebook.react:react-native:0.35.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.35.0\AndroidManifest.xml:11:5-78
 MERGED from [com.facebook.react:react-native:0.35.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.35.0\AndroidManifest.xml:11:5-78
 MERGED from [com.facebook.react:react-native:0.35.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.35.0\AndroidManifest.xml:11:5-78
+MERGED from [com.facebook.react:react-native:0.35.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.35.0\AndroidManifest.xml:11:5-78
 	android:name
 		ADDED from D:\Setup-Software\Git\KiboEngageMobile\android\app\src\main\AndroidManifest.xml:7:22-75
 uses-sdk
 ADDED from D:\Setup-Software\Git\KiboEngageMobile\android\app\src\main\AndroidManifest.xml:9:5-11:41
+MERGED from [StarterKit:react-native-share:unspecified] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\StarterKit\react-native-share\unspecified\AndroidManifest.xml:7:5-9:41
+MERGED from [com.facebook.react:react-native:0.35.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.35.0\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:appcompat-v7:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\AndroidManifest.xml:5:5-44
+MERGED from [com.android.support:support-vector-drawable:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-vector-drawable:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\AndroidManifest.xml:5:5-43
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:recyclerview-v7:23.0.1] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.0.1\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.facebook.fresco:fresco:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fresco\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:drawee:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\drawee\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.facebook.fresco:fbcore:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fbcore:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.facebook.fresco:fbcore:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-base:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-base\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.facebook.fresco:fbcore:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-okhttp3:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-okhttp3\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:fbcore:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.facebook.fresco:fbcore:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.fresco:imagepipeline-base:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-base\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:21:5-23:54
+MERGED from [com.facebook.fresco:fbcore:0.11.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.11.0\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.soloader:soloader:0.1.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.soloader\soloader\0.1.0\AndroidManifest.xml:2:3-70
 MERGED from [StarterKit:react-native-smart-splashscreen:unspecified] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\StarterKit\react-native-smart-splashscreen\unspecified\AndroidManifest.xml:7:5-9:41
 MERGED from [com.android.support:appcompat-v7:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\AndroidManifest.xml:21:5-23:78
 MERGED from [com.android.support:animated-vector-drawable:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\AndroidManifest.xml:5:5-44
@@ -199,6 +231,22 @@ MERGED from [com.facebook.soloader:soloader:0.1.0] D:\Setup-Software\Git\KiboEng
 		INJECTED from D:\Setup-Software\Git\KiboEngageMobile\android\app\src\main\AndroidManifest.xml
 application
 ADDED from D:\Setup-Software\Git\KiboEngageMobile\android\app\src\main\AndroidManifest.xml:13:5-29:19
+MERGED from [com.facebook.react:react-native:0.35.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.35.0\AndroidManifest.xml:13:5-20
+MERGED from [com.android.support:appcompat-v7:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-vector-drawable:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-vector-drawable:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:24.0.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\AndroidManifest.xml:25:5-20
+MERGED from [com.facebook.soloader:soloader:0.1.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.soloader\soloader\0.1.0\AndroidManifest.xml:3:3-17
+MERGED from [org.webkit:android-jsc:r174650] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\org.webkit\android-jsc\r174650\AndroidManifest.xml:2:3-17
 MERGED from [com.android.support:appcompat-v7:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:animated-vector-drawable:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20
 MERGED from [com.android.support:support-vector-drawable:23.4.0] D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20

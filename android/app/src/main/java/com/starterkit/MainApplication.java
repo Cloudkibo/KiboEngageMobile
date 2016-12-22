@@ -4,12 +4,18 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.reactnativecomponent.splashscreen.RCTSplashScreenPackage;
+import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import cl.json.RNSharePackage;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.reactnativecomponent.splashscreen.RCTSplashScreenPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
-import com.reactnativecomponent.splashscreen.RCTSplashScreenPackage;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,8 +31,10 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-          new GoogleAnalyticsBridgePackage(),
-          new RCTSplashScreenPackage()    //register Module
+            new RNSharePackage(),
+            new VectorIconsPackage(),
+            new GoogleAnalyticsBridgePackage(),
+           new RCTSplashScreenPackage()    //register Module
       );
     }
   };

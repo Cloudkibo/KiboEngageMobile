@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+//import { Text } from 'react-native';
 import { connect } from 'react-redux';
 //import { emailChanged, passwordChanged, loginUser } from '../actions';
-import { Card, CardSection, Input, Button, Spinner } from './common';
+import { Card, CardSection, Input, Spinner } from './common';
+import {Button,Icon,View,Text} from '@shoutem/ui'
 import SplashScreen from 'react-native-smart-splash-screen'
 
 class LoginForm extends Component {
@@ -33,9 +34,17 @@ class LoginForm extends Component {
     }
 
     return (
-      <Button onPress={this.onButtonPress.bind(this)}>
-        Login
-      </Button>
+      <View styleName="horizontal flexible">
+            <Button styleName="full-width muted">
+              <Icon name="ic_user_profile" />
+              <Text>Login</Text>
+            </Button>
+            <Button styleName="full-width muted">
+              <Icon name="ic_user_profile" />
+              <Text>Sign Up</Text>
+            </Button>
+     </View>
+      
     );
   }
 
@@ -45,7 +54,7 @@ class LoginForm extends Component {
         <CardSection>
           <Input
             label="Company Domain"
-            placeholder="Enter company domain"
+            placeholder="Company domain"
             onChangeText={this.onDomainChange.bind(this)}
             value={this.props.domain}
           />

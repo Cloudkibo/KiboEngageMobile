@@ -247,7 +247,7 @@
     <string name="abc_toolbar_collapse_description">Collapse</string>
     <!-- From: file:/D:/Setup-Software/Git/KiboEngageMobile/android/app/src/main/res/values/strings.xml -->
     <eat-comment/>
-    <string name="app_name">StarterKit</string>
+    <string name="app_name">KiboEngage</string>
     <!-- From: file:/D:/Setup-Software/Git/KiboEngageMobile/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.35.0/res/values/values.xml -->
     <eat-comment/>
     <string name="catalyst_copy_button" project="catalyst" translatable="false">Copy</string>
