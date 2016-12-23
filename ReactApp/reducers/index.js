@@ -11,10 +11,11 @@ import { combineReducers } from 'redux'
 // Our custom reducers
 // We need to import each one here and add them to the combiner at the bottom
 import sideMenu from './sidemenu'
-
+import AuthReducer from './AuthReducer';
 // Combine all
 const appReducer = combineReducers({
-  sideMenu,
+  sideMenu: sideMenu,
+  auth: AuthReducer,
 });
 
 // Setup root reducer

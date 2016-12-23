@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@shoutem/ui": "^0.10.2",
+    "axios": "^0.15.3",
     "react": "15.3.2",
     "react-addons-shallow-compare": "^15.3.2",
     "react-native": "^0.35.0",

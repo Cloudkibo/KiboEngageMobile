@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 //import { Text } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+
 import { connect } from 'react-redux';
-//import { emailChanged, passwordChanged, loginUser } from '../actions';
+import { emailChanged,domainChanged, passwordChanged, loginUser } from '../actions';
 import { Card, CardSection, Input, Spinner } from './common';
 import {Button,Icon,View,Text} from '@shoutem/ui'
 import SplashScreen from 'react-native-smart-splash-screen'
@@ -12,20 +14,23 @@ class LoginForm extends Component {
   }
 
   onEmailChange(text) {
-  //  this.props.emailChanged(text);
+    this.props.emailChanged(text);
   }
 
   onDomainChange(text) {
-  //  this.props.emailChanged(text);
+    this.props.domainChanged(text);
   }
   onPasswordChange(text) {
-  //  this.props.passwordChanged(text);
+    this.props.passwordChanged(text);
   }
 
   onButtonPress() {
-    const { email, password } = this.props;
+    const { email, password,domain } = this.props;
 
-    //this.props.loginUser({ email, password });
+    this.props.loginUser({ email, password,domain });
+  }
+  onSignupPress(){
+    Actions.signup();
   }
 
   renderButton() {
@@ -35,11 +40,11 @@ class LoginForm extends Component {
 
     return (
       <View styleName="horizontal flexible">
-            <Button styleName="full-width muted">
+            <Button styleName="full-width muted" onPress={this.onButtonPress.bind(this)}>
               <Icon name="ic_user_profile" />
               <Text>Login</Text>
             </Button>
-            <Button styleName="full-width muted">
+            <Button styleName="full-width muted" onPress={this.onSignupPress.bind(this)}>
               <Icon name="ic_user_profile" />
               <Text>Sign Up</Text>
             </Button>
@@ -99,4 +104,13 @@ const styles = {
   }
 };
 
-export default LoginForm
+const mapStateToProps = ({ auth }) => {
+  const { email, password,domain, error, loading } = auth;
+
+  return { email, password,domain, error, loading };
+};
+
+export default connect(mapStateToProps, {
+  emailChanged,domainChanged, passwordChanged, loginUser
+})(LoginForm);
+
