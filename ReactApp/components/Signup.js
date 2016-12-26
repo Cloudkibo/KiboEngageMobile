@@ -1,31 +1,35 @@
 import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-//import { emailChanged,domainChanged, passwordChanged, loginUser } from '../actions';
+import { signupuser,registerUpdate } from '../actions';
 import { Card, CardSection, Input, Spinner } from './common';
 import {Button,Icon,View,Text} from '@shoutem/ui'
 //import SplashScreen from 'react-native-smart-splash-screen'
 
 class Signup extends Component {
-  componentDidMount () {
- //   SplashScreen.close(SplashScreen.animationType.scale, 1000, 500)
-  }
-
-  onEmailChange(text) {
-  //  this.props.emailChanged(text);
-  }
-
-  onDomainChange(text) {
- //   this.props.domainChanged(text);
-  }
-  onPasswordChange(text) {
-   // this.props.passwordChanged(text);
-  }
-
+  
+  
   onButtonPress() {
-    //const { email, password,domain } = this.props;
+               if (this.props.password != this.props.cpassword) {
+                  //alert('Password donot match!.Retype password');
+                  console.log('Password donot match!.Retype password');
+                  this.props.password = this.props.cpassword = ''
+                }
+                if (this.props.fname && this.props.lname && this.props.password && this.props.cpassword && this.props.email && this.props.phone && this.props.cname && this.props.domain) {
+                  var user = {
+                    'firstname': this.props.fname,
+                    'lastname': this.props.lname,
+                    'email': this.props.email,
+                    'phone': this.props.phone,
+                    'password': this.props.password,
+                    'companyName': this.props.cname,
+                    'website': this.props.domain
+                  }
+                  console.log(user);
 
-   // this.props.loginUser({ email, password,domain });
+                  this.props.signupuser(user)
+                 // fnameRef.value = lnameRef.value = pwdRef.value = c_pwdRef.value = emailRef.value = phoneRef.value = cname.value = cdnameRef.value = '';
+                }
   }
 
   renderButton() {
@@ -49,7 +53,8 @@ class Signup extends Component {
           <Input
             label="First Name"
             placeholder="First Name"
-          
+            value={this.props.fname}
+            onChangeText={value => this.props.registerUpdate({ prop: 'fname', value })}          
           />
         </CardSection>
 
@@ -57,7 +62,8 @@ class Signup extends Component {
            <Input
             label="Last Name"
             placeholder="Last Name"
-          
+            value={this.props.lname}
+            onChangeText={value => this.props.registerUpdate({ prop: 'lname', value })} 
           />
         </CardSection>
 
@@ -65,7 +71,8 @@ class Signup extends Component {
            <Input
             label="Email"
             placeholder="email@gmail.com"
-          
+            value={this.props.email}
+            onChangeText={value => this.props.registerUpdate({ prop: 'email', value })} 
           />
         </CardSection>
 
@@ -74,8 +81,8 @@ class Signup extends Component {
             secureTextEntry
             label="Password"
             placeholder="password"
-            onChangeText={this.onPasswordChange.bind(this)}
             value={this.props.password}
+            onChangeText={value => this.props.registerUpdate({ prop: 'password', value })} 
           />
         </CardSection>
 
@@ -84,15 +91,18 @@ class Signup extends Component {
             secureTextEntry
             label="Confirm Password"
             placeholder="Retype password"
-            onChangeText={this.onPasswordChange.bind(this)}
-            value={this.props.password}
-          />
+           
+            value={this.props.cpassword}
+            onChangeText={value => this.props.registerUpdate({ prop: 'cpassword', value })} 
+         />
         </CardSection>
 
         <CardSection>
            <Input
             label="Phone"
             placeholder="22-5567"
+            value={this.props.phone}
+            onChangeText={value => this.props.registerUpdate({ prop: 'phone', value })} 
           
           />
         </CardSection>
@@ -100,18 +110,20 @@ class Signup extends Component {
            <Input
             label="Company Name"
             placeholder="company name"
-          
-          />
+            value={this.props.cname}
+            onChangeText={value => this.props.registerUpdate({ prop: 'cname', value })} 
+           />
         </CardSection>
         <CardSection>
            <Input
             label="Domain"
             placeholder="company domain"
-          
-          />
+            value={this.props.domain}
+            onChangeText={value => this.props.registerUpdate({ prop: 'domain', value })} 
+           />
         </CardSection>
         <Text style={styles.errorTextStyle}>
-          {this.props.error}
+          {this.props.errorSignup}
         </Text>
 
         <CardSection>
@@ -146,15 +158,12 @@ const styles = {
 
 };
 
-/*const mapStateToProps = ({ auth }) => {
-  const { email, password,domain, error, loading } = auth;
+function mapStateToProps(state) {
+   const { fname,lname,email,phone,password,cpassword,cname,domain, errorSignup } = state.auth;
 
-  return { email, password,domain, error, loading };
-};
+  return {fname,lname,email,phone,password,cpassword,cname,domain, errorSignup };
 
-export default connect(mapStateToProps, {
-  emailChanged,domainChanged, passwordChanged, loginUser
-})(Signup);
-*/
+}
 
-export default Signup
+export default connect(mapStateToProps, { signupuser ,registerUpdate})(Signup);
+

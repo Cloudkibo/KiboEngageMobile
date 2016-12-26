@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   domain:'',
   user: null,
   error: '',
+  errorSignup :'',
   loading: false
 };
 
@@ -23,6 +24,14 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, ...INITIAL_STATE, user: action.payload };
     case ActionTypes.LOGIN_USER_FAIL:
       return { ...state, error: 'Authentication Failed.', password: '', loading: false };
+    case ActionTypes.SIGNUP_USER_FAIL:
+      return { ...state, errorSignup: 'Account Creation Failed.', password: '', loading: false };
+    case ActionTypes.SIGNUP_USER_SUCCESS:
+      return { ...state, errorSignup: 'Account Creation Successful.', password: '', loading: false };
+
+    case ActionTypes.REGISTER_UPDATE:
+      return { ...state, [action.payload.prop]: action.payload.value };
+   
     default:
       return state;
   }
