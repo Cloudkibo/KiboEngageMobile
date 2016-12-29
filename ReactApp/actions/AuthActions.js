@@ -3,15 +3,11 @@ import axios from 'axios';
 import * as ActionTypes from './types';
 var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
-
 import {
-  EMAIL_CHANGED,
-  PASSWORD_CHANGED,
-  LOGIN_USER_SUCCESS,
-  LOGIN_USER_FAIL,
-  LOGIN_USER
-} from './types';
+  AsyncStorage,
+} from 'react-native'
 
+var STORAGE_KEY = 'id_token';
 export const emailChanged = (text) => {
   return {
     type: ActionTypes.EMAIL_CHANGED,
@@ -79,7 +75,10 @@ const loginUserFail = () => {
 
 const loginUserSuccess = (user) => {
   console.log('loginUserSuccess');
-  console.log(user);
+  console.log(user.data.token);
+  AsyncStorage.setItem(STORAGE_KEY, user.data.token);
+  console.log('setItem AsyncStorage ');
+  console.log(AsyncStorage.getItem(STORAGE_KEY));
   Actions.main();
   return{
     type: ActionTypes.LOGIN_USER_SUCCESS,
@@ -96,16 +95,21 @@ export const registerUpdate = ({ prop, value }) => {
     payload: { prop, value }
   };
 };
-const signupFail = () => {
-  return{ type: ActionTypes.SIGNUP_USER_FAIL };
+const signupFail = (err) => {
+  return{ 
+    type: ActionTypes.SIGNUP_USER_FAIL,
+    payload: err 
+  };
 };
 
 const signupSuccess = (user) => {
   console.log('signupSuccess');
   console.log(user);
+  var errs = []
+  errs.push('Your account is created successfully');
   return{
     type: ActionTypes.SIGNUP_USER_SUCCESS,
-    payload: user
+    payload: errs
   };
 
   Actions.main();
@@ -139,11 +143,23 @@ export const signupuser = (user) => {
     dispatch(loginInAction());
     console.log('calling api');
     axios.post('https://api.kibosupport.com/api/users/kiboengage',querystring.stringify(data),config).then(user => dispatch(signupSuccess(user)))
-      .catch(function (error,user) {
+      .catch(function (error) {
         console.log('Error occured');
-        console.log(user);
-        console.log(error);
-        dispatch(signupFail());
+         if (error.response && error.response.status == 422 ) {
+            console.log(error.response.data);
+             var validationErr =[];
+             var errs = error.response.data.errors;
+
+             for(var err in errs)
+             {
+
+             validationErr.push(errs[err].message);
+             }
+             console.log(validationErr);
+             dispatch(signupFail(validationErr));
+
+          }
+       
       });
     
   };

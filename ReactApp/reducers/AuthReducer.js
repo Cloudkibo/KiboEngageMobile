@@ -6,8 +6,14 @@ const INITIAL_STATE = {
   domain:'',
   user: null,
   error: '',
-  errorSignup :'',
-  loading: false
+  errorSignup :[],
+  loading: false,
+  fname:'',
+  lname:'',
+  phone:'',
+  cpassword:'',
+  cname:'',
+
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -25,9 +31,9 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.LOGIN_USER_FAIL:
       return { ...state, error: 'Authentication Failed.', password: '', loading: false };
     case ActionTypes.SIGNUP_USER_FAIL:
-      return { ...state, errorSignup: 'Account Creation Failed.', password: '', loading: false };
+      return { ...state, ...INITIAL_STATE,errorSignup: action.payload, password: '', loading: false };
     case ActionTypes.SIGNUP_USER_SUCCESS:
-      return { ...state, errorSignup: 'Account Creation Successful.', password: '', loading: false };
+      return { ...state,...INITIAL_STATE, errorSignup: action.payload, password: '', loading: false };
 
     case ActionTypes.REGISTER_UPDATE:
       return { ...state, [action.payload.prop]: action.payload.value };

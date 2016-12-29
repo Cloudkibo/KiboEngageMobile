@@ -122,9 +122,17 @@ class Signup extends Component {
             onChangeText={value => this.props.registerUpdate({ prop: 'domain', value })} 
            />
         </CardSection>
-        <Text style={styles.errorTextStyle}>
-          {this.props.errorSignup}
-        </Text>
+        {
+          this.props.errorSignup && this.props.errorSignup.map(function (err, i) {
+                    return(
+                       <Text style={styles.errorTextStyle}>
+                          {err}
+                       </Text>
+       
+                    )
+                  })
+        }
+       
 
         <CardSection>
           {this.renderButton()}
