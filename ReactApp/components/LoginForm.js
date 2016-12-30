@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 //import { Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import auth from '../services/auth';
 
 import { connect } from 'react-redux';
 import { emailChanged,domainChanged, passwordChanged, loginUser } from '../actions';
@@ -11,6 +12,10 @@ import SplashScreen from 'react-native-smart-splash-screen'
 class LoginForm extends Component {
   componentDidMount () {
     SplashScreen.close(SplashScreen.animationType.scale, 1000, 500)
+    if(auth.loggedIn() == true){
+      console.log('auth.loggedIn() return true');
+      Actions.main()
+    }
   }
 
   onEmailChange(text) {

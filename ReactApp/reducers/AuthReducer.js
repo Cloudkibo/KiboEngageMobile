@@ -18,6 +18,8 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case ActionTypes.ADD_TEAMS:
+    return {...state,teams:action.payload};
     case ActionTypes.EMAIL_CHANGED:
       return { ...state, email: action.payload };
     case ActionTypes.DOMAIN_CHANGED:

@@ -9,6 +9,9 @@ import {Button,Icon,View,Text} from '@shoutem/ui'
 
 class Dashboard extends Component {
     
+   onTeams(){
+    Actions.teams();
+  }
 
   render() {
     return (
@@ -16,8 +19,13 @@ class Dashboard extends Component {
       
         <Text style={styles.errorTextStyle}>
           Welcome to Dashboard
+
         </Text>
 
+        <Button styleName="full-width muted" onPress={this.onTeams.bind(this)}>
+              <Icon name="ic_user_profile" />
+              <Text>Teams</Text>
+            </Button>
        
       </Card>
     );

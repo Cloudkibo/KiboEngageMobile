@@ -8,10 +8,12 @@
   "dependencies": {
     "@shoutem/ui": "^0.10.2",
     "axios": "^0.15.3",
+    "lodash": "^4.17.3",
     "querystring": "^0.2.0",
     "react": "15.3.2",
     "react-addons-shallow-compare": "^15.3.2",
     "react-native": "^0.35.0",
+    "react-native-drawer": "^2.3.0",
     "react-native-google-analytics-bridge": "^3.1.0",
     "react-native-navbar": "^1.5.4",
     "react-native-router-flux": "^3.37.0",
