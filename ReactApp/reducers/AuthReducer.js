@@ -13,7 +13,7 @@ const INITIAL_STATE = {
   phone:'',
   cpassword:'',
   cname:'',
-
+  teams:[],
 };
 
 export default (state = INITIAL_STATE, action) => {

@@ -7,10 +7,10 @@ import LoginForm from '../components/LoginForm';
 import Signup from '../components/Signup';
 import Dashboard from '../components/Dashboard';
 import TeamList from '../components/TeamList';
-
+import CreateTeam from '../components/CreateTeam';
 import auth from '../services/auth';
 import Drawer from 'react-native-drawer';
-//import NavDrawer from '../components/common/NavDrawer';
+import NavDrawer from '../components/common/NavDrawer';
 const RouterComponent = () => {
   return (
   
@@ -20,11 +20,13 @@ const RouterComponent = () => {
         <Scene key="signup" component={Signup} title="Signup" />
       </Scene>
 
-
-	   <Scene key="main">
-        <Scene key="dashboard" component={Dashboard} title="Dashboard" initial/>
-        <Scene key="teams" component={TeamList} title="Teams"/>
-    </Scene> 
+     <Scene key="main">
+          <Scene key="dashboard" component={Dashboard} title="Dashboard" initial />
+          <Scene key="teams" component={TeamList} title="Teams"  rightTitle="Add" onRight={() => Actions.teamCreate()}/>
+          <Scene key="teamCreate" component={CreateTeam} title="Create Team" />
+       
+     
+     </Scene>
     </Router>
   );
 };

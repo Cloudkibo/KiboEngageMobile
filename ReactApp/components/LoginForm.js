@@ -17,7 +17,10 @@ class LoginForm extends Component {
       Actions.main()
     }
   }
-
+   componentWillUnmount() {
+    // Fix https://github.com/aksonov/react-native-router-flux/issues/172
+   // Actions.currentRouter = null
+  }
   onEmailChange(text) {
     this.props.emailChanged(text);
   }
