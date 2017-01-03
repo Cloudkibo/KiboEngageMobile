@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.facebook.fresco\drawee\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1137942adeb03984c1311b662363dd38fc238fd3">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-eee2cb5748ee43f0d0f1915e905e6d68c8ae3b7b.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="98786c1770b531b9194fb6448b2a2692c64074b6">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-345bd779d2e01fafdd7f591c3c6ea9f9d08b3df2.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-okhttp3\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2b8a01ad9da5d26d0067894c22e87597bca2c500">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-c9c7cdbe2df362e630f68b2e8b513810e74d231c.jar" />
+    </item>
+    <item
+        jar="C:\Users\Zarmeen\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.4.1\c7c4f9e35c2fd5900da24f9872e3971801f08ce0\okhttp-3.4.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c7c4f9e35c2fd5900da24f9872e3971801f08ce0">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\okhttp-3.4.1-71be2dea98c2795e38a9935116792877282edd41.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3341b66c54367e777a0647e2db96c045329bfeab">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-1ba93660e0a2d1112e9932d794b19f610151d882.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4356e230a981d1bbf047d848b91bc0d9b7c5bacc">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-1a3f2a3467f2f45eded99956bcc70a0bf55a9f47.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.35.0\jars\libs\infer-annotations-1.5.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="db2c76df02d034e8d49bca2a69af788a787b46b2">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\infer-annotations-1.5-5d4722d15a0518d247af3fc75efb72097097e8e5.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.soloader\soloader\0.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-a209de9853c003fb9a9e53fecc409c4540c820cb.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\9.8.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="7e92aadd0697922316d1395c1887a23aebec640a">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-19560b01f33696713bb1053007c6fc465b085861.jar" />
+    </item>
+    <item
+        jar="C:\Users\Zarmeen\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp-urlconnection\3.4.1\63994437f62bc861bc20c605d12962f7246116d1\okhttp-urlconnection-3.4.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="63994437f62bc861bc20c605d12962f7246116d1">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\okhttp-urlconnection-3.4.1-b9039fb57476482b317fedf59d6b16518fefbbb7.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tasks\9.8.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="bf2e1838e4428616c1aa26edf43de72b5b99bf84">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-9b306f6a48a215fbf354c9ec53896db90045ff9b.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\9.8.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="9f6d236bac26d02b410e4ee186ba517ace5ee661">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-d0b061910db1d9824958d37f8b8a0bfa055f7e30.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-okhttp3\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2b8a01ad9da5d26d0067894c22e87597bca2c500">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-ced8cd7a1741afd5bcc2294155af11c471847277.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\jars\libs\internal_impl-24.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="fcaf463e10e69c1923ccf1edeba3b4196d239e00">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\internal_impl-24.0.0-6b626d781f9386eadcb2b0a7ffcfa393f0b6492f.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4356e230a981d1bbf047d848b91bc0d9b7c5bacc">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-4c41b84a882ba6e7fb2fa23dac95ccee6bf9333b.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="3341b66c54367e777a0647e2db96c045329bfeab">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-013d73efb138529b42b8e6e02412e116028fbc8a.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\drawee\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1137942adeb03984c1311b662363dd38fc238fd3">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-5835fc19e223be7a974ccc20cde97dc634d4befe.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\debug\classes-aed6bdf0157aea3b420ad789244809d297f033b5.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.35.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="cdc91752c90040ec7871c44963c63c751b1fa94b">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-4fdab72776f6df2b128db33489a35258f6e1eb98.jar" />
+    </item>
+    <item
+        jar="C:\Users\Zarmeen\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\library-2.4.0-c1fffc522c60552f6131f95c46fa3a1895c5a4a9.jar" />
+    </item>
+    <item
+        jar="C:\Users\Zarmeen\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp-ws\3.4.1\8ace66ef7002d98f633377c9e67daeeb196d8c3b\okhttp-ws-3.4.1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8ace66ef7002d98f633377c9e67daeeb196d8c3b">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\okhttp-ws-3.4.1-50e033a602bb72afa95683e9b722266fa872141a.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\debug\classes-2b4e48faa84dbe7bc4cbf1e819797e51229cbde5.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\StarterKit\react-native-vector-icons\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="5cb98ddf86ae83790e5414f3e4fe73e1418e53c9">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-2aaa9c617a57cc411cd2659b4011b175be1ac295.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.35.0\jars\libs\infer-annotations-1.5.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="db2c76df02d034e8d49bca2a69af788a787b46b2">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\infer-annotations-1.5-d1e141ca9ac4e6f8b5e0bbdc2774995e24b10c6d.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\StarterKit\react-native-vector-icons\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f68fc97ca4f81a63f66a70eede19f9d62b1c8605">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-06d5dd47a6a8c79154215c0fe4f252938481220b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Zarmeen\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.2.3\1a0113da2cab5f4c216b4e5e7c1dbfaa67087e14\jackson-core-2.2.3.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1a0113da2cab5f4c216b4e5e7c1dbfaa67087e14">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\jackson-core-2.2.3-5b73e36055fefbe8ad59931000c23abd147f9b39.jar" />
+    </item>
+    <item
+        jar="C:\Users\Zarmeen\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.9.0\f824591a0016efbaeddb8300bee54832a1398cfa\okio-1.9.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="f824591a0016efbaeddb8300bee54832a1398cfa">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\okio-1.9.0-f5a20bed43293dcad05e0a13b6f324960665172b.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-base\9.8.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="7e92aadd0697922316d1395c1887a23aebec640a">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-db6b7a8096080433ee07891c63c48d41c987b594.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-75e6c61b2fd9f9de2ab6a13abe0be50e38eab495.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2f7e6e2dad1bccaf68a8820820adc6c0d5b96d37">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-4b168c8cd46639ae52e19182cbfba863f820561f.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2f7e6e2dad1bccaf68a8820820adc6c0d5b96d37">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-086e3ce56e6d8cddb49dbb2246f997d8e17f287d.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics-impl\9.8.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="50e35ae101a679c4c8ef3dda075b1df9d5d947d9">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-e8f7cc84224ca220ac5367ab391b067bab13370e.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.react\react-native\0.35.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="cdc91752c90040ec7871c44963c63c751b1fa94b">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-bc4630ef8738fc1506ca5b511ce3987e3faf9786.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-base\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ca63c521b5745ae9a09629d7ca67ff6bc2a967fe">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-0cf881779369687b88ca23065e0464fe32447703.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\StarterKit\react-native-google-analytics-bridge\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="1043e315fc8f86ac323aec39ea71a5c20bac5390">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-b87cf4e89b8f01a1cba527a99883dee8dccd734d.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fbcore\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="98786c1770b531b9194fb6448b2a2692c64074b6">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-22a06e33090e4ed4f38296caee60fa583d3fab20.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-basement\9.8.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="9f6d236bac26d02b410e4ee186ba517ace5ee661">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-5078df710a6ee5f32a545bcba352f750c75c2ef0.jar" />
+    </item>
+    <item
+        jar="C:\Users\Zarmeen\.gradle\caches\modules-2\files-2.1\com.google.code.findbugs\jsr305\3.0.0\5871fb60dc68d67da54a663c3fd636a10a532948\jsr305-3.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="5871fb60dc68d67da54a663c3fd636a10a532948">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\jsr305-3.0.0-2aeda12908589ff89bbf32e7c599abdb2ceab7c5.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\StarterKit\react-native-google-analytics-bridge\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="fddddbda8c04b81e6e63dac13897b24b3d38e400">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-152a9631b8a3166fb98ecca2abc69a666887e239.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics-impl\9.8.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="50e35ae101a679c4c8ef3dda075b1df9d5d947d9">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-2e0e6d952b4084ad9c20a821bfd5ca0e23c8e4ea.jar" />
+    </item>
+    <item
+        jar="C:\Users\Zarmeen\.gradle\caches\modules-2\files-2.1\javax.inject\javax.inject\1\6975da39a7040257bd51d21a231b76c915872d38\javax.inject-1.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="6975da39a7040257bd51d21a231b76c915872d38">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\javax.inject-1-5e34d954f5188443c0e253ef89f2327548c776c5.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fresco\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d31aadf33187c37a7cd63dc1b769f8c6e33f78c3">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-ae36e1f019a6692305dd8ac5d05d68cf2b385e83.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.facebook.soloader\soloader\0.1.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8f615bca00639150c9eb6175d4b5471193f70794">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-f907e79890d4e9a0bea0a262d2a4fd7108d6766c.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\debug\classes-5afae239ff3f65fb2ff844c757465bc8a6c1ef1b.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\support-v4\24.0.0\jars\libs\internal_impl-24.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="fcaf463e10e69c1923ccf1edeba3b4196d239e00">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\internal_impl-24.0.0-27bb6d97816f14b701034dd54fba20be768c80f1.jar" />
+    </item>
+    <item
+        jar="C:\Users\Zarmeen\.gradle\caches\modules-2\files-2.1\com.parse.bolts\bolts-tasks\1.4.0\d85884acf6810a3bbbecb587f239005cbc846dc4\bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\bolts-tasks-1.4.0-342aafdac8c5dba8965b5e761d6988bc8e7083a2.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-42ea730fac8973f265c4380e635fc8083c81eec3.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-tasks\9.8.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="bf2e1838e4428616c1aa26edf43de72b5b99bf84">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-a6ef907cf1c4659c573e47db42b4e1c56454b361.jar" />
+    </item>
+    <item
+        jar="D:\sdk\extras\android\m2repository\com\android\support\support-annotations\24.0.0\support-annotations-24.0.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="2943c74db6d4346ab8c6531adac91fa05c137c40">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\support-annotations-24.0.0-adac3ca1723f0c63be74475bca01f4b93803e624.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\9.8.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="16afe57c1d7f8165d107c7806ce7b0c71de87159">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-a87aed41d99e0322e26acc94f79a288d1138c225.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\StarterKit\react-native-smart-splashscreen\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="4e34cb25a622eb30dc06e15b937f5f17ea60a60e">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\debug\classes-94ea837c9eb6936164b1337458d6ec4a632f1a75.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.facebook.fresco\imagepipeline-base\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ca63c521b5745ae9a09629d7ca67ff6bc2a967fe">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-4e22e0aa2039a15c291d4089965b14ff78229643.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\exploded-aar\com.google.android.gms\play-services-analytics\9.8.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="16afe57c1d7f8165d107c7806ce7b0c71de87159">
+        <dex dex="D:\Setup-Software\Git\KiboEngageMobile\android\app\build\intermediates\pre-dexed\release\classes-757a26775546304d906d50503a763d10dda13b60.jar" />
+    </item>
+    <item
+        jar="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\exploded-aar\com.facebook.fresco\fresco\0.11.0\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="d31aadf33187c37a7cd63dc1b769f8c6e33f78c3">
+        <dex dex="D:\Setup-Software\Git\react-native-starter-app\android\app\build\intermediates\pre-dexed\debug\classes-c16f264971f5291e482c03c9298b607cdf8cf117.jar" />
+    </item>
+
+</items>
