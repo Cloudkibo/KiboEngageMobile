@@ -4,8 +4,13 @@ import { connect } from 'react-redux';
 import { ListView ,View} from 'react-native';
 import { teamFetch } from '../actions';
 import ListItem from '../components/ListItem';
-import {Button} from './common'
+import Button from '../components/button'
 import CreateTeam from './CreateTeam';
+
+import AppStyles from '../styles'
+import AppConfig from '../config'
+import AppUtil from '../util'
+
 class TeamList extends Component {
   static componentName = 'Teams';
   static propTypes = {
@@ -52,10 +57,11 @@ class TeamList extends Component {
 
   render() {
     return (
-      <View>
-        <Button styleName="full-width muted" onPress={this.onButtonPress.bind(this)}>
-              Create Team
-        </Button>
+      <View style={[AppStyles.container]}>
+       <Button type={'outlined'}
+          text={'Create Team'} onPress={this.onButtonPress.bind(this)}/>
+              
+        
       <ListView
         enableEmptySections
         dataSource={this.dataSource}

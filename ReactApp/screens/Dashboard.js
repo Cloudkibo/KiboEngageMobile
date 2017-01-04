@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 //import { Text } from 'react-native';
 //import { Actions } from 'react-native-router-flux';
 import { View,Text} from 'react-native';
+import AppStyles from '../styles'
+import AppConfig from '../config'
+import AppUtil from '../util'
 
 import { connect } from 'react-redux';
 import { emailChanged,domainChanged, passwordChanged, loginUser } from '../actions';
@@ -25,8 +28,7 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Card>
-      
+      <View style={[AppStyles.container, AppStyles.containerCentered]}>
         <Text style={styles.errorTextStyle}>
           Welcome to Dashboard
 
@@ -36,7 +38,7 @@ class Dashboard extends Component {
                <Text>Teams</Text>
             </Button>
        
-      </Card>
+      </View>
     );
   }
 }

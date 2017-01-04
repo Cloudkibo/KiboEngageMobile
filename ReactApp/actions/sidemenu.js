@@ -26,29 +26,4 @@ export function close() {
 
 
 
-export function loginUser() {
-  let config = {
-    method: 'post',
-    headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({
-      'email' :    'jekram@hotmail.com',
-      'password'  : 'jawaid',
-      'website' :  'cloudkibo'
-    })
-}
 
-return dispatch => {
-  // We dispatch requestLogin to kickoff the call to the API
-  return fetch(`https://www.kiboengage.cloudapp.net/api/getlogin`, config)
-      .then(response =>
-    response.json()
-      .then(user => ({ user, response }))
-).then(({ user, response }) =>  {
-    // If there was a problem, we want to
-    // dispatch the error condition
-    dispatch(close())
-    return Promise.reject(user)
-
-}).catch(err => console.log("Error: ", err))
-}
-}

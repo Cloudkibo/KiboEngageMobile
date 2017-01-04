@@ -16,13 +16,13 @@ class Signup extends Component {
 
   static propTypes = {
     navigator: React.PropTypes.object.isRequired,
-    close: React.PropTypes.func.isRequired,
+  //  close: React.PropTypes.func.isRequired,
   }
 
   onButtonPress() {
                if (this.props.password != this.props.cpassword) {
                   //alert('Password donot match!.Retype password');
-                  console.log('Password donot match!.Retype password');
+                  console.log('Password donot match! Retype password');
                   this.props.password = this.props.cpassword = ''
                 }
                 if (this.props.fname && this.props.lname && this.props.password && this.props.cpassword && this.props.email && this.props.phone && this.props.cname && this.props.domain) {

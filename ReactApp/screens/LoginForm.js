@@ -15,13 +15,14 @@ import {
 } from 'react-native'
 
 import Signup from './Signup'
+import Dashboard from './Dashboard'
 
 class LoginForm extends Component {
   static componentName = 'Login';
 
   static propTypes = {
     navigator: React.PropTypes.object.isRequired,
-    close: React.PropTypes.func.isRequired,
+//    close: React.PropTypes.func.isRequired,
   }
 
 
@@ -30,6 +31,11 @@ class LoginForm extends Component {
     if(auth.loggedIn() == true){
       console.log('auth.loggedIn() return true');
  //     Actions.main()
+    this.props.navigator.push({
+      title: 'Dashboard',
+      component: Dashboard, 
+      index: 3,
+    });
     }
   }
    componentWillUnmount() {
