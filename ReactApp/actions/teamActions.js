@@ -2,6 +2,7 @@
 import axios from 'axios';
 import * as ActionTypes from './types';
 var baseURL = `https://api.kibosupport.com`
+var querystring = require('querystring');
 
 export function showTeams(teams) {
   console.log('show teams');
@@ -33,3 +34,63 @@ export const teamFetch = () => {
   };
 };
 
+
+
+// create team
+export const createteam = (team) => {
+    var token = team.token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/x-www-form-urlencoded'
+            },
+      
+          };
+      var data =  {
+        deptname : team.teamname,
+        deptdescription : team.description,
+      
+      }
+  console.log(data);
+  return (dispatch) => {
+    dispatch(teamCreateInAction());
+    console.log('calling api');
+    axios.post(`${baseURL}/api/departments/kiboengage`,querystring.stringify(data),config).then(res => dispatch(teamCreateSuccess(res)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        dispatch(teamCreateFail());
+      });
+    
+  };
+};
+
+
+
+
+
+
+const teamCreateInAction = () => {
+  return {
+    type: ActionTypes.CREATE_TEAM,
+   
+  };
+};
+
+
+
+const teamCreateFail = () => {
+  return{ type: ActionTypes.CREATE_TEAM_FAIL };
+};
+
+const teamCreateSuccess = (res) => {
+  console.log('team created');
+  //Actions.main();
+  return{
+    type: ActionTypes.CREATE_TEAM_SUCCESS,
+    payload: res
+  };
+
+  
+};

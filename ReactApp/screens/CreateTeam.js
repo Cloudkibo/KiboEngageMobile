@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { ScrollView ,View,Text} from 'react-native';
 import { connect } from 'react-redux';
-import { registerUpdate } from '../actions';
+import { registerUpdate,createteam } from '../actions';
 import { Card, CardSection, Input, Spinner,Button } from './common';
+import auth from '../services/auth';
+
 //import {Button,Icon,View,Text} from '@shoutem/ui'
 //import SplashScreen from 'react-native-smart-splash-screen'
 
@@ -14,8 +16,14 @@ class CreateTeam extends Component {
     navigator: React.PropTypes.object.isRequired,
     close: React.PropTypes.func.isRequired,
   }
-  onButtonPress() {
-      
+  async onButtonPress() {
+    const { teamname,description} = this.props;
+     if(auth.loggedIn() == true){
+      console.log('auth.loggedIn() return true');
+      var token = await auth.getToken();
+      console.log(token);
+      this.props.createteam({ teamname,description,token});
+    }
   }
 
   renderButton() {
@@ -55,7 +63,7 @@ class CreateTeam extends Component {
 
        
         {
-          this.props.errorTeamCreate && this.props.errorTeamCreate.map(function (err, i) {
+          this.props.teamerror && this.props.teamerror.map(function (err, i) {
                     return(
                        <Text style={styles.errorTextStyle}>
                           {err}
@@ -99,11 +107,11 @@ const styles = {
 };
 
 function mapStateToProps(state) {
-   const {teamname,description } = state.team;
+   const {teamname,description,loading,teamerror } = state.team;
 
-  return {teamname,description };
+  return {teamname,description,loading,teamerror };
 
 }
 
-export default connect(mapStateToProps, {registerUpdate})(CreateTeam);
+export default connect(mapStateToProps, {registerUpdate,createteam})(CreateTeam);
 

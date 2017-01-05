@@ -78,7 +78,8 @@ const loginUserSuccess = (user) => {
   console.log(user.data.token);
   AsyncStorage.setItem(STORAGE_KEY, user.data.token);
   console.log('setItem AsyncStorage ');
-  console.log(AsyncStorage.getItem(STORAGE_KEY));
+  var value =  AsyncStorage.getItem(STORAGE_KEY).then();
+  console.log(value)
   //Actions.main();
   return{
     type: ActionTypes.LOGIN_USER_SUCCESS,

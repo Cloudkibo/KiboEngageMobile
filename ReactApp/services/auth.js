@@ -4,10 +4,17 @@ import {
 var STORAGE_KEY = 'id_token';
 
 module.exports = {
-getToken() {
-  var token = AsyncStorage.getItem(STORAGE_KEY)
+/* getToken() {
+  var token =  AsyncStorage.getItem(STORAGE_KEY).then();
   return token
 },
+*/
+
+async getToken() {
+    var token = await AsyncStorage.getItem(STORAGE_KEY);
+    console.log('gettoken callled ' + token)
+    return token;
+  },
 
 logout(cb) {
   AsyncStorage.removeItem(STORAGE_KEY);
@@ -17,6 +24,9 @@ logout(cb) {
 
 loggedIn() {
   var token = AsyncStorage.getItem(STORAGE_KEY)
+  //var s = JSON.parse(token);
+   console.log(token)
+  
   if(typeof token === 'undefined' || token === '') {
     console.log('token' + token);
     return false

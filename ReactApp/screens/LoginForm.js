@@ -26,16 +26,18 @@ class LoginForm extends Component {
   }
 
 
-  componentDidMount () {
+  async componentDidMount () {
    // SplashScreen.close(SplashScreen.animationType.scale, 1000, 500)
     if(auth.loggedIn() == true){
       console.log('auth.loggedIn() return true');
+      var token = await auth.getToken();
+      console.log(token);
  //     Actions.main()
-    this.props.navigator.push({
+   /* this.props.navigator.push({
       title: 'Dashboard',
       component: Dashboard, 
       index: 3,
-    });
+    });*/
     }
   }
    componentWillUnmount() {
