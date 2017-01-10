@@ -15,6 +15,7 @@ import user from '@redux/user/reducer';
 import recipe from '@redux/recipes/reducer';
 import auth from '@redux/auth/AuthReducer';
 import teams from '@redux/team/TeamReducer';
+import agents from '@redux/agents/AgentReducer';
 
 // Combine all
 const appReducer = combineReducers({
@@ -24,6 +25,7 @@ const appReducer = combineReducers({
   recipe,
   auth,
   teams,
+  agents,
 });
 
 // Setup root reducer

@@ -167,6 +167,7 @@ class EditTeam extends Component {
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
+      <Spacer size={55} />
         <Card>
           <Alerts
             status={this.state.resultMsg.status}

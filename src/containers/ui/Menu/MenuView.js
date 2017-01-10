@@ -106,6 +106,10 @@ class Menu extends Component {
           onPress: () => { this.props.closeSideMenu(); Actions.teams(); },
         },
 
+        {
+          title: 'Agents',
+          onPress: () => { this.props.closeSideMenu(); Actions.agents(); },
+        },
          {
           title: 'Message Channels',
           onPress: () => { this.props.closeSideMenu(); Actions.comingSoon(); },

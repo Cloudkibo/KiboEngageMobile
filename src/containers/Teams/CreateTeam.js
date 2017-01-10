@@ -54,23 +54,23 @@ class CreateTeam extends Component {
         error: '',
       },
       form_fields: FormValidation.struct({
-        teamname:validName,
-        teamdesc: validDesc,
+        teamName:validName,
+        teamDescription: validDesc,
       }),
       empty_form_values: {
-        teamname:'',
-        teamdesc: '',
+        teamName:'',
+        teamDescription: '',
       
       },
       form_values: {},
       options: {
         fields: {
-          teamname: {
+          teamName: {
             error: 'Please enter team name',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
           },
-          teamdesc: {
+          teamDescription: {
             error: 'Please enter short team description',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
@@ -139,6 +139,7 @@ class CreateTeam extends Component {
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
+      <Spacer size={55} />
         <Card>
           <Alerts
             status={this.state.resultMsg.status}

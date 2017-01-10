@@ -34,7 +34,7 @@ class AppLaunch extends Component {
     login: PropTypes.func.isRequired,
   }
 
-  componentDidMount = () => {
+  componentDidMount =  async() => {
     /*
     // Try to authenticate based on existing token
     this.props.login()
@@ -44,13 +44,14 @@ class AppLaunch extends Component {
       .catch(() => Actions.authenticate({ type: 'reset' }));*/
 
 
-      var token = auth.getToken();
+      var token = await auth.getToken();
       console.log('token is Launchview is: ' + token);
-      if(token != ''){
-        Actions.app({ type: 'reset' })
+      if(token == '' || token == null){
+         Actions.authenticate({ type: 'reset' })
       }
-      else{
-        Actions.authenticate({ type: 'reset' })
+     else{
+         console.log('redirecting to app');
+        Actions.app({ type: 'reset' })
       }
   }
 

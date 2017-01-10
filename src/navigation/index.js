@@ -16,10 +16,13 @@ import Drawer from '@containers/ui/DrawerContainer';
 // Scenes
 import AppLaunch from '@containers/Launch/LaunchContainer';
 import Teams from '@containers/Teams/Teams';
+import Agents from '@containers/Agents/Agents';
+
 import CreateTeam from '@containers/Teams/CreateTeam';
 import EditTeam from '@containers/Teams/EditTeam';
 
 import Placeholder from '@components/general/Placeholder';
+import Dashboard from '@containers/dashboard';
 import AuthScenes from './auth';
 import TabsScenes from './tabs';
 
@@ -65,6 +68,14 @@ export default Actions.create(
         rightTitle="Add"     
         component={Teams}
         analyticsDesc={'Teams: Teams'}
+      />
+
+      <Scene
+        key={'agents'}
+        title={'Agents'}
+        
+        component={Agents}
+        analyticsDesc={'Agents:Agents'}
       />
 
 

@@ -9,7 +9,7 @@ import { AppColors, AppStyles, AppSizes } from '@theme/';
 
 export default {
   // App Details
-  appName: 'Starter Kit',
+  appName: 'KiboEngage',
 
   // Build Configuration - eg. Debug or Release?
   DEV: __DEV__,

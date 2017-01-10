@@ -1,0 +1,22 @@
+dependencies: \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Views/RCTTabBar.m \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Views/RCTTabBar.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Base/RCTEventDispatcher.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Base/RCTBridge.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Base/RCTBridgeDelegate.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Base/RCTJavaScriptLoader.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Base/RCTDefines.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Base/RCTBridgeModule.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Base/RCTFrameUpdate.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Base/RCTInvalidating.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Base/RCTLog.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Base/RCTAssert.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Views/RCTTabBarItem.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Views/RCTComponent.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Base/RCTUtils.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Views/RCTView.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Views/RCTBorderStyle.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Views/RCTPointerEvents.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Views/RCTViewControllerProtocol.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Views/RCTWrapperViewController.h \
+  /Users/zarmeen/KiboEngageMobile/node_modules/react-native/React/Views/UIView+React.h

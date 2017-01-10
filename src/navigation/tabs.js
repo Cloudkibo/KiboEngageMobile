@@ -20,6 +20,7 @@ import Placeholder from '@components/general/Placeholder';
 import StyleGuide from '@containers/StyleGuideView';
 import Recipes from '@containers/recipes/Browse/BrowseContainer';
 import RecipeView from '@containers/recipes/RecipeView';
+import Dashboard from '@containers/dashboard';
 
 const navbarPropsTabs = {
   ...AppConfig.navbarProps,
@@ -33,6 +34,15 @@ const navbarPropsTabs = {
 /* Routes ==================================================================== */
 const scenes = (
   <Scene key={'tabBar'} tabs tabBarIconContainerStyle={AppStyles.tabbar} pressOpacity={0.95}>
+   
+     <Scene
+        {...navbarPropsTabs}
+        key={'teamListing'}
+        title={'Dashboard'}
+        component={Dashboard}
+        analyticsDesc={'Dashboard'}
+      />
+
     <Scene
       {...navbarPropsTabs}
       key={'recipes'}
@@ -72,50 +82,7 @@ const scenes = (
       icon={props => TabIcon({ ...props, icon: 'speaker-notes' })}
       analyticsDesc={'StyleGuide: Style Guide'}
     />
-     <Scene
-      key={'styleGuiide'}
-      {...navbarPropsTabs}
-      title={'Style Guide'}
-      component={StyleGuide}
-      icon={props => TabIcon({ ...props, icon: 'speaker-notes' })}
-      analyticsDesc={'StyleGuide: Style Guide'}
-    />
-
-     <Scene
-      key={'styleGuidery'}
-      {...navbarPropsTabs}
-      title={'Style Guide'}
-      component={StyleGuide}
-      icon={props => TabIcon({ ...props, icon: 'speaker-notes' })}
-      analyticsDesc={'StyleGuide: Style Guide'}
-    />
-
-     <Scene
-      key={'styleGuiiiide'}
-      {...navbarPropsTabs}
-      title={'Style Guide'}
-      component={StyleGuide}
-      icon={props => TabIcon({ ...props, icon: 'speaker-notes' })}
-      analyticsDesc={'StyleGuide: Style Guide'}
-    />
-
-     <Scene
-      key={'styleGuidde'}
-      {...navbarPropsTabs}
-      title={'Style Guide'}
-      component={StyleGuide}
-      icon={props => TabIcon({ ...props, icon: 'speaker-notes' })}
-      analyticsDesc={'StyleGuide: Style Guide'}
-    />
-
-     <Scene
-      key={'styleGuideee'}
-      {...navbarPropsTabs}
-      title={'Style Guide'}
-      component={StyleGuide}
-      icon={props => TabIcon({ ...props, icon: 'speaker-notes' })}
-      analyticsDesc={'StyleGuide: Style Guide'}
-    />
+   
   </Scene>
 );
 

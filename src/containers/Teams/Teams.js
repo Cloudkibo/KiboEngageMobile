@@ -17,6 +17,7 @@ import { List, ListItem, SocialIcon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as TeamActions from '@redux/team/teamActions';
+import auth from '../../services/auth';
 
 // Consts and Libs
 import { AppColors, AppStyles } from '@theme/';
@@ -46,9 +47,20 @@ const styles = StyleSheet.create({
 class Teams extends Component {
   static componentName = 'Teams';
 
-   componentWillMount() {
-    this.props.teamFetch();
-    this.createDataSource(this.props);
+   constructor(props) {
+    super(props);
+
+    this.createDataSource(props);
+  }
+
+   componentDidMount = async() => {
+     var token =  await auth.getToken();
+      console.log('token is Launchview is: ' + token);
+      if(token != ''){
+     
+            this.props.teamFetch(token);
+            
+          }
   
   }
 
@@ -83,6 +95,8 @@ class Teams extends Component {
 
       
     />
+
+ 
   )
 
 
@@ -101,12 +115,13 @@ class Teams extends Component {
   )
 
   render = () => (
-      
+          <View style={[AppStyles.container]}>
+          <Spacer size={15} />
             <ScrollView
               automaticallyAdjustContentInsets={false}
               style={[AppStyles.container]}
             >
-             <Spacer size={15} />
+             <Spacer size={50} />
               <List>
                 <ListView
                  dataSource={this.dataSource}
@@ -115,6 +130,7 @@ class Teams extends Component {
               </List>
               
             </ScrollView>
+            </View>
  
   )
 }
