@@ -59,6 +59,7 @@ class Teams extends Component {
       if(token != ''){
      
             this.props.teamFetch(token);
+            this.props.agentTeamFetch(token);
             
           }
   
@@ -75,8 +76,10 @@ class Teams extends Component {
      }
   }
 
-  createDataSource({ teams }) {
+  createDataSource({ teams 
+  }) {
     const ds = new ListView.DataSource({
+  
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
@@ -89,7 +92,7 @@ class Teams extends Component {
   renderRow = (team) => (
     <ListItem
       key={`list-row-${team._id}`}
-      onPress={Actions.teamEdit({team:team})}
+      onPress={Actions.teamEdit({team:team,teamagents : this.props.teamagents})}
       title={team.deptname}
       subtitle={team.deptdescription || null}
 
@@ -137,11 +140,12 @@ class Teams extends Component {
 
 const mapDispatchToProps = {
   teamFetch: TeamActions.teamFetch,
+  agentTeamFetch : TeamActions.agentTeamFetch,
 };
 function mapStateToProps(state) {
-   const { teams } = state.teams;
+   const { teams ,teamagents} = state.teams;
 
-  return {teams };
+  return {teams ,teamagents};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Teams);

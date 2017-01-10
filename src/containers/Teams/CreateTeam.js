@@ -32,7 +32,6 @@ class CreateTeam extends Component {
   constructor(props) {
     super(props);
 
-
     const validName= FormValidation.refinement(
       FormValidation.String, (teamname) => {
         if (teamname.length < 1) return false;

@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   teamerror:'',
   teamsuccess:'',
   teams:[],
+  teamagents:[],
 
   
 };
@@ -18,7 +19,10 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, [action.payload.prop]: action.payload.value };
    
     case ActionTypes.ADD_TEAMS:
-      return {...state,teams:action.payload,teamerror: '',teamsuccess:''};
+      return {...state,teams:action.payload,teamagents : state.teamagents,teamerror: '',teamsuccess:''};
+    case ActionTypes.ADD_TEAM_AGENTS:
+      return {...state,teams:state.teams,teamagents : action.payload,teamerror: '',teamsuccess:''};
+   
  
    case ActionTypes.CREATE_TEAM:
       return { ...state, loading: true, teamerror: '',teamsuccess:'' };

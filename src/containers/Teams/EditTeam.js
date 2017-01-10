@@ -156,6 +156,11 @@ class EditTeam extends Component {
      
   }
   
+  renderFellowAgents = () =>{
+    return this.props.teamagents.filter((c) => c.deptid == this.props.team._id).map(c => 
+      <Text> {c.agentid}</Text>
+      )
+  }
 
 
   render = () => {
@@ -182,6 +187,11 @@ class EditTeam extends Component {
             options={this.state.options}
           />
 
+
+          <View>
+            <Text> Fellow Agents </Text>
+            {this.renderFellowAgents()}
+          </View>
           <Button
             title={'Save Changes'}
             onPress={this.createTeam}

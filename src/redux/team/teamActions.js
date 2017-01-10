@@ -14,6 +14,15 @@ export function showTeams(teams) {
   };
 }
 
+export function showDeptAgents(teamagents) {
+  console.log('show dept agents');
+  
+  return {
+    type: ActionTypes.ADD_TEAM_AGENTS,
+    payload : teamagents.data,
+
+  };
+}
 
 export const teamFetch = (token) => {
    var config = {
@@ -28,6 +37,24 @@ export const teamFetch = (token) => {
   return (dispatch) => {
     axios.get(`${baseURL}/api/departments`,config)
     .then((res) => res).then(res => dispatch(showTeams(res)));
+      
+  };
+};
+
+
+export const agentTeamFetch = (token) => {
+   var config = {
+      rejectUnauthorized : false,
+      headers: {
+           'Authorization': `Bearer ${token}`,
+           'content-type' : 'application/x-www-form-urlencoded'
+            },
+      
+          };
+      
+  return (dispatch) => {
+    axios.get(`${baseURL}/api/deptagents`,config)
+    .then((res) => res).then(res => dispatch(showDeptAgents(res)));
       
   };
 };
