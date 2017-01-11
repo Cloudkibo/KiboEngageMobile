@@ -9,11 +9,13 @@ import {
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
-  View
+  View,
+  ListView
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
 import auth from '../../services/auth';
+import { List, ListItem, SocialIcon } from 'react-native-elements';
 
 // Consts and Libs
 import AppAPI from '@lib/api';
@@ -22,7 +24,7 @@ import * as TeamActions from '@redux/team/teamActions';
 import { connect } from 'react-redux';
 
 // Components
-import { Alerts, Card, Spacer, Text, Button } from '@ui/';
+import { Alerts, Card, Spacer, Text, Button } from '@components/ui/';
 
 /* Component ==================================================================== */
 class EditTeam extends Component {
@@ -33,6 +35,17 @@ class EditTeam extends Component {
     super(props);
     console.log('edit team is called');
     console.log(this.props.team);
+    const ds = new ListView.DataSource({
+  
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+
+    const ds2 = new ListView.DataSource({
+  
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+    this.dataSource = ds.cloneWithRows(this.props.agents);
+    this.dataSource2 = ds2.cloneWithRows(this.props.teamagents);
     const validName= FormValidation.refinement(
       FormValidation.String, (teamname) => {
         if (teamname.length < 1) return false;
@@ -105,6 +118,15 @@ class EditTeam extends Component {
   /**
     * Create Team
     */
+   renderRow = (agent) => (
+    <ListItem
+      key={`list-row-${agent._id}`}
+      onPress={this.addAgent.bind(this,agent)}
+      title={agent.firstname + ' '+ agent.lastname}
+  
+      
+    />  
+    )
   createTeam = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();
@@ -156,12 +178,42 @@ class EditTeam extends Component {
      
   }
   
-  renderFellowAgents = () =>{
-    return this.props.teamagents.filter((c) => c.deptid == this.props.team._id).map(c => 
-      <Text> {c.agentid}</Text>
-      )
+  addAgent = (c) =>{
+    console.log('addAgent is called');
+    this.props.teamagents.push({'deptid': this.props.team._id,'agentid':c._id});
+    
+    // create a new DataSource object
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => { r1 !== r2 }});
+
+    // update the DataSource in the component state
+    this.setState({
+        dataSource2 : ds.cloneWithRows(this.props.teamagents),
+    });
+  }
+  renderFellowAgents = (fellowAgent) =>{
+    if(fellowAgent.deptid == this.props.team._id){
+
+       for(var j=0;j<this.props.agents.length;j++){
+        if(this.props.agents[j]._id == fellowAgent.agentid){
+                return  (<ListItem
+                          key={`list-row-${this.props.agents[j]._id}`}
+                          title={this.props.agents[j].firstname + ' '+ this.props.agents[j].lastname}
+                          /> )
+        break;
+        }
+
+        else{
+          return null;
+        }
+       } 
+    }
+
+     else{
+          return null;
+        }
   }
 
+ 
 
   render = () => {
     const Form = FormValidation.form.Form;
@@ -189,14 +241,30 @@ class EditTeam extends Component {
 
 
           <View>
-            <Text> Fellow Agents </Text>
-            {this.renderFellowAgents()}
+            <Text h3> Fellow Agents </Text>
+             <ListView dataSource={this.dataSource2}
+              renderRow={this.renderFellowAgents}
+            />
+           
           </View>
+
+           <Spacer size={20} />
+           <View>
+            <Text h3> All Agents </Text>
+            <ListView
+                 dataSource={this.dataSource}
+                 renderRow={this.renderRow}
+            />
+          </View>
+
+           <Spacer size={20} />
+          
           <Button
             title={'Save Changes'}
             onPress={this.createTeam}
           />
-
+           <Spacer size={20} />
+          
           <Button
             title={'Delete Team'}
             onPress={this.deleteTeam}
@@ -230,3 +298,4 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditTeam);
+

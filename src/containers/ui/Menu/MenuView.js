@@ -115,6 +115,11 @@ class Menu extends Component {
           onPress: () => { this.props.closeSideMenu(); Actions.comingSoon(); },
         },
 
+        {
+          title: 'Canned Responses',
+          onPress: () => { this.props.closeSideMenu(); Actions.cannedresponse(); },
+        },
+
       ],
     };
   }

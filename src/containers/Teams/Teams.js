@@ -17,6 +17,8 @@ import { List, ListItem, SocialIcon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as TeamActions from '@redux/team/teamActions';
+import * as AgentActions from '@redux/agents/agentActions';
+
 import auth from '../../services/auth';
 
 // Consts and Libs
@@ -60,6 +62,8 @@ class Teams extends Component {
      
             this.props.teamFetch(token);
             this.props.agentTeamFetch(token);
+            this.props.agentFetch(token);
+
             
           }
   
@@ -89,10 +93,16 @@ class Teams extends Component {
   /**
     * Each List Item
     */
+
+  goToView2(team)
+  {
+        console.log('navigate team is called');
+        Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
+  }
   renderRow = (team) => (
     <ListItem
       key={`list-row-${team._id}`}
-      onPress={Actions.teamEdit({team:team,teamagents : this.props.teamagents})}
+      onPress={this.goToView2.bind(this,team)}
       title={team.deptname}
       subtitle={team.deptdescription || null}
 
@@ -141,11 +151,13 @@ class Teams extends Component {
 const mapDispatchToProps = {
   teamFetch: TeamActions.teamFetch,
   agentTeamFetch : TeamActions.agentTeamFetch,
+  agentFetch: AgentActions.agentFetch,
 };
 function mapStateToProps(state) {
    const { teams ,teamagents} = state.teams;
+   const { agents } = state.agents;
 
-  return {teams ,teamagents};
+  return {teams ,teamagents,agents};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Teams);

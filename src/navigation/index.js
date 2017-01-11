@@ -20,7 +20,7 @@ import Agents from '@containers/Agents/Agents';
 
 import CreateTeam from '@containers/Teams/CreateTeam';
 import EditTeam from '@containers/Teams/EditTeam';
-
+import Cannedresponse from '@containers/CannedResponses/Cannedresponse';
 import Placeholder from '@components/general/Placeholder';
 import Dashboard from '@containers/dashboard';
 import AuthScenes from './auth';
@@ -69,6 +69,14 @@ export default Actions.create(
         component={Teams}
         analyticsDesc={'Teams: Teams'}
       />
+
+       <Scene
+        key={'cannedresponse'}
+        title={'Canned Responses'}
+        component={Cannedresponse}
+        analyticsDesc={'Cannedresponse: Cannedresponse'}
+      />
+
 
       <Scene
         key={'agents'}
