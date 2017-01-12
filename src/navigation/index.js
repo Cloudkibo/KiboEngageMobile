@@ -21,6 +21,9 @@ import Agents from '@containers/Agents/Agents';
 import CreateTeam from '@containers/Teams/CreateTeam';
 import EditTeam from '@containers/Teams/EditTeam';
 
+import CreateChannel from '@containers/MessageChannels/CreateChannel';
+import Channels from '@containers/MessageChannels/Channels';
+
 import Placeholder from '@components/general/Placeholder';
 import Dashboard from '@containers/dashboard';
 import AuthScenes from './auth';
@@ -65,15 +68,30 @@ export default Actions.create(
         key={'teams'}
         title={'Teams'}
         onRight={() => Actions.teamCreate()}
-        rightTitle="Add"     
+        rightTitle="Add"
         component={Teams}
         analyticsDesc={'Teams: Teams'}
       />
 
       <Scene
+        key={'channelCreate'}
+        title={'Create Channel'}
+        component={CreateChannel}
+        analyticsDesc={'CreateChannel: Create Channel'}
+      />
+      <Scene
+        key={'channels'}
+        title={'Channels'}
+        onRight={() => Actions.channelCreate()}
+        rightTitle="Add"
+        component={Channels}
+        analyticsDesc={'Channels: Channels'}
+      />
+
+      <Scene
         key={'agents'}
         title={'Agents'}
-        
+
         component={Agents}
         analyticsDesc={'Agents:Agents'}
       />
