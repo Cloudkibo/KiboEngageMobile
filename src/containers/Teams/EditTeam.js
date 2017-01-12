@@ -44,8 +44,7 @@ class EditTeam extends Component {
   
       rowHasChanged: (r1, r2) => r1 !== r2
     });
-    this.dataSource = ds.cloneWithRows(this.props.agents);
-    this.dataSource2 = ds2.cloneWithRows(this.props.teamagents);
+   
     const validName= FormValidation.refinement(
       FormValidation.String, (teamname) => {
         if (teamname.length < 1) return false;
@@ -65,7 +64,11 @@ class EditTeam extends Component {
         status: '',
         success: '',
         error: '',
+
       },
+      dataSource  : ds.cloneWithRows(this.props.agents),
+      dataSource2 : ds2.cloneWithRows(this.props.teamagents),
+      newagents : [],
       form_fields: FormValidation.struct({
         teamName:validName,
         teamDescription: validDesc,
@@ -180,7 +183,9 @@ class EditTeam extends Component {
   
   addAgent = (c) =>{
     console.log('addAgent is called');
+    console.log(this.props.teamagents.length);
     this.props.teamagents.push({'deptid': this.props.team._id,'agentid':c._id});
+    console.log(this.props.teamagents.length);
     
     // create a new DataSource object
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => { r1 !== r2 }});
