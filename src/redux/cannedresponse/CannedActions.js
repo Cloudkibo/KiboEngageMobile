@@ -30,3 +30,62 @@ export const cannedFetch = (token) => {
   };
 };
 
+
+// create canned responses
+export const createcanned = (canned) => {
+    var token = canned.token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/x-www-form-urlencoded'
+            },
+      
+          };
+      var data =  {
+        shortcode : canned.shortcode,
+        message: canned.message,
+        companyid : canned.companyid
+      
+      }
+  console.log(data);
+  return (dispatch) => {
+    dispatch(cannedCreateInAction());
+    console.log('calling api');
+    axios.post(`${baseURL}/api/shortcuts/`,querystring.stringify(data),config).then(res => dispatch(cannedCreateSuccess(res)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        dispatch(cannedCreateFail());
+      });
+    
+  };
+};
+
+
+
+
+
+
+const cannedCreateInAction = () => {
+  return {
+    type: ActionTypes.CREATE_CANNED,
+   
+  };
+};
+
+
+
+const cannedCreateFail = () => {
+  return{ type: ActionTypes.CREATE_CANNED_FAIL };
+};
+
+const cannedCreateSuccess = (res) => {
+  //Actions.main();
+  return{
+    type: ActionTypes.CREATE_CANNED_SUCCESS,
+    payload: res
+  };
+
+  
+};

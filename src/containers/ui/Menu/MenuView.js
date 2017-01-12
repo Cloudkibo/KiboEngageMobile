@@ -130,15 +130,9 @@ class Menu extends Component {
   }
 
   logout = () => {
-    if (this.props.logout) {
-      this.props.logout()
-        .then(() => {
-          this.props.closeSideMenu();
-          Actions.login();
-        }).catch(() => {
-          Alert.alert('Oh uh!', 'Something went wrong.');
-        });
-    }
+    this.props.logout();
+    
+    
   }
 
   render = () => {
@@ -171,17 +165,8 @@ class Menu extends Component {
           <View style={[styles.menu]}>{menuItems}</View>
 
           <View style={[styles.menuBottom]}>
-            {this.props.user && this.props.user.name ?
-              <View>
-                <Text
-                  style={[
-                    styles.menuBottom_text,
-                    AppStyles.textCenterAligned,
-                  ]}
-                >
-                  Logged in as:{'\n'}
-                  {this.props.user.name}
-                </Text>
+             <View>
+              
 
                 <Spacer size={10} />
 
@@ -193,15 +178,8 @@ class Menu extends Component {
                   />
                 </View>
               </View>
-            :
-              <View style={[AppStyles.paddingHorizontal, AppStyles.paddingVerticalSml]}>
-                <Button
-                  small
-                  title={'Log In'}
-                  onPress={this.login}
-                />
-              </View>
-            }
+           
+            
           </View>
         </View>
       </View>

@@ -21,6 +21,8 @@ import Agents from '@containers/Agents/Agents';
 import CreateTeam from '@containers/Teams/CreateTeam';
 import EditTeam from '@containers/Teams/EditTeam';
 import Cannedresponse from '@containers/CannedResponses/Cannedresponse';
+import CreateCannedresponse from '@containers/CannedResponses/CreateCannedResponse';
+
 import Placeholder from '@components/general/Placeholder';
 import Dashboard from '@containers/dashboard';
 import AuthScenes from './auth';
@@ -70,10 +72,18 @@ export default Actions.create(
         analyticsDesc={'Teams: Teams'}
       />
 
+      <Scene
+        key={'cannedCreate'}
+        title={'Create Canned Response'}
+        component={CreateCannedresponse}
+        analyticsDesc={'CreateCannedresponse: CreateCannedresponse'}
+      />
        <Scene
         key={'cannedresponse'}
         title={'Canned Responses'}
         component={Cannedresponse}
+        onRight={() => Actions.cannedCreate()}
+        rightTitle="Add" 
         analyticsDesc={'Cannedresponse: Cannedresponse'}
       />
 
