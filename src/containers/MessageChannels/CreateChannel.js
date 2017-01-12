@@ -1,9 +1,10 @@
 import { AppStyles } from '@theme/';
-import { Alerts, Card, Spacer, Button } from '@ui/';
+import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 import * as TeamActions from '@redux/team/teamActions';
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import React, { Component, PropTypes } from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
+import ModalDropdown from 'react-native-modal-dropdown';
 import FormValidation from 'tcomb-form-native';
 import auth from '../../services/auth';
 
@@ -12,6 +13,7 @@ class CreateChannel extends Component {
 
   constructor(props) {
     super(props);
+    this.dropdownRenderRow = this.dropdownRenderRow.bind(this);
 
     const validName = FormValidation.refinement(
       FormValidation.String, (channelname) => {
@@ -32,6 +34,7 @@ class CreateChannel extends Component {
         status: '',
         success: '',
         error: '',
+        optionList: [],
       },
       form_fields: FormValidation.struct({
         channelName: validName,
@@ -61,14 +64,29 @@ class CreateChannel extends Component {
 
   componentDidMount = async () => {
     const token = await auth.getToken();
-    console.log('token is Launchview is: ' + token);
+    console.log(`token is Launchview is: ${token}`);
     if (token !== '') {
       this.props.teamFetch(token);
     }
   }
 
+  dropdownRenderRow(rowData, rowID, highlighted) {
+    return (
+      <View style={{ flexDirection: 'row', height: 40, alignItems: 'center' }}>
+        <Text style={{ marginHorizontal: 4, fontSize: 16, color: 'black', textAlignVertical: 'center' }}>
+          {`   ${rowData}`}
+        </Text>
+      </View>
+    );
+  }
+
   render = () => {
     const Form = FormValidation.form.Form;
+    var optionList = [];
+
+    for (var i = 0; i < this.props.teams.length; i++){
+      optionList[i] = this.props.teams[i].deptname;
+    }
 
     return (
       <View
@@ -90,13 +108,16 @@ class CreateChannel extends Component {
             options={this.state.options}
           />
 
-          <View>
-            {
-            this.props.teams.map((team, i) => (
-              <Text>team.deptname</Text>
-            ))
-          }
-          </View>
+          <ModalDropdown
+            style={{ alignSelf: 'center', width: 150, top: 16, right: 8, borderWidth: 1, borderRadius: 2, borderColor: 'black' }}
+            textStyle={{ marginVertical: 10, marginHorizontal: 6, fontSize: 18, color: 'black', textAlign: 'center', textAlignVertical: 'center' }}
+            dropdownStyle={{ width: 150, height: 150, borderColor: 'black', borderWidth: 1, borderRadius: 2 }}
+            defaultValue="Choose Team"
+            options={optionList}
+            renderRow={this.dropdownRenderRow}
+          />
+
+          <Spacer size={55} />
 
           <Button
             title={'Create Channel'}
@@ -109,6 +130,11 @@ class CreateChannel extends Component {
     );
   }
 }
+
+CreateChannel.propTypes = {
+  teamFetch: PropTypes.func,
+  teams: PropTypes.array,
+};
 
 const mapDispatchToProps = {
   teamFetch: TeamActions.teamFetch,
