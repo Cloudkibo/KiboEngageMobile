@@ -19,7 +19,7 @@ import auth from '../services/auth';
 import AppAPI from '@lib/api';
 import { AppStyles } from '@theme/';
 import { connect } from 'react-redux';
-
+import * as UserActions from '@redux/user/actions';
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 
@@ -30,28 +30,77 @@ class Dashboard extends Component {
  
   constructor(props) {
     super(props);
+    
+    this.state = {'userdetails' : null};
+  }
+ 
 
+  componentWillRecieveProps(props){
+    if(props.userdetails){
+      this.setState({
+          userdetails: props.userdetails,
+        });
+    }
+  }
+  componentDidMount = async() => {
+     var token =  await auth.getToken();
+      console.log('token is Launchview is: ' + token);
+      if(token != ''){
+     
+           this.props.getuser(token);
+       
+            
+          }
+  
   }
   
-  render = () => {
-    
-    return (
-      <View
-        
-        style={[AppStyles.container]}
+  rendername(){
+   return (
+     <View style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
       <Spacer size={55} />
         <Card>
-          <Text> Hello World </Text>
+          <Text> Hello {this.state.userdetails.firstname}</Text>
         </Card>
       </View>
+    
     );
   }
+
+renderLoadingView(){
+   return (
+     <View style={[AppStyles.container]}
+        contentContainerStyle={[AppStyles.container]}
+      >
+      <Spacer size={55} />
+        <Card>
+          <Text> Loading User data ...</Text>
+        </Card>
+      </View>
+    
+    );
+  }
+  render = () => {
+      if (!this.state.userdetails) {
+      return this.renderLoadingView();
+    }
+
+    else
+    return this.renderName();
+  }
+  }
+
+
+const mapDispatchToProps = {
+  getuser: UserActions.getuser,
+ };
+
+function mapStateToProps(state) {
+   const { userdetails} = state.user;
+  
+  return {userdetails};
+
 }
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
-
-
-
-
-export default (Dashboard);

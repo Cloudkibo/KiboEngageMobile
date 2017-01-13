@@ -20,6 +20,8 @@ import Agents from '@containers/Agents/Agents';
 
 import CreateTeam from '@containers/Teams/CreateTeam';
 import EditTeam from '@containers/Teams/EditTeam';
+import Cannedresponse from '@containers/CannedResponses/Cannedresponse';
+import CreateCannedresponse from '@containers/CannedResponses/CreateCannedResponse';
 
 import CreateChannel from '@containers/MessageChannels/CreateChannel';
 import Channels from '@containers/MessageChannels/Channels';
@@ -74,6 +76,7 @@ export default Actions.create(
       />
 
       <Scene
+
         key={'channelCreate'}
         title={'Create Channel'}
         component={CreateChannel}
@@ -87,6 +90,23 @@ export default Actions.create(
         component={Channels}
         analyticsDesc={'Channels: Channels'}
       />
+
+      <Scene
+        key={'cannedCreate'}
+        title={'Create Canned Response'}
+        component={CreateCannedresponse}
+        analyticsDesc={'CreateCannedresponse: CreateCannedresponse'}
+      />
+       <Scene
+        key={'cannedresponse'}
+        title={'Canned Responses'}
+        component={Cannedresponse}
+        onRight={() => Actions.cannedCreate()}
+        rightTitle="Add" 
+        analyticsDesc={'Cannedresponse: Cannedresponse'}
+      />
+
+
 
       <Scene
         key={'agents'}

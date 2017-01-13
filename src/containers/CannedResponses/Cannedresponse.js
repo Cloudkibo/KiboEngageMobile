@@ -16,8 +16,7 @@ import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import { List, ListItem, SocialIcon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import * as TeamActions from '@redux/team/teamActions';
-import * as AgentActions from '@redux/agents/agentActions';
+import * as CannedActions from '@redux/cannedresponse/CannedActions';
 
 import auth from '../../services/auth';
 
@@ -46,8 +45,8 @@ const styles = StyleSheet.create({
 });
 
 /* Component ==================================================================== */
-class Teams extends Component {
-  static componentName = 'Teams';
+class Cannedresponse extends Component {
+  static componentName = 'CannedResponse';
 
    constructor(props) {
     super(props);
@@ -60,10 +59,8 @@ class Teams extends Component {
       console.log('token is Launchview is: ' + token);
       if(token != ''){
      
-            this.props.teamFetch(token);
-            this.props.agentTeamFetch(token);
-            this.props.agentFetch(token);
-
+            this.props.cannedFetch(token);
+       
             
           }
   
@@ -75,36 +72,34 @@ class Teams extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     console.log(nextProps);
-    if(nextProps.teams){
+    if(nextProps.cannedresponses){
        this.createDataSource(nextProps);
      }
   }
 
-  createDataSource({ teams 
+  createDataSource({ cannedresponses 
   }) {
     const ds = new ListView.DataSource({
   
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
-    this.dataSource = ds.cloneWithRows(teams);
+    this.dataSource = ds.cloneWithRows(cannedresponses);
   }
 
   /**
     * Each List Item
     */
 
-  goToView2(team)
+  goToView2(cannedresponse)
   {
-        console.log('navigate team is called');
-        Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
+      //  Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
   }
-  renderRow = (team) => (
+  renderRow = (cannedresponse) => (
     <ListItem
-      key={`list-row-${team._id}`}
-      onPress={this.goToView2.bind(this,team)}
-      title={team.deptname}
-      subtitle={team.deptdescription || null}
+      key={`list-row-${cannedresponse._id}`}
+      title={cannedresponse.shortcode}
+      subtitle={cannedresponse.message || null}
 
       
     />
@@ -149,16 +144,13 @@ class Teams extends Component {
 }
 
 const mapDispatchToProps = {
-  teamFetch: TeamActions.teamFetch,
-  agentTeamFetch : TeamActions.agentTeamFetch,
-  agentFetch: AgentActions.agentFetch,
-};
+  cannedFetch: CannedActions.cannedFetch,
+ };
 function mapStateToProps(state) {
-   const { teams ,teamagents} = state.teams;
-   const { agents } = state.agents;
-
-  return {teams ,teamagents,agents};
+   const { cannedresponses} = state.cannedresponses;
+  
+  return {cannedresponses};
 
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Teams);
+export default connect(mapStateToProps, mapDispatchToProps)(Cannedresponse);
 
