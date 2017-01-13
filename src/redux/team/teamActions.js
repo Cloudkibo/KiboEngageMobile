@@ -98,20 +98,22 @@ export const editteam = (team) => {
       rejectUnauthorized : false,
       headers: {
             'Authorization': `Bearer ${token}`,
-            'content-type' : 'application/x-www-form-urlencoded'
+            'content-type' : 'application/json'
             },
       
           };
-   
-    var data =  JSON.stringify({
-        dept :{
+    var d = {
           _id:team.id,
-          deptname: team.teamname,
-          deptdescription: team.description,
-        },
-        deptagents: team.deptagents,
+          deptname: team.name,
+          deptdescription: team.desc,
+        }
+    var data = {
+      'dept' : d,
+      'deptagents': team.deptagents,
       
-      })
+      }
+
+
   console.log('data of edit team');
   console.log(data);
   return (dispatch) => {
@@ -119,6 +121,7 @@ export const editteam = (team) => {
     console.log('calling api');
     axios.post(`${baseURL}/api/departments/update/`,data,config).then(res => dispatch(teamEditSuccess(res)))
       .catch(function (error) {
+        //console.log(error.response)
         console.log('Error occured');
         console.log(error);
         dispatch(teamEditFail());

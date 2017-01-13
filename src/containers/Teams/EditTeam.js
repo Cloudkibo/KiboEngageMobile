@@ -161,8 +161,8 @@ class EditTeam extends Component {
                           ));
        };
             this.props.editteam({
-              teamname: credentials.teamName,
-              description: credentials.teamDescription,
+              name: credentials.teamName,
+              desc: credentials.teamDescription,
               id : this.props.team._id,
               deptagents : agentid,
               token:token,
