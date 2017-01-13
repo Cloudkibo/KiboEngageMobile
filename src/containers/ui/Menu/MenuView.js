@@ -110,7 +110,7 @@ class Menu extends Component {
           title: 'Agents',
           onPress: () => { this.props.closeSideMenu(); Actions.agents(); },
         },
-         {
+        {
           title: 'Message Channels',
           onPress: () => { this.props.closeSideMenu(); Actions.channels(); },
         },
@@ -118,6 +118,11 @@ class Menu extends Component {
         {
           title: 'Canned Responses',
           onPress: () => { this.props.closeSideMenu(); Actions.cannedresponse(); },
+        },
+
+        {
+          title: 'Notifications',
+          onPress: () => { this.props.closeSideMenu(); Actions.notifications(); },
         },
 
       ],
@@ -131,8 +136,8 @@ class Menu extends Component {
 
   logout = () => {
     this.props.logout();
-    
-    
+
+
   }
 
   render = () => {
@@ -166,7 +171,7 @@ class Menu extends Component {
 
           <View style={[styles.menuBottom]}>
              <View>
-              
+
 
                 <Spacer size={10} />
 
@@ -178,8 +183,8 @@ class Menu extends Component {
                   />
                 </View>
               </View>
-           
-            
+
+
           </View>
         </View>
       </View>

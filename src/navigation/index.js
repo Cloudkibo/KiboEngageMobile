@@ -26,6 +26,9 @@ import CreateCannedresponse from '@containers/CannedResponses/CreateCannedRespon
 import CreateChannel from '@containers/MessageChannels/CreateChannel';
 import Channels from '@containers/MessageChannels/Channels';
 
+import Notifications from '@containers/Notifications/Notifications';
+import AddNotification from '@containers/Notifications/AddNotification';
+
 import Placeholder from '@components/general/Placeholder';
 import Dashboard from '@containers/dashboard';
 import AuthScenes from './auth';
@@ -76,7 +79,6 @@ export default Actions.create(
       />
 
       <Scene
-
         key={'channelCreate'}
         title={'Create Channel'}
         component={CreateChannel}
@@ -92,21 +94,34 @@ export default Actions.create(
       />
 
       <Scene
+        key={'addNotification'}
+        title={'Add Notification'}
+        component={AddNotification}
+        analyticsDesc={'AddNotification: Add Notification'}
+      />
+      <Scene
+        key={'notifications'}
+        title={'Notifications'}
+        onRight={() => Actions.addNotification()}
+        rightTitle="Add"
+        component={Notifications}
+        analyticsDesc={'Notifications: Notifications'}
+      />
+
+      <Scene
         key={'cannedCreate'}
         title={'Create Canned Response'}
         component={CreateCannedresponse}
         analyticsDesc={'CreateCannedresponse: CreateCannedresponse'}
       />
-       <Scene
+      <Scene
         key={'cannedresponse'}
         title={'Canned Responses'}
         component={Cannedresponse}
         onRight={() => Actions.cannedCreate()}
-        rightTitle="Add" 
+        rightTitle="Add"
         analyticsDesc={'Cannedresponse: Cannedresponse'}
       />
-
-
 
       <Scene
         key={'agents'}
@@ -115,7 +130,6 @@ export default Actions.create(
         component={Agents}
         analyticsDesc={'Agents:Agents'}
       />
-
 
       <Scene
         key={'teamEdit'}
