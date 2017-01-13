@@ -112,7 +112,7 @@ class Menu extends Component {
         },
          {
           title: 'Message Channels',
-          onPress: () => { this.props.closeSideMenu(); Actions.comingSoon(); },
+          onPress: () => { this.props.closeSideMenu(); Actions.channels(); },
         },
 
         {

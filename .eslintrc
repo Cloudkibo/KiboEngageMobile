@@ -9,6 +9,7 @@
   "rules": {
   	"react/jsx-filename-extension": ["error", { extensions: [".js", ".jsx"] }],
   	"global-require": "off",
+    "linebreak-style": "off",
 
     // Used for debugging
     "no-console": "off",

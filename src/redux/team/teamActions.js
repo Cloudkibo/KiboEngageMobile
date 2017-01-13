@@ -16,7 +16,7 @@ export function showTeams(teams) {
 
 export function showDeptAgents(teamagents) {
   console.log('show dept agents');
-  
+  console.log(teamagents.data);
   return {
     type: ActionTypes.ADD_TEAM_AGENTS,
     payload : teamagents.data,
@@ -31,13 +31,13 @@ export const teamFetch = (token) => {
            'Authorization': `Bearer ${token}`,
            'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
-      
+
   return (dispatch) => {
     axios.get(`${baseURL}/api/departments`,config)
     .then((res) => res).then(res => dispatch(showTeams(res)));
-      
+
   };
 };
 
@@ -49,13 +49,13 @@ export const agentTeamFetch = (token) => {
            'Authorization': `Bearer ${token}`,
            'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
-      
+
   return (dispatch) => {
     axios.get(`${baseURL}/api/deptagents`,config)
     .then((res) => res).then(res => dispatch(showDeptAgents(res)));
-      
+
   };
 };
 
@@ -70,12 +70,12 @@ export const createteam = (team) => {
             'Authorization': `Bearer ${token}`,
             'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
        var data =  {
         deptname : team.teamname,
         deptdescription : team.description,
-      
+
       }
   console.log(data);
   return (dispatch) => {
@@ -87,7 +87,7 @@ export const createteam = (team) => {
         console.log(error);
         dispatch(teamCreateFail());
       });
-    
+
   };
 };
 
@@ -134,7 +134,7 @@ export const editteam = (team) => {
 const teamCreateInAction = () => {
   return {
     type: ActionTypes.CREATE_TEAM,
-   
+
   };
 };
 
@@ -152,7 +152,7 @@ const teamCreateSuccess = (res) => {
     payload: res
   };
 
-  
+
 };
 
 const teamEditInAction = () => {
@@ -187,7 +187,7 @@ const teamDeleteSuccess = (res) => {
     payload: res
   };
 
-  
+
 };
 
 const teamDeleteFail = (res) => {
@@ -198,7 +198,7 @@ const teamDeleteFail = (res) => {
     payload: res
   };
 
-  
+
 };
 
 // delete team
@@ -211,7 +211,7 @@ export const deleteteam = (team) => {
             'Authorization': `Bearer ${token}`,
             'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
   return (dispatch) => {
    console.log('calling api');
@@ -221,6 +221,6 @@ export const deleteteam = (team) => {
         console.log(error);
         dispatch(teamDeleteFail());
       });
-    
+
   };
 };
