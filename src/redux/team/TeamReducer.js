@@ -8,6 +8,9 @@ const INITIAL_STATE = {
   teamsuccess:'',
   teams:[],
   teamagents:[],
+  teamediterror : '',
+  teameditsuccess:'',
+
 
   
 };
@@ -31,6 +34,14 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.CREATE_TEAM_FAIL:
       return { ...state, teamerror: 'Team creation failed', loading: false };
     
+
+    case ActionTypes.EDIT_TEAM:
+      return { ...state, loading: true, teamerror: '',teamsuccess:'' ,teamediterror : '',teameditsuccess:''};
+    case ActionTypes.EDIT_TEAM_SUCCESS:
+      return { ...state, ...INITIAL_STATE, teameditsuccess: 'Team edited successfully' };
+    case ActionTypes.EDIT_TEAM_FAIL:
+      return { ...state, teamediterror: 'Team update failed', loading: false };
+
 
      case ActionTypes.DELETE_TEAM_SUCCESS:
       return { ...state, teamsuccess: 'Team deleted successfully', loading: false };

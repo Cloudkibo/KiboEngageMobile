@@ -23,6 +23,7 @@ import { AppStyles } from '@theme/';
 import * as TeamActions from '@redux/team/teamActions';
 import { connect } from 'react-redux';
 
+
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@components/ui/';
 
@@ -35,12 +36,12 @@ class EditTeam extends Component {
     super(props);
     console.log('edit team is called');
     console.log(this.props.team);
-    const ds = new ListView.DataSource({
+    this.ds = new ListView.DataSource({
   
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
-    const ds2 = new ListView.DataSource({
+    this.ds2 = new ListView.DataSource({
   
       rowHasChanged: (r1, r2) => r1 !== r2
     });
@@ -66,8 +67,8 @@ class EditTeam extends Component {
         error: '',
 
       },
-      dataSource  : ds.cloneWithRows(this.props.agents),
-      dataSource2 : ds2.cloneWithRows(this.props.teamagents),
+      dataSource  : this.ds.cloneWithRows(this.props.agents),
+      dataSource2 : this.ds2.cloneWithRows(this.props.teamagents),
       newagents : [],
       form_fields: FormValidation.struct({
         teamName:validName,
@@ -130,7 +131,7 @@ class EditTeam extends Component {
       
     />  
     )
-  createTeam = async () => {
+  editTeam = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();
 
@@ -148,10 +149,22 @@ class EditTeam extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-   
-            this.props.createteam({
+    
+            var agentid =[];
+      if(this.props.teamagents)
+      {
+      this.props.teamagents.filter((agent) => agent.deptid == this.props.team._id).map((agent, i)=> (
+                          this.props.agents.filter((ag) => ag._id == agent.agentid).map((ag,j) =>
+                          (
+                             agentid.push({"_id" :ag._id})
+                          ))
+                          ));
+       };
+            this.props.editteam({
               teamname: credentials.teamName,
               description: credentials.teamDescription,
+              id : this.props.team._id,
+              deptagents : agentid,
               token:token,
             })
         }
@@ -186,13 +199,10 @@ class EditTeam extends Component {
     console.log(this.props.teamagents.length);
     this.props.teamagents.push({'deptid': this.props.team._id,'agentid':c._id});
     console.log(this.props.teamagents.length);
-    
-    // create a new DataSource object
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => { r1 !== r2 }});
-
+   
     // update the DataSource in the component state
     this.setState({
-        dataSource2 : ds.cloneWithRows(this.props.teamagents),
+        dataSource2 : this.ds.cloneWithRows(this.props.teamagents),
     });
   }
   renderFellowAgents = (fellowAgent) =>{
@@ -247,7 +257,7 @@ class EditTeam extends Component {
 
           <View>
             <Text h3> Fellow Agents </Text>
-             <ListView dataSource={this.dataSource2}
+             <ListView dataSource={this.state.dataSource2}
               renderRow={this.renderFellowAgents}
             />
            
@@ -257,7 +267,7 @@ class EditTeam extends Component {
            <View>
             <Text h3> All Agents </Text>
             <ListView
-                 dataSource={this.dataSource}
+                 dataSource={this.state.dataSource}
                  renderRow={this.renderRow}
             />
           </View>
@@ -266,7 +276,7 @@ class EditTeam extends Component {
           
           <Button
             title={'Save Changes'}
-            onPress={this.createTeam}
+            onPress={this.editTeam}
           />
            <Spacer size={20} />
           
@@ -279,8 +289,8 @@ class EditTeam extends Component {
 
            <Alerts
            
-            success={this.props.teamsuccess}
-            error={this.props.teamerror}
+            success={this.props.teameditsuccess}
+            error={this.props.teamediterror}
           />
         </Card>
       </View>
@@ -290,15 +300,15 @@ class EditTeam extends Component {
 
 
 function mapStateToProps(state) {
-   const {teams,teamerror,teamsuccess} =  state.teams;
+   const {teams,teamediterror,teameditsuccess} =  state.teams;
   
-  return {teams,teamerror,teamsuccess };
+  return {teams,teamediterror,teameditsuccess };
 }
 
 
 // Any actions to map to the component?
 const mapDispatchToProps = {
-  createteam: TeamActions.createteam,
+  editteam: TeamActions.editteam,
   deleteteam: TeamActions.deleteteam,
 };
 

@@ -72,7 +72,7 @@ export const createteam = (team) => {
             },
       
           };
-      var data =  {
+       var data =  {
         deptname : team.teamname,
         deptdescription : team.description,
       
@@ -91,6 +91,41 @@ export const createteam = (team) => {
   };
 };
 
+
+export const editteam = (team) => {
+    var token = team.token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/x-www-form-urlencoded'
+            },
+      
+          };
+   
+    var data =  JSON.stringify({
+        dept :{
+          _id:team.id,
+          deptname: team.teamname,
+          deptdescription: team.description,
+        },
+        deptagents: team.deptagents,
+      
+      })
+  console.log('data of edit team');
+  console.log(data);
+  return (dispatch) => {
+    dispatch(teamEditInAction());
+    console.log('calling api');
+    axios.post(`${baseURL}/api/departments/update/`,data,config).then(res => dispatch(teamEditSuccess(res)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        dispatch(teamEditFail());
+      });
+    
+  };
+};
 
 
 
@@ -114,6 +149,30 @@ const teamCreateSuccess = (res) => {
   //Actions.main();
   return{
     type: ActionTypes.CREATE_TEAM_SUCCESS,
+    payload: res
+  };
+
+  
+};
+
+const teamEditInAction = () => {
+  return {
+    type: ActionTypes.EDIT_TEAM,
+   
+  };
+};
+
+
+
+const teamEditFail = () => {
+  return{ type: ActionTypes.EDIT_TEAM_FAIL };
+};
+
+const teamEditSuccess = (res) => {
+  console.log('team created');
+  //Actions.main();
+  return{
+    type: ActionTypes.EDIT_TEAM_SUCCESS,
     payload: res
   };
 
