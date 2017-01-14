@@ -22,6 +22,7 @@ import CreateTeam from '@containers/Teams/CreateTeam';
 import EditTeam from '@containers/Teams/EditTeam';
 import Cannedresponse from '@containers/CannedResponses/Cannedresponse';
 import CreateCannedresponse from '@containers/CannedResponses/CreateCannedResponse';
+import EditCannedresponse from '@containers/CannedResponses/EditCannedResponse';
 
 import CreateChannel from '@containers/MessageChannels/CreateChannel';
 import Channels from '@containers/MessageChannels/Channels';
@@ -113,6 +114,13 @@ export default Actions.create(
         title={'Create Canned Response'}
         component={CreateCannedresponse}
         analyticsDesc={'CreateCannedresponse: CreateCannedresponse'}
+      />
+
+       <Scene
+        key={'cannedEdit'}
+        title={'Edit Canned Response'}
+        component={EditCannedresponse}
+        analyticsDesc={'EditCannedresponse: EditCannedresponse'}
       />
       <Scene
         key={'cannedresponse'}

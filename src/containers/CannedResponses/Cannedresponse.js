@@ -93,14 +93,14 @@ class Cannedresponse extends Component {
 
   goToView2(cannedresponse)
   {
-      //  Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
+        Actions.cannedEdit({cannedresponse:cannedresponse})
   }
   renderRow = (cannedresponse) => (
     <ListItem
       key={`list-row-${cannedresponse._id}`}
       title={cannedresponse.shortcode}
       subtitle={cannedresponse.message || null}
-
+      onPress={this.goToView2.bind(this,cannedresponse)}
       
     />
 

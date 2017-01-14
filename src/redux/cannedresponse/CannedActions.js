@@ -63,7 +63,39 @@ export const createcanned = (canned) => {
 };
 
 
-
+export const editcanned = (canned) => {
+    console.log('editcanned is called');
+    var token = canned.token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/json'
+            },
+      
+          };
+      var data =  {
+        'shortcode' : canned.shortcode,
+        'message': canned.message,
+        'companyid' : canned.companyid,
+        '_id':canned._id,
+      
+      }
+  console.log(data);
+  var id = data._id;
+  console.log(data);
+  return (dispatch) => {
+    dispatch(cannedEditInAction());
+    console.log('calling api');
+    axios.put(`${baseURL}/api/shortcuts/${id}`,data,config).then(res => dispatch(cannedEditSuccess(res)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        dispatch(cannedEditFail());
+      });
+    
+  };
+};
 
 
 
@@ -88,4 +120,78 @@ const cannedCreateSuccess = (res) => {
   };
 
   
+};
+
+
+
+
+/**** Edit ***/
+
+const cannedEditInAction = () => {
+  return {
+    type: ActionTypes.EDIT_CANNED,
+   
+  };
+};
+
+
+
+const cannedEditFail = () => {
+  return{ type: ActionTypes.EDIT_CANNED_FAIL };
+};
+
+const cannedEditSuccess = (res) => {
+  //Actions.main();
+  return{
+    type: ActionTypes.EDIT_CANNED_SUCCESS,
+    payload: res
+  };
+
+  
+};
+
+/**** Delete Team ***/
+export const deletecanned = (canned) => {
+    var token = canned.token;
+    var id =  canned.id;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/x-www-form-urlencoded'
+            },
+
+          };
+  return (dispatch) => {
+   console.log('calling api');
+    axios.delete(`${baseURL}/api/shortcuts/${id}`,config).then(res => dispatch(cannedDeleteSuccess(res)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        dispatch(cannedDeleteFail());
+      });
+
+  };
+};
+
+const cannedDeleteSuccess = (res) => {
+  console.log('canned respose deleted');
+  //Actions.main();
+  return{
+    type: ActionTypes.DELETE_CANNED_SUCCESS,
+    payload: res
+  };
+
+
+};
+
+const cannedDeleteFail = (res) => {
+  console.log('canned deleted fail');
+  //Actions.main();
+  return{
+    type: ActionTypes.DELETE_CANNED_FAIL,
+    payload: res
+  };
+
+
 };
