@@ -56,6 +56,7 @@ class Teams extends Component {
   }
 
    componentDidMount = async() => {
+    console.log('team component did mount called');
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){

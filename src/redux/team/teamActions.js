@@ -1,6 +1,7 @@
 //import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import * as ActionTypes from '../types';
+import utils from '../../services/utils';
 var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
 
@@ -94,6 +95,11 @@ export const createteam = (team) => {
 
 export const editteam = (team) => {
     var token = team.token;
+    console.log('without remove_dups');
+    console.log(team.deptagents);
+    var remove_dups = utils.removeDuplicates(team.deptagents, '_id');
+    console.log('removeDuplicates');
+    console.log(remove_dups);
     var config = {
       rejectUnauthorized : false,
       headers: {
@@ -109,7 +115,7 @@ export const editteam = (team) => {
         }
     var data = {
       'dept' : d,
-      'deptagents': team.deptagents,
+      'deptagents': remove_dups,
       
       }
 

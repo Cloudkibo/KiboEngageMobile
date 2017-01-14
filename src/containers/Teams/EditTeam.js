@@ -31,20 +31,11 @@ import { Alerts, Card, Spacer, Text, Button } from '@components/ui/';
 class EditTeam extends Component {
   static componentName = 'EditTeam';
 
- 
   constructor(props) {
     super(props);
     console.log('edit team is called');
     console.log(this.props.team);
-    this.ds = new ListView.DataSource({
-  
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
-
-    this.ds2 = new ListView.DataSource({
-  
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+    
    
     const validName= FormValidation.refinement(
       FormValidation.String, (teamname) => {
@@ -60,6 +51,7 @@ class EditTeam extends Component {
       },
     );
 
+    this.newFellowAgents  = []
     this.state = {
       resultMsg: {
         status: '',
@@ -67,9 +59,14 @@ class EditTeam extends Component {
         error: '',
 
       },
-      dataSource  : this.ds.cloneWithRows(this.props.agents),
-      dataSource2 : this.ds2.cloneWithRows(this.props.teamagents),
-      newagents : [],
+      dataSourceAllAgents  : new ListView.DataSource({
+            rowHasChanged : (row1, row2) => true
+        }),
+      dataSourceFellowAgents  : new ListView.DataSource({
+            rowHasChanged : (row1, row2) => true
+        }),
+
+      
       form_fields: FormValidation.struct({
         teamName:validName,
         teamDescription: validDesc,
@@ -100,9 +97,14 @@ class EditTeam extends Component {
         },
       },
     };
+
+
+
+    
+
   }
 
-  componentDidMount = async () => {
+  componentDidMount =  () => {
     // Get user data from AsyncStorage to populate fields
   /*  const values = await AsyncStorage.getItem('api/credentials');
     const jsonValues = JSON.parse(values);
@@ -117,6 +119,20 @@ class EditTeam extends Component {
         },
       });
     }*/
+      
+      this.newFellowAgents  = this.props.teamagents.filter((c) => c.deptid == this.props.team._id)
+      
+      let ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
+      let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents);
+
+      this.setState({
+          dataSourceAllAgents  : ds,
+          dataSourceFellowAgents  : ds2,
+
+      });
+
+      console.log('dataSourceAllAgents');
+      console.log(this.state.dataSourceAllAgents);
   }
 
   /**
@@ -151,15 +167,13 @@ class EditTeam extends Component {
             console.log(token);
     
             var agentid =[];
-      if(this.props.teamagents)
-      {
-      this.props.teamagents.filter((agent) => agent.deptid == this.props.team._id).map((agent, i)=> (
-                          this.props.agents.filter((ag) => ag._id == agent.agentid).map((ag,j) =>
-                          (
-                             agentid.push({"_id" :ag._id})
-                          ))
-                          ));
-       };
+            console.log('this.newFellowAgents');
+            console.log(this.newFellowAgents);
+            for(var j=0;j<this.newFellowAgents.length;j++){
+               agentid.push({"_id" :this.newFellowAgents[j].agentid})
+            }
+            console.log('teamDescription');
+            console.log(credentials.teamDescription);
             this.props.editteam({
               name: credentials.teamName,
               desc: credentials.teamDescription,
@@ -197,35 +211,48 @@ class EditTeam extends Component {
   addAgent = (c) =>{
     console.log('addAgent is called');
     console.log(this.props.teamagents.length);
-    this.props.teamagents.push({'deptid': this.props.team._id,'agentid':c._id});
-    console.log(this.props.teamagents.length);
-   
+    this.newFellowAgents.push({'deptid': this.props.team._id,'agentid':c._id})
     // update the DataSource in the component state
-    this.setState({
-        dataSource2 : this.ds.cloneWithRows(this.props.teamagents),
-    });
+   this.setState({
+          
+            dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
+        });
+  }
+
+
+  removeAgent = (c) =>{
+    console.log('removeAgent is called');
+    var indexOfItem = this.newFellowAgents.findIndex((item) => item.deptid === c.deptid && item.agentid === c.agentid);
+    this.newFellowAgents.splice(indexOfItem, 1);
+    // update the DataSource in the component state
+   this.setState({
+          
+            dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
+        });
   }
   renderFellowAgents = (fellowAgent) =>{
-    if(fellowAgent.deptid == this.props.team._id){
-
-       for(var j=0;j<this.props.agents.length;j++){
+   console.log('fellowAgent');
+   console.log(fellowAgent);
+   var flag = 0;
+   for(var j=0;j<this.props.agents.length;j++){
         if(this.props.agents[j]._id == fellowAgent.agentid){
+          console.log('fellowAgent matched');
                 return  (<ListItem
                           key={`list-row-${this.props.agents[j]._id}`}
                           title={this.props.agents[j].firstname + ' '+ this.props.agents[j].lastname}
+                           onPress={this.removeAgent.bind(this,fellowAgent)}
                           /> )
+        flag = 1;
         break;
         }
 
-        else{
-          return null;
-        }
-       } 
-    }
+     
+       }
+       if(flag == 0){
+        return null;
+       }
 
-     else{
-          return null;
-        }
+    
   }
 
  
@@ -243,10 +270,11 @@ class EditTeam extends Component {
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
-            success={this.state.resultMsg.success}
-            error={this.state.resultMsg.error}
+            success={this.props.teameditsuccess}
+            error={this.props.teamediterror}
           />
 
+  
           <Form
             ref={(b) => { this.form = b; }}
             type={this.state.form_fields}
@@ -256,21 +284,23 @@ class EditTeam extends Component {
 
 
           <View>
+            <Text h3> All Agents </Text>
+            <ListView
+                 dataSource={this.state.dataSourceAllAgents}
+                 renderRow={this.renderRow}
+            />
+          </View>
+
+          <View>
             <Text h3> Fellow Agents </Text>
-             <ListView dataSource={this.state.dataSource2}
+             <ListView dataSource={this.state.dataSourceFellowAgents}
               renderRow={this.renderFellowAgents}
             />
            
           </View>
 
            <Spacer size={20} />
-           <View>
-            <Text h3> All Agents </Text>
-            <ListView
-                 dataSource={this.state.dataSource}
-                 renderRow={this.renderRow}
-            />
-          </View>
+         
 
            <Spacer size={20} />
           
@@ -287,11 +317,7 @@ class EditTeam extends Component {
 
           <Spacer size={10} />
 
-           <Alerts
-           
-            success={this.props.teameditsuccess}
-            error={this.props.teamediterror}
-          />
+         
         </Card>
       </View>
     );
