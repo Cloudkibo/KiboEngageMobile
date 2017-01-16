@@ -10,7 +10,8 @@ import {
   AsyncStorage,
   TouchableOpacity,
   View,
-  ListView
+  ListView,
+  
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
@@ -19,7 +20,7 @@ import { List, ListItem, SocialIcon } from 'react-native-elements';
 
 // Consts and Libs
 import AppAPI from '@lib/api';
-import { AppStyles } from '@theme/';
+import { AppStyles, AppSizes} from '@theme/';
 import * as TeamActions from '@redux/team/teamActions';
 import { connect } from 'react-redux';
 
@@ -261,11 +262,7 @@ class EditTeam extends Component {
     const Form = FormValidation.form.Form;
 
     return (
-      <View
-        
-        style={[AppStyles.container]}
-        contentContainerStyle={[AppStyles.container]}
-      >
+      <ScrollView style={[AppStyles.container]}>
       <Spacer size={55} />
         <Card>
           <Alerts
@@ -319,7 +316,7 @@ class EditTeam extends Component {
 
          
         </Card>
-      </View>
+       </ScrollView>
     );
   }
 }

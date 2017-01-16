@@ -37,7 +37,14 @@ export const getuser = (token) => {
       
   return (dispatch) => {
     axios.get(`${baseURL}/api/users/me`,config)
-    .then((res) => res).then(res => dispatch(showUsername(res)));
+    .then((res) => res).then(res => dispatch(showUsername(res)))
+    .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        if(error.response.status == 401){ Actions.login()}
+       
+      });
+;
       
   };
 };

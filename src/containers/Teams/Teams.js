@@ -18,6 +18,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as TeamActions from '@redux/team/teamActions';
 import * as AgentActions from '@redux/agents/agentActions';
+import Loading from '@components/general/Loading';
 
 import auth from '../../services/auth';
 
@@ -51,7 +52,7 @@ class Teams extends Component {
 
    constructor(props) {
     super(props);
-
+    this.state = {loading : true};
     this.createDataSource(props);
   }
 
@@ -76,7 +77,8 @@ class Teams extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     console.log(nextProps);
-    if(nextProps.teams){
+    if(nextProps.teams && nextProps.teamagents && nextProps.agents){
+      this.setState({loading:false});
        this.createDataSource(nextProps);
      }
   }
@@ -128,7 +130,10 @@ class Teams extends Component {
     />
   )
 
-  render = () => (
+  render = () => {
+    if (this.state.loading) return <Loading />;
+    
+    return(
           <View style={[AppStyles.container]}>
           <Spacer size={15} />
             <ScrollView
@@ -146,7 +151,8 @@ class Teams extends Component {
             </ScrollView>
             </View>
  
-  )
+  );
+}
 }
 
 const mapDispatchToProps = {

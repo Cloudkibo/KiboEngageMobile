@@ -20,6 +20,7 @@ import AppAPI from '@lib/api';
 import { AppStyles } from '@theme/';
 import { connect } from 'react-redux';
 import * as UserActions from '@redux/user/actions';
+import Loading from '@components/general/Loading';
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 
@@ -31,14 +32,17 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
     
-    this.state = {'userdetails' : null};
+    this.state = {'userdetails' : null,loading : true};
   }
  
 
-  componentWillRecieveProps(props){
+  componentWillReceiveProps(props){
+    console.log('componentWillReceiveProps called');
     if(props.userdetails){
+      console.log(props.userdetails);
       this.setState({
           userdetails: props.userdetails,
+          loading : false,
         });
     }
   }
@@ -82,14 +86,22 @@ renderLoadingView(){
     );
   }
   render = () => {
-      if (!this.state.userdetails) {
-      return this.renderLoadingView();
-    }
+     if (this.state.loading) return <Loading />;
+      
 
-    else
-    return this.renderName();
+      return(<View style={[AppStyles.container]}
+        contentContainerStyle={[AppStyles.container]}
+      >
+      <Spacer size={55} />
+        <Card>
+          <Text> Hello {this.props.userdetails.firstname}</Text>
+        </Card>
+      </View>
+      );
+    
+    
   }
-  }
+}
 
 
 const mapDispatchToProps = {

@@ -120,8 +120,8 @@ class CreateTeam extends Component {
             console.log(token);
    
             this.props.createteam({
-              teamname: credentials.teamname,
-              description: credentials.teamdesc,
+              teamname: credentials.teamName,
+              description: credentials.teamDescription,
               token:token,
             })
         }
