@@ -9,6 +9,8 @@ import {
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
+  Text,
+  TextInput,
   View
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
@@ -22,26 +24,19 @@ import * as TeamActions from '@redux/team/teamActions';
 import { connect } from 'react-redux';
 
 // Components
-import { Alerts, Card, Spacer, Text, Button } from '@ui/';
+import { Alerts, Card, Spacer, Button } from '@ui/';
 
 /* Component ==================================================================== */
 class CreateTeam extends Component {
   static componentName = 'CreateTeam';
 
- 
+
   constructor(props) {
     super(props);
 
-    const validName= FormValidation.refinement(
+    const validName = FormValidation.refinement(
       FormValidation.String, (teamname) => {
         if (teamname.length < 1) return false;
-        return true;
-      },
-    );
-
-    const validDesc= FormValidation.refinement(
-      FormValidation.String, (teamdesc) => {
-        if (teamdesc.length < 1) return false;
         return true;
       },
     );
@@ -51,15 +46,14 @@ class CreateTeam extends Component {
         status: '',
         success: '',
         error: '',
+        desc: '',
       },
       form_fields: FormValidation.struct({
-        teamName:validName,
-        teamDescription: validDesc,
+        Name: validName,
       }),
       empty_form_values: {
-        teamName:'',
+        teamName: '',
         teamDescription: '',
-      
       },
       form_values: {},
       options: {
@@ -74,7 +68,6 @@ class CreateTeam extends Component {
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
           },
-          
         },
       },
     };
@@ -102,7 +95,13 @@ class CreateTeam extends Component {
     */
   createTeam = async () => {
     // Get new credentials and update
-    const credentials = this.form.getValue();
+    const name = this.form.getValue();
+    const desc = this.state.desc;
+
+    const credentials = {
+      teamName: name,
+      teamDescription: desc,
+    };
 
     // Form is valid
     if (credentials) {
@@ -118,7 +117,7 @@ class CreateTeam extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-   
+
             this.props.createteam({
               teamname: credentials.teamName,
               description: credentials.teamDescription,
@@ -128,13 +127,13 @@ class CreateTeam extends Component {
       });
     }
   }
-  
+
   render = () => {
     const Form = FormValidation.form.Form;
 
     return (
       <View
-        
+
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
@@ -153,6 +152,16 @@ class CreateTeam extends Component {
             options={this.state.options}
           />
 
+          <Text style={AppStyles.textareaLabel}> Description </Text>
+          <TextInput
+            multiline
+            onChangeText={text => this.setState({ desc: text })}
+            value={this.state.desc}
+            style={AppStyles.textarea}
+          />
+
+          <Spacer size={25} />
+
           <Button
             title={'Create Team'}
             onPress={this.createTeam}
@@ -161,7 +170,7 @@ class CreateTeam extends Component {
           <Spacer size={10} />
 
            <Alerts
-           
+
             success={this.props.teamsuccess}
             error={this.props.teamerror}
           />
@@ -174,7 +183,7 @@ class CreateTeam extends Component {
 
 function mapStateToProps(state) {
    const {teams,teamerror,teamsuccess} =  state.teams;
-  
+
   return {teams,teamerror,teamsuccess };
 }
 

@@ -1,8 +1,8 @@
 import { AppStyles } from '@theme/';
-import { Alerts, Card, Spacer, Text, Button } from '@ui/';
+import { Alerts, Card, Spacer, Button } from '@ui/';
 import * as TeamActions from '@redux/team/teamActions';
 import React, { Component, PropTypes } from 'react';
-import { View } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import { connect } from 'react-redux';
 import ModalDropdown from 'react-native-modal-dropdown';
 import FormValidation from 'tcomb-form-native';
@@ -22,13 +22,6 @@ class CreateChannel extends Component {
       },
     );
 
-    const validDesc = FormValidation.refinement(
-      FormValidation.String, (channeldesc) => {
-        if (channeldesc.length < 1) return false;
-        return true;
-      },
-    );
-
     this.state = {
       resultMsg: {
         status: '',
@@ -37,8 +30,7 @@ class CreateChannel extends Component {
         optionList: [],
       },
       form_fields: FormValidation.struct({
-        channelName: validName,
-        channelDescription: validDesc,
+        Name: validName,
       }),
       empty_form_values: {
         channelName: '',
@@ -106,6 +98,12 @@ class CreateChannel extends Component {
             type={this.state.form_fields}
             value={this.state.form_values}
             options={this.state.options}
+          />
+
+          <Text style={AppStyles.textareaLabel}> Description </Text>
+          <TextInput
+            multiline
+            style={AppStyles.textarea}
           />
 
           <ModalDropdown
