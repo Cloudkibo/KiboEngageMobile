@@ -1,7 +1,7 @@
 import { AppStyles } from '@theme/';
 import { Alerts, Card, Spacer, Button } from '@ui/';
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import auth from '../../services/auth';
 import * as NotificationActions from '@redux/notification/NotificationActions';
@@ -21,23 +21,16 @@ class AddNotification extends Component {
       },
     );
 
-    const validDesc = FormValidation.refinement(
-      FormValidation.String, (notificationdesc) => {
-        if (notificationdesc.length < 1) return false;
-        return true;
-      },
-    );
-
     this.state = {
       resultMsg: {
         status: '',
         success: '',
         error: '',
+        desc: '',
       },
       loading : true,
       form_fields: FormValidation.struct({
         Title: validName,
-        Description: validDesc,
       }),
       empty_form_values: {
         Title: '',
@@ -66,12 +59,12 @@ class AddNotification extends Component {
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
-     
+
             this.props.customerFetch(token);
-         
-            
+
+
           }
-  
+
   }
   componentWillReceiveProps(nextProps) {
     // nextProps are the next set of props that this component
@@ -81,13 +74,19 @@ class AddNotification extends Component {
     console.log(nextProps);
     if(nextProps.customers){
       this.setState({loading:false});
-      
+
      }
   }
 
    addNotification = async () => {
     // Get new credentials and update
-    const credentials = this.form.getValue();
+    const title = this.form.getValue();
+    const desc = this.state.desc;
+
+    const credentials = {
+      Title: title,
+      Description: desc,
+    };
 
     // Form is valid
     if (credentials) {
@@ -103,7 +102,7 @@ class AddNotification extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-            
+
             var today = new Date();
             var uid = Math.random().toString(36).substring(7);
             var unique_id = 'h' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
@@ -112,7 +111,7 @@ class AddNotification extends Component {
             var customers = this.props.customers;
             console.log(notification);
             this.props.createNotification({notification,token,customers});
-     
+
         }
       });
     }
@@ -120,7 +119,7 @@ class AddNotification extends Component {
   render = () => {
     const Form = FormValidation.form.Form;
     if (this.state.loading) return <Loading />;
-    
+
     return (
       <View
         style={[AppStyles.container]}
@@ -141,6 +140,16 @@ class AddNotification extends Component {
             options={this.state.options}
           />
 
+          <Text style={AppStyles.textareaLabel}> Description </Text>
+          <TextInput
+            multiline
+            onChangeText={text => this.setState({ desc: text })}
+            value={this.state.desc}
+            style={AppStyles.textarea}
+          />
+
+          <Spacer size={25} />
+
           <Button
             title={'Add Notification'}
             onPress={this.addNotification}
@@ -157,16 +166,14 @@ class AddNotification extends Component {
 const mapDispatchToProps = {
   customerFetch: CustomerActions.customerFetch,
   createNotification : NotificationActions.createNotification,
- 
+
 };
 function mapStateToProps(state) {
    const { notifications,notificationerror,notificationsuccess} = state.notifications;
    const {customers} = state.customers;
     const { userdetails} = state.user;
-  
+
   return {notifications,userdetails,notificationerror,notificationsuccess,customers};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AddNotification);
-
-
