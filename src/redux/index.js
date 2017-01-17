@@ -17,6 +17,9 @@ import auth from '@redux/auth/AuthReducer';
 import teams from '@redux/team/TeamReducer';
 import agents from '@redux/agents/AgentReducer';
 import cannedresponses from '@redux/cannedresponse/CannedReducer';
+import notifications from '@redux/notification/NotificationReducer';
+import channels from '@redux/channel/ChannelReducer';
+
 // Combine all
 const appReducer = combineReducers({
   router,
@@ -27,6 +30,8 @@ const appReducer = combineReducers({
   teams,
   agents,
   cannedresponses,
+  notifications,
+  channels
 });
 
 // Setup root reducer
