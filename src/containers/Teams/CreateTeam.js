@@ -14,7 +14,7 @@ import {
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
 import auth from '../../services/auth';
-
+var _ = require('lodash');
 // Consts and Libs
 import AppAPI from '@lib/api';
 import { AppStyles } from '@theme/';
@@ -28,9 +28,14 @@ import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 class CreateTeam extends Component {
   static componentName = 'CreateTeam';
 
- 
+  
   constructor(props) {
     super(props);
+    // clone the default stylesheet
+    const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
+
+    // overriding the text color
+    stylesheet.textbox.normal.height = 80;
 
     const validName= FormValidation.refinement(
       FormValidation.String, (teamname) => {
@@ -73,12 +78,14 @@ class CreateTeam extends Component {
             error: 'Please enter short team description',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
-          },
-          
+            multiline: true,
+            stylesheet: stylesheet // overriding the style of the textbox
+                      
         },
       },
-    };
+    }
   }
+}
 
   componentDidMount = async () => {
     // Get user data from AsyncStorage to populate fields

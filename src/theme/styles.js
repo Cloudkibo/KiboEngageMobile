@@ -234,4 +234,21 @@ export default {
     borderTopColor: Colors.border,
     borderTopWidth: 1,
   },
+
+   // TextArea
+  textbox: {
+    normal :{
+      color: '#000000',
+      fontSize: 17,
+      height: 80,
+      padding: 7,
+      borderRadius: 4,
+      borderColor: '#cccccc',
+      borderWidth: 1,
+      marginBottom: 5,
+    }
+
+  },
+  
+
 };
