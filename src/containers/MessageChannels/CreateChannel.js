@@ -1,18 +1,24 @@
 import { AppStyles } from '@theme/';
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 import * as TeamActions from '@redux/team/teamActions';
+import * as UserActions from '@redux/user/actions';
+import * as ChannelActions from '@redux/channel/ChannelActions';
 import React, { Component, PropTypes } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import ModalDropdown from 'react-native-modal-dropdown';
 import FormValidation from 'tcomb-form-native';
 import auth from '../../services/auth';
+var _ = require('lodash');
 
 class CreateChannel extends Component {
   static componentName = 'CreateChannel';
 
   constructor(props) {
     super(props);
+    const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
+    stylesheet.textbox.normal.height = 80;
+
     this.dropdownRenderRow = this.dropdownRenderRow.bind(this);
 
     const validName = FormValidation.refinement(
@@ -34,8 +40,8 @@ class CreateChannel extends Component {
         status: '',
         success: '',
         error: '',
-        optionList: [],
       },
+      groupid: '',
       form_fields: FormValidation.struct({
         channelName: validName,
         channelDescription: validDesc,
@@ -52,10 +58,12 @@ class CreateChannel extends Component {
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
           },
-          teamDescription: {
+          channelDescription: {
             error: 'Please enter short channel description',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
+            multiline: true,
+            stylesheet,
           },
         },
       },
@@ -67,6 +75,7 @@ class CreateChannel extends Component {
     console.log(`token is Launchview is: ${token}`);
     if (token !== '') {
       this.props.teamFetch(token);
+      this.props.getuser(token);
     }
   }
 
@@ -78,6 +87,51 @@ class CreateChannel extends Component {
         </Text>
       </View>
     );
+  }
+
+  createChannel = async () => {
+    // Get new credentials and update
+    const credentials = this.form.getValue();
+
+    // Form is valid
+    if (credentials) {
+      this.setState({ form_values: credentials }, async () => {
+        this.setState({ resultMsg: { status: 'One moment...' } });
+
+        // Scroll to top, to show message
+        if (this.scrollView) {
+          this.scrollView.scrollTo({ y: 0 });
+        }
+
+        if (auth.loggedIn() === true) {
+          console.log('auth.loggedIn() return true');
+          const token = await auth.getToken();
+          console.log(token);
+          const channel = {
+            'msg_channel_name': credentials.channelName,
+            'msg_channel_description': credentials.channelDescription,
+            'companyid': this.props.userdetails.uniqueid,
+            'groupid': this.state.groupid,
+            'createdby': this.props.userdetails._id,
+          };
+
+          console.log(channel);
+
+          this.props.createChannel(channel, token);
+        }
+      });
+    }
+  }
+
+  dropDownOnSelect(idx, value) {
+    for (var i = 0; i< this.props.teams.length; i++) {
+       if (this.props.teams[i].deptname === value) {
+         this.setState({
+           groupid: this.props.teams[i]._id,
+         });
+         break;
+       }
+    }
   }
 
   render = () => {
@@ -114,6 +168,7 @@ class CreateChannel extends Component {
             dropdownStyle={{ width: 150, height: 150, borderColor: 'black', borderWidth: 1, borderRadius: 2 }}
             defaultValue="Choose Team"
             options={optionList}
+            onSelect={(idx, value) => this.dropDownOnSelect(idx, value)}
             renderRow={this.dropdownRenderRow}
           />
 
@@ -121,9 +176,15 @@ class CreateChannel extends Component {
 
           <Button
             title={'Create Channel'}
+            onPress={this.createChannel}
           />
 
           <Spacer size={10} />
+
+          <Alerts
+            success={this.props.channelsuccess}
+            error={this.props.channelerror}
+          />
 
         </Card>
       </View>
@@ -133,17 +194,23 @@ class CreateChannel extends Component {
 
 CreateChannel.propTypes = {
   teamFetch: PropTypes.func,
+  getuser: PropTypes.func,
   teams: PropTypes.array,
 };
 
 const mapDispatchToProps = {
   teamFetch: TeamActions.teamFetch,
+  getuser: UserActions.getuser,
+  createChannel: ChannelActions.createChannel,
 };
 
 function mapStateToProps(state) {
   const { teams } = state.teams;
+  const { userdetails } = state.user;
+  const { channels, channelerror, channelsuccess } = state.channels;
+  console.log(channelsuccess);
 
-  return { teams };
+  return { teams, userdetails, channels, channelerror, channelsuccess };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateChannel);
