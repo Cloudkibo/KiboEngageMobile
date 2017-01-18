@@ -96,7 +96,7 @@ class Notifications extends Component {
   goToView2(notification)
   {
         console.log('navigate notification is called');
-       // Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
+        Actions.resendNotification({notification});
   }
   renderRow = (notification) => (
     <ListItem

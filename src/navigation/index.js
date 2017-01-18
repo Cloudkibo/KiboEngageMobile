@@ -29,6 +29,7 @@ import Channels from '@containers/MessageChannels/Channels';
 
 import Notifications from '@containers/Notifications/Notifications';
 import AddNotification from '@containers/Notifications/AddNotification';
+import ResendNotification from '@containers/Notifications/ResendNotification';
 
 import Placeholder from '@components/general/Placeholder';
 import Dashboard from '@containers/dashboard';
@@ -144,6 +145,13 @@ export default Actions.create(
         title={'Edit Team'}
         component={EditTeam}
         analyticsDesc={'EditTeam: Edit Team'}
+      />
+
+       <Scene
+        key={'resendNotification'}
+        title={'View Notification Details'}
+        component={ResendNotification}
+        analyticsDesc={'resendNotification: resendNotification'}
       />
     </Scene>
   </Scene>,

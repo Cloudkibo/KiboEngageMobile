@@ -46,14 +46,14 @@ export const createNotification = (notification) => {
           };
 
       var data =  {
-        notification: notification.notification,
-        customers : notification.customers
+        'notification': notification.notification,
+        'customers' : notification.customers
 
       }
   console.log(data);
       
   return (dispatch) => {
-    axios.post(`http://kiboengage.cloudapp.net/api/createNotification`,querystring.stringify(data),config).then(res => dispatch(notificationCreateSuccess(res)))
+    axios.post(`http://kiboengage.cloudapp.net/api/createNotification`,data,config).then(res => dispatch(notificationCreateSuccess(res)))
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);

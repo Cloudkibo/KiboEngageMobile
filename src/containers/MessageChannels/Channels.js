@@ -17,6 +17,8 @@ import { List, ListItem, SocialIcon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as ChannelActions from '@redux/channel/ChannelActions';
+import * as TeamActions from '@redux/team/teamActions';
+
 import Loading from '@components/general/Loading';
 
 import auth from '../../services/auth';
@@ -60,8 +62,9 @@ class MessageChannels extends Component {
       console.log('token is Launchview is: ' + token);
       if(token != ''){
      
+            this.props.teamFetch(token);
             this.props.channelFetch(token);
-         
+            
             
           }
   
@@ -73,7 +76,7 @@ class MessageChannels extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     console.log(nextProps);
-    if(nextProps.channels){
+    if(nextProps.channels && nextProps.teams){
       this.setState({loading:false});
        this.createDataSource(nextProps);
      }
@@ -103,9 +106,8 @@ class MessageChannels extends Component {
       key={`list-row-${channel._id}`}
       onPress={this.goToView2.bind(this,channel)}
       title={channel.msg_channel_name}
-      subtitle={channel.msg_channel_description || null}
-
-      
+      subtitle={this.props.teams.filter((c) => c._id == channel.groupid)[0].deptname + '\n' + channel.msg_channel_description || null}
+     
     />
 
  
@@ -153,13 +155,15 @@ class MessageChannels extends Component {
 
 const mapDispatchToProps = {
   channelFetch: ChannelActions.channelFetch,
+  teamFetch: TeamActions.teamFetch,
  
 };
 function mapStateToProps(state) {
    const { channels} = state.channels;
-  
+   const { teams} = state.teams;
+    
 
-  return {channels};
+  return {channels,teams};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MessageChannels);
