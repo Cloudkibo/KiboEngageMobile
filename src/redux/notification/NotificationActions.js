@@ -35,6 +35,7 @@ export const notificationFetch = (token) => {
 
 export const createNotification = (notification) => {
   console.log('notifications create is called');
+  
   var token = notification.token;
    var config = {
       rejectUnauthorized : false,
@@ -47,7 +48,7 @@ export const createNotification = (notification) => {
 
       var data =  {
         'notification': notification.notification,
-        'customers' : notification.customers
+        
 
       }
   console.log(data);

@@ -40,7 +40,7 @@ class AddNotification extends Component {
         success: '',
         error: '',
       },
-      loading: true,
+     // loading: true,
       form_fields: FormValidation.struct({
         Title: validName,
         Description: validDesc,
@@ -74,19 +74,10 @@ class AddNotification extends Component {
     const token = await auth.getToken();
     console.log(`token is Launchview is: ${token}`);
     if (token !== '') {
-      this.props.customerFetch(token);
+      ///this.props.customerFetch(token);
     }
   }
-  componentWillReceiveProps(nextProps) {
-    // nextProps are the next set of props that this component
-    // will be rendered with
-    // this.props is still the old set of props
-    console.log('componentWillReceiveProps is called');
-    console.log(nextProps);
-    if (nextProps.customers) {
-      this.setState({ loading: false });
-    }
-  }
+ 
 
   addNotification = async () => {
     // Get new credentials and update
@@ -120,8 +111,6 @@ class AddNotification extends Component {
   }
   render = () => {
     const Form = FormValidation.form.Form;
-    if (this.state.loading) return <Loading />;
-
     return (
       <View
         style={[AppStyles.container]}
