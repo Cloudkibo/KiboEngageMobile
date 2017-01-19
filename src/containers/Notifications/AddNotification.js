@@ -18,6 +18,7 @@ class AddNotification extends Component {
 
     const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
     stylesheet.textbox.normal.height = 80;
+    stylesheet.textbox.error.height = 80;
 
     const validName = FormValidation.refinement(
       FormValidation.String, (notificationtitle) => {

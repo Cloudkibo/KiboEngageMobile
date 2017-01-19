@@ -36,7 +36,7 @@ class CreateTeam extends Component {
 
     // overriding the text color
     stylesheet.textbox.normal.height = 80;
-
+    stylesheet.textbox.error.height = 80;
     const validName= FormValidation.refinement(
       FormValidation.String, (teamname) => {
         if (teamname.length < 1) return false;

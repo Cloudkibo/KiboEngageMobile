@@ -23,7 +23,7 @@ import AppAPI from '@lib/api';
 import { AppStyles, AppSizes} from '@theme/';
 import * as TeamActions from '@redux/team/teamActions';
 import { connect } from 'react-redux';
-
+var _ = require('lodash');
 
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@components/ui/';
@@ -36,7 +36,12 @@ class EditTeam extends Component {
     super(props);
     console.log('edit team is called');
     console.log(this.props.team);
-    
+    const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
+
+    // overriding the text color
+    stylesheet.textbox.normal.height = 80;
+    stylesheet.textbox.error.height = 80;
+
    
     const validName= FormValidation.refinement(
       FormValidation.String, (teamname) => {
@@ -93,6 +98,8 @@ class EditTeam extends Component {
             error: 'Please enter short team description',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
+            multiline: true,
+            stylesheet: stylesheet 
           },
           
         },

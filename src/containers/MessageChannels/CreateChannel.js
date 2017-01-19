@@ -18,7 +18,7 @@ class CreateChannel extends Component {
     super(props);
     const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
     stylesheet.textbox.normal.height = 80;
-
+    stylesheet.textbox.error.height = 80;
     this.dropdownRenderRow = this.dropdownRenderRow.bind(this);
 
     const validName = FormValidation.refinement(
