@@ -1,19 +1,24 @@
 import { AppStyles } from '@theme/';
 import { Alerts, Card, Spacer, Button } from '@ui/';
-import React, { Component } from 'react';
-import { View } from 'react-native';
-import FormValidation from 'tcomb-form-native';
-import auth from '../../services/auth';
 import * as NotificationActions from '@redux/notification/NotificationActions';
 import * as CustomerActions from '@redux/customer/CustomerActions';
 import Loading from '@components/general/Loading';
+import React, { Component } from 'react';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
+import FormValidation from 'tcomb-form-native';
+var _ = require('lodash');
+import auth from '../../services/auth';
 
 class AddNotification extends Component {
   static componentName = 'AddNotification';
 
   constructor(props) {
     super(props);
+
+    const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
+    stylesheet.textbox.normal.height = 80;
+
     const validName = FormValidation.refinement(
       FormValidation.String, (notificationtitle) => {
         if (notificationtitle.length < 1) return false;
@@ -34,7 +39,7 @@ class AddNotification extends Component {
         success: '',
         error: '',
       },
-      loading : true,
+      loading: true,
       form_fields: FormValidation.struct({
         Title: validName,
         Description: validDesc,
@@ -55,6 +60,8 @@ class AddNotification extends Component {
             error: 'Please enter short description',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
+            multiline: true,
+            stylesheet,
           },
         },
       },
@@ -62,16 +69,12 @@ class AddNotification extends Component {
   }
 
 
-  componentDidMount = async() => {
-     var token =  await auth.getToken();
-      console.log('token is Launchview is: ' + token);
-      if(token != ''){
-     
-            this.props.customerFetch(token);
-         
-            
-          }
-  
+  componentDidMount = async () => {
+    const token = await auth.getToken();
+    console.log(`token is Launchview is: ${token}`);
+    if (token !== '') {
+      this.props.customerFetch(token);
+    }
   }
   componentWillReceiveProps(nextProps) {
     // nextProps are the next set of props that this component
@@ -79,13 +82,12 @@ class AddNotification extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     console.log(nextProps);
-    if(nextProps.customers){
-      this.setState({loading:false});
-      
-     }
+    if (nextProps.customers) {
+      this.setState({ loading: false });
+    }
   }
 
-   addNotification = async () => {
+  addNotification = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();
 
@@ -99,20 +101,18 @@ class AddNotification extends Component {
           this.scrollView.scrollTo({ y: 0 });
         }
 
-        if(auth.loggedIn() == true){
-            console.log('auth.loggedIn() return true');
-            var token = await auth.getToken();
-            console.log(token);
-            
-            var today = new Date();
-            var uid = Math.random().toString(36).substring(7);
-            var unique_id = 'h' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
+        if (auth.loggedIn() === true) {
+          console.log('auth.loggedIn() return true');
+          const token = await auth.getToken();
+          console.log(token);
+          const today = new Date();
+          const uid = Math.random().toString(36).substring(7);
+          var unique_id = 'h' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
 
-            var notification = {'uniqueid' : unique_id,'title' : credentials.Title,'description':credentials.Description,'companyid' : this.props.userdetails.uniqueid,'agent_id' : this.props.userdetails._id,'hasImage' : 'false'};
-            var customers = this.props.customers;
-            console.log(notification);
-            this.props.createNotification({notification,token,customers});
-     
+          var notification = {'uniqueid' : unique_id,'title' : credentials.Title,'description':credentials.Description,'companyid' : this.props.userdetails.uniqueid,'agent_id' : this.props.userdetails._id,'hasImage' : 'false'};
+          const customers = this.props.customers;
+          console.log(notification);
+          this.props.createNotification({ notification, token, customers });
         }
       });
     }
@@ -120,7 +120,7 @@ class AddNotification extends Component {
   render = () => {
     const Form = FormValidation.form.Form;
     if (this.state.loading) return <Loading />;
-    
+
     return (
       <View
         style={[AppStyles.container]}
@@ -156,17 +156,13 @@ class AddNotification extends Component {
 
 const mapDispatchToProps = {
   customerFetch: CustomerActions.customerFetch,
-  createNotification : NotificationActions.createNotification,
- 
+  createNotification: NotificationActions.createNotification,
 };
 function mapStateToProps(state) {
-   const { notifications,notificationerror,notificationsuccess} = state.notifications;
-   const {customers} = state.customers;
-    const { userdetails} = state.user;
-  
-  return {notifications,userdetails,notificationerror,notificationsuccess,customers};
+  const { notifications, notificationerror, notificationsuccess } = state.notifications;
+  const { customers } = state.customers;
+  const { userdetails } = state.user;
 
+  return { notifications, userdetails, notificationerror, notificationsuccess, customers };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AddNotification);
-
-
