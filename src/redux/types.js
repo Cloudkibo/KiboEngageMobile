@@ -27,7 +27,7 @@ export const LOGOUT = 'LOGOUT';
 export const EDIT_TEAM = 'EDIT_TEAM';
 export const EDIT_TEAM_FAIL = 'EDIT_TEAM_FAIL';
 export const EDIT_TEAM_SUCCESS = 'EDIT_TEAM_SUCCESS';
-
+export const ADD_GROUPS = 'ADD_GROUPS';
 export const EDIT_CANNED = 'EDIT_CANNED';
 export const EDIT_CANNED_FAIL = 'EDIT_CANNED_FAIL';
 export const EDIT_CANNED_SUCCESS = 'EDIT_CANNED_SUCCESS';

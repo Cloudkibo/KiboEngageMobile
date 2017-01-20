@@ -124,6 +124,10 @@ class Menu extends Component {
           title: 'Notifications',
           onPress: () => { this.props.closeSideMenu(); Actions.notifications(); },
         },
+        {
+          title: 'Groups',
+          onPress: () => { this.props.closeSideMenu(); Actions.groups(); },
+        },
 
       ],
     };

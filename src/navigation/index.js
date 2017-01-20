@@ -27,6 +27,8 @@ import EditCannedresponse from '@containers/CannedResponses/EditCannedResponse';
 import CreateChannel from '@containers/MessageChannels/CreateChannel';
 import Channels from '@containers/MessageChannels/Channels';
 import EditChannel from '@containers/MessageChannels/EditChannel';
+import Groups from '@containers/Groups/Groups';
+import EditGroup from '@containers/Groups/EditGroup';
 
 import Notifications from '@containers/Notifications/Notifications';
 import AddNotification from '@containers/Notifications/AddNotification';
@@ -96,6 +98,21 @@ export default Actions.create(
         analyticsDesc={'Channels: Channels'}
       />
 
+      <Scene
+        key={'groups'}
+        title={'Groups'}
+        onRight={() => Actions.groupCreate()}
+        rightTitle="Add"
+        component={Groups}
+        analyticsDesc={'Groups: Groups'}
+      />
+
+      <Scene
+        key={'groupEdit'}
+        title={'Edit Group'}
+        component={EditGroup}
+        analyticsDesc={'EditGroup: Edit Group'}
+      />
       <Scene
         key={'addNotification'}
         title={'Add Notification'}
