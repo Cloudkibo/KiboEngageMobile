@@ -26,6 +26,7 @@ import EditCannedresponse from '@containers/CannedResponses/EditCannedResponse';
 
 import CreateChannel from '@containers/MessageChannels/CreateChannel';
 import Channels from '@containers/MessageChannels/Channels';
+import EditChannel from '@containers/MessageChannels/EditChannel';
 
 import Notifications from '@containers/Notifications/Notifications';
 import AddNotification from '@containers/Notifications/AddNotification';
@@ -145,6 +146,13 @@ export default Actions.create(
         title={'Edit Team'}
         component={EditTeam}
         analyticsDesc={'EditTeam: Edit Team'}
+      />
+
+      <Scene
+        key={'channelEdit'}
+        title={'Edit Channel'}
+        component={EditChannel}
+        analyticsDesc={'EditChannel: Edit Channel'}
       />
 
        <Scene

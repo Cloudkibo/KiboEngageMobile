@@ -96,15 +96,15 @@ class MessageChannels extends Component {
     * Each List Item
     */
 
-  goToView2(channel)
+  goToView2(channel,teamName)
   {
         console.log('navigate channel is called');
-       // Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
+        Actions.channelEdit({channel:channel,teamName:teamName});
   }
   renderRow = (channel) => (
     <ListItem
       key={`list-row-${channel._id}`}
-      onPress={this.goToView2.bind(this,channel)}
+      onPress={this.goToView2.bind(this,channel,this.props.teams.filter((c) => c._id == channel.groupid)[0].deptname)}
       title={channel.msg_channel_name}
       subtitle={this.props.teams.filter((c) => c._id == channel.groupid)[0].deptname + '\n' + channel.msg_channel_description || null}
      

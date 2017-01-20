@@ -4,6 +4,8 @@ import * as ActionTypes from '../types';
 import utils from '../../services/utils';
 var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
+var baseURLKiboEngage = `http://kiboengage.cloudapp.net`
+//var baseURLKiboEngage = `http://localhost:8000`
 
 export function showTeams(teams) {
   console.log('show teams');
@@ -68,7 +70,7 @@ export const createteam = (team) => {
     var config = {
       rejectUnauthorized : false,
       headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': token,
             'content-type' : 'application/x-www-form-urlencoded'
             },
 
@@ -76,13 +78,13 @@ export const createteam = (team) => {
        var data =  {
         deptname : team.teamname,
         deptdescription : team.description,
-
+      
       }
   console.log(data);
   return (dispatch) => {
     dispatch(teamCreateInAction());
     console.log('calling api');
-    axios.post(`${baseURL}/api/departments/kiboengage`,querystring.stringify(data),config).then(res => dispatch(teamCreateSuccess(res)))
+    axios.post(`${baseURLKiboEngage}/api/createteam`,querystring.stringify(data),config).then(res => dispatch(teamCreateSuccess(res)))
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);

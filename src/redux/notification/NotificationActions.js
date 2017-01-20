@@ -65,6 +65,39 @@ export const createNotification = (notification) => {
 };
 
 
+
+export const resendNotification = (notification) => {
+  console.log('notifications resend is called');
+  
+  var token = notification.token;
+   var config = {
+      rejectUnauthorized : false,
+      headers: {
+           'Authorization': token,
+            'Content-Type': 'application/json'
+            },
+      
+          };
+
+      var data =  {
+        'notification': notification.notification,
+        
+
+      }
+  console.log(data);
+      
+  return (dispatch) => {
+    axios.post(`http://kiboengage.cloudapp.net/api/resendNotification`,data,config).then(res => dispatch(notificationResendSuccess(res)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        dispatch(notificationResendFail());
+      });
+
+  };
+};
+
+
 const notificationCreateFail = () => {
   return{ type: ActionTypes.CREATE_NOTIFICATION_FAIL };
 };
@@ -74,6 +107,22 @@ const notificationCreateSuccess = (res) => {
   //Actions.main();
   return{
     type: ActionTypes.CREATE_NOTIFICATION_SUCCESS,
+    payload: res
+  };
+
+
+};
+
+
+const notificationResendFail = () => {
+  return{ type: ActionTypes.RESEND_NOTIFICATION_FAIL };
+};
+
+const notificationResendSuccess = (res) => {
+  console.log('notification created');
+  //Actions.main();
+  return{
+    type: ActionTypes.RESEND_NOTIFICATION_SUCCESS,
     payload: res
   };
 
