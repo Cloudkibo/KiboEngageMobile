@@ -116,6 +116,11 @@ class Menu extends Component {
         },
 
         {
+          title: 'Customer Directory',
+          onPress: () => { this.props.closeSideMenu(); Actions.customers(); },
+        },
+
+        {
           title: 'Canned Responses',
           onPress: () => { this.props.closeSideMenu(); Actions.cannedresponse(); },
         },

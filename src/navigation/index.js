@@ -34,6 +34,9 @@ import Notifications from '@containers/Notifications/Notifications';
 import AddNotification from '@containers/Notifications/AddNotification';
 import ResendNotification from '@containers/Notifications/ResendNotification';
 
+import Customers from '@containers/CustomerDirectory/Customers';
+import CustomerDetailView from '@containers/CustomerDirectory/CustomerDetailView';
+
 import Placeholder from '@components/general/Placeholder';
 import Dashboard from '@containers/dashboard';
 import AuthScenes from './auth';
@@ -96,6 +99,19 @@ export default Actions.create(
         rightTitle="Add"
         component={Channels}
         analyticsDesc={'Channels: Channels'}
+      />
+
+      <Scene
+        key={'customers'}
+        title={'Customers'}
+        component={Customers}
+        analyticsDesc={'Customers: Customers'}
+      />
+      <Scene
+        key={'customerDetailView'}
+        title={'Customer Details'}
+        component={CustomerDetailView}
+        analyticsDesc={'CustomerDetailView: CustomerDetailView'}
       />
 
       <Scene

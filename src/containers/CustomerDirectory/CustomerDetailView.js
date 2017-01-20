@@ -1,0 +1,64 @@
+/**
+ * Style Guide
+ *
+ * React Native Starter App
+ * https://github.com/mcnamee/react-native-starter-app
+ */
+import { Spacer, Button, Card } from '@components/ui/';
+import { AppStyles } from '@theme/';
+import React, { Component } from 'react';
+import { View, ScrollView } from 'react-native';
+import { List, ListItem } from 'react-native-elements';
+
+/* Component ==================================================================== */
+class CustomerDetailView extends Component {
+  static componentName = 'Customer Detail View';
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: this.props.customer.name,
+      email: this.props.customer.email,
+      country: this.props.customer.country,
+      phone: this.props.customer.phone,
+    };
+  }
+
+  render = () => {
+    return (
+      <View style={[AppStyles.container]}>
+        <Spacer size={15} />
+        <ScrollView
+          automaticallyAdjustContentInsets={false}
+          style={[AppStyles.container]}
+        >
+          <Spacer size={50} />
+          <Card>
+            <List>
+              <ListItem
+                title={`Name:   ${this.state.name}`}
+              />
+              <ListItem
+                title={`Email:   ${this.state.email}`}
+              />
+              <ListItem
+                title={`Country:   ${this.state.country}`}
+              />
+              <ListItem
+                title={`Contact No:   ${this.state.phone}`}
+              />
+            </List>
+
+            <Spacer size={20} />
+
+            <Button
+              title={'Send Email'}
+            />
+          </Card>
+        </ScrollView>
+      </View>
+    );
+  }
+}
+
+export default CustomerDetailView;
