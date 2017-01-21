@@ -151,8 +151,8 @@ class CreateChannel extends Component {
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
-            success={this.state.resultMsg.success}
-            error={this.state.resultMsg.error}
+            success={this.props.channelsuccess}
+            error={this.props.channelerror}
           />
 
           <Form
@@ -181,11 +181,6 @@ class CreateChannel extends Component {
 
           <Spacer size={10} />
 
-          <Alerts
-            success={this.props.channelsuccess}
-            error={this.props.channelerror}
-          />
-
         </Card>
       </View>
     );
@@ -205,10 +200,9 @@ const mapDispatchToProps = {
 };
 
 function mapStateToProps(state) {
+  const { channels, channelerror, channelsuccess } = state.channels;
   const { teams } = state.teams;
   const { userdetails } = state.user;
-  const { channels, channelerror, channelsuccess } = state.channels;
-  console.log(channelsuccess);
 
   return { teams, userdetails, channels, channelerror, channelsuccess };
 }
