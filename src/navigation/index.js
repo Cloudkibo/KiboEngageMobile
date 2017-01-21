@@ -28,6 +28,8 @@ import CreateChannel from '@containers/MessageChannels/CreateChannel';
 import Channels from '@containers/MessageChannels/Channels';
 import EditChannel from '@containers/MessageChannels/EditChannel';
 import Groups from '@containers/Groups/Groups';
+import CreateGroup from '@containers/Groups/CreateGroup';
+
 import EditGroup from '@containers/Groups/EditGroup';
 
 import Notifications from '@containers/Notifications/Notifications';
@@ -128,6 +130,13 @@ export default Actions.create(
         title={'Edit Group'}
         component={EditGroup}
         analyticsDesc={'EditGroup: Edit Group'}
+      />
+
+       <Scene
+        key={'groupCreate'}
+        title={'Create Group'}
+        component={CreateGroup}
+        analyticsDesc={'CreateGroup: CreateGroup'}
       />
       <Scene
         key={'addNotification'}

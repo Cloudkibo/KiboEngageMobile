@@ -30,3 +30,50 @@ export const groupFetch = (token) => {
 
   };
 };
+
+// create group
+export const creategroup = (group) => {
+    var token = group.token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/x-www-form-urlencoded'
+            },
+      
+          };
+      var data =  {
+          groupname: group.groupname,
+          groupdescription: group.groupdescription,
+          status : group.status,
+
+      
+      }
+  console.log(data);
+  return (dispatch) => {
+   console.log('calling api');
+    axios.post(`${baseURL}/api/groups`,querystring.stringify(data),config).then(res => dispatch(groupCreateSuccess(res)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        dispatch(groupCreateFail());
+      });
+    
+  };
+};
+
+
+
+const groupCreateFail = () => {
+  return{ type: ActionTypes.CREATE_GROUP_FAIL };
+};
+
+const groupCreateSuccess = (res) => {
+  //Actions.main();
+  return{
+    type: ActionTypes.CREATE_GROUP_SUCCESS,
+    payload: res
+  };
+
+  
+};
