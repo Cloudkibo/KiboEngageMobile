@@ -63,7 +63,8 @@ class Groups extends Component {
       if(token != ''){
      
             this.props.groupFetch(token);
-      
+            this.props.agentGroupFetch(token);
+            this.props.agentFetch(token);
             
           }
   
@@ -75,7 +76,7 @@ class Groups extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     console.log(nextProps);
-    if(nextProps.groups){
+    if(nextProps.groups && nextProps.groupagents && nextProps.agents){
       this.setState({loading:false});
        this.createDataSource(nextProps);
      }
@@ -98,7 +99,7 @@ class Groups extends Component {
   goToView2(group)
   {
         console.log('navigate group is called');
-        Actions.groupEdit({group})
+        Actions.groupEdit({group:group,groupagents : this.props.groupagents,agents: this.props.agents})
   }
   renderRow = (group) => (
     <ListItem
@@ -155,12 +156,16 @@ class Groups extends Component {
 
 const mapDispatchToProps = {
   groupFetch: GroupActions.groupFetch,
+  agentGroupFetch : GroupActions.agentGroupFetch,
+  agentFetch: AgentActions.agentFetch,
 
 };
 function mapStateToProps(state) {
-   const { groups } = state.groups;
+   const { groups,groupagents } = state.groups;
+    const { agents } = state.agents;
 
-  return {groups};
+  return {groups ,groupagents,agents};
+  
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Groups);

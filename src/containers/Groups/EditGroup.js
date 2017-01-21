@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
   ListView,
+  Alert,
   
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
@@ -41,7 +42,10 @@ class EditGroup extends Component {
     // overriding the text color
     stylesheet.textbox.normal.height = 80;
     stylesheet.textbox.error.height = 80;
-
+    var Status = FormValidation.enums({
+              public: 'Public',
+              private: 'Private'
+            });
    
     const validName= FormValidation.refinement(
       FormValidation.String, (groupname) => {
@@ -76,6 +80,7 @@ class EditGroup extends Component {
       form_fields: FormValidation.struct({
         groupName:validName,
         groupDescription: validDesc,
+        status:Status,
       }),
       empty_form_values: {
         groupName:'',
@@ -85,6 +90,7 @@ class EditGroup extends Component {
       form_values: {
         groupName:this.props.group.groupname,
         groupDescription: this.props.group.groupdescription,
+        status:this.props.group.status,
       
       },
       options: {
@@ -101,6 +107,9 @@ class EditGroup extends Component {
             multiline: true,
             stylesheet: stylesheet 
           },
+          status:{
+            nullOption:false,
+          }
           
         },
       },
@@ -114,39 +123,28 @@ class EditGroup extends Component {
 
   componentDidMount =  () => {
     // Get user data from AsyncStorage to populate fields
-  /*  const values = await AsyncStorage.getItem('api/credentials');
-    const jsonValues = JSON.parse(values);
-
-    if (values !== null) {
-      this.setState({
-        form_values: {
-          Domain: jsonValues.domain,
-          Email: jsonValues.username,
-          Password: jsonValues.password,
-
-        },
-      });
-    }*/
+  
       
-   /*   this.newFellowAgents  = this.props.teamagents.filter((c) => c.deptid == this.props.team._id)
+      this.newFellowAgents  = this.props.groupagents.filter((c) => c.groupid._id == this.props.group._id)
       
       let ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
       let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents);
 
       this.setState({
+
           dataSourceAllAgents  : ds,
           dataSourceFellowAgents  : ds2,
 
       });
 
       console.log('dataSourceAllAgents');
-      console.log(this.state.dataSourceAllAgents);*/
+      console.log(this.state.dataSourceAllAgents);
   }
 
   /**
     * Create Team
     */
-  /* renderRow = (agent) => (
+  renderRow = (agent) => (
     <ListItem
       key={`list-row-${agent._id}`}
       onPress={this.addAgent.bind(this,agent)}
@@ -155,7 +153,7 @@ class EditGroup extends Component {
       
     />  
     )
-  editTeam = async () => {
+  editGroup = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();
 
@@ -178,51 +176,38 @@ class EditGroup extends Component {
             console.log('this.newFellowAgents');
             console.log(this.newFellowAgents);
             for(var j=0;j<this.newFellowAgents.length;j++){
-               agentid.push({"_id" :this.newFellowAgents[j].agentid})
+               agentid.push({"_id" :this.newFellowAgents[j].agentid._id})
             }
-            console.log('teamDescription');
-            console.log(credentials.teamDescription);
-            this.props.editteam({
-              name: credentials.teamName,
-              desc: credentials.teamDescription,
-              id : this.props.team._id,
-              deptagents : agentid,
+            
+            this.props.editgroup({
+              name :credentials.groupName,
+              desc:credentials.groupDescription,
+              status : credentials.status,
+              id:this.props.group._id,
               token:token,
-            })
+              groupagents: agentid
+            });
+    
         }
       });
     }
   }
   
-  deleteTeam = async () => {
-    // Form is valid
-        this.setState({ resultMsg: { status: 'One moment...' } });
+ 
 
-        // Scroll to top, to show message
-        if (this.scrollView) {
-          this.scrollView.scrollTo({ y: 0 });
-        }
-
-        if(auth.loggedIn() == true){
-            console.log('auth.loggedIn() return true');
-            var token = await auth.getToken();
-            console.log(token);
-   
-            this.props.deleteteam({
-              id:this.props.team._id,
-              token:token,
-            })
-        }
-     
-  }
-  
   addAgent = (c) =>{
     console.log('addAgent is called');
-    console.log(this.props.teamagents.length);
-    this.newFellowAgents.push({'deptid': this.props.team._id,'agentid':c._id})
+    this.newFellowAgents.push({'groupid': this.props.group._id,'agentid':{'_id':c._id}})
     // update the DataSource in the component state
+
+     
    this.setState({
-          
+            form_values : {
+                groupName:this.form.getValue().groupName,
+                groupDescription: this.form.getValue().groupDescription,
+                status:this.form.getValue().status,
+             
+            },
             dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
         });
   }
@@ -230,11 +215,16 @@ class EditGroup extends Component {
 
   removeAgent = (c) =>{
     console.log('removeAgent is called');
-    var indexOfItem = this.newFellowAgents.findIndex((item) => item.deptid === c.deptid && item.agentid === c.agentid);
+    var indexOfItem = this.newFellowAgents.findIndex((item) => item.groupid === c.groupid && item.agentid._id === c.agentid._id);
     this.newFellowAgents.splice(indexOfItem, 1);
     // update the DataSource in the component state
    this.setState({
-          
+            form_values : {
+                groupName:this.form.getValue().groupName,
+                groupDescription: this.form.getValue().groupDescription,
+                status: this.form.getValue().status,
+             
+            },
             dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
         });
   }
@@ -243,7 +233,7 @@ class EditGroup extends Component {
    console.log(fellowAgent);
    var flag = 0;
    for(var j=0;j<this.props.agents.length;j++){
-        if(this.props.agents[j]._id == fellowAgent.agentid){
+        if(this.props.agents[j]._id == fellowAgent.agentid._id){
           console.log('fellowAgent matched');
                 return  (<ListItem
                           key={`list-row-${this.props.agents[j]._id}`}
@@ -262,8 +252,43 @@ class EditGroup extends Component {
 
     
   }
-*/
- 
+
+  confirmDelete = async() => {
+    // Form is valid
+        this.setState({ resultMsg: { status: 'Deleting group...' } });
+
+        // Scroll to top, to show message
+        if (this.scrollView) {
+          this.scrollView.scrollTo({ y: 0 });
+        }
+
+        if(auth.loggedIn() == true){
+            console.log('auth.loggedIn() return true');
+            var token = await auth.getToken();
+            console.log(token);
+   
+            this.props.deletegroup({
+              id:this.props.group._id,
+              token:token,
+            })
+        }
+  }
+
+  deleteGroup = () => {
+
+    Alert.alert(
+            'Delete Group',
+            'Are you sure you want to delete this group?',
+            [
+              {text: 'No', onPress: () => console.log('Cancel Pressed!')},
+              {text: 'Yes', onPress: () => this.confirmDelete()},
+            ]
+          )
+
+    
+     
+  }
+  
 
   render = () => {
     const Form = FormValidation.form.Form;
@@ -274,8 +299,8 @@ class EditGroup extends Component {
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
-            success={this.props.teameditsuccess}
-            error={this.props.teamediterror}
+            success={this.props.groupsuccess}
+            error={this.props.grouperror}
           />
 
   
@@ -288,16 +313,33 @@ class EditGroup extends Component {
 
 
            <Spacer size={20} />
-          
+            <View>
+            <Text h3> Fellow Agents </Text>
+             <ListView dataSource={this.state.dataSourceFellowAgents}
+              renderRow={this.renderFellowAgents}
+            />
+           
+          </View>
+
+         <View>
+            <Text h3> All Agents </Text>
+            <ListView
+                 dataSource={this.state.dataSourceAllAgents}
+                 renderRow={this.renderRow}
+            />
+          </View>
+
+         
+           <Spacer size={20} />
           <Button
             title={'Save Changes'}
-            onPress={this.editTeam}
+            onPress={this.editGroup}
           />
            <Spacer size={20} />
           
           <Button
             title={'Delete Team'}
-            onPress={this.deleteTeam}
+            onPress={this.deleteGroup}
           />
 
           <Spacer size={10} />
@@ -319,8 +361,8 @@ function mapStateToProps(state) {
 
 // Any actions to map to the component?
 const mapDispatchToProps = {
-  /*editteam: TeamActions.editteam,
-  deleteteam: TeamActions.deleteteam,*/
+  editgroup: GroupActions.editgroup,
+  deletegroup: GroupActions.deletegroup,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditGroup);

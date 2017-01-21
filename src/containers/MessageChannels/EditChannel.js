@@ -4,7 +4,7 @@ import * as TeamActions from '@redux/team/teamActions';
 import * as UserActions from '@redux/user/actions';
 import * as ChannelActions from '@redux/channel/ChannelActions';
 import React, { Component, PropTypes } from 'react';
-import { View } from 'react-native';
+import { View , Alert} from 'react-native';
 import { connect } from 'react-redux';
 import ModalDropdown from 'react-native-modal-dropdown';
 import FormValidation from 'tcomb-form-native';
@@ -111,7 +111,7 @@ class EditChannel extends Component {
     }
   }
 
-  deleteChannel = async () => {
+  deleteChannelConfirm = async () => {
     // Form is valid
         this.setState({ resultMsg: { status: 'Deleting Channel...' } });
 
@@ -130,6 +130,21 @@ class EditChannel extends Component {
      
   }
  
+
+  deleteChannel = () => {
+
+    Alert.alert(
+            'Delete Channel',
+            'Are you sure you want to delete this channel?',
+            [
+              {text: 'No', onPress: () => console.log('Cancel Pressed!')},
+              {text: 'Yes', onPress: () => this.deleteChannelConfirm()},
+            ]
+          )
+
+    
+     
+  }
   render = () => {
     const Form = FormValidation.form.Form;
     

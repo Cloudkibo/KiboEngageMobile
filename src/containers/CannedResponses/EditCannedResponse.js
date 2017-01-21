@@ -9,7 +9,8 @@ import {
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
-  View
+  View,
+  Alert,
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
@@ -138,7 +139,7 @@ class EditCannedResponse extends Component {
   }
   
 
-  deleteCanned= async () => {
+  deleteCannedConfirm= async () => {
     // Form is valid
         this.setState({ resultMsg: { status: 'One moment...' } });
 
@@ -159,6 +160,22 @@ class EditCannedResponse extends Component {
         }
      
   }
+
+  deleteCanned = () => {
+
+    Alert.alert(
+            'Delete Canned Response',
+            'Are you sure you want to delete this canned response?',
+            [
+              {text: 'No', onPress: () => console.log('Cancel Pressed!')},
+              {text: 'Yes', onPress: () => this.deleteCannedConfirm()},
+            ]
+          )
+
+    
+     
+  }
+  
 
 
   render = () => {

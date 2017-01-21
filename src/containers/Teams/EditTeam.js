@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
   ListView,
+  Alert,
   
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
@@ -114,20 +115,7 @@ class EditTeam extends Component {
 
   componentDidMount =  () => {
     // Get user data from AsyncStorage to populate fields
-  /*  const values = await AsyncStorage.getItem('api/credentials');
-    const jsonValues = JSON.parse(values);
-
-    if (values !== null) {
-      this.setState({
-        form_values: {
-          Domain: jsonValues.domain,
-          Email: jsonValues.username,
-          Password: jsonValues.password,
-
-        },
-      });
-    }*/
-      
+  
       this.newFellowAgents  = this.props.teamagents.filter((c) => c.deptid == this.props.team._id)
       
       let ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
@@ -194,7 +182,7 @@ class EditTeam extends Component {
     }
   }
   
-  deleteTeam = async () => {
+  deleteTeamConfirm = async () => {
     // Form is valid
         this.setState({ resultMsg: { status: 'One moment...' } });
 
@@ -216,6 +204,21 @@ class EditTeam extends Component {
      
   }
   
+
+  deleteTeam = () => {
+
+    Alert.alert(
+            'Delete Team',
+            'Are you sure you want to delete this team?',
+            [
+              {text: 'No', onPress: () => console.log('Cancel Pressed!')},
+              {text: 'Yes', onPress: () => this.deleteTeamConfirm()},
+            ]
+          )
+
+    
+     
+  }
   addAgent = (c) =>{
     console.log('addAgent is called');
     console.log(this.props.teamagents.length);

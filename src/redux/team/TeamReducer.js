@@ -47,9 +47,9 @@ export default (state = INITIAL_STATE, action) => {
 
 
      case ActionTypes.DELETE_TEAM_SUCCESS:
-      return { ...state, teamsuccess: 'Team deleted successfully',teams:state.teams,teamagents : state.teamagents, loading: false };
+      return { ...state, teameditsuccess: 'Team deleted successfully',teams:state.teams,teamagents : state.teamagents, loading: false };
     case ActionTypes.DELETE_TEAM_FAIL:
-      return { ...state, teamerror: 'Team deletion failed', teams:state.teams,teamagents : state.teamagents,loading: false };
+      return { ...state, teamediterror: 'Team deletion failed', teams:state.teams,teamagents : state.teamagents,loading: false };
    
     default:
       return state;
