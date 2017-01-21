@@ -92,7 +92,7 @@ class Customers extends Component {
       key={`list-row-${customer._id}`}
       onPress={this.goToView2.bind(this, customer)}
       title={customer.name?customer.name:customer.customerID}
-    />
+   />
   )
 
   /**
