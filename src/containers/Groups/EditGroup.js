@@ -338,7 +338,7 @@ class EditGroup extends Component {
            <Spacer size={20} />
           
           <Button
-            title={'Delete Team'}
+            title={'Delete Group'}
             onPress={this.deleteGroup}
           />
 
