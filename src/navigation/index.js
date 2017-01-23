@@ -17,7 +17,7 @@ import Drawer from '@containers/ui/DrawerContainer';
 import AppLaunch from '@containers/Launch/LaunchContainer';
 import Teams from '@containers/Teams/Teams';
 import Agents from '@containers/Agents/Agents';
-
+import GroupsMain from '@containers/Groups/GroupsMain';
 import CreateTeam from '@containers/Teams/CreateTeam';
 import EditTeam from '@containers/Teams/EditTeam';
 import Cannedresponse from '@containers/CannedResponses/Cannedresponse';
@@ -124,6 +124,14 @@ export default Actions.create(
         rightTitle="Add"
         component={Groups}
         analyticsDesc={'Groups: Groups'}
+      />
+
+      <Scene
+        key={'groupsmain'}
+        title={'Groups'}
+       
+        component={GroupsMain}
+        analyticsDesc={'Groups Main: Groups'}
       />
 
       <Scene

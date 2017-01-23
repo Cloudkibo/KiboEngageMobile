@@ -131,7 +131,7 @@ class Menu extends Component {
         },
         {
           title: 'Groups',
-          onPress: () => { this.props.closeSideMenu(); Actions.groups(); },
+          onPress: () => { this.props.closeSideMenu(); Actions.groupsmain(); },
         },
 
       ],
