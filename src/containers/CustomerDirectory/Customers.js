@@ -7,7 +7,7 @@
 import React, { Component } from 'react';
 import { View, ListView, ScrollView, StyleSheet } from 'react-native';
 import { TabBarTop } from 'react-native-tab-view';
-import { List, ListItem } from 'react-native-elements';
+import { List, ListItem, SearchBar } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as CustomerActions from '@redux/Customers/CustomerActions';
@@ -119,8 +119,13 @@ class Customers extends Component {
           automaticallyAdjustContentInsets={false}
           style={[AppStyles.container]}
         >
-          <Spacer size={50} />
           <List>
+            <Spacer size={15} />
+            <SearchBar
+              lightTheme
+              round
+              placeholder="Type here...."
+            />
             <ListView
               dataSource={this.dataSource}
               renderRow={this.renderRow}

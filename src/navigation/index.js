@@ -39,6 +39,7 @@ import ResendNotification from '@containers/Notifications/ResendNotification';
 
 import Customers from '@containers/CustomerDirectory/Customers';
 import CustomerDetailView from '@containers/CustomerDirectory/CustomerDetailView';
+import SendEmail from '@containers/CustomerDirectory/SendEmail';
 
 import Placeholder from '@components/general/Placeholder';
 import Dashboard from '@containers/dashboard';
@@ -116,6 +117,12 @@ export default Actions.create(
         component={CustomerDetailView}
         analyticsDesc={'CustomerDetailView: CustomerDetailView'}
       />
+      <Scene
+        key={'sendEmail'}
+        title={'Send Email'}
+        component={SendEmail}
+        analyticsDesc={'SendEmail: SendEmail'}
+      />
 
       <Scene
         key={'groups'}
@@ -129,7 +136,7 @@ export default Actions.create(
       <Scene
         key={'groupsmain'}
         title={'Groups'}
-       
+
         component={GroupsMain}
         analyticsDesc={'Groups Main: Groups'}
       />
