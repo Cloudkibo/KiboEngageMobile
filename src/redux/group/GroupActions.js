@@ -207,3 +207,49 @@ export const deletegroup = (group) => {
 
   };
 };
+
+
+
+// join group
+const groupJoinFail = () => {
+  return{ type: ActionTypes.JOIN_GROUP_FAIL };
+};
+
+const groupJoinSuccess = (res) => {
+  console.log('group joined');
+  //Actions.main();
+  return{
+    type: ActionTypes.JOIN_GROUP_SUCCESS,
+    payload: res
+  };
+
+  
+};
+export const joingroup = (group) => {
+    var token = group.token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/x-www-form-urlencoded'
+            },
+      
+          };
+      var data =  {
+           groupid:group.groupid,
+           agentid : group.agentid,
+
+      
+      }
+  console.log(data);
+  return (dispatch) => {
+   console.log('calling api');
+    axios.post(`${baseURL}/api/groups/join/`,querystring.stringify(data),config).then(res => dispatch(groupJoinSuccess(res)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        dispatch(groupJoinFail());
+      });
+    
+  };
+};

@@ -99,7 +99,13 @@ class Groups extends Component {
   goToView2(group)
   {
         console.log('navigate group is called');
-        Actions.groupEdit({group:group,groupagents : this.props.groupagents,agents: this.props.agents})
+        if(group.createdby._id == this.props.userdetails._id){
+          Actions.groupEdit({group:group,groupagents : this.props.groupagents,agents: this.props.agents})
+      }
+
+      else{
+        Actions.groupJoin({group:group})
+      }
   }
   renderRow = (group) => (
     <ListItem
@@ -163,8 +169,8 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
    const { groups,groupagents } = state.groups;
     const { agents } = state.agents;
-
-  return {groups ,groupagents,agents};
+   const { userdetails } = state.user;
+  return {groups ,groupagents,agents,userdetails};
   
 
 }

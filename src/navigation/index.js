@@ -29,6 +29,7 @@ import Channels from '@containers/MessageChannels/Channels';
 import EditChannel from '@containers/MessageChannels/EditChannel';
 import Groups from '@containers/Groups/Groups';
 import CreateGroup from '@containers/Groups/CreateGroup';
+import JoinGroup from '@containers/Groups/JoinGroup';
 
 import EditGroup from '@containers/Groups/EditGroup';
 
@@ -132,6 +133,12 @@ export default Actions.create(
         analyticsDesc={'EditGroup: Edit Group'}
       />
 
+      <Scene
+        key={'groupJoin'}
+        title={'Join Group'}
+        component={JoinGroup}
+        analyticsDesc={'JoinGroup: Join Group'}
+      />
        <Scene
         key={'groupCreate'}
         title={'Create Group'}

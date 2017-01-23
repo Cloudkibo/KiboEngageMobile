@@ -30,6 +30,11 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.DELETE_GROUP_FAIL:
       return { ...state, groups : state.groups,loading: false,grouperror:'There is an error occur while deleting group. Please Try again', groupsuccess:'' ,groupagents:state.groupagents};
 
+    case ActionTypes.JOIN_GROUP_SUCCESS:
+      return { ...state, ...INITIAL_STATE,groups : state.groups,grouperror: '', groupsuccess: 'Group joined successfully',groupagents:state.groupagents };
+    case ActionTypes.JOIN_GROUP_FAIL:
+      return { ...state, groups : state.groups,loading: false,grouperror:'There is an error occur while joining this group. Please Try again', groupsuccess:'' ,groupagents:state.groupagents};
+
  
     default:
       return state;
