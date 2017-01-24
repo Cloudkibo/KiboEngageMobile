@@ -9,6 +9,7 @@ import { AppStyles } from '@theme/';
 import React, { Component } from 'react';
 import { View, ScrollView } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 
 /* Component ==================================================================== */
 class CustomerDetailView extends Component {
@@ -22,6 +23,11 @@ class CustomerDetailView extends Component {
       country: this.props.customer.country ? this.props.customer.country:'-',
       phone: this.props.customer.phone?this.props.customer.phone:'-',
     };
+  }
+
+  goToView2(name, email) {
+    console.log('Send email to customer view is called.');
+    Actions.sendEmail({ name, email });
   }
 
   render = () => {
@@ -57,6 +63,7 @@ class CustomerDetailView extends Component {
 
             <Button
               title={'Send Email'}
+              onPress={this.goToView2.bind(this, this.state.name, this.state.email)}
             />
           </Card>
         </ScrollView>
