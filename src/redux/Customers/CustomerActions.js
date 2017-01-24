@@ -2,6 +2,8 @@
 import axios from 'axios';
 import * as ActionTypes from '../types';
 
+var querystring = require('querystring');
+
 const baseURL = 'https://api.kibosupport.com';
 
 // var baseURLKiboEngage = `http://localhost:8000`
@@ -30,3 +32,47 @@ export const getCustomers = (token) => {
     .then((res) => res).then(res => dispatch(showCustomers(res)));
   };
 };
+
+const sendEmailInAction = () => {
+  return {
+    type: ActionTypes.SEND_EMAIL,
+  };
+};
+
+const sendEmailSuccess = (res) => {
+  console.log('email sent');
+  return {
+    type: ActionTypes.SEND_EMAIL_SUCCESS,
+    payload: res,
+  };
+};
+
+const sendEmailFail = () => {
+  return {
+    type: ActionTypes.SEND_EMAIL_FAIL,
+  };
+};
+
+export const emailCustomer = (emailMsg, token) => {
+  console.log('Email customer is called.');
+  console.log(emailMsg);
+  console.log(emailMsg);
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    },
+  };
+
+  return (dispatch) => {
+    dispatch(sendEmailInAction());
+    console.log('calling api');
+    axios.post('http://kiboengage.cloudapp.net/api/emailCustomer', querystring.stringify(emailMsg), config).then(res => dispatch(sendEmailSuccess(res)))
+      .catch((error) => {
+        console.log('Error occured');
+        console.log(error);
+        dispatch(sendEmailFail());
+      });
+  };
+}
