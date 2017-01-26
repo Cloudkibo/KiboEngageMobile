@@ -126,6 +126,7 @@ class JoinGroup extends Component {
           this.scrollView.scrollTo({ y: 0 });
         }
 
+
         if(auth.loggedIn() == true){
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
@@ -141,6 +142,15 @@ class JoinGroup extends Component {
 
   joinGroup = () => {
 
+    var useringrp = false;
+    for(var i =0;i<this.props.groupagents.length;i++){
+          if(this.props.groupagents[i].agentid._id == this.props.userdetails._id && this.props.groupagents[i].groupid._id == this.props.group._id){
+            useringrp = true;
+            console.log('user in group already');
+            break;
+          }
+        }
+    if(useringrp == false){
     Alert.alert(
             'Join Group',
             'Are you sure you want to join this group?',
@@ -150,7 +160,12 @@ class JoinGroup extends Component {
             ]
           )
 
-    
+    }
+
+    else{
+       this.setState({ resultMsg: { status: 'You are already in this group' } });
+
+    }
      
   }
   

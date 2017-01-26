@@ -16,6 +16,30 @@ export function showGroups(groups) {
     };
 }
 
+
+export function showMyGroups(mygroups) {
+  console.log('Mygroups');
+  console.log(mygroups.data);
+  if(mygroups.data.createdDept){
+    console.log('true')
+    return {
+      type: ActionTypes.ADD_MY_GROUPS,
+      payload : mygroups.data.createdDept,
+
+    };
+  }
+
+  else{
+     return {
+      type: ActionTypes.ADD_MY_GROUPS,
+      payload : mygroups.data,
+
+    };
+  }
+  }
+
+
+
 export const groupFetch = (token) => {
    var config = {
       rejectUnauthorized : false,
@@ -33,6 +57,23 @@ export const groupFetch = (token) => {
   };
 };
 
+
+export const mygroupFetch = (token) => {
+   var config = {
+      rejectUnauthorized : false,
+      headers: {
+           'Authorization': `Bearer ${token}`,
+           'content-type' : 'application/x-www-form-urlencoded'
+            },
+
+          };
+
+  return (dispatch) => {
+    axios.get(`${baseURL}/api/groups/mygroups`,config)
+    .then((res) => res).then(res => dispatch(showMyGroups(res)));
+
+  };
+};
 // create group
 export const creategroup = (group) => {
     var token = group.token;
