@@ -47,8 +47,8 @@ const styles = StyleSheet.create({
 });
 
 /* Component ==================================================================== */
-class Groups extends Component {
-  static componentName = 'Groups';
+class MyGroups extends Component {
+  static componentName = 'MyGroups';
 
    constructor(props) {
     super(props);
@@ -62,7 +62,7 @@ class Groups extends Component {
       console.log('token is Launchview is: ' + token);
       if(token != ''){
      
-            this.props.groupFetch(token);
+            this.props.mygroupFetch(token);
             this.props.agentGroupFetch(token);
             this.props.agentFetch(token);
             
@@ -76,20 +76,20 @@ class Groups extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     console.log(nextProps);
-    if(nextProps.groups && nextProps.groupagents && nextProps.agents){
+    if(nextProps.mygroups && nextProps.groupagents && nextProps.agents){
       this.setState({loading:false});
        this.createDataSource(nextProps);
      }
   }
 
-  createDataSource({ groups 
+  createDataSource({ mygroups 
   }) {
     const ds = new ListView.DataSource({
   
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
-    this.dataSource = ds.cloneWithRows(groups);
+    this.dataSource = ds.cloneWithRows(mygroups);
   }
 
   /**
@@ -99,15 +99,26 @@ class Groups extends Component {
   goToView2(group)
   {
         console.log('navigate group is called');
-        if(group.createdby._id == this.props.userdetails._id){
+        console.log(group);
+        if(group.createdby == this.props.userdetails._id){
           Actions.groupEdit({group:group,groupagents : this.props.groupagents,agents: this.props.agents})
       }
 
       else{
-         Actions.groupJoin({group:group,groupagents : this.props.groupagents})
+        Actions.groupJoin({group:group,groupagents : this.props.groupagents})
       }
   }
   renderRow = (group) => (
+    
+      group.groupid?
+       <ListItem
+      key={`list-row-${group.groupid._id}`}
+      onPress={this.goToView2.bind(this,group.groupid)}
+      title={group.groupid.groupname}
+      subtitle={group.groupid.status +'\n' + group.groupid.groupdescription || null}
+
+      
+    /> :
     <ListItem
       key={`list-row-${group._id}`}
       onPress={this.goToView2.bind(this,group)}
@@ -116,6 +127,7 @@ class Groups extends Component {
 
       
     />
+  
 
  
   )
@@ -161,18 +173,18 @@ class Groups extends Component {
 }
 
 const mapDispatchToProps = {
-  groupFetch: GroupActions.groupFetch,
+  mygroupFetch: GroupActions.mygroupFetch,
   agentGroupFetch : GroupActions.agentGroupFetch,
   agentFetch: AgentActions.agentFetch,
 
 };
 function mapStateToProps(state) {
-   const { groups,groupagents } = state.groups;
+   const {mygroups, groups,groupagents } = state.groups;
     const { agents } = state.agents;
    const { userdetails } = state.user;
-  return {groups ,groupagents,agents,userdetails};
+  return {mygroups,groups ,groupagents,agents,userdetails};
   
 
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Groups);
+export default connect(mapStateToProps, mapDispatchToProps)(MyGroups);
 

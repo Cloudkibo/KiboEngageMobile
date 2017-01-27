@@ -20,7 +20,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import Groups from './Groups';
 import CreateGroup from './CreateGroup';
-import Dashboard from '@containers/dashboard';
+import MyGroups from './MyGroups';
 import auth from '../../services/auth';
 
 // Consts and Libs
@@ -77,7 +77,7 @@ class GroupsMain extends Component {
                   renderIcon={() => <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 12}} color={'#5e6977'} name='group' size={33} />}
                   renderSelectedIcon={() => <Icon color={'#6296f9'} name='group-add' size={30} />}
                   onPress={() => this.changeTab('myGrp')}>
-                  <Dashboard />
+                  <MyGroups />
                 </Tab>
                 <Tab
                   titleStyle={{fontWeight: 'bold', fontSize: 10}}
