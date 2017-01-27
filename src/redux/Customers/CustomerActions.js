@@ -65,10 +65,18 @@ export const emailCustomer = (emailMsg, token) => {
     },
   };
 
+  const data = {
+    'to': emailMsg.to,
+    'emailAdd': emailMsg.emailAdd,
+    'subject': emailMsg.subject,
+    'body': emailMsg.body,
+    'from': emailMsg.from,
+  };
+
   return (dispatch) => {
     dispatch(sendEmailInAction());
     console.log('calling api');
-    axios.post('http://kiboengage.cloudapp.net/api/emailCustomer', querystring.stringify(emailMsg), config).then(res => dispatch(sendEmailSuccess(res)))
+    axios.post('http://kiboengage.cloudapp.net/api/emailCustomer', querystring.stringify(data), config).then(res => dispatch(sendEmailSuccess(res)))
       .catch((error) => {
         console.log('Error occured');
         console.log(error);
