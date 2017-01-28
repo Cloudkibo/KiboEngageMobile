@@ -144,7 +144,7 @@ class Customers extends Component {
           style={[AppStyles.container]}
         >
           <List>
-            <Spacer size={15} />
+            <Spacer size={25} />
             <SearchBar
               lightTheme
               round
