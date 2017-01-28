@@ -44,8 +44,13 @@ class Customers extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { loading: true };
-    this.createDataSource(props);
+    this.state = {
+      loading: true,
+      text: '',
+    };
+    console.log(props);
+    this.createDataSource(props.customers);
+    this.filteredData = this.filteredData.bind(this);
   }
 
   componentDidMount = async () => {
@@ -63,18 +68,37 @@ class Customers extends Component {
     console.log('componentWillReceiveProps is called');
     console.log(nextProps);
     if (nextProps.customers) {
-      this.setState({ loading: false });
-      this.createDataSource(nextProps);
+      this.setState({
+        loading: false,
+      });
+      this.createDataSource(nextProps.customers);
     }
   }
 
-  createDataSource({ customers }) {
+  createDataSource(customers) {
     const ds = new ListView.DataSource({
 
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
 
     this.dataSource = ds.cloneWithRows(customers);
+  }
+
+  filteredData(text) {
+    this.setState({
+      text,
+    });
+    const searchText = text.toLowerCase();
+    let filtered = [];
+    let index = 0;
+    for (let i = 0; i < this.props.customers.length; i++) {
+      if (this.props.customers[i].customerID.search(searchText) > -1) {
+        filtered[index] = this.props.customers[i];
+        index++;
+      }
+    }
+    console.log(filtered);
+    this.createDataSource(filtered);
   }
 
   /**
@@ -124,7 +148,10 @@ class Customers extends Component {
             <SearchBar
               lightTheme
               round
-              placeholder="Type here...."
+              ref={(b) => { this.search = b; }}
+              onChangeText={this.filteredData}
+              value={this.state.text}
+              placeholder="Search by CustomerID"
             />
             <ListView
               dataSource={this.dataSource}

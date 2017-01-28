@@ -1,8 +1,12 @@
 import { AppStyles } from '@theme/';
 import { Alerts, Card, Spacer, Button } from '@ui/';
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { View, ScrollView } from 'react-native';
+import { connect } from 'react-redux';
 import FormValidation from 'tcomb-form-native';
+import * as UserActions from '@redux/user/actions';
+import * as CustomerActions from '@redux/Customers/CustomerActions';
+import auth from '../../services/auth';
 
 var _ = require('lodash');
 
@@ -24,7 +28,7 @@ class SendEmail extends Component {
 
     const validEmail = FormValidation.refinement(
       FormValidation.String, (customerEmail) => {
-        if (customerEmail.indexOf('@') < 1 || customerEmail.lastIndexOf('.') < (customerEmail.indexOf('@') + 2) || (customerEmail.lastIndexOf('.') + 2) < customerEmail.length) return false;
+        if (customerEmail.indexOf('@') < 1 || customerEmail.lastIndexOf('.') < (customerEmail.indexOf('@') + 2) || (customerEmail.lastIndexOf('.') + 2) >= customerEmail.length) return false;
         return true;
       },
     );
@@ -95,6 +99,44 @@ class SendEmail extends Component {
     };
   }
 
+  componentDidMount = async () => {
+    const token = await auth.getToken();
+
+    if (token !== '') {
+      this.props.getuser(token);
+    }
+  }
+
+  emailCustomer = async () => {
+    const credentials = this.form.getValue();
+
+    if (credentials) {
+      this.setState({ form_values: credentials }, async () => {
+        this.setState({ resultMsg: { status: 'One moment...' } });
+
+        if (this.scrollView) {
+          this.scrollView.scrollTo({ y: 0 });
+        }
+
+        if (auth.loggedIn() === true) {
+          console.log('auth.loggedIn() return true');
+
+          const emailMsg = {
+            'to': credentials.To,
+            'emailAdd': credentials.Email,
+            'subject': credentials.Subject,
+            'body': credentials.Body,
+            'from': this.props.userdetails.firstname + ' ' + this.props.userdetails.lastname,
+          };
+          console.log(emailMsg);
+          const token = await auth.getToken();
+
+          this.props.emailCustomer({ emailMsg, token });
+        }
+      });
+    }
+  }
+
   render = () => {
     const Form = FormValidation.form.Form;
 
@@ -111,8 +153,8 @@ class SendEmail extends Component {
           <Card>
             <Alerts
               status={this.state.resultMsg.status}
-              success={this.state.resultMsg.success}
-              error={this.state.resultMsg.error}
+              success={this.props.sendEmailSuccess}
+              error={this.props.sendEmailError}
             />
 
             <Form
@@ -124,6 +166,7 @@ class SendEmail extends Component {
 
             <Button
               title={'Submit'}
+              onPress={this.emailCustomer}
             />
 
             <Spacer size={10} />
@@ -135,4 +178,21 @@ class SendEmail extends Component {
   }
 }
 
-export default SendEmail;
+SendEmail.propTypes = {
+  getuser: PropTypes.func,
+  emailCustomer: PropTypes.func,
+};
+
+const mapDispatchToProps = {
+  getuser: UserActions.getuser,
+  emailCustomer: CustomerActions.emailCustomer,
+};
+
+function mapStateToProps(state) {
+  const { userdetails } = state.user;
+  const { customers, sendEmailSuccess, sendEmailError } = state.customers;
+
+  return { userdetails, customers, sendEmailError, sendEmailSuccess };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SendEmail);

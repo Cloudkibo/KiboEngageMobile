@@ -1,7 +1,8 @@
-//import { Actions } from 'react-native-router-flux';
+// import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import * as ActionTypes from '../types';
-var baseURL = `https://api.kibosupport.com`
+
+var baseURL = 'https://api.kibosupport.com';
 var querystring = require('querystring');
 
 export function showCustomers(customers) {
@@ -21,14 +22,12 @@ export const customerFetch = (token) => {
            'Authorization': `Bearer ${token}`,
            'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
-      
+
   return (dispatch) => {
     axios.get(`${baseURL}/api/customers`,config)
     .then((res) => res).then(res => dispatch(showCustomers(res)));
-      
+
   };
 };
-
-
