@@ -172,14 +172,17 @@ class Menu extends Component {
           key={`menu-item-${title}`}
           onPress={onPress}
         >
-          <View style={[styles.menuItem]}>
-          <Icon
-          name={ icon }
-          color='#517fa4'
-          />
+            <View style={[styles.menuItem]}>
+          <View style={styles.iconContainer}>
+             <Icon
+              name={ icon } color='#5555577' />
+          </View>
+           <View>
             <Text style={[styles.menuItem_text]}>
-              {title}
+               {title}
             </Text>
+           </View>
+            
           </View>
         </TouchableOpacity>,
       );
