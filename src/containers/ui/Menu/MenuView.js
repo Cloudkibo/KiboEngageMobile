@@ -11,6 +11,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
 // Consts and Libs
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
 
   // Main Menu
   menu: {
-    flex: 3,
+    flex: 6,
     left: 0,
     right: 0,
     backgroundColor: MENU_BG_COLOR,
@@ -55,13 +56,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: '#3D4346',
     paddingBottom: 10,
+    flexDirection: "row",
+    
   },
   menuItem_text: {
     fontSize: 18,
     lineHeight: parseInt(18 + (18 * 0.5), 10),
     fontWeight: '500',
     marginTop: 10,
-    color: '#EEEFF0',
+    color: '#EEEFF0', 
+  },
+  iconContainer: {
+    marginTop: 10,
+    padding: 2,
   },
 
   // Menu Bottom
@@ -92,46 +99,55 @@ class Menu extends Component {
 
     this.state = {
       menu: [
-        {
-          title: 'Recipes',
-          onPress: () => { this.props.closeSideMenu(); Actions.app(); },
-        },
-        {
-          title: 'Example Link',
-          onPress: () => { this.props.closeSideMenu(); Actions.comingSoon(); },
-        },
+        // {
+        //   title: 'Recipes',
+        //   onPress: () => { this.props.closeSideMenu(); Actions.app(); },
+        //   icon:'dashboard',
+        // },
+        // {
+        //   title: 'Example Link',
+        //   onPress: () => { this.props.closeSideMenu(); Actions.comingSoon(); },
+        //   icon:'dashboard',
+        // },
 
          {
           title: 'Teams',
           onPress: () => { this.props.closeSideMenu(); Actions.teams(); },
+          icon:'people',
         },
 
         {
           title: 'Agents',
           onPress: () => { this.props.closeSideMenu(); Actions.agents(); },
+          icon:'account-circle',
         },
         {
           title: 'Message Channels',
           onPress: () => { this.props.closeSideMenu(); Actions.channels(); },
+          icon:'message',
         },
 
         {
           title: 'Customer Directory',
           onPress: () => { this.props.closeSideMenu(); Actions.customers(); },
+          icon:'book',
         },
 
         {
           title: 'Canned Responses',
           onPress: () => { this.props.closeSideMenu(); Actions.cannedresponse(); },
+          icon:'timer',
         },
 
         {
           title: 'Notifications',
           onPress: () => { this.props.closeSideMenu(); Actions.notifications(); },
+          icon:'notifications',
         },
         {
           title: 'Groups',
           onPress: () => { this.props.closeSideMenu(); Actions.groupsmain(); },
+          icon:'group-add',
         },
 
       ],
@@ -155,17 +171,24 @@ class Menu extends Component {
     // Build the actual Menu Items
     const menuItems = [];
     menu.map((item) => {
-      const { title, onPress } = item;
+      const { title, onPress, icon } = item;
 
       return menuItems.push(
         <TouchableOpacity
           key={`menu-item-${title}`}
           onPress={onPress}
         >
-          <View style={[styles.menuItem]}>
+            <View style={[styles.menuItem]}>
+          <View style={styles.iconContainer}>
+             <Icon
+              name={ icon } color='#5555577' />
+          </View>
+           <View>
             <Text style={[styles.menuItem_text]}>
-              {title}
+               {title}
             </Text>
+           </View>
+            
           </View>
         </TouchableOpacity>,
       );
@@ -180,9 +203,6 @@ class Menu extends Component {
 
           <View style={[styles.menuBottom]}>
              <View>
-
-
-                <Spacer size={10} />
 
                 <View style={[AppStyles.paddingHorizontal, AppStyles.paddingVerticalSml]}>
                   <Button
