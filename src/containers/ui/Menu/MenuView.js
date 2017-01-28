@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
 
   // Main Menu
   menu: {
-    flex: 3,
+    flex: 6,
     left: 0,
     right: 0,
     backgroundColor: MENU_BG_COLOR,
@@ -56,13 +56,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderBottomColor: '#3D4346',
     paddingBottom: 10,
+    flexDirection: "row",
+    
   },
   menuItem_text: {
     fontSize: 18,
     lineHeight: parseInt(18 + (18 * 0.5), 10),
     fontWeight: '500',
     marginTop: 10,
-    color: '#EEEFF0',
+    color: '#EEEFF0', 
+  },
+  iconContainer: {
+    marginTop: 10,
+    padding: 2,
   },
 
   // Menu Bottom
@@ -93,55 +99,55 @@ class Menu extends Component {
 
     this.state = {
       menu: [
-        {
-          title: 'Recipes',
-          onPress: () => { this.props.closeSideMenu(); Actions.app(); },
-          icon:'dashboard',
-        },
-        {
-          title: 'Example Link',
-          onPress: () => { this.props.closeSideMenu(); Actions.comingSoon(); },
-          icon:'dashboard',
-        },
+        // {
+        //   title: 'Recipes',
+        //   onPress: () => { this.props.closeSideMenu(); Actions.app(); },
+        //   icon:'dashboard',
+        // },
+        // {
+        //   title: 'Example Link',
+        //   onPress: () => { this.props.closeSideMenu(); Actions.comingSoon(); },
+        //   icon:'dashboard',
+        // },
 
          {
           title: 'Teams',
           onPress: () => { this.props.closeSideMenu(); Actions.teams(); },
-          icon:'dashboard',
+          icon:'people',
         },
 
         {
           title: 'Agents',
           onPress: () => { this.props.closeSideMenu(); Actions.agents(); },
-          icon:'dashboard',
+          icon:'account-circle',
         },
         {
           title: 'Message Channels',
           onPress: () => { this.props.closeSideMenu(); Actions.channels(); },
-          icon:'dashboard',
+          icon:'message',
         },
 
         {
           title: 'Customer Directory',
           onPress: () => { this.props.closeSideMenu(); Actions.customers(); },
-          icon:'dashboard',
+          icon:'book',
         },
 
         {
           title: 'Canned Responses',
           onPress: () => { this.props.closeSideMenu(); Actions.cannedresponse(); },
-          icon:'dashboard',
+          icon:'timer',
         },
 
         {
           title: 'Notifications',
           onPress: () => { this.props.closeSideMenu(); Actions.notifications(); },
-          icon:'dashboard',
+          icon:'notifications',
         },
         {
           title: 'Groups',
           onPress: () => { this.props.closeSideMenu(); Actions.groupsmain(); },
-          icon:'dashboard',
+          icon:'group-add',
         },
 
       ],
@@ -197,9 +203,6 @@ class Menu extends Component {
 
           <View style={[styles.menuBottom]}>
              <View>
-
-
-                <Spacer size={10} />
 
                 <View style={[AppStyles.paddingHorizontal, AppStyles.paddingVerticalSml]}>
                   <Button
