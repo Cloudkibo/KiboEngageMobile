@@ -11,6 +11,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 
 // Consts and Libs
@@ -95,43 +96,52 @@ class Menu extends Component {
         {
           title: 'Recipes',
           onPress: () => { this.props.closeSideMenu(); Actions.app(); },
+          icon:'dashboard',
         },
         {
           title: 'Example Link',
           onPress: () => { this.props.closeSideMenu(); Actions.comingSoon(); },
+          icon:'dashboard',
         },
 
          {
           title: 'Teams',
           onPress: () => { this.props.closeSideMenu(); Actions.teams(); },
+          icon:'dashboard',
         },
 
         {
           title: 'Agents',
           onPress: () => { this.props.closeSideMenu(); Actions.agents(); },
+          icon:'dashboard',
         },
         {
           title: 'Message Channels',
           onPress: () => { this.props.closeSideMenu(); Actions.channels(); },
+          icon:'dashboard',
         },
 
         {
           title: 'Customer Directory',
           onPress: () => { this.props.closeSideMenu(); Actions.customers(); },
+          icon:'dashboard',
         },
 
         {
           title: 'Canned Responses',
           onPress: () => { this.props.closeSideMenu(); Actions.cannedresponse(); },
+          icon:'dashboard',
         },
 
         {
           title: 'Notifications',
           onPress: () => { this.props.closeSideMenu(); Actions.notifications(); },
+          icon:'dashboard',
         },
         {
           title: 'Groups',
           onPress: () => { this.props.closeSideMenu(); Actions.groupsmain(); },
+          icon:'dashboard',
         },
 
       ],
@@ -155,7 +165,7 @@ class Menu extends Component {
     // Build the actual Menu Items
     const menuItems = [];
     menu.map((item) => {
-      const { title, onPress } = item;
+      const { title, onPress, icon } = item;
 
       return menuItems.push(
         <TouchableOpacity
@@ -163,6 +173,10 @@ class Menu extends Component {
           onPress={onPress}
         >
           <View style={[styles.menuItem]}>
+          <Icon
+          name={ icon }
+          color='#517fa4'
+          />
             <Text style={[styles.menuItem_text]}>
               {title}
             </Text>
