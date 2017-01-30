@@ -149,6 +149,11 @@ class Menu extends Component {
           onPress: () => { this.props.closeSideMenu(); Actions.groupsmain(); },
           icon:'group-add',
         },
+        {
+          title: 'Company Settings',
+          onPress: () => { this.props.closeSideMenu(); Actions.groupsmain(); },
+          icon:'group-add',
+        },
 
       ],
     };
