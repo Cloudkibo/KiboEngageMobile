@@ -8,6 +8,7 @@ var baseURLKiboEngage = `http://kiboengage.cloudapp.net`
 var querystring = require('querystring');
 //var baseURLKiboEngage = `http://localhost:8000`
 export function showGroups(groups) {
+  console.log('Groups data');
   console.log(groups.data);
     return {
       type: ActionTypes.ADD_GROUPS,
@@ -83,14 +84,14 @@ export const creategroup = (group) => {
             'Authorization': `Bearer ${token}`,
             'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
       var data =  {
           groupname: group.groupname,
           groupdescription: group.groupdescription,
           status : group.status,
 
-      
+
       }
   console.log(data);
   return (dispatch) => {
@@ -101,7 +102,7 @@ export const creategroup = (group) => {
         console.log(error);
         dispatch(groupCreateFail());
       });
-    
+
   };
 };
 
@@ -118,7 +119,7 @@ const groupCreateSuccess = (res) => {
     payload: res
   };
 
-  
+
 };
 
 
@@ -163,7 +164,7 @@ export const editgroup = (group) => {
             'Authorization': `Bearer ${token}`,
             'content-type' : 'application/json'
             },
-      
+
           };
     var d = {
           _id:group.id,
@@ -174,14 +175,14 @@ export const editgroup = (group) => {
     var data = {
       'group' : d,
       'groupagents': remove_dups,
-      
+
       }
 
 
   console.log('data of edit group');
   console.log(data);
   return (dispatch) => {
-   
+
     console.log('calling api');
     axios.post(`${baseURL}/api/groups/update/`,data,config).then(res => dispatch(groupEditSuccess(res)))
       .catch(function (error) {
@@ -190,7 +191,7 @@ export const editgroup = (group) => {
         console.log(error);
         dispatch(groupEditFail());
       });
-    
+
   };
 };
 
@@ -207,7 +208,7 @@ const groupEditSuccess = (res) => {
     payload: res
   };
 
-  
+
 };
 
 const groupDeleteFail = () => {
@@ -222,7 +223,7 @@ const groupDeleteSuccess = (res) => {
     payload: res
   };
 
-  
+
 };
 
 // delete team
@@ -264,7 +265,7 @@ const groupJoinSuccess = (res) => {
     payload: res
   };
 
-  
+
 };
 export const joingroup = (group) => {
     var token = group.token;
@@ -274,13 +275,13 @@ export const joingroup = (group) => {
             'Authorization': `Bearer ${token}`,
             'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
       var data =  {
            groupid:group.groupid,
            agentid : group.agentid,
 
-      
+
       }
   console.log(data);
   return (dispatch) => {
@@ -291,6 +292,6 @@ export const joingroup = (group) => {
         console.log(error);
         dispatch(groupJoinFail());
       });
-    
+
   };
 };
