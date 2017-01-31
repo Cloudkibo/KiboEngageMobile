@@ -40,6 +40,7 @@ import ResendNotification from '@containers/Notifications/ResendNotification';
 import Customers from '@containers/CustomerDirectory/Customers';
 import CustomerDetailView from '@containers/CustomerDirectory/CustomerDetailView';
 import SendEmail from '@containers/CustomerDirectory/SendEmail';
+import MyProfile from '@containers/MyProfile/MyProfile';
 
 import Placeholder from '@components/general/Placeholder';
 import Dashboard from '@containers/dashboard';
@@ -219,12 +220,20 @@ export default Actions.create(
         analyticsDesc={'EditChannel: Edit Channel'}
       />
 
-       <Scene
+      <Scene
         key={'resendNotification'}
         title={'View Notification Details'}
         component={ResendNotification}
         analyticsDesc={'resendNotification: resendNotification'}
       />
+
+      <Scene
+        key={'myProfile'}
+        title={'My Profile'}
+        component={MyProfile}
+        analyticsDesc={'MyProfile: MyProfile'}
+      />
+
     </Scene>
   </Scene>,
 );

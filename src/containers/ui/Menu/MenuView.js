@@ -57,14 +57,14 @@ const styles = StyleSheet.create({
     borderBottomColor: '#3D4346',
     paddingBottom: 10,
     flexDirection: "row",
-    
+
   },
   menuItem_text: {
     fontSize: 18,
     lineHeight: parseInt(18 + (18 * 0.5), 10),
     fontWeight: '500',
     marginTop: 10,
-    color: '#EEEFF0', 
+    color: '#EEEFF0',
   },
   iconContainer: {
     marginTop: 10,
@@ -149,6 +149,11 @@ class Menu extends Component {
           onPress: () => { this.props.closeSideMenu(); Actions.groupsmain(); },
           icon:'group-add',
         },
+        {
+          title: 'My Profile',
+          onPress: () => { this.props.closeSideMenu(); Actions.myProfile(); },
+          icon: 'face',
+        },
 
       ],
     };
@@ -188,7 +193,7 @@ class Menu extends Component {
                {title}
             </Text>
            </View>
-            
+
           </View>
         </TouchableOpacity>,
       );
