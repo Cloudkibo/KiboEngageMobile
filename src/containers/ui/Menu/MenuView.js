@@ -151,7 +151,7 @@ class Menu extends Component {
         },
         {
           title: 'Company Settings',
-          onPress: () => { this.props.closeSideMenu(); Actions.groupsmain(); },
+          onPress: () => { this.props.closeSideMenu(); Actions.companySettings(); },
           icon:'group-add',
         },
 
