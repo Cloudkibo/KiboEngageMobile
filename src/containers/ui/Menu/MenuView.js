@@ -152,7 +152,12 @@ class Menu extends Component {
         {
           title: 'My Profile',
           onPress: () => { this.props.closeSideMenu(); Actions.myProfile(); },
-          icon: 'face',
+        icon: 'face',
+        },
+        {
+          title: 'Company Settings',
+          onPress: () => { this.props.closeSideMenu(); Actions.companySettings(); },
+          icon:'group-add',
         },
 
       ],

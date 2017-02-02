@@ -42,6 +42,8 @@ import CustomerDetailView from '@containers/CustomerDirectory/CustomerDetailView
 import SendEmail from '@containers/CustomerDirectory/SendEmail';
 import MyProfile from '@containers/MyProfile/MyProfile';
 
+import CompanySettings from '@containers/CompanySettings/CompanySettings';
+
 import Placeholder from '@components/general/Placeholder';
 import Dashboard from '@containers/dashboard';
 import AuthScenes from './auth';
@@ -73,6 +75,13 @@ export default Actions.create(
         key={'comingSoon'}
         title={'Coming Soon'}
         component={Placeholder}
+        analyticsDesc={'Placeholder: Coming Soon'}
+      />
+
+      <Scene
+        key={'companySettings'}
+        title={'Company Settings'}
+        component={CompanySettings}
         analyticsDesc={'Placeholder: Coming Soon'}
       />
 
