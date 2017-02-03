@@ -17,6 +17,7 @@ import Drawer from '@containers/ui/DrawerContainer';
 import AppLaunch from '@containers/Launch/LaunchContainer';
 import Teams from '@containers/Teams/Teams';
 import Agents from '@containers/Agents/Agents';
+import InviteAgent from '@containers/Agents/InviteAgent';
 import GroupsMain from '@containers/Groups/GroupsMain';
 import CreateTeam from '@containers/Teams/CreateTeam';
 import EditTeam from '@containers/Teams/EditTeam';
@@ -41,6 +42,8 @@ import Customers from '@containers/CustomerDirectory/Customers';
 import CustomerDetailView from '@containers/CustomerDirectory/CustomerDetailView';
 import SendEmail from '@containers/CustomerDirectory/SendEmail';
 import MyProfile from '@containers/MyProfile/MyProfile';
+
+import CompanySettings from '@containers/CompanySettings/CompanySettings';
 
 import Placeholder from '@components/general/Placeholder';
 import Dashboard from '@containers/dashboard';
@@ -73,6 +76,13 @@ export default Actions.create(
         key={'comingSoon'}
         title={'Coming Soon'}
         component={Placeholder}
+        analyticsDesc={'Placeholder: Coming Soon'}
+      />
+
+      <Scene
+        key={'companySettings'}
+        title={'Company Settings'}
+        component={CompanySettings}
         analyticsDesc={'Placeholder: Coming Soon'}
       />
 
@@ -197,11 +207,19 @@ export default Actions.create(
         rightTitle="Add"
         analyticsDesc={'Cannedresponse: Cannedresponse'}
       />
+      
+      <Scene
+        key={'inviteAgent'}
+        title={'Invite Agent'}
+        component={InviteAgent}
+        analyticsDesc={'Agents:Invite Agents'}
+      />
 
       <Scene
         key={'agents'}
         title={'Agents'}
-
+        onRight={() => Actions.inviteAgent()}
+        rightTitle="Invite"
         component={Agents}
         analyticsDesc={'Agents:Agents'}
       />

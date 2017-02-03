@@ -150,10 +150,16 @@ class Menu extends Component {
           icon:'group-add',
         },
         {
+          title: 'Company Settings',
+          onPress: () => { this.props.closeSideMenu(); Actions.companySettings(); },
+          icon:'settings',
+        },
+        {
           title: 'My Profile',
           onPress: () => { this.props.closeSideMenu(); Actions.myProfile(); },
           icon: 'face',
         },
+      
 
       ],
     };
