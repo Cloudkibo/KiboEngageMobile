@@ -134,6 +134,7 @@ class MyProfile extends Component {
             error: 'Please enter valid role',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
+            editable : false,
           },
           Phone: {
             error: 'Please enter valid phone number',

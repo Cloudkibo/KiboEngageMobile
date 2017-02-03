@@ -102,10 +102,11 @@ class CompanySettings extends Component {
       form_fields: FormValidation.struct({
         maxNumberOfTeams: validNumber,
         maxNumberOfChannelsPerTeam: validNumber,
-        companyDomainEmails: yn,
-        notifyByEmail: yn,
         notificationEmailAddress: validString,
         smsPhoneNumber: validNumber,
+        companyDomainEmails: yn,
+        notifyByEmail: yn,
+        
         smsNotification: yn,
         showSummary: yn,
         allowChat: yn,
@@ -114,11 +115,18 @@ class CompanySettings extends Component {
         emailTemplate2 : validString,
       }),
       empty_form_values: {
-        teamName:'',
-        teamDescription: '',
       
       },
-      form_values: {},
+      form_values: {
+          allowChat:'yes',
+          companyDomainEmails: 'yes',
+          notifyByEmail: 'yes',
+          
+          smsNotification: 'yes',
+          showSummary: 'yes',
+          allowChat: 'yes',
+          openWidgetAsSeparate: 'window',
+      },
       options: {
         fields: {
           
@@ -139,6 +147,13 @@ class CompanySettings extends Component {
           stylesheet: stylesheet // overriding the style of the textbox
 
         },
+        allowChat:{
+            nullOption:false,
+          },
+        openWidgetAsSeparate:{
+            nullOption:false,
+          },
+
         companyDomainEmails:{
             nullOption:false,
           },
@@ -151,12 +166,7 @@ class CompanySettings extends Component {
         showSummary:{
             nullOption:false,
           },
-        allowChat:{
-            nullOption:false,
-          },
-        openWidgetAsSeparate:{
-            nullOption:false,
-          },
+        
       },
     }
   }
@@ -183,26 +193,23 @@ class CompanySettings extends Component {
       
      return (
 
-          <View style={[AppStyles.container, styles.container]}>
-          <Spacer size={15} />
-            <ScrollView
-              automaticallyAdjustContentInsets={false}
-              style={[AppStyles.container]}
-            >
-             <Spacer size={50} />
+          <ScrollView style={[AppStyles.container]}>
+          <Spacer size={55} />
+
+          <Card>
              <Text>Company Settings</Text>
               <Form
-            ref={(b) => { this.form = b; }}
-            type={this.state.form_fields}
-            value={this.state.form_values}
-            options={this.state.options}
-          />
+                  ref={(b) => { this.form = b; }}
+                  type={this.state.form_fields}
+                  value={this.state.form_values}
+                  options={this.state.options}
+                />
              <Button
             title={'Save'}
-          />
-              
+              />
+              </Card>
             </ScrollView>
-            </View>
+           
  
   );
 }
