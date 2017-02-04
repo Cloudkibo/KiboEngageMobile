@@ -24,6 +24,8 @@
 		1F0107C7FEE5400F9B9A78C5 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17123A6DC3974DE282B7D350 /* SimpleLineIcons.ttf */; };
 		4DDFEB8EC95149938F862E58 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C89C64A5863B4F5381F551F1 /* Foundation.ttf */; };
 		4EF348D9198648FC81A86216 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F82F87563DEB4A2780ABFEC4 /* FontAwesome.ttf */; };
+		50CACDAE1E45DC7F00B516FE /* libRCTAzureNotificationHubManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50CACDA61E45DC7200B516FE /* libRCTAzureNotificationHubManager.a */; };
+		50CACDAF1E45DC8500B516FE /* libWindowsAzureMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50CACDAD1E45DC7500B516FE /* libWindowsAzureMessaging.a */; };
 		5D333A7DFC9940BE89507D30 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B93246A05A64A4BAA2AC126 /* Ionicons.ttf */; };
 		63C39D4854B74D2FB28729FC /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E09E4AB5416E4A059BC91B89 /* EvilIcons.ttf */; };
 		668AB657F2ED487DA4F67371 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DECE1F8C9D3840F0B2F9568A /* Octicons.ttf */; };
@@ -105,6 +107,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
+		};
+		50CACDA51E45DC7200B516FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50CACDA11E45DC7200B516FE /* RCTAzureNotificationHubManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 458BD4191D9EDE5E007E3F13;
+			remoteInfo = RCTAzureNotificationHubManager;
+		};
+		50CACDAC1E45DC7500B516FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50CACDA71E45DC7500B516FE /* WindowsAzureMessaging.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 906E403816A86A3200817A11;
+			remoteInfo = WindowsAzureMessaging;
 		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -229,6 +245,9 @@
 		17123A6DC3974DE282B7D350 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		1A2116E110C74E908D87DAD0 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		3F6ED78AC28D44CBB73471FD /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
+		50CACDA11E45DC7200B516FE /* RCTAzureNotificationHubManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAzureNotificationHubManager.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/RCTAzureNotificationHubManager.xcodeproj"; sourceTree = "<group>"; };
+		50CACDA71E45DC7500B516FE /* WindowsAzureMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WindowsAzureMessaging.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/WindowsAzureMessaging.xcodeproj"; sourceTree = "<group>"; };
+		50CACDB01E45DC8A00B516FE /* StarterKit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = StarterKit.entitlements; path = StarterKit/StarterKit.entitlements; sourceTree = "<group>"; };
 		5129A5303BBC4B4AB5D552A3 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		71DF6CA4F6D74000958AC90F /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
@@ -262,6 +281,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50CACDAF1E45DC8500B516FE /* libWindowsAzureMessaging.a in Frameworks */,
+				50CACDAE1E45DC7F00B516FE /* libRCTAzureNotificationHubManager.a in Frameworks */,
 				C9ED47AF1E10C8B0007B919A /* libRCTAnimation.a in Frameworks */,
 				C9ABA1921D8CBD4A0035FA21 /* libRCTGoogleAnalyticsBridge.a in Frameworks */,
 				C9ABA18B1D8CBC3D0035FA21 /* libsqlite3.0.tbd in Frameworks */,
@@ -366,6 +387,7 @@
 		13B07FAE1A68108700A75B9A /* StarterKit */ = {
 			isa = PBXGroup;
 			children = (
+				50CACDB01E45DC8A00B516FE /* StarterKit.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -386,6 +408,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		50CACDA21E45DC7200B516FE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				50CACDA61E45DC7200B516FE /* libRCTAzureNotificationHubManager.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		50CACDA81E45DC7500B516FE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				50CACDAD1E45DC7500B516FE /* libWindowsAzureMessaging.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -398,6 +436,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				50CACDA71E45DC7500B516FE /* WindowsAzureMessaging.xcodeproj */,
+				50CACDA11E45DC7200B516FE /* RCTAzureNotificationHubManager.xcodeproj */,
 				C9ED47841E10C863007B919A /* RCTAnimation.xcodeproj */,
 				C9ABA18C1D8CBD120035FA21 /* RCTGoogleAnalyticsBridge.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -554,6 +594,11 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = LRN8T5S99N;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -576,6 +621,10 @@
 				{
 					ProductGroup = C9ED47851E10C863007B919A /* Products */;
 					ProjectRef = C9ED47841E10C863007B919A /* RCTAnimation.xcodeproj */;
+				},
+				{
+					ProductGroup = 50CACDA21E45DC7200B516FE /* Products */;
+					ProjectRef = 50CACDA11E45DC7200B516FE /* RCTAzureNotificationHubManager.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
@@ -624,6 +673,10 @@
 				{
 					ProductGroup = C92065BB1D600FA4004C1EAC /* Products */;
 					ProjectRef = 3F6ED78AC28D44CBB73471FD /* RNVectorIcons.xcodeproj */;
+				},
+				{
+					ProductGroup = 50CACDA81E45DC7500B516FE /* Products */;
+					ProjectRef = 50CACDA71E45DC7500B516FE /* WindowsAzureMessaging.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -689,6 +742,20 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50CACDA61E45DC7200B516FE /* libRCTAzureNotificationHubManager.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAzureNotificationHubManager.a;
+			remoteRef = 50CACDA51E45DC7200B516FE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50CACDAD1E45DC7500B516FE /* libWindowsAzureMessaging.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libWindowsAzureMessaging.a;
+			remoteRef = 50CACDAC1E45DC7500B516FE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
@@ -908,16 +975,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = StarterKit/StarterKit.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LRN8T5S99N;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-azurenotificationhub/ios/**",
 				);
 				INFOPLIST_FILE = StarterKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -926,6 +993,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = NotificationHubs.SampleProject;
 				PRODUCT_NAME = StarterKit;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -935,15 +1003,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = StarterKit/StarterKit.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LRN8T5S99N;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
+					"$(SRCROOT)/../node_modules/react-native-azurenotificationhub/ios/**",
 				);
 				INFOPLIST_FILE = StarterKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -952,6 +1020,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = NotificationHubs.SampleProject;
 				PRODUCT_NAME = StarterKit;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -992,8 +1061,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../node_modules/react-native-azurenotificationhub/ios/**",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
@@ -1035,8 +1103,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/../node_modules/react-native-azurenotificationhub/ios/**",
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native/ReactCommon/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",

@@ -102,7 +102,7 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		UYkMzNuTAGYP5YzISfvcS+4OOAo=
+		q6YKfMychERt/z+breMBw7Q+51E=
 		</data>
 		<key>Entypo.ttf</key>
 		<data>
@@ -323,7 +323,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		iqpFnWi1fthGNgHiI5688Vhkvok=
+		q3jQXDNqEXEqx0tXuBXwAp/QtBE=
 		</data>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -331,7 +331,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		hOmffK2OKUjmGyOoklHEYNxwmOk=
+		4NxU0SilOddSzgLxIXFBKs7oDH8=
 		</data>
 		<key>MaterialIcons.ttf</key>
 		<data>
@@ -351,7 +351,7 @@
 		</data>
 		<key>PlugIns/StarterKitTests.xctest/StarterKitTests</key>
 		<data>
-		126KzEr5AKARj2MKBw3+QMe/KNE=
+		jooisM5m/tHkeUzSZ/1Uzp8WZG4=
 		</data>
 		<key>PlugIns/StarterKitTests.xctest/_CodeSignature/CodeResources</key>
 		<data>
@@ -636,11 +636,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			UYkMzNuTAGYP5YzISfvcS+4OOAo=
+			q6YKfMychERt/z+breMBw7Q+51E=
 			</data>
 			<key>hash2</key>
 			<data>
-			4/UlLjoYNg8SassMBNafSEN/KKU3YAZqyWfEZHWELiM=
+			XF4UQN5SmZ+PtxYXDH6lqF0ud7mwWUyTaGQlEEWpp+8=
 			</data>
 		</dict>
 		<key>Entypo.ttf</key>
@@ -1226,11 +1226,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			iqpFnWi1fthGNgHiI5688Vhkvok=
+			q3jQXDNqEXEqx0tXuBXwAp/QtBE=
 			</data>
 			<key>hash2</key>
 			<data>
-			zObPO6MBFaX1pR272Ky1Lv+CbGRP/CVc6ZcDWWR33ys=
+			lxzVSKJt4q6DPoc/5goavhEGkcIUixqdShzdxOSUZNA=
 			</data>
 		</dict>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
@@ -1248,11 +1248,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			hOmffK2OKUjmGyOoklHEYNxwmOk=
+			4NxU0SilOddSzgLxIXFBKs7oDH8=
 			</data>
 			<key>hash2</key>
 			<data>
-			tHZ17kpAyQUqTyrLPOlZLIu/P5tKbaLptK7VtKIHMBc=
+			UcprCggVgrQ9n+/OXwHhvg56gMNbFoNEDtnoFsm79eU=
 			</data>
 		</dict>
 		<key>MaterialIcons.ttf</key>
@@ -1292,11 +1292,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			126KzEr5AKARj2MKBw3+QMe/KNE=
+			jooisM5m/tHkeUzSZ/1Uzp8WZG4=
 			</data>
 			<key>hash2</key>
 			<data>
-			PQc/+svGiBjvDntyOWE/x8H7zXAWlDYRtdezuuQhlrw=
+			TXp8H/eNIztmlyRyNViiok59q7LFcPVDDjUzcA2Ahmc=
 			</data>
 		</dict>
 		<key>PlugIns/StarterKitTests.xctest/_CodeSignature/CodeResources</key>

@@ -9,9 +9,9 @@
 
 #import "AppDelegate.h"
 
-#import "RCTBundleURLProvider.h"
-#import "RCTRootView.h"
-
+#import <RCTBundleURLProvider.h>
+#import <RCTRootView.h>
+#import "RCTAzureNotificationHubManager.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -31,17 +31,42 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-
-  /**
-   * Custom
-   * Get launch image - saves annoying white flash
-   */
-  UIImageView *launchScreenView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Launch"]]; // Image named "Launch"
-  launchScreenView.frame = self.window.bounds;
-  launchScreenView.contentMode = UIViewContentModeScaleAspectFill;
-  rootView.loadingView = launchScreenView;
-  
   return YES;
+}
+// Required to register for notifications
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+    NSLog(@"Calling registered");
+   NSLog(@"%@",notificationSettings);
+    [RCTAzureNotificationHubManager didRegisterUserNotificationSettings:notificationSettings];
+}
+
+// Required for the register event.
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken");
+    [RCTAzureNotificationHubManager didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+// Required for the registrationError event.
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    
+   
+    [RCTAzureNotificationHubManager didFailToRegisterForRemoteNotificationsWithError:error];
+}
+
+// Required for the notification event.
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)notification
+{
+     NSLog(@"%@", notification);
+    [RCTAzureNotificationHubManager didReceiveRemoteNotification:notification];
+}
+
+// Required for the localNotification event.
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    [RCTAzureNotificationHubManager didReceiveLocalNotification:notification];
 }
 
 @end
