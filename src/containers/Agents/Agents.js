@@ -18,7 +18,6 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as AgentActions from '@redux/agents/agentActions';
 import auth from '../../services/auth';
-
 // Consts and Libs
 import { AppColors, AppStyles } from '@theme/';
 
@@ -87,11 +86,7 @@ class Agents extends Component {
   renderRow = (agent) => (
     <ListItem
       key={`list-row-${agent._id}`}
-    
       title={agent.firstname + ' ' + agent.lastname}
-    
-
-      
     />
 
  
@@ -124,7 +119,7 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
    const { agents } = state.agents;
 
-  return {agents };
+  return { agents };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Agents);
