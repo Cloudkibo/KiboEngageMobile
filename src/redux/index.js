@@ -21,6 +21,7 @@ import notifications from '@redux/notification/NotificationReducer';
 import channels from '@redux/channel/ChannelReducer';
 import customers from '@redux/Customers/CustomersReducer';
 import groups from '@redux/group/GroupReducer';
+import company from '@redux/companysettings/companyReducer';
 // Combine all
 const appReducer = combineReducers({
   router,
@@ -35,6 +36,7 @@ const appReducer = combineReducers({
   channels,
   customers,
   groups,
+  company,
 });
 
 // Setup root reducer

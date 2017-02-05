@@ -57,3 +57,5 @@ export const SEND_EMAIL = 'SEND_EMAIL';
 export const SEND_EMAIL_SUCCESS = 'SEND_EMAIL_SUCCESS';
 export const SEND_EMAIL_FAIL = 'SEND_EMAIL_FAIL';
 export const INVITE_AGENTS = 'INVITE_AGENTS';
+export const FETCH_SETTINGS = 'FETCH_SETTINGS';
+
