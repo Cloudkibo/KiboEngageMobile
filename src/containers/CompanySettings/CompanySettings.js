@@ -79,7 +79,6 @@ class CompanySettings extends Component {
 
     const validNumber= FormValidation.refinement(
       FormValidation.Number, (teamname) => {
-        if (teamname.length < 1) return false;
         return true;
       },
     );
@@ -196,23 +195,52 @@ class CompanySettings extends Component {
     console.log('componentWillReceiveProps is called');
     console.log(nextProps.data);
         newVals = {
-          maxNumberOfTeams: '',
-          maxNumberOfChannelsPerTeam: nextProps.maxnumberofchannels,
-          notificationemailaddress: nextProps.notificationemailaddress,
-          smsPhoneNumber: nextProps.smsphonenumber,
-          companyDomainEmails: nextProps.isdomainemail,
-          notifyByEmail: nextProps.allowemailnotification,
-          smsNotification: nextProps.allowsmsnotification,
-          showSummary: nextProps.showsummary,
-          allowChat: nextProps.allowChat,
-          openWidgetAsSeparate: nextProps.widgetwindowtab,
-          emailTemplate1 : nextProps.abandonedscheduleemail1,
-          emailTemplate2 : nextProps.abandonedscheduleemail2,
+          maxNumberOfTeams: nextProps.data.maxnumberofdepartment,
+          maxNumberOfChannelsPerTeam: nextProps.data.maxnumberofchannels,
+          notificationemailaddress: nextProps.data.notificationemailaddress,
+          smsPhoneNumber: nextProps.data.smsphonenumber,
+          companyDomainEmails: nextProps.data.isdomainemail,
+          notifyByEmail: nextProps.data.allowemailnotification,
+          smsNotification: nextProps.data.allowsmsnotification,
+          showSummary: nextProps.data.showsummary,
+          allowChat: nextProps.data.allowChat,
+          openWidgetAsSeparate: nextProps.data.widgetwindowtab,
+          emailTemplate1 : nextProps.data.abandonedscheduleemail1,
+          emailTemplate2 : nextProps.data.abandonedscheduleemail2,
       };
       this.setState({ form_values: newVals });
+      this.setState({ updatedData: nextProps.data });
       this.setState({ test: 'New Props Received' });
   }
 
+  saveSettings = async () => {
+    var token =  await auth.getToken();
+    console.log(this.state.text);
+    console.log(token);
+    this.props.save(token, this.props.data);
+  }
+
+  valChanged = () => {
+    const credentials = this.form.getValue();
+    if(credentials){
+    this.setState({ form_values: credentials });
+    console.log(credentials);
+    }
+    //  this.state.updatedData.maxnumberofdepartment = this.state.form_values.maxNumberOfTeams;
+    //  this.state.updatedData.maxnumberofchannels = this.state.form_values.maxNumberOfChannelsPerTeam;
+    //  this.state.updatedData.notificationemailaddress = this.state.form_values.notificationemailaddress;
+    //  this.state.updatedData.smsphonenumber = this.state.form_values.smsPhoneNumber;
+    //  this.state.updatedData.isdomainemail = this.state.form_values.companyDomainEmails;
+    //  this.state.updatedData.allowemailnotification = this.state.form_values.notifyByEmail;
+    //  this.state.updatedData.allowsmsnotification = this.state.form_values.smsNotification;
+    //  this.state.updatedData.showsummary = this.state.form_values.showSummary;
+    //  this.state.updatedData.allowChat = this.state.form_values.allowChat;
+    //  this.state.updatedData.widgetwindowtab = this.state.form_values.openWidgetAsSeparate;
+    //  this.state.updatedData.abandonedscheduleemail1 = this.state.form_values.emailTemplate1;
+    //  this.state.updatedData.abandonedscheduleemail2 = this.state.form_values.emailTemplate2;
+    // this.setState({ updatedData: this.state.updatedData });
+    // this.setState({ test: credentials.allowChat });
+  }
  
 
 
@@ -234,9 +262,11 @@ class CompanySettings extends Component {
                   type={this.state.form_fields}
                   value={this.state.form_values}
                   options={this.state.options}
+                  
                 />
              <Button
             title={'Save'}
+            onPress = {this.valChanged}
               />
               </Card>
             </ScrollView>
@@ -249,11 +279,12 @@ class CompanySettings extends Component {
 
 const mapDispatchToProps = {
   settingsFetch: companyActions.settingsFetch,
+  save: companyActions.settingsSave,
 };
 function mapStateToProps(state) {
    var { data } = state.company;
    data = data[0];
-  return { ...data };
+  return { data };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CompanySettings);
