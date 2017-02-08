@@ -84,8 +84,8 @@ class CompanySettings extends Component {
     );
 
     var yn = FormValidation.enums({
-              yes: 'Yes',
-              no: 'No'
+              Yes: 'Yes',
+              No: 'No'
             });
     var widget = FormValidation.enums({
               window: 'Window',
@@ -102,7 +102,7 @@ class CompanySettings extends Component {
         maxNumberOfTeams: validNumber,
         maxNumberOfChannelsPerTeam: validNumber,
         notificationemailaddress: validString,
-        smsPhoneNumber: validNumber,
+        smsPhoneNumber: FormValidation.Number,
         companyDomainEmails: yn,
         notifyByEmail: yn,
         smsNotification: yn,
@@ -116,13 +116,13 @@ class CompanySettings extends Component {
       
       },
       form_values: {
-          allowChat:'yes',
-          companyDomainEmails: 'yes',
-          notifyByEmail: 'yes',
-          notificationemailaddress: 'Les passants',
-          smsNotification: 'yes',
-          showSummary: 'yes',
-          openWidgetAsSeparate: 'window',
+          // allowChat:yn.no,
+          // companyDomainEmails: yn.no,
+          // notifyByEmail: yn.no,
+          // notificationemailaddress: 'Les passants',
+          // smsNotification: 'yes',
+          // showSummary: 'yes',
+          // openWidgetAsSeparate: 'window',
       },
       options: {
         fields: {
@@ -194,6 +194,11 @@ class CompanySettings extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     console.log(nextProps.data);
+    if(nextProps.data.isdomainemail){
+        
+    }else{
+      return;
+    }
         newVals = {
           maxNumberOfTeams: nextProps.data.maxnumberofdepartment,
           maxNumberOfChannelsPerTeam: nextProps.data.maxnumberofchannels,
@@ -208,6 +213,7 @@ class CompanySettings extends Component {
           emailTemplate1 : nextProps.data.abandonedscheduleemail1,
           emailTemplate2 : nextProps.data.abandonedscheduleemail2,
       };
+      console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Copanysad DOmain : ' + nextProps.data.companyDomainEmails);
       this.setState({ form_values: newVals });
       this.setState({ updatedData: nextProps.data });
       this.setState({ test: 'New Props Received' });
@@ -217,7 +223,7 @@ class CompanySettings extends Component {
     var token =  await auth.getToken();
     console.log(this.state.text);
     console.log(token);
-    this.props.save(token, this.props.data);
+    this.props.save(token, this.state.updatedData);
   }
 
   valChanged = () => {
@@ -226,20 +232,22 @@ class CompanySettings extends Component {
     this.setState({ form_values: credentials });
     console.log(credentials);
     }
-    //  this.state.updatedData.maxnumberofdepartment = this.state.form_values.maxNumberOfTeams;
-    //  this.state.updatedData.maxnumberofchannels = this.state.form_values.maxNumberOfChannelsPerTeam;
-    //  this.state.updatedData.notificationemailaddress = this.state.form_values.notificationemailaddress;
-    //  this.state.updatedData.smsphonenumber = this.state.form_values.smsPhoneNumber;
-    //  this.state.updatedData.isdomainemail = this.state.form_values.companyDomainEmails;
-    //  this.state.updatedData.allowemailnotification = this.state.form_values.notifyByEmail;
-    //  this.state.updatedData.allowsmsnotification = this.state.form_values.smsNotification;
-    //  this.state.updatedData.showsummary = this.state.form_values.showSummary;
-    //  this.state.updatedData.allowChat = this.state.form_values.allowChat;
-    //  this.state.updatedData.widgetwindowtab = this.state.form_values.openWidgetAsSeparate;
-    //  this.state.updatedData.abandonedscheduleemail1 = this.state.form_values.emailTemplate1;
-    //  this.state.updatedData.abandonedscheduleemail2 = this.state.form_values.emailTemplate2;
-    // this.setState({ updatedData: this.state.updatedData });
-    // this.setState({ test: credentials.allowChat });
+     this.state.updatedData.maxnumberofdepartment = credentials.maxNumberOfTeams;
+     this.state.updatedData.maxnumberofchannels = credentials.maxNumberOfChannelsPerTeam;
+     this.state.updatedData.notificationemailaddress = credentials.notificationemailaddress;
+     this.state.updatedData.smsphonenumber = credentials.smsPhoneNumber;
+     this.state.updatedData.isdomainemail = credentials.companyDomainEmails;
+     this.state.updatedData.allowemailnotification = credentials.notifyByEmail;
+     this.state.updatedData.allowsmsnotification = credentials.smsNotification;
+     this.state.updatedData.showsummary = credentials.showSummary;
+     this.state.updatedData.allowChat = credentials.allowChat;
+     this.state.updatedData.widgetwindowtab = credentials.openWidgetAsSeparate;
+     this.state.updatedData.abandonedscheduleemail1 = credentials.emailTemplate1;
+     this.state.updatedData.abandonedscheduleemail2 = credentials.emailTemplate2;
+    this.setState({ updatedData: this.state.updatedData });
+    this.setState({ test: this.state.updatedData.allowChat });
+    this.saveSettings();
+  
   }
  
 
@@ -255,6 +263,11 @@ class CompanySettings extends Component {
           <Spacer size={55} />
 
           <Card>
+          <Alerts
+            status={ this.props.updateSettings }
+            success=''
+            error=''
+          />
             <Text>{ this.state.test }</Text>
              <Text>Company Settings</Text>
               <Form
@@ -282,9 +295,9 @@ const mapDispatchToProps = {
   save: companyActions.settingsSave,
 };
 function mapStateToProps(state) {
-   var { data } = state.company;
+   var { data, updateSettings } = state.company;
    data = data[0];
-  return { data };
+  return { data, updateSettings };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CompanySettings);
