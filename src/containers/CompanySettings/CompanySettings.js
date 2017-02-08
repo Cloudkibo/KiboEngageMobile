@@ -79,14 +79,13 @@ class CompanySettings extends Component {
 
     const validNumber= FormValidation.refinement(
       FormValidation.Number, (teamname) => {
-        if (teamname.length < 1) return false;
         return true;
       },
     );
 
     var yn = FormValidation.enums({
-              yes: 'Yes',
-              no: 'No'
+              Yes: 'Yes',
+              No: 'No'
             });
     var widget = FormValidation.enums({
               window: 'Window',
@@ -103,7 +102,7 @@ class CompanySettings extends Component {
         maxNumberOfTeams: validNumber,
         maxNumberOfChannelsPerTeam: validNumber,
         notificationemailaddress: validString,
-        smsPhoneNumber: validNumber,
+        smsPhoneNumber: FormValidation.Number,
         companyDomainEmails: yn,
         notifyByEmail: yn,
         smsNotification: yn,
@@ -117,13 +116,13 @@ class CompanySettings extends Component {
       
       },
       form_values: {
-          allowChat:'yes',
-          companyDomainEmails: 'yes',
-          notifyByEmail: 'yes',
-          notificationemailaddress: 'Les passants',
-          smsNotification: 'yes',
-          showSummary: 'yes',
-          openWidgetAsSeparate: 'window',
+          // allowChat:yn.no,
+          // companyDomainEmails: yn.no,
+          // notifyByEmail: yn.no,
+          // notificationemailaddress: 'Les passants',
+          // smsNotification: 'yes',
+          // showSummary: 'yes',
+          // openWidgetAsSeparate: 'window',
       },
       options: {
         fields: {
@@ -195,24 +194,61 @@ class CompanySettings extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     console.log(nextProps.data);
+    if(nextProps.data.isdomainemail){
+        
+    }else{
+      return;
+    }
         newVals = {
-          maxNumberOfTeams: '',
-          maxNumberOfChannelsPerTeam: nextProps.maxnumberofchannels,
-          notificationemailaddress: nextProps.notificationemailaddress,
-          smsPhoneNumber: nextProps.smsphonenumber,
-          companyDomainEmails: nextProps.isdomainemail,
-          notifyByEmail: nextProps.allowemailnotification,
-          smsNotification: nextProps.allowsmsnotification,
-          showSummary: nextProps.showsummary,
-          allowChat: nextProps.allowChat,
-          openWidgetAsSeparate: nextProps.widgetwindowtab,
-          emailTemplate1 : nextProps.abandonedscheduleemail1,
-          emailTemplate2 : nextProps.abandonedscheduleemail2,
+          maxNumberOfTeams: nextProps.data.maxnumberofdepartment,
+          maxNumberOfChannelsPerTeam: nextProps.data.maxnumberofchannels,
+          notificationemailaddress: nextProps.data.notificationemailaddress,
+          smsPhoneNumber: nextProps.data.smsphonenumber,
+          companyDomainEmails: nextProps.data.isdomainemail,
+          notifyByEmail: nextProps.data.allowemailnotification,
+          smsNotification: nextProps.data.allowsmsnotification,
+          showSummary: nextProps.data.showsummary,
+          allowChat: nextProps.data.allowChat,
+          openWidgetAsSeparate: nextProps.data.widgetwindowtab,
+          emailTemplate1 : nextProps.data.abandonedscheduleemail1,
+          emailTemplate2 : nextProps.data.abandonedscheduleemail2,
       };
+      console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Copanysad DOmain : ' + nextProps.data.companyDomainEmails);
       this.setState({ form_values: newVals });
+      this.setState({ updatedData: nextProps.data });
       this.setState({ test: 'New Props Received' });
   }
 
+  saveSettings = async () => {
+    var token =  await auth.getToken();
+    console.log(this.state.text);
+    console.log(token);
+    this.props.save(token, this.state.updatedData);
+  }
+
+  valChanged = () => {
+    const credentials = this.form.getValue();
+    if(credentials){
+    this.setState({ form_values: credentials });
+    console.log(credentials);
+    }
+     this.state.updatedData.maxnumberofdepartment = credentials.maxNumberOfTeams;
+     this.state.updatedData.maxnumberofchannels = credentials.maxNumberOfChannelsPerTeam;
+     this.state.updatedData.notificationemailaddress = credentials.notificationemailaddress;
+     this.state.updatedData.smsphonenumber = credentials.smsPhoneNumber;
+     this.state.updatedData.isdomainemail = credentials.companyDomainEmails;
+     this.state.updatedData.allowemailnotification = credentials.notifyByEmail;
+     this.state.updatedData.allowsmsnotification = credentials.smsNotification;
+     this.state.updatedData.showsummary = credentials.showSummary;
+     this.state.updatedData.allowChat = credentials.allowChat;
+     this.state.updatedData.widgetwindowtab = credentials.openWidgetAsSeparate;
+     this.state.updatedData.abandonedscheduleemail1 = credentials.emailTemplate1;
+     this.state.updatedData.abandonedscheduleemail2 = credentials.emailTemplate2;
+    this.setState({ updatedData: this.state.updatedData });
+    this.setState({ test: this.state.updatedData.allowChat });
+    this.saveSettings();
+  
+  }
  
 
 
@@ -227,6 +263,11 @@ class CompanySettings extends Component {
           <Spacer size={55} />
 
           <Card>
+          <Alerts
+            status={ this.props.updateSettings }
+            success=''
+            error=''
+          />
             <Text>{ this.state.test }</Text>
              <Text>Company Settings</Text>
               <Form
@@ -234,9 +275,11 @@ class CompanySettings extends Component {
                   type={this.state.form_fields}
                   value={this.state.form_values}
                   options={this.state.options}
+                  
                 />
              <Button
             title={'Save'}
+            onPress = {this.valChanged}
               />
               </Card>
             </ScrollView>
@@ -249,11 +292,12 @@ class CompanySettings extends Component {
 
 const mapDispatchToProps = {
   settingsFetch: companyActions.settingsFetch,
+  save: companyActions.settingsSave,
 };
 function mapStateToProps(state) {
-   var { data } = state.company;
+   var { data, updateSettings } = state.company;
    data = data[0];
-  return { ...data };
+  return { data, updateSettings };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CompanySettings);

@@ -27,3 +27,45 @@ export const settingsFetch =  (token) => {
   };
 };
 
+
+export const settingsSave =  (token, companyObj) => {
+
+   var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/json',
+            },
+
+          };
+
+
+      
+  console.log("THis is the token in action " + token);
+  return (dispatch) => {
+    axios.post(`https://api.kibosupport.com/api/companyprofiles/updatecompanyprofile`, companyObj,config)
+      .then((res) => dispatch(confirmSave('Settings Saved Successfully')))
+      .catch(function (error) {
+        console.log('Error occured');
+        // console.log(error);
+        dispatch(confirmSave('Something went wrong'));
+      });
+  };
+};
+
+export function confirmSave(res) {
+  console.log('In confirm save');
+  // console.log(res);
+  var status = res;
+  // if(invite.data.msg){
+  //   status = invite.data.msg;
+  // }else{
+  //   status = 'Something went wrong'
+  // }
+  return {
+    type: ActionTypes.UPDATE_SETTINGS,
+    payload : status,
+
+  };
+}
+
