@@ -3,10 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>application-identifier</key>
-	<string>LRN8T5S99N.org.reactjs.native.example.StarterKit</string>
-	<key>keychain-access-groups</key>
-	<array>
-		<string>LRN8T5S99N.org.reactjs.native.example.StarterKit</string>
-	</array>
+	<string>LRN8T5S99N.NotificationHubs.SampleProject</string>
+	<key>aps-environment</key>
+	<string>development</string>
 </dict>
 </plist>
