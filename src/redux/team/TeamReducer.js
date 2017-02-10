@@ -8,10 +8,9 @@ const INITIAL_STATE = {
   teamsuccess:'',
   teams:[],
   teamagents:[],
+  myteams: [],
   teamediterror : '',
   teameditsuccess:'',
-
-
   
 };
 
@@ -26,6 +25,9 @@ export default (state = INITIAL_STATE, action) => {
   teameditsuccess:''};
     case ActionTypes.ADD_TEAM_AGENTS:
       return {...state,teams:state.teams,teamagents : action.payload,teamerror: '',teamsuccess:'',  teamediterror : '',
+  teameditsuccess:''};
+    case ActionTypes.ADD_MY_TEAMS:
+         return {...state,myteams:action.payload,teamagents : state.teamagents,teamerror: '',teamsuccess:'',  teamediterror : '',
   teameditsuccess:''};
    
  

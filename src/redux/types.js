@@ -59,4 +59,4 @@ export const SEND_EMAIL_FAIL = 'SEND_EMAIL_FAIL';
 export const INVITE_AGENTS = 'INVITE_AGENTS';
 export const FETCH_SETTINGS = 'FETCH_SETTINGS';
 export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
-
+export const ADD_MY_TEAMS = 'ADD_MY_TEAMS';
