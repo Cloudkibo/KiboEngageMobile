@@ -147,23 +147,23 @@ class CompanySettings extends Component {
           label: 'Notfication email address'
         },
         allowChat:{
-          //  nullOption:false,
+           nullOption:false,
           },
         openWidgetAsSeparate:{
-           // nullOption:false,
+           nullOption:false,
           },
 
         companyDomainEmails:{
-          //  nullOption:false,
+           nullOption:false,
           },
         notifyByEmail:{
-         // nullOption:false,
+         nullOption:false,
         },
         smsNotification:{
-           // nullOption:false,
+           nullOption:false,
         },
         showSummary:{
-            //nullOption:false,
+            nullOption:false,
           },
         
       },
