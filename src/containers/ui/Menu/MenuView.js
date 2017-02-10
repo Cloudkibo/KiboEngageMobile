@@ -10,6 +10,7 @@ import {
   Alert,
   StyleSheet,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
@@ -112,7 +113,7 @@ class Menu extends Component {
 
          {
           title: 'Teams',
-          onPress: () => { this.props.closeSideMenu(); Actions.teams(); },
+          onPress: () => { this.props.closeSideMenu(); Actions.teamsMain(); },
           icon:'people',
         },
 
@@ -157,6 +158,11 @@ class Menu extends Component {
         {
           title: 'My Profile',
           onPress: () => { this.props.closeSideMenu(); Actions.myProfile(); },
+          icon: 'face',
+        },
+        {
+          title: 'Chat Session',
+          onPress: () => { this.props.closeSideMenu(); Actions.ChatSession(); },
           icon: 'face',
         },
       
@@ -210,8 +216,9 @@ class Menu extends Component {
         <View style={[styles.backgroundFill]} />
 
         <View style={[styles.menuContainer]}>
+        <ScrollView>
           <View style={[styles.menu]}>{menuItems}</View>
-
+          
           <View style={[styles.menuBottom]}>
              <View>
 
@@ -226,6 +233,7 @@ class Menu extends Component {
 
 
           </View>
+        </ScrollView>
         </View>
       </View>
     );
