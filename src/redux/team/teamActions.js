@@ -17,6 +17,17 @@ export function showTeams(teams) {
   };
 }
 
+
+export function showMyTeams(teams) {
+  console.log('show my teams');
+  console.log(teams);
+  return {
+    type: ActionTypes.ADD_MY_TEAMS,
+    payload : teams.data,
+
+  };
+}
+
 export function showDeptAgents(teamagents) {
   console.log('show dept agents');
   console.log(teamagents.data);
@@ -40,6 +51,23 @@ export const teamFetch = (token) => {
   return (dispatch) => {
     axios.get(`${baseURL}/api/departments`,config)
     .then((res) => res).then(res => dispatch(showTeams(res)));
+
+  };
+};
+
+export const myTeamFetch = (token) => {
+   var config = {
+      rejectUnauthorized : false,
+      headers: {
+           'Authorization': `Bearer ${token}`,
+           'content-type' : 'application/x-www-form-urlencoded'
+            },
+
+          };
+
+  return (dispatch) => {
+    axios.get(`${baseURL}/api/departments/mydepartmentsKiboEngage`,config)
+    .then((res) => res).then(res => dispatch(showMyTeams(res)));
 
   };
 };
