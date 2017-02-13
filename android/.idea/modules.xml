@@ -4,9 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/StarterKit.iml" filepath="$PROJECT_DIR$/StarterKit.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-device-info/android/react-native-device-info.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-device-info/android/react-native-device-info.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-google-analytics-bridge/android/react-native-google-analytics-bridge.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-google-analytics-bridge/android/react-native-google-analytics-bridge.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/react-native-vector-icons.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-vector-icons/android/react-native-vector-icons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../node_modules/react-native-azurenotificationhub/android/react-native-azurenotificationhub.iml" filepath="$PROJECT_DIR$/../node_modules/react-native-azurenotificationhub/android/react-native-azurenotificationhub.iml" />
     </modules>
   </component>
 </project>

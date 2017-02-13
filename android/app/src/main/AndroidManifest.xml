@@ -1,11 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  
     package="com.starterkit"
     android:versionCode="1"
     android:versionName="1.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
+   
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="22" />
@@ -15,7 +20,8 @@
       android:allowBackup="true"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
-      android:theme="@style/AppTheme">
+      android:theme="@style/AppTheme"
+      tools:replace="android:icon">
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
@@ -26,6 +32,17 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+     <service
+        android:name="com.azure.reactnative.notificationhub.ReactNativeRegistrationIntentService"
+        android:exported="false">
+      </service>
+      <receiver android:name="com.microsoft.windowsazure.notifications.NotificationsBroadcastReceiver"
+        android:permission="com.google.android.c2dm.permission.SEND">
+        <intent-filter>
+          <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+        </intent-filter>
+      </receiver>
+   
     </application>
 
 </manifest>
