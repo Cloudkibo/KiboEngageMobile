@@ -16,6 +16,8 @@ import Drawer from '@containers/ui/DrawerContainer';
 // Scenes
 import AppLaunch from '@containers/Launch/LaunchContainer';
 import Teams from '@containers/Teams/Teams';
+import ChatSession from '@containers/Chat/ChatSession';
+import TeamsMain from '@containers/Teams/TeamsMain';
 import Agents from '@containers/Agents/Agents';
 import InviteAgent from '@containers/Agents/InviteAgent';
 import GroupsMain from '@containers/Groups/GroupsMain';
@@ -87,6 +89,13 @@ export default Actions.create(
       />
 
       <Scene
+        key={'ChatSession'}
+        title={'ChatSession'}
+        component={ChatSession}
+        analyticsDesc={'Placeholder: Coming Soon'}
+      />
+
+      <Scene
         key={'teamCreate'}
         title={'Create Team'}
         component={CreateTeam}
@@ -98,6 +107,13 @@ export default Actions.create(
         onRight={() => Actions.teamCreate()}
         rightTitle="Add"
         component={Teams}
+        analyticsDesc={'Teams: Teams'}
+      />
+
+      <Scene
+        key={'teamsMain'}
+        title={'Teams'}
+        component={TeamsMain}
         analyticsDesc={'Teams: Teams'}
       />
 

@@ -116,13 +116,12 @@ class CompanySettings extends Component {
       
       },
       form_values: {
-          // allowChat:yn.no,
-          // companyDomainEmails: yn.no,
-          // notifyByEmail: yn.no,
-          // notificationemailaddress: 'Les passants',
-          // smsNotification: 'yes',
-          // showSummary: 'yes',
-          // openWidgetAsSeparate: 'window',
+          allowChat:yn.no,
+          companyDomainEmails: yn.no,
+          notifyByEmail: yn.no,
+          smsNotification: yn.no,
+          showSummary: yn.no,
+          openWidgetAsSeparate: 'window',
       },
       options: {
         fields: {
@@ -148,23 +147,23 @@ class CompanySettings extends Component {
           label: 'Notfication email address'
         },
         allowChat:{
-          //  nullOption:false,
+           nullOption:false,
           },
         openWidgetAsSeparate:{
-           // nullOption:false,
+           nullOption:false,
           },
 
         companyDomainEmails:{
-          //  nullOption:false,
+           nullOption:false,
           },
         notifyByEmail:{
-         // nullOption:false,
+         nullOption:false,
         },
         smsNotification:{
-           // nullOption:false,
+           nullOption:false,
         },
         showSummary:{
-            //nullOption:false,
+            nullOption:false,
           },
         
       },

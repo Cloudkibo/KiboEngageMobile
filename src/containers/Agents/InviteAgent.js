@@ -35,14 +35,24 @@ class InviteAgent extends Component {
 
   constructor(props){
     super(props);
+    this.state = {
+        error: '',
+    };
   }
 
 
 
   sendInvite = async () => {
+    this.setState({error: ''});
     var token =  await auth.getToken();
     console.log(this.state.text);
     console.log(token);
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!re.test(this.state.text)){
+        this.setState({error: 'Invalid Email'});
+        return;
+    }
+
     this.props.agentInvite(token, this.state.text);
   }
 
@@ -54,7 +64,7 @@ class InviteAgent extends Component {
       <Alerts
             status={ this.props.invite }
             success=''
-            error=''
+            error={this.state.error}
           />
       <Text>Invite Agent</Text>
       <Text style={styles.cardDescription}>You can also invite the agent by sharing the following link with them.https://kiboengage.cloudapp.net/joincompany
@@ -65,6 +75,7 @@ class InviteAgent extends Component {
      style={{height: 40, borderColor: 'gray', borderWidth: 1}}
      onChangeText={(text) => this.setState({text})}
      placeholder="Email Address"
+     autoCapitalize="none"
      />
      <Spacer size={10} />
      <Button
