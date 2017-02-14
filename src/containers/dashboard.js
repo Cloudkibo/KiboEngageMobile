@@ -218,7 +218,7 @@ renderLoadingView(){
     console.log(notification);
     Alert.alert(
       'Push Notification Received',
-      'Alert message: ',
+      'Alert message: ' + notification.message,
       [{
         text: 'Dismiss',
         onPress: null,
