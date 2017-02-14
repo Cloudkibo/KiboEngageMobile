@@ -16,7 +16,11 @@ import Drawer from '@containers/ui/DrawerContainer';
 // Scenes
 import AppLaunch from '@containers/Launch/LaunchContainer';
 import Teams from '@containers/Teams/Teams';
+
 import ChatSession from '@containers/Chat/ChatSession';
+import Chat from '@containers/Chat/Chat';
+import ChatSettings from '@containers/Chat/ChatSettings';
+
 import TeamsMain from '@containers/Teams/TeamsMain';
 import Agents from '@containers/Agents/Agents';
 import InviteAgent from '@containers/Agents/InviteAgent';
@@ -78,6 +82,22 @@ export default Actions.create(
         key={'comingSoon'}
         title={'Coming Soon'}
         component={Placeholder}
+        analyticsDesc={'Placeholder: Coming Soon'}
+      />
+
+      <Scene
+        key={'ChatSettings'}
+        title={'Chat Settings'}
+        component={ChatSettings}
+        analyticsDesc={'Placeholder: Chat Settings'}
+      />
+
+      <Scene
+        key={'chat'}
+        title={'Chat'}
+        onRight={() => Actions.ChatSettings()}
+        rightTitle="Settings"
+        component={Chat}
         analyticsDesc={'Placeholder: Coming Soon'}
       />
 
