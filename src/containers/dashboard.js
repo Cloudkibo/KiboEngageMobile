@@ -11,11 +11,12 @@ import {
   TouchableOpacity,
   View,
   AlertIOS,
+  Alert,
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
 import auth from '../services/auth';
-
+import { DeviceEventEmitter } from 'react-native';
 // Consts and Libs
 import AppAPI from '@lib/api';
 import { AppStyles } from '@theme/';
@@ -24,11 +25,21 @@ import * as UserActions from '@redux/user/actions';
 import Loading from '@components/general/Loading';
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
-const NotificationHub = require('react-native-azurenotificationhub/index.ios');
+/*const NotificationHub = require('react-native-azurenotificationhub/index.ios');
 const connectionString = 'Endpoint=sb://kiboengagetest.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=zKwwZV4p4KNXSJg6HDFkWOhXAeZpRJ7FWicdehpM/pQ=';
 const hubName = 'KiboEngageTestHub';          // The Notification Hub name
 const senderID = '';         // The Sender ID from the Cloud Messaging tab of the Firebase console
 const tagName = 'jekram@hotmail.com';           // The set of tags to subscribe to
+*/
+
+
+const NotificationHub = require('react-native-azurenotificationhub');
+
+const connectionString = 'Endpoint=sb://kiboengagepushns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=gDirYG/+a/dN5Md5rOXMX6QFfiFnX0Dg3kabUNCjIy0='; // The Notification Hub connection string
+const hubName = 'KiboEngagePush';          // The Notification Hub name
+const senderID = '626408245088';         // The Sender ID from the Cloud Messaging tab of the Firebase console
+const tags = ['sojharo','sojharo3800399'];           // The set of tags to subscribe to
+
 
 var remoteNotificationsDeviceToken = '';  // The device token registered with APNS
 
@@ -45,19 +56,47 @@ class Dashboard extends Component {
   }
  
   requestPermissions() {
-    NotificationHub.addEventListener('register', this._onRegistered);
-    NotificationHub.addEventListener('registrationError', this._onRegistrationError);
-    NotificationHub.addEventListener('registerAzureNotificationHub', this._onAzureNotificationHubRegistered);
-    NotificationHub.addEventListener('azureNotificationHubRegistrationError', this._onAzureNotificationHubRegistrationError);
-    NotificationHub.addEventListener('notification', this._onRemoteNotification);
-    NotificationHub.addEventListener('localNotification', this._onLocalNotification);
+  //  NotificationHub.addEventListener('register', this._onRegistered);
+  //  NotificationHub.addEventListener('registrationError', this._onRegistrationError);
+  //  NotificationHub.addEventListener('registerAzureNotificationHub', this._onAzureNotificationHubRegistered);
+  //  NotificationHub.addEventListener('azureNotificationHubRegistrationError', this._onAzureNotificationHubRegistrationError);
+  //  NotificationHub.addEventListener('notification', this._onRemoteNotification);
+  //  NotificationHub.addEventListener('localNotification', this._onLocalNotification);
 
-    NotificationHub.requestPermissions();
+  //  NotificationHub.requestPermissions();
   }
 
-  register() {
+  async register() {
     console.log('registerering to hub');
-    NotificationHub.register(remoteNotificationsDeviceToken, {connectionString, hubName, senderID, tagName});
+    var token = NotificationHub.register({connectionString, hubName, senderID, tags})
+    
+    try {
+    var {
+     message
+    } = await NotificationHub.register({connectionString, hubName, senderID, tags});
+
+    Alert.alert(
+            'Registered For Remote Push',
+            'Sucessfully registered',
+
+            [{
+              text: 'Dismiss',
+              onPress: null,
+            }]
+          );
+
+  } catch (e) {
+   Alert.alert(
+            'Registered For Remote Push',
+            'Error occured',
+
+            [{
+              text: 'Dismiss',
+              onPress: null,
+            }]
+          );
+
+  }
   }
 
   unregister() {
@@ -84,6 +123,15 @@ class Dashboard extends Component {
        
             
           }
+  
+  }
+
+  componentWillMount() {
+   /* this.addListenerOn(DeviceEventEmitter,
+                       'onNotificationReceived',
+                       this._onRemoteNotification);*/
+    DeviceEventEmitter.addListener('onNotificationReceived', this._onRemoteNotification);
+ 
   
   }
   
@@ -142,7 +190,7 @@ renderLoadingView(){
     remoteNotificationsDeviceToken = deviceToken;
     //this.register();
     
-    AlertIOS.alert(
+    Alert.alert(
       'Registered For Remote Push',
       `Device Token: ${deviceToken}`,
       [{
@@ -155,7 +203,7 @@ renderLoadingView(){
   }
 
   _onRegistrationError(error) {
-    AlertIOS.alert(
+    Alert.alert(
       'Failed To Register For Remote Push',
       `Error (${error.code}): ${error.message}`,
       [{
@@ -167,9 +215,10 @@ renderLoadingView(){
 
   _onRemoteNotification(notification) {
     console.log('notification');
-    AlertIOS.alert(
+    console.log(notification);
+    Alert.alert(
       'Push Notification Received',
-      'Alert message: ' + notification.getMessage(),
+      'Alert message: ' + notification.message,
       [{
         text: 'Dismiss',
         onPress: null,
@@ -180,7 +229,7 @@ renderLoadingView(){
   _onAzureNotificationHubRegistered(registrationInfo) {
     console.log('registered');
     console.log(registrationInfo);
-    AlertIOS.alert('Registered For Azure notification hub',
+    Alert.alert('Registered For Azure notification hub',
       'Registered For Azure notification hub'
       [{
         text: 'Dismiss',
@@ -190,7 +239,7 @@ renderLoadingView(){
   }
 
   _onAzureNotificationHubRegistrationError(error) {
-    AlertIOS.alert(
+    Alert.alert(
       'Failed To Register For Azure Notification Hub',
       `Error (${error.code}): ${error.message}`,
       [{
@@ -201,7 +250,7 @@ renderLoadingView(){
   }
 
   _onLocalNotification(notification){
-    AlertIOS.alert(
+    Alert.alert(
       'Local Notification Received',
       'Alert message: ' + notification.getMessage(),
       [{

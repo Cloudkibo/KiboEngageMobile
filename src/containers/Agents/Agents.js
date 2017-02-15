@@ -57,8 +57,6 @@ class Agents extends Component {
       if(token != ''){
         this.props.agentFetch(token);
        }
- 
-  
   }
 
   componentWillReceiveProps(nextProps) {

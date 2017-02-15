@@ -16,8 +16,11 @@ import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import { List, ListItem, SocialIcon, Card, Button, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+
+import * as chatActions from '@redux/chat/chatActions';
 import * as TeamActions from '@redux/team/teamActions';
 import * as AgentActions from '@redux/agents/agentActions';
+
 import Loading from '@components/general/Loading';
 
 import auth from '../../services/auth';
@@ -74,90 +77,62 @@ class ChatSession extends Component {
     // this.createDataSource(props);
   }
 
-//    componentDidMount = async() => {
-//     console.log('team component did mount called');
-//      var token =  await auth.getToken();
-//       console.log('token is Launchview is: ' + token);
-//       if(token != ''){
-     
-//             this.props.teamFetch(token);
-//             this.props.agentTeamFetch(token);
-//             this.props.agentFetch(token);
+  componentWillMount = async () => {
+    //this.props.agentFetch();
+     var token =  await auth.getToken();
+      console.log('token is Launchview is: ' + token);
+      if(token != ''){
+        this.props.sessionsFetch(token);
+        this.props.teamFetch(token);
+        this.props.chatsFetch(token);
+       }
+  }
 
-            
-//           }
-  
-//   }
-
-//   componentWillReceiveProps(nextProps) {
-//     // nextProps are the next set of props that this component
-//     // will be rendered with
-//     // this.props is still the old set of props
-//     console.log('componentWillReceiveProps is called');
-//     console.log(nextProps);
-//     if(nextProps.teams && nextProps.teamagents && nextProps.agents){
-//       this.setState({loading:false});
-//        this.createDataSource(nextProps);
-//      }
-//   }
-
-//   createDataSource({ teams 
-//   }) {
-//     const ds = new ListView.DataSource({
-  
-//       rowHasChanged: (r1, r2) => r1 !== r2
-//     });
-
-//     this.dataSource = ds.cloneWithRows(teams);
-//   }
-
-  /**
-    * Each List Item
-    */
-
-//   goToView2(team)
-//   {
-//         console.log('navigate team is called');
-//         Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
-//   }
-//   renderRow = (team) => (
-//     <ListItem
-//       key={`list-row-${team._id}`}
-//       onPress={this.goToView2.bind(this,team)}
-//       title={team.deptname}
-//       subtitle={team.deptdescription || null}
-
-      
-//     />
-
- 
-//   )
+  componentWillReceiveProps(nextProps) {
+    // nextProps are the next set of props that this component
+    // will be rendered with
+    // this.props is still the old set of props
+    console.log('componentWillReceiveProps is called with chat session data');
+    console.log(nextProps.teams);
+    this.setState({unique_index: 0});
+    if(nextProps.data){
+      this.setState({loading:false});
+       this.renderCard(nextProps);
+     }
+  }
 
 
-  /**
-    * Header Component
-    */
-//   renderHeader = props => (
-//     <TabBarTop
-//       {...props}
-//       style={styles.tabbar}
-//       indicatorStyle={styles.tabbarIndicator}
-//       renderLabel={scene => (
-//         <Text style={[styles.tabbar_text]}>{scene.route.title}</Text>
-//       )}
-//     />
-//   )
+  gotoChatBox = (nextProps, request_id) => {
+    var mychats = nextProps.chat.data.filter((c)=> c.request_id == request_id);
+    this.props.singleChats(mychats);
+    Actions.chat();
+  }
 
-
-  renderCard = () => {
-      var data = [1,1,2,2,3];
+  renderCard = (nextProps) => {
+      var data = nextProps.data;
+      var team = nextProps.teams;
+      this.state.menuItems = [];
       // Build the actual Menu Items
-    data.map((item) => {
+    data.map((item, index) => {
+      var name =  item.customerID;
+       if(item.customerid.name){
+          name =   item.customerid.name;
+       }
+       var agent = '';
+
+
+      var teamname = nextProps.teams.filter((t)=> t._id == item.departmentid)[0].deptCapital;
+
+    
+      var temp = this.state.unique_index + 1;
+       this.setState({unique_index: temp});
       return this.state.menuItems.push(
-          <Card title = 'Sojharo Mangi'>
+          
+        
+          <Card title = {name} key={index}>
              <View>
                 <Text style={[styles.menuItem_text]}>
-                    Finance
+                    { teamname }
                 </Text>
                  <View style={[styles.menuItem]}>
                     <View style={styles.iconContainer}>
@@ -165,7 +140,7 @@ class ChatSession extends Component {
                     </View>
                     <View>
                         <Text style={[styles.menuItem_text]}>
-                        12:13 Sun Oct 30 2016
+                        {item.requesttime}
                         </Text>
                     </View>
 
@@ -187,7 +162,7 @@ class ChatSession extends Component {
                     </View>
                     <View>
                         <Text style={[styles.menuItem_text]}>
-                        Assigned
+                        { item.status }
                         </Text>
                     </View>
 
@@ -198,7 +173,9 @@ class ChatSession extends Component {
                     </View>
                     <View>
                         <Text style={[styles.menuItem_text]}>
-                        Jawaid Ekram
+                        {
+                         agent
+                        }
                         </Text>
                     </View>
 
@@ -206,16 +183,18 @@ class ChatSession extends Component {
              </View>
                 <Button
                     backgroundColor='#03A9F4'
+                    fontFamily='Lato'
                     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                    title='View Chats' />
+                    title='View Chats'
+                    onPress = {() => this.gotoChatBox(nextProps, item.request_id)} />
                 </Card>,
       );
-    });
+    }, this);
   }
 
   render = () => {
-    // if (this.state.loading) return <Loading />;
-    this.renderCard();
+    if (this.state.loading) return <Loading />;
+    // this.renderCard();
     return(
           <View style={[AppStyles.container]}>
           <Spacer size={15} />
@@ -235,16 +214,18 @@ class ChatSession extends Component {
 }
 
 const mapDispatchToProps = {
+  sessionsFetch: chatActions.sessionsFetch,
+  chatsFetch: chatActions.chatsFetch,
   teamFetch: TeamActions.teamFetch,
   agentTeamFetch : TeamActions.agentTeamFetch,
-  agentFetch: AgentActions.agentFetch,
+  singleChats: chatActions.singleChats,
+  
 };
 function mapStateToProps(state) {
+   const { data, loading, chat } = state.chat;
    const { teams ,teamagents} = state.teams;
-   const { agents } = state.agents;
 
-  return {teams ,teamagents,agents};
+  return { data, loading, teams, teamagents, chat };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSession);
-
