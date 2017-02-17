@@ -4,8 +4,8 @@ var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
 
 export function showAgents(agents) {
-  console.log('show agents');
-  console.log(agents);
+  // console.log('show agents');
+  // console.log(agents);
   return {
     type: ActionTypes.ADD_AGENTS,
     payload : agents.data.agents,
@@ -47,12 +47,12 @@ export const agentInvite =  (token, inviteEmail) => {
       }
 
       
-  console.log("THis is the token in action " + token);
+  // console.log("THis is the token in action " + token);
   return (dispatch) => {
     axios.post(`https://api.kibosupport.com/api/tempaccounts/kiboengage`, data,config)
       .then((res) => dispatch(confirmInvite(res)))
       .catch(function (error) {
-        console.log('Error occured');
+        // console.log('Error occured');
         // console.log(error);
         dispatch(confirmInvite(error));
       });
@@ -61,7 +61,7 @@ export const agentInvite =  (token, inviteEmail) => {
 
 export function confirmInvite(invite) {
   // console.log('Success');
-  console.log(invite);
+  // console.log(invite);
   var status = '';
   if(invite.data.msg){
     status = invite.data.msg;

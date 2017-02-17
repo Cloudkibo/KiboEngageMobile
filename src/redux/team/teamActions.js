@@ -8,8 +8,8 @@ var baseURLKiboEngage = `http://kiboengage.cloudapp.net`
 //var baseURLKiboEngage = `http://localhost:8000`
 
 export function showTeams(teams) {
-  console.log('show teams');
-  console.log(teams);
+  // console.log('show teams');
+  // console.log(teams);
   return {
     type: ActionTypes.ADD_TEAMS,
     payload : teams.data,
@@ -19,8 +19,8 @@ export function showTeams(teams) {
 
 
 export function showMyTeams(teams) {
-  console.log('show my teams');
-  console.log(teams);
+  // console.log('show my teams');
+  // console.log(teams);
   return {
     type: ActionTypes.ADD_MY_TEAMS,
     payload : teams.data,
@@ -29,8 +29,8 @@ export function showMyTeams(teams) {
 }
 
 export function showDeptAgents(teamagents) {
-  console.log('show dept agents');
-  console.log(teamagents.data);
+  // console.log('show dept agents');
+  // console.log(teamagents.data);
   return {
     type: ActionTypes.ADD_TEAM_AGENTS,
     payload : teamagents.data,
@@ -108,14 +108,14 @@ export const createteam = (team) => {
         deptdescription : team.description,
       
       }
-  console.log(data);
+  // console.log(data);
   return (dispatch) => {
     dispatch(teamCreateInAction());
-    console.log('calling api');
+    // console.log('calling api');
     axios.post(`${baseURLKiboEngage}/api/createteam`,querystring.stringify(data),config).then(res => dispatch(teamCreateSuccess(res)))
       .catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
+        // console.log('Error occured');
+        // console.log(error);
         dispatch(teamCreateFail());
       });
 
@@ -125,11 +125,11 @@ export const createteam = (team) => {
 
 export const editteam = (team) => {
     var token = team.token;
-    console.log('without remove_dups');
-    console.log(team.deptagents);
+    // console.log('without remove_dups');
+    // console.log(team.deptagents);
     var remove_dups = utils.removeDuplicates(team.deptagents, '_id');
-    console.log('removeDuplicates');
-    console.log(remove_dups);
+    // console.log('removeDuplicates');
+    // console.log(remove_dups);
     var config = {
       rejectUnauthorized : false,
       headers: {
@@ -150,16 +150,16 @@ export const editteam = (team) => {
       }
 
 
-  console.log('data of edit team');
-  console.log(data);
+  // console.log('data of edit team');
+  // console.log(data);
   return (dispatch) => {
     dispatch(teamEditInAction());
-    console.log('calling api');
+    // console.log('calling api');
     axios.post(`${baseURL}/api/departments/update/`,data,config).then(res => dispatch(teamEditSuccess(res)))
       .catch(function (error) {
         //console.log(error.response)
-        console.log('Error occured');
-        console.log(error);
+        // console.log('Error occured');
+        // console.log(error);
         dispatch(teamEditFail());
       });
     
@@ -184,7 +184,7 @@ const teamCreateFail = () => {
 };
 
 const teamCreateSuccess = (res) => {
-  console.log('team created');
+  // console.log('team created');
   //Actions.main();
   return{
     type: ActionTypes.CREATE_TEAM_SUCCESS,
@@ -208,7 +208,7 @@ const teamEditFail = () => {
 };
 
 const teamEditSuccess = (res) => {
-  console.log('team created');
+  // console.log('team created');
   //Actions.main();
   return{
     type: ActionTypes.EDIT_TEAM_SUCCESS,
@@ -219,7 +219,7 @@ const teamEditSuccess = (res) => {
 };
 
 const teamDeleteSuccess = (res) => {
-  console.log('team deleted');
+  // console.log('team deleted');
   //Actions.main();
   return{
     type: ActionTypes.DELETE_TEAM_SUCCESS,
@@ -230,7 +230,7 @@ const teamDeleteSuccess = (res) => {
 };
 
 const teamDeleteFail = (res) => {
-  console.log('team deleted fail');
+  // console.log('team deleted fail');
   //Actions.main();
   return{
     type: ActionTypes.DELETE_TEAM_FAIL,
@@ -253,11 +253,11 @@ export const deleteteam = (team) => {
 
           };
   return (dispatch) => {
-   console.log('calling api');
+  //  console.log('calling api');
     axios.delete(`${baseURL}/api/departments/kiboengage/${id}`,config).then(res => dispatch(teamDeleteSuccess(res)))
       .catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
+        // console.log('Error occured');
+        // console.log(error);
         dispatch(teamDeleteFail());
       });
 
