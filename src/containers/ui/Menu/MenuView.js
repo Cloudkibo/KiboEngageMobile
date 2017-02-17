@@ -164,7 +164,12 @@ class Menu extends Component {
           title: 'Chat Session',
           onPress: () => { this.props.closeSideMenu(); Actions.ChatSession(); },
           icon: 'face',
-        },
+        },{
+          title: 'Test',
+          onPress: () => { this.props.closeSideMenu(); Actions.ChatSettings(); },
+          icon: 'face',
+          
+        }
       
 
       ],

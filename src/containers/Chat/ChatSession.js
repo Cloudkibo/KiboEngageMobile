@@ -80,7 +80,7 @@ class ChatSession extends Component {
   componentWillMount = async () => {
     //this.props.agentFetch();
      var token =  await auth.getToken();
-      console.log('token is Launchview is: ' + token);
+      // console.log('token is Launchview is: ' + token);
       if(token != ''){
         this.props.sessionsFetch(token);
         this.props.teamFetch(token);
@@ -92,12 +92,11 @@ class ChatSession extends Component {
     // nextProps are the next set of props that this component
     // will be rendered with
     // this.props is still the old set of props
-    console.log('componentWillReceiveProps is called with chat session data');
-    console.log(nextProps.teams);
-    this.setState({unique_index: 0});
+    // console.log('componentWillReceiveProps is called with chat session data');
+    // console.log(nextProps.teams);
     if(nextProps.data){
-      this.setState({loading:false});
        this.renderCard(nextProps);
+       this.setState({loading:false});
      }
   }
 
@@ -115,6 +114,12 @@ class ChatSession extends Component {
       // Build the actual Menu Items
     data.map((item, index) => {
       var name =  item.customerID;
+      var mychats = nextProps.chat.data.filter((c)=> c.request_id == item.request_id);
+
+       if(mychats.length <=  0){
+         return;
+       } 
+
        if(item.customerid.name){
           name =   item.customerid.name;
        }
@@ -122,10 +127,7 @@ class ChatSession extends Component {
 
 
       var teamname = nextProps.teams.filter((t)=> t._id == item.departmentid)[0].deptCapital;
-
-    
-      var temp = this.state.unique_index + 1;
-       this.setState({unique_index: temp});
+      
       return this.state.menuItems.push(
           
         
@@ -182,12 +184,13 @@ class ChatSession extends Component {
                     </View>
              </View>
                 <Button
+                    key = {index + '_button'}
                     backgroundColor='#03A9F4'
                     fontFamily='Lato'
                     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                     title='View Chats'
                     onPress = {() => this.gotoChatBox(nextProps, item.request_id)} />
-                </Card>,
+                </Card>
       );
     }, this);
   }

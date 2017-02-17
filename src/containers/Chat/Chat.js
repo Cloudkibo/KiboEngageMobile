@@ -27,7 +27,7 @@ import { AppColors, AppStyles } from '@theme/';
 import { Alerts, Spacer, Text } from '@components/ui/';
 
 
-class Chat extends React.Component {
+class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {messages: []};
@@ -107,6 +107,8 @@ class Chat extends React.Component {
     );
   }
 }
+
+
 
 const mapDispatchToProps = {
   sessionsFetch: chatActions.sessionsFetch,
