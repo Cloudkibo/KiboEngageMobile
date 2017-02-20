@@ -15,6 +15,7 @@ import { AppStyles } from '@theme/';
 // Components
 import { Text, Card, Spacer, Alerts, } from '@ui/';
 import { TextInput, Button, Picker, ScrollView } from 'react-native';
+var ReactNative = require('react-native');
 import auth from '../../services/auth';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -37,7 +38,8 @@ class ChatSettings extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {items: [], language: '', groupsList: [], channelList: []};
+    var ReactNative = require('react-native');
+    this.state = {items: [], language: '', groupsList: [], channelList: [], platform: 'Detected Platform: ' + ReactNative.Platform.OS};
 }
   componentWillMount = async () => {
     //this.props.agentFetch();
@@ -87,6 +89,7 @@ class ChatSettings extends Component {
     <Spacer size={50} />
     
     <Card>
+    <Text>{this.state.platform}</Text>
       <Text>Status</Text>
       <Text style={styles.cardDescription}>
         Current Status - Assigned 
