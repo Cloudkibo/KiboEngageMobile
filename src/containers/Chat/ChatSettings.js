@@ -19,6 +19,8 @@ import auth from '../../services/auth';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import * as AgentActions from '@redux/agents/agentActions';
+import * as GroupActions from '@redux/group/GroupActions';
+import * as ChannelActions from '@redux/channel/ChannelActions';
 var querystring = require('querystring');
 /* Component ==================================================================== */
 styles = {
@@ -33,27 +35,48 @@ styles = {
 
 class ChatSettings extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = {
-        error: '',
-    };
+    this.state = {items: [], language: '', groupsList: [], channelList: []};
+}
+  componentWillMount = async () => {
+    //this.props.agentFetch();
+     var token =  await auth.getToken();
+      console.log('token is Launchview is: ' + token);
+      if(token != ''){
+        this.props.agentFetch(token);
+        this.props.groupFetch(token);
+        this.props.channelFetch(token);
+       }
   }
 
+  componentWillReceiveProps(nextProps) {
+    // nextProps are the next set of props that this component
+    // will be rendered with
+    // this.props is still the old set of props
+    console.log('componentWillReceiveProps is called');
+    // console.log(nextProps);
+    if(nextProps.agents){
+       this.createPickerItems(nextProps);
+     }
+  }
 
-
-  sendInvite = async () => {
-    this.setState({error: ''});
-    var token =  await auth.getToken();
-    console.log(this.state.text);
-    console.log(token);
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if(!re.test(this.state.text)){
-        this.setState({error: 'Invalid Email'});
-        return;
-    }
-
-    this.props.agentInvite(token, this.state.text);
+  createPickerItems(nextProps){
+     nextProps.agents.map((item, index) => {
+       return this.state.items.push(
+           <Picker.Item label={item.firstname + ' ' + item.lastname} value={item._id} />
+       );
+     });
+      nextProps.groups.map((item, index) => {
+       return this.state.groupsList.push(
+           <Picker.Item label={item.groupname} value={item._id} />
+       );
+     });
+     nextProps.channels.map((item, index) => {
+       return this.state.channelList.push(
+           <Picker.Item label={item.msg_channel_name} value={item._id} />
+       );
+     });
   }
 
   render() {
@@ -77,10 +100,8 @@ class ChatSettings extends Component {
     <Text>Assign To Agent</Text>
     <Spacer size={10} />
        <Picker
-  selectedValue={this.state.language}
   onValueChange={(lang) => this.setState({language: lang})}>
-  <Picker.Item label="Java" value="java" />
-  <Picker.Item label="JavaScript" value="js" />
+  {this.state.items}
 </Picker>
      <Spacer size={10} />
      <Button
@@ -97,8 +118,7 @@ class ChatSettings extends Component {
       <Picker
   selectedValue={this.state.language}
   onValueChange={(lang) => this.setState({language: lang})}>
-  <Picker.Item label="Java" value="java" />
-  <Picker.Item label="JavaScript" value="js" />
+  {this.state.groupsList}
 </Picker>
      <Spacer size={10} />
      <Button
@@ -115,8 +135,7 @@ class ChatSettings extends Component {
       <Picker
   selectedValue={this.state.language}
   onValueChange={(lang) => this.setState({language: lang})}>
-  <Picker.Item label="Java" value="java" />
-  <Picker.Item label="JavaScript" value="js" />
+  {this.state.channelList}
 </Picker>
      <Spacer size={10} />
      <Button
@@ -136,11 +155,16 @@ class ChatSettings extends Component {
 
 /* Export Component ==================================================================== */
 const mapDispatchToProps = {
-  agentInvite: AgentActions.agentInvite,
+  agentFetch: AgentActions.agentFetch,
+   groupFetch: GroupActions.groupFetch,
+  channelFetch: ChannelActions.channelFetch,
 };
 function mapStateToProps(state) {
-   const   {invite}    = state.agents;
-  return  {invite};
+   const { agents } = state.agents;
+   const { groups } = state.groups;
+   const { channels} = state.channels;
+  return { agents, groups, channels };
+
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSettings);
 

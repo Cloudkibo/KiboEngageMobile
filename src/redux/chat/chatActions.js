@@ -4,8 +4,8 @@ var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
 
 export function showChats(data) {
-  console.log('show chat messages data');
-  console.log(data);
+  // console.log('show chat messages data');
+  // console.log(data);
   return {
     type: ActionTypes.FETCH_CHATS,
     payload : data,
@@ -13,8 +13,8 @@ export function showChats(data) {
 }
 
 export function showSessions(data) {
-  console.log('show data');
-  console.log(data);
+  // console.log('show data');
+  // console.log(data);
   var final = data.data.filter(function (el) {
     return el.platform == "mobile";
 });
@@ -54,8 +54,8 @@ export const chatsFetch =  (token) => {
 };
 
 export function singleChats(data) {
-  console.log('show single chat messages data');
-  console.log(data);
+  // console.log('show single chat messages data');
+  // console.log(data);
   return {
     type: ActionTypes.SINGLE_CHATS,
     payload : data,
