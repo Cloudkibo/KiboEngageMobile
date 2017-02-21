@@ -21,6 +21,8 @@ import StyleGuide from '@containers/StyleGuideView';
 import Recipes from '@containers/recipes/Browse/BrowseContainer';
 import RecipeView from '@containers/recipes/RecipeView';
 import Dashboard from '@containers/dashboard';
+import DashboardiOS from '@containers/dashboardiOS';
+var ReactNative = require('react-native');
 
 const navbarPropsTabs = {
   ...AppConfig.navbarProps,
@@ -34,15 +36,23 @@ const navbarPropsTabs = {
 /* Routes ==================================================================== */
 const scenes = (
   <Scene key={'tabBar'} tabs tabBarIconContainerStyle={AppStyles.tabbar} pressOpacity={0.95}>
-   
+   {ReactNative.Platform.OS == 'ios'?
      <Scene
+        {...navbarPropsTabs}
+        key={'teamListing'}
+        title={'Dashboard'}
+        component={DashboardiOS}
+        analyticsDesc={'Dashboard'}
+      />:
+
+      <Scene
         {...navbarPropsTabs}
         key={'teamListing'}
         title={'Dashboard'}
         component={Dashboard}
         analyticsDesc={'Dashboard'}
       />
-
+    }
     <Scene
       {...navbarPropsTabs}
       key={'recipes'}
