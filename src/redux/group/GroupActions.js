@@ -9,7 +9,7 @@ var querystring = require('querystring');
 //var baseURLKiboEngage = `http://localhost:8000`
 export function showGroups(groups) {
   console.log('Groups data');
-  console.log(groups.data);
+  //console.log(groups.data);
     return {
       type: ActionTypes.ADD_GROUPS,
       payload : groups.data,

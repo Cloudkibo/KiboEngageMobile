@@ -6,7 +6,7 @@ var baseURL = 'https://api.kibosupport.com';
 var querystring = require('querystring');
 
 export function showCustomers(customers) {
-console.log(customers.data);
+//console.log(customers.data);
   return {
     type: ActionTypes.ADD_CUSTOMERS,
     payload : customers.data,

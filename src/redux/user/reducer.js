@@ -12,7 +12,11 @@ const initialState = {};
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.ADD_USER_DETAILS:
-      return { ...state, userdetails : action.payload};
+      return { ...state, userdetails : action.payload,fetchedR:state.fetchedR};
+      
+    case ActionTypes.ADD_FETCHED_RESULT:
+     return { ...state, userdetails : state.userdetails,fetchedR:action.payload};	
+    
  
  	case ActionTypes.LOGOUT:
       return { ...state,};

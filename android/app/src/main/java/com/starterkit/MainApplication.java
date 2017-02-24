@@ -12,6 +12,7 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
+import org.pgsqlite.SQLitePluginPackage;
 
 //import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 
@@ -29,7 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
           //  new RNDeviceInfo(),
          // new GoogleAnalyticsBridgePackage(),
-            new ReactNativeNotificationHubPackage()
+            new ReactNativeNotificationHubPackage(),
+            new SQLitePluginPackage()
           
         
       );

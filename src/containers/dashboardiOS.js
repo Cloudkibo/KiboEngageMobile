@@ -12,6 +12,7 @@ import {
   View,
   AlertIOS,
   Alert,
+  NetInfo,
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
@@ -33,8 +34,6 @@ const tagName = 'jekram@hotmail.com';           // The set of tags to subscribe 
 
 
 
-
-
 var remoteNotificationsDeviceToken = '';  // The device token registered with APNS
 
 /* Component ==================================================================== */
@@ -45,8 +44,9 @@ class DashboardiOS extends Component {
   constructor(props) {
     super(props);
     
-    this.state = {'userdetails' : null,loading : true};
+    this.state = {'userdetails' : null,loading : true,connectionInfo:''};
     this.register = this.register.bind(this);
+    
   }
  
   requestPermissions() {
@@ -93,6 +93,8 @@ class DashboardiOS extends Component {
   }
   }
 
+ 
+
   unregister() {
     console.log('unregisterering to hub');
     NotificationHub.unregister();
@@ -106,17 +108,35 @@ class DashboardiOS extends Component {
           loading : false,
         });
     }
+
+
+    if(props.fetchedR){
+       var len = props.fetchedR.rows.length;
+        for (let i = 0; i < len; i++) {
+          let row = props.fetchedR.rows.item(i);
+          console.log(`Employee name: ${row.name}, Dept Name: ${row.score}`);
+        }
+
+    }
   }
+ 
+
   componentDidMount = async() => {
+  
+
     this.requestPermissions();
     var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
      
            this.props.getuser(token);
-       
+           this.props.getsqlData();
             
           }
+    
+      
+
+   
   
   }
 
@@ -260,12 +280,13 @@ renderLoadingView(){
 
 const mapDispatchToProps = {
   getuser: UserActions.getuser,
+  getsqlData:UserActions.getsqlData,
  };
 
 function mapStateToProps(state) {
-   const { userdetails} = state.user;
+   const { userdetails,fetchedR} = state.user;
   
-  return {userdetails};
+  return {userdetails,fetchedR};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardiOS);

@@ -41,7 +41,7 @@ class Chat extends Component {
     // will be rendered with
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called with chat session data');
-    console.log(nextProps.singleChat);
+    //console.log(nextProps.singleChat);
     this.setState({unique_index: 0});
     if(nextProps.singleChat){
       this.setState({loading:false});

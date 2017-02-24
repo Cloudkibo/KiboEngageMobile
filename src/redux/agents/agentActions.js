@@ -2,6 +2,8 @@ import axios from 'axios';
 import * as ActionTypes from '../types';
 var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
+import SqliteCalls from '../../services/SqliteCalls';
+var SQLite = require('react-native-sqlite-storage')
 
 export function showAgents(agents) {
   // console.log('show agents');
@@ -27,7 +29,16 @@ export const agentFetch =  (token) => {
       
   return (dispatch) => {
     axios.get(`${baseURL}/api/users/allagents`,config)
-    .then((res) => res).then(res => dispatch(showAgents(res)));
+    .then((res) => res).then(res => dispatch(writeAgents(res.data.agents)))
+    .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        if(error = 'Network Error')
+        {
+          //Alert.alert('You are not connected with Internet');
+          dispatch(readAgents());
+        }
+       }); 
       
   };
 };
@@ -73,5 +84,110 @@ export function confirmInvite(invite) {
     payload : status,
 
   };
+}
+
+
+/**** SQLite***/
+
+export function callbackagents(results) {
+ var fteams = []
+  var len = results.rows.length;
+  for (let i = 0; i < len; i++) {
+    let row = results.rows.item(i);
+    console.log('row');
+    console.log(row);
+    fteams.push(row);
+  }
+  console.log(fteams);
+ 
+  return {
+    type: ActionTypes.ADD_AGENTS,
+    payload : fteams,
+ 
+  };
+}
+
+
+
+export  function writeAgents(agents){
+  var db = SqliteCalls.getConnection();
+   var res = [];
+  var CREATE_Agents_TABLE = "CREATE TABLE AGENTS ("
+                + "_id TEXT PRIMARY KEY,"
+                + "email TEXT,"
+                + "firstname TEXT,"
+                + "lastname TEXT,"
+                + "uniqueid TEXT,"
+                + "role TEXT" + ")";
+
+ var rows = []
+ for(var i=0;i<agents.length;i++){
+  var record = []
+  record.push(agents[i]._id)
+  record.push(agents[i].email);
+  record.push(agents[i].firstname);
+  record.push(agents[i].lastname);
+  record.push(agents[i].uniqueid);
+  record.push(agents[i].role);
+  rows.push(record);
+ // addItem(db,record);
+
+  
+ }
+ console.log(rows);
+
+
+return (dispatch) => {
+    
+    db.transaction(function(tx) {
+    tx.executeSql('DROP TABLE IF EXISTS AGENTS');
+    tx.executeSql(CREATE_Agents_TABLE);
+
+    for(var j=0;j<rows.length;j++){
+       tx.executeSql('INSERT INTO AGENTS VALUES (?,?,?,?,?,?)',rows[j]);
+   
+    }
+    tx.executeSql('SELECT * FROM AGENTS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackagents(res));
+  }
+  );
+  
+  }
+
+}
+
+export function readAgents(){
+   var db = SqliteCalls.getConnection();
+   return (dispatch) => {
+    
+    db.transaction(function(tx) {
+   
+    tx.executeSql('SELECT * FROM AGENTS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackagents(res));
+  }
+  );
+  
+  }
+
 }
 

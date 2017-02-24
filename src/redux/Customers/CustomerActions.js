@@ -9,7 +9,7 @@ const baseURL = 'https://api.kibosupport.com';
 // var baseURLKiboEngage = `http://localhost:8000`
 
 export function showCustomers(customers) {
-  console.log(customers.data);
+  //console.log(customers.data);
   return {
     type: ActionTypes.ADD_CUSTOMERS,
     payload: customers.data,

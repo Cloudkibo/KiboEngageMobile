@@ -139,6 +139,7 @@ dependencies {
     compile "com.facebook.react:react-native:+"  // From node_modules
     compile project(':react-native-azurenotificationhub')
     
+    compile project(':react-native-sqlite-storage')
    
 }
 

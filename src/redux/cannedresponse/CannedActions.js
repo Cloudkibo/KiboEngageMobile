@@ -5,7 +5,7 @@ var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
 
 export function showResponses(cannedresponses) {
-  console.log(cannedresponses);
+  //console.log(cannedresponses);
   return {
     type: ActionTypes.ADD_CANNED_RESPONSES,
     payload : cannedresponses.data,
