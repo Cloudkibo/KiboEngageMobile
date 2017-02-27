@@ -125,7 +125,7 @@ class EditGroup extends Component {
     // Get user data from AsyncStorage to populate fields
   
       
-      this.newFellowAgents  = this.props.groupagents.filter((c) => c.groupid._id == this.props.group._id)
+      this.newFellowAgents  = this.props.groupagents.filter((c) => c.groupid == this.props.group._id)
       
       let ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
       let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents);
@@ -176,7 +176,7 @@ class EditGroup extends Component {
             console.log('this.newFellowAgents');
             console.log(this.newFellowAgents);
             for(var j=0;j<this.newFellowAgents.length;j++){
-               agentid.push({"_id" :this.newFellowAgents[j].agentid._id})
+               agentid.push({"_id" :this.newFellowAgents[j].agentid})
             }
             
             this.props.editgroup({
@@ -197,7 +197,7 @@ class EditGroup extends Component {
 
   addAgent = (c) =>{
     console.log('addAgent is called');
-    this.newFellowAgents.push({'groupid': this.props.group._id,'agentid':{'_id':c._id}})
+    this.newFellowAgents.push({'groupid': this.props.group._id,'agentid': c._id})
     // update the DataSource in the component state
 
      
@@ -215,7 +215,7 @@ class EditGroup extends Component {
 
   removeAgent = (c) =>{
     console.log('removeAgent is called');
-    var indexOfItem = this.newFellowAgents.findIndex((item) => item.groupid === c.groupid && item.agentid._id === c.agentid._id);
+    var indexOfItem = this.newFellowAgents.findIndex((item) => item.groupid === c.groupid && item.agentid === c.agentid);
     this.newFellowAgents.splice(indexOfItem, 1);
     // update the DataSource in the component state
    this.setState({
@@ -233,7 +233,7 @@ class EditGroup extends Component {
    console.log(fellowAgent);
    var flag = 0;
    for(var j=0;j<this.props.agents.length;j++){
-        if(this.props.agents[j]._id == fellowAgent.agentid._id){
+        if(this.props.agents[j]._id == fellowAgent.agentid){
           console.log('fellowAgent matched');
                 return  (<ListItem
                           key={`list-row-${this.props.agents[j]._id}`}

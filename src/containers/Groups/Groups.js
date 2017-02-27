@@ -118,7 +118,7 @@ class Groups extends Component {
   goToView2(group)
   {
         console.log('navigate group is called');
-        if(group.createdby._id == this.props.userdetails._id){
+        if(group.createdby == this.props.userdetails._id){
           Actions.groupEdit({group:group,groupagents : this.props.groupagents,agents: this.props.agents})
       }
 

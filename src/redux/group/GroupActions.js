@@ -2,6 +2,8 @@ import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import * as ActionTypes from '../types';
 import utils from '../../services/utils';
+import SqliteCalls from '../../services/SqliteCalls';
+var SQLite = require('react-native-sqlite-storage')
 
 var baseURL = `https://api.kibosupport.com`
 var baseURLKiboEngage = `http://kiboengage.cloudapp.net`
@@ -53,7 +55,16 @@ export const groupFetch = (token) => {
 
   return (dispatch) => {
     axios.get(`${baseURL}/api/groups`,config)
-    .then((res) => res).then(res => dispatch(showGroups(res)));
+    .then((res) => res).then(res => dispatch(writeGroups(res.data)))
+     .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        if(error = 'Network Error')
+        {
+          //Alert.alert('You are not connected with Internet');
+          dispatch(readGroups());
+        }
+       }); 
 
   };
 };
@@ -145,7 +156,16 @@ export const agentGroupFetch = (token) => {
 
   return (dispatch) => {
     axios.get(`${baseURL}/api/groupagents`,config)
-    .then((res) => res).then(res => dispatch(showGroupAgents(res)));
+    .then((res) => res).then(res => dispatch(writeGroupAgents(res.data)))
+     .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        if(error = 'Network Error')
+        {
+          //Alert.alert('You are not connected with Internet');
+          dispatch(readGroupAgents());
+        }
+       }); 
 
   };
 };
@@ -295,3 +315,213 @@ export const joingroup = (group) => {
 
   };
 };
+
+
+/*** SQlite ****/
+export function callbackgroups(results) {
+ var fteams = []
+  var len = results.rows.length;
+  for (let i = 0; i < len; i++) {
+    let row = results.rows.item(i);
+    console.log('row');
+    console.log(row);
+    fteams.push(row);
+  }
+  console.log(fteams);
+ 
+  return {
+    type: ActionTypes.ADD_GROUPS,
+    payload : fteams,
+ 
+  };
+}
+export function callbackgroupAgents(results) {
+ var fteams = []
+  var len = results.rows.length;
+  for (let i = 0; i < len; i++) {
+    let row = results.rows.item(i);
+    console.log('row');
+    console.log(row);
+    fteams.push(row);
+  }
+  console.log(fteams);
+ 
+  return {
+    type: ActionTypes.ADD_GROUP_AGENTS,
+    payload : fteams,
+ 
+  };
+}
+
+
+export  function writeGroups(groups){
+  var db = SqliteCalls.getConnection();
+   var res = [];
+  var CREATE_Groups_TABLE = "CREATE TABLE GROUPS ("
+                + "_id TEXT PRIMARY KEY,"
+                + "groupname TEXT,"
+                + "groupdescription TEXT,"
+                + "companyid TEXT,"
+                + "createdby TEXT,"
+                + "creationdate TEXT,"
+                + "status TEXT,"
+                + "deleteStatus TEXT" + ")";
+
+ var rows = []
+ for(var i=0;i<groups.length;i++){
+  var record = []
+  record.push(groups[i]._id)
+  record.push(groups[i].groupname);
+  record.push(groups[i].groupdescription);
+  record.push(groups[i].companyid);
+  record.push(groups[i].createdby._id);
+  record.push(groups[i].creationdate);
+  record.push(groups[i].status);
+  record.push(groups[i].deleteStatus);
+  rows.push(record);
+ // addItem(db,record);
+
+  
+ }
+ console.log(rows);
+
+
+return (dispatch) => {
+    
+    db.transaction(function(tx) {
+    tx.executeSql('DROP TABLE IF EXISTS GROUPS');
+    tx.executeSql(CREATE_Groups_TABLE);
+
+    for(var j=0;j<rows.length;j++){
+       tx.executeSql('INSERT INTO GROUPS VALUES (?,?,?,?,?,?,?,?)',rows[j]);
+   
+    }
+    tx.executeSql('SELECT * FROM GROUPS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackgroups(res));
+  }
+  );
+  
+  }
+
+}
+
+
+
+
+export  function writeGroupAgents(groupAgents){
+  var db = SqliteCalls.getConnection();
+   var res = [];
+  var CREATE_GroupAgents_TABLE = "CREATE TABLE GROUPAGENTS ("
+                + "_id TEXT PRIMARY KEY,"
+                + "groupid TEXT,"
+                + "companyid TEXT,"
+                + "agentid TEXT,"
+                + "joindate TEXT,"
+                + "deleteStatus TEXT" + ")";
+
+ var rows = []
+ for(var i=0;i<groupAgents.length;i++){
+  var record = []
+  record.push(groupAgents[i]._id)
+  record.push(groupAgents[i].groupid._id);
+  record.push(groupAgents[i].companyid);
+  record.push(groupAgents[i].agentid._id);
+  record.push(groupAgents[i].joindate);
+  record.push(groupAgents[i].deleteStatus);
+  rows.push(record);
+ // addItem(db,record);
+
+  
+ }
+ console.log(rows);
+
+
+return (dispatch) => {
+    
+    db.transaction(function(tx) {
+    tx.executeSql('DROP TABLE IF EXISTS GROUPAGENTS');
+    tx.executeSql(CREATE_GroupAgents_TABLE);
+
+    for(var j=0;j<rows.length;j++){
+       tx.executeSql('INSERT INTO GROUPAGENTS VALUES (?,?,?,?,?,?)',rows[j]);
+   
+    }
+    tx.executeSql('SELECT * FROM GROUPAGENTS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackgroupAgents(res));
+  }
+  );
+  
+  }
+
+}
+
+export function readGroups(){
+   var db = SqliteCalls.getConnection();
+   return (dispatch) => {
+    
+    db.transaction(function(tx) {
+   
+    tx.executeSql('SELECT * FROM GROUPS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackgroups(res));
+  }
+  );
+  
+  }
+
+}
+
+
+export function readGroupAgents(){
+   var db = SqliteCalls.getConnection();
+   return (dispatch) => {
+    
+    db.transaction(function(tx) {
+   
+    tx.executeSql('SELECT * FROM GROUPAGENTS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackgroupAgents(res));
+  }
+  );
+  
+  }
+
+}
