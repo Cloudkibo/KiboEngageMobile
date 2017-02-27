@@ -3,6 +3,8 @@ import axios from 'axios';
 import * as ActionTypes from '../types';
 var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
+import SqliteCalls from '../../services/SqliteCalls';
+var SQLite = require('react-native-sqlite-storage')
 
 export function showResponses(cannedresponses) {
   //console.log(cannedresponses);
@@ -25,7 +27,17 @@ export const cannedFetch = (token) => {
       
   return (dispatch) => {
     axios.get(`${baseURL}/api/shortcuts`,config)
-    .then((res) => res).then(res => dispatch(showResponses(res)));
+    .then((res) => res).then(res => dispatch(writeResponses(res.data)))
+    .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        if(error = 'Network Error')
+        {
+          //Alert.alert('You are not connected with Internet');
+          dispatch(readResponses());
+        }
+       }); 
+
       
   };
 };
@@ -195,3 +207,106 @@ const cannedDeleteFail = (res) => {
 
 
 };
+
+/*** sqlite actions ***/
+
+export function callbackresponses(results) {
+ var fteams = []
+  var len = results.rows.length;
+  for (let i = 0; i < len; i++) {
+    let row = results.rows.item(i);
+    console.log('row');
+    console.log(row);
+    fteams.push(row);
+  }
+  console.log(fteams);
+ 
+  return {
+    type: ActionTypes.ADD_CANNED_RESPONSES,
+    payload : fteams,
+ 
+  };
+}
+
+
+
+export  function writeResponses(responses){
+  var db = SqliteCalls.getConnection();
+   var res = [];
+
+  var CREATE_SHORTCUT_TABLE = "CREATE TABLE SHORTCUTS ("
+                + "_id TEXT PRIMARY KEY,"
+                + "shortcode TEXT,"
+                + "message TEXT,"
+                + "companyid TEXT" + ")";
+  
+
+ var rows = []
+ for(var i=0;i<responses.length;i++){
+  var record = []
+  record.push(responses[i]._id)
+  record.push(responses[i].shortcode);
+  record.push(responses[i].message);
+  record.push(responses[i].companyid);
+ 
+  rows.push(record);
+ // addItem(db,record);
+
+  
+ }
+ console.log(rows);
+
+
+return (dispatch) => {
+    
+    db.transaction(function(tx) {
+    tx.executeSql('DROP TABLE IF EXISTS SHORTCUTS');
+    tx.executeSql(CREATE_SHORTCUT_TABLE);
+
+    for(var j=0;j<rows.length;j++){
+       tx.executeSql('INSERT INTO SHORTCUTS VALUES (?,?,?,?)',rows[j]);
+   
+    }
+    tx.executeSql('SELECT * FROM SHORTCUTS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackresponses(res));
+  }
+  );
+  
+  }
+
+}
+
+export function readResponses(){
+   var db = SqliteCalls.getConnection();
+   return (dispatch) => {
+    
+    db.transaction(function(tx) {
+   
+    tx.executeSql('SELECT * FROM SHORTCUTS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackresponses(res));
+  }
+  );
+  
+  }
+}
+
