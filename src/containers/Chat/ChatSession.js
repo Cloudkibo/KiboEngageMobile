@@ -94,17 +94,22 @@ class ChatSession extends Component {
     // this.props is still the old set of props
     // console.log('componentWillReceiveProps is called with chat session data');
     // console.log(nextProps.teams);
-    if(nextProps.data){
+    if(nextProps.data && nextProps.teams && nextProps.chat){
        this.renderCard(nextProps);
        this.setState({loading:false});
      }
   }
 
 
-  gotoChatBox = (nextProps, request_id) => {
+  gotoChatBox = (nextProps, request_id, companyid, _id, departmentid) => {
     var mychats = nextProps.chat.data.filter((c)=> c.request_id == request_id);
-    this.props.singleChats(mychats);
-    Actions.chat();
+    var sessiondata = {};
+    sessiondata.request_id = request_id;
+    sessiondata.companyid = companyid;
+    sessiondata._id = _id;
+    sessiondata.departmentid = departmentid;
+    this.props.singleChats(sessiondata);
+    Actions.chat({chat: mychats});
   }
 
   renderCard = (nextProps) => {
@@ -189,7 +194,7 @@ class ChatSession extends Component {
                     fontFamily='Lato'
                     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                     title='View Chats'
-                    onPress = {() => this.gotoChatBox(nextProps, item.request_id)} />
+                    onPress = {() => this.gotoChatBox(nextProps, item.request_id, item.companyid, item._id, item.departmentid)} />
                 </Card>
       );
     }, this);
@@ -198,6 +203,7 @@ class ChatSession extends Component {
   render = () => {
     if (this.state.loading) return <Loading />;
     // this.renderCard();
+    console.log("Render Session was called");
     return(
           <View style={[AppStyles.container]}>
           <Spacer size={15} />

@@ -34,6 +34,7 @@ class Chat extends Component {
     // this.state = 
     this.onSend = this.onSend.bind(this);
     this.renderChat = this.renderChat.bind(this);
+    this.renderChat(this.props.chat);
   }
 
    componentWillReceiveProps(nextProps) {
@@ -41,35 +42,35 @@ class Chat extends Component {
     // will be rendered with
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called with chat session data');
-    console.log(nextProps.singleChat);
-    this.setState({unique_index: 0});
-    if(nextProps.singleChat){
-      this.setState({loading:false});
-       this.renderChat(nextProps.singleChat);
-     }
+    // console.log(nextProps.singleChat);
+    // this.setState({unique_index: 0});
+    // if(nextProps.singleChat){
+    //   this.setState({loading:false});
+    //    this.renderChat(nextProps.singleChat);
+    //  }
   }
-  componentWillMount() {
-    this.setState({
-      messages: [
-        {
-          _id: 1,
-          text: 'Hello developer',
-          createdAt: new Date(Date.UTC(2016, 7, 30, 17, 20, 0)),
-          user: {
-            _id: 2,
-            name: 'React Native',
-            avatar: 'https://facebook.github.io/react/img/logo_og.png',
-          },
-        },
-      ],
-    });
-  }
+  // componentWillMount() {
+  //   this.setState({
+  //     messages: [
+  //       {
+  //         _id: 1,
+  //         text: 'Hello developer',
+  //         createdAt: new Date(Date.UTC(2016, 7, 30, 17, 20, 0)),
+  //         user: {
+  //           _id: 2,
+  //           name: 'React Native',
+  //           avatar: 'https://facebook.github.io/react/img/logo_og.png',
+  //         },
+  //       },
+  //     ],
+  //   });
+  // }
 
-  renderChat = (singleChat) => {
-      var temp = [];
-     singleChat.map((item, index) => {
+  renderChat = (whatever) => {
+      // var temp = [];
+     this.props.chat.map((item, index) => {
 
-      temp.push(
+      this.state.messages.push(
            {
           _id: index,
           text: item.msg,
@@ -84,7 +85,7 @@ class Chat extends Component {
 
     }, this);
 
-    this.setState({messages: temp});
+    // this.setState({messages: temp});
   }
 
   onSend(messages = []) {
@@ -119,7 +120,6 @@ const mapDispatchToProps = {
 };
 function mapStateToProps(state) {
    const { singleChat } = state.chat;
-
   return { singleChat };
 
 }
