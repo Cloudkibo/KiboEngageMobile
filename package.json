@@ -23,7 +23,6 @@
     "react": "^15.4.2",
     "react-addons-shallow-compare": "^15.4.0",
     "react-native": "^0.39.0",
-    "react-native-azurenotificationhub": "git+ssh://git@github.com/Cloudkibo/React-Native-Azurenotification-Hub.git",
     "react-native-device-info": "^0.9.6",
     "react-native-dropdown": "0.0.6",
     "react-native-elements": "^0.8.2",
