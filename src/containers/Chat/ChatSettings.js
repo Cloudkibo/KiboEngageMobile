@@ -22,6 +22,7 @@ import { Actions } from 'react-native-router-flux';
 import * as AgentActions from '@redux/agents/agentActions';
 import * as GroupActions from '@redux/group/GroupActions';
 import * as ChannelActions from '@redux/channel/ChannelActions';
+import * as chatActions from '@redux/chat/chatActions';
 var querystring = require('querystring');
 /* Component ==================================================================== */
 styles = {
@@ -39,7 +40,7 @@ class ChatSettings extends Component {
   constructor(props) {
     super(props);
     var ReactNative = require('react-native');
-    this.state = {items: [], language: '', groupsList: [], channelList: [], platform: 'Detected Platform: ' + ReactNative.Platform.OS};
+    this.state = {items: [], language: '', groupsList: [], channelList: [], assignedAgent: '', assignedGroup: '', assignedChannel: '', platform: 'Detected Platform: ' + ReactNative.Platform.OS};
 }
   componentWillMount = async () => {
     //this.props.agentFetch();
@@ -58,27 +59,89 @@ class ChatSettings extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     // console.log(nextProps);
-    if(nextProps.agents){
+    if(nextProps.agents && nextProps.groups && nextProps.channels && nextProps.singleChat){
        this.createPickerItems(nextProps);
      }
   }
 
   createPickerItems(nextProps){
+    this.state.items = [];
+    this.state.groupsList = [];
+    this.state.channelList = [];
      nextProps.agents.map((item, index) => {
        return this.state.items.push(
-           <Picker.Item label={item.firstname + ' ' + item.lastname} value={item._id} />
+           <Picker.Item label={item.firstname + ' ' + item.lastname} key={'key-'+item._id } value={item._id} />
        );
      });
       nextProps.groups.map((item, index) => {
        return this.state.groupsList.push(
-           <Picker.Item label={item.groupname} value={item._id} />
+           <Picker.Item label={item.groupname} key={'key-'+item._id } value={item._id} />
        );
      });
      nextProps.channels.map((item, index) => {
        return this.state.channelList.push(
-           <Picker.Item label={item.msg_channel_name} value={item._id} />
+           <Picker.Item label={item.msg_channel_name} key={'key-'+item._id } value={item._id} />
        );
      });
+  }
+
+  assignToAgents = async () => {
+    //this.props.agentFetch();
+     var token =  await auth.getToken();
+      console.log('token is Launchview is: ' + token);
+      if(token != ''){
+        //preparing data
+        input = {
+          agentidTo: this.state.assignedAgent,
+          agentidBy: this.props.userdetails._id,
+          companyid: this.props.singleChat.companyid,
+          requestid: this.props.singleChat.request_id,
+          _id: this.props.singleChat._id,
+          type: 'agent'
+        };
+
+        this.props.moveAgent(token, input);
+       }
+  }
+
+
+  assignToGroups = async () => {
+    //this.props.agentFetch();
+     var token =  await auth.getToken();
+      console.log('token is Launchview is: ' + token);
+      if(token != ''){
+        //preparing data
+        input = {
+          agentidTo: this.state.assignedGroup,
+          agentidBy: this.props.userdetails._id,
+          companyid: this.props.singleChat.companyid,
+          requestid: this.props.singleChat.requestid,
+          _id: this.props.singleChat._id,
+          type: 'group'
+        };
+
+        this.props.moveAgent(token, input);
+       }
+  }
+
+  assignToChannels = async () => {
+    //this.props.agentFetch();
+     var token =  await auth.getToken();
+      console.log('token is Launchview is: ' + token);
+      if(token != ''){
+        //preparing data
+        input = {
+          channel_to: this.state.assignedChannel,
+          channel_from: this.props.singleChat.departmentid,
+          agentidBy: this.props.userdetails._id,
+          companyid: this.props.singleChat.companyid,
+          requestid: this.props.singleChat.requestid,
+          _id: this.props.singleChat._id,
+          type: 'group'
+        };
+
+        this.props.moveChannel(token, input);
+       }
   }
 
   render() {
@@ -100,52 +163,54 @@ class ChatSettings extends Component {
       
     </Card>
     <Card>
-    <Text>Assign To Agent</Text>
+    <Text>Assign To Agent {this.state.assignedAgent}</Text>
     <Spacer size={10} />
        <Picker
-  onValueChange={(lang) => this.setState({language: lang})}>
+        selectedValue={this.state.assignedAgent}
+        onValueChange={(toAgentId) => this.setState({assignedAgent: toAgentId})}
+        >
   {this.state.items}
 </Picker>
      <Spacer size={10} />
      <Button
         title="Assign"
         color="#841584"
-        accessibilityLabel="Send Invite to Agent"
-        onPress={this.sendInvite}
+        accessibilityLabel="Assign To Agent"
+        onPress={this.assignToAgents}
       />
     </Card>
 
      <Card>
-    <Text>Assign To Group</Text>
+    <Text>Assign To Group {this.state.assignedGroup}</Text>
     <Spacer size={10} />
       <Picker
-  selectedValue={this.state.language}
-  onValueChange={(lang) => this.setState({language: lang})}>
+          selectedValue={this.state.assignedGroup}
+        onValueChange={(toGroupId) => this.setState({assignedGroup: toGroupId})}>
   {this.state.groupsList}
 </Picker>
      <Spacer size={10} />
      <Button
         title="Assign"
         color="#841584"
-        accessibilityLabel="Send Invite to Agent"
-        onPress={this.sendInvite}
+        accessibilityLabel="Assign To Group"
+        onPress={this.assignToGroups}
       />
     </Card>
 
      <Card>
-    <Text>Move To Other Channel</Text>
+    <Text>Move To Other Channel {this.state.assignedChannel}</Text>
     <Spacer size={10} />
       <Picker
-  selectedValue={this.state.language}
-  onValueChange={(lang) => this.setState({language: lang})}>
+   selectedValue={this.state.assignedChannel}
+        onValueChange={(toChannelId) => this.setState({assignedChannel: toChannelId})}>
   {this.state.channelList}
 </Picker>
      <Spacer size={10} />
      <Button
         title="Move"
         color="#841584"
-        accessibilityLabel="Send Invite to Agent"
-        onPress={this.sendInvite}
+        accessibilityLabel="Move To Other Channel"
+        onPress={this.assignToChannels}
       />
     </Card>
 
@@ -159,15 +224,18 @@ class ChatSettings extends Component {
 /* Export Component ==================================================================== */
 const mapDispatchToProps = {
   agentFetch: AgentActions.agentFetch,
-   groupFetch: GroupActions.groupFetch,
+  groupFetch: GroupActions.groupFetch,
   channelFetch: ChannelActions.channelFetch,
+  moveAgent: chatActions.assignAgent,
+  moveChannel: ChannelActions.assignChannel,
 };
 function mapStateToProps(state) {
    const { agents } = state.agents;
    const { groups } = state.groups;
    const { channels} = state.channels;
-  return { agents, groups, channels };
-
+   const { userdetails } = state.user;
+   const { singleChat } = state.chat;
+   return { agents, groups, channels, userdetails, singleChat };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSettings);
 

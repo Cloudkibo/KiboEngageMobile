@@ -63,3 +63,42 @@ export function singleChats(data) {
 }
 
 
+// Assign Agent
+export const assignAgent = (token, input) => {
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'authorization': `Bearer ${token}`,
+            'content-type': 'application/json',
+            },
+
+          };
+      var data =  {
+           companyid : input.companyid,
+           sessionid : input.requestid,
+           agentemail: ['jekram@hotmail.com'],
+           type: input.type,
+           agentAssignment : {
+            assignedto : input.agentidTo,
+            assignedby : input.agentidBy,
+            sessionid  : input.requestid,
+            companyid  : input.companyid ,
+            datetime   : Date.now(),
+            type : 'agent',
+          },
+          
+      };
+  console.log(data);
+    return (dispatch) => {
+    axios.post(`http://kiboengage.cloudapp.net/api/assignToAgent`, data,config)
+      .then((res) => {
+        // dispatch(confirmInvite(res))
+        console.log("Agent Successfully Assigned");
+      })
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        // dispatch(confirmInvite(error));
+      });
+  };
+};

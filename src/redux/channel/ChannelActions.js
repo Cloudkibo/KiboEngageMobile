@@ -179,6 +179,7 @@ const channelDeleteSuccess = (res) => {
   
 };
 
+<<<<<<< HEAD
 /***** SQLite related *****/
 
 /**** SQLite***/
@@ -293,4 +294,43 @@ export function readChannels(){
 
 }
 
+=======
+
+// Assign Agent
+export const assignChannel = (token, input) => {
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type': 'application/json',
+            },
+
+          };
+      var data =  {
+           companyid : input.companyid,
+           sessionid : input._id,
+           channelAssignment : {
+            movedto : input.channel_to,
+            movedfrom : input.channel_from,
+            movedby : input.agentidBy,
+            sessionid  : input._id,
+            companyid  : input.companyid ,
+            datetime   : Date.now(),
+          },
+      };
+  console.log(data);
+    return (dispatch) => {
+    axios.post(`http://kiboengage.cloudapp.net/api/movedToMessageChannel`, data,config)
+      .then((res) => {
+        // dispatch(confirmInvite(res))
+        console.log("Channel Successfully Assigned");
+      })
+      .catch(function (error) {
+        console.log('Error occured in assigning channel');
+        console.log(error);
+        // dispatch(confirmInvite(error));
+      });
+  };
+};
+>>>>>>> agent_invite
 
