@@ -108,25 +108,18 @@ class CompanySettings extends Component {
         smsNotification: yn,
         showSummary: yn,
         allowChat: yn,
+        enableFacebook : yn,
         openWidgetAsSeparate: widget,
         emailTemplate1 : validString,
         emailTemplate2 : validString,
+        
       }),
       empty_form_values: {
       
       },
-      form_values: {
-          allowChat:yn.no,
-          companyDomainEmails: yn.no,
-          notifyByEmail: yn.no,
-          smsNotification: yn.no,
-          showSummary: yn.no,
-          openWidgetAsSeparate: 'window',
-      },
-      options: {
-        fields: {
-          
-        emailTemplate1: {
+      options:{
+        fields:{
+        emailTemplate1 :{
           label: 'Email Template 1 (Reschedule Resolved Session)',
           autoCapitalize: 'none',
           clearButtonMode: 'while-editing',
@@ -134,7 +127,7 @@ class CompanySettings extends Component {
           // placeholder: 'We had conversation on the (insert date). We wanted have more conversation with you. \nWe have scheduled your meeting.',
           stylesheet: stylesheet // overriding the style of the textbox
         },
-        emailTemplate2: {
+        emailTemplate2 :{
           label: 'Email Template 1 (Reschedule Abandoned Session)',
           autoCapitalize: 'none',
           clearButtonMode: 'while-editing',
@@ -146,29 +139,10 @@ class CompanySettings extends Component {
         notificationemailaddress:{
           label: 'Notfication email address'
         },
-        allowChat:{
-           nullOption:false,
-          },
-        openWidgetAsSeparate:{
-           nullOption:false,
-          },
+        }
+      }
 
-        companyDomainEmails:{
-           nullOption:false,
-          },
-        notifyByEmail:{
-         nullOption:false,
-        },
-        smsNotification:{
-           nullOption:false,
-        },
-        showSummary:{
-            nullOption:false,
-          },
-        
-      },
-    }
-  }
+     }
 
   this.state.test = "The Illogical Man";
 
@@ -193,11 +167,8 @@ class CompanySettings extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     console.log(nextProps.data);
-    if(nextProps.data.isdomainemail){
-        
-    }else{
-      return;
-    }
+    if(nextProps.data){
+   
         newVals = {
           maxNumberOfTeams: nextProps.data.maxnumberofdepartment,
           maxNumberOfChannelsPerTeam: nextProps.data.maxnumberofchannels,
@@ -211,16 +182,23 @@ class CompanySettings extends Component {
           openWidgetAsSeparate: nextProps.data.widgetwindowtab,
           emailTemplate1 : nextProps.data.abandonedscheduleemail1,
           emailTemplate2 : nextProps.data.abandonedscheduleemail2,
+          enableFacebook: nextProps.data.enableFacebook,
       };
-      console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n Copanysad DOmain : ' + nextProps.data.companyDomainEmails);
+
+
+      
       this.setState({ form_values: newVals });
+      
       this.setState({ updatedData: nextProps.data });
       this.setState({ test: 'New Props Received' });
+       console.log(this.state);
+     
   }
+}
 
   saveSettings = async () => {
     var token =  await auth.getToken();
-    console.log(this.state.text);
+    //console.log(this.state.text);
     console.log(token);
     this.props.save(token, this.state.updatedData);
   }
@@ -243,6 +221,7 @@ class CompanySettings extends Component {
      this.state.updatedData.widgetwindowtab = credentials.openWidgetAsSeparate;
      this.state.updatedData.abandonedscheduleemail1 = credentials.emailTemplate1;
      this.state.updatedData.abandonedscheduleemail2 = credentials.emailTemplate2;
+     this.state.updatedData.enableFacebook = credentials.enableFacebook;
     this.setState({ updatedData: this.state.updatedData });
     this.setState({ test: this.state.updatedData.allowChat });
     this.saveSettings();
