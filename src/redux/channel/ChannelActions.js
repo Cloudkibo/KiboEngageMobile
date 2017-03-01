@@ -179,7 +179,6 @@ const channelDeleteSuccess = (res) => {
   
 };
 
-<<<<<<< HEAD
 /***** SQLite related *****/
 
 /**** SQLite***/
@@ -294,7 +293,7 @@ export function readChannels(){
 
 }
 
-=======
+
 
 // Assign Agent
 export const assignChannel = (token, input) => {
@@ -332,5 +331,5 @@ export const assignChannel = (token, input) => {
       });
   };
 };
->>>>>>> agent_invite
+
 

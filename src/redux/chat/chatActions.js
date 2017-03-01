@@ -68,7 +68,7 @@ export const assignAgent = (token, input) => {
     var config = {
       rejectUnauthorized : false,
       headers: {
-            'authorization': `Bearer ${token}`,
+            'authorization': token,
             'content-type': 'application/json',
             },
 
