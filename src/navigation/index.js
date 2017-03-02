@@ -56,6 +56,8 @@ import Dashboard from '@containers/dashboard';
 import AuthScenes from './auth';
 import TabsScenes from './tabs';
 
+
+import AddFbPage from '@containers/Facebook/AddFbPage';
 /* Routes ==================================================================== */
 export default Actions.create(
   <Scene key={'root'} {...AppConfig.navbarProps}>
@@ -286,6 +288,13 @@ export default Actions.create(
         title={'My Profile'}
         component={MyProfile}
         analyticsDesc={'MyProfile: MyProfile'}
+      />
+
+      <Scene
+        key={'AddFbPage'}
+        title={'Add Facebook Page'}
+        component={AddFbPage}
+        analyticsDesc={'AddFbPage: AddFbPage'}
       />
 
     </Scene>
