@@ -76,7 +76,7 @@ export const assignAgent = (token, input) => {
       var data =  {
            companyid : input.companyid,
            sessionid : input.requestid,
-           agentemail: ['jekram@hotmail.com'],
+           agentemail: input.email,
            type: input.type,
            agentAssignment : {
             assignedto : input.agentidTo,
@@ -84,7 +84,7 @@ export const assignAgent = (token, input) => {
             sessionid  : input.requestid,
             companyid  : input.companyid ,
             datetime   : Date.now(),
-            type : 'agent',
+            type : input.type,
           },
           
       };
@@ -92,13 +92,22 @@ export const assignAgent = (token, input) => {
     return (dispatch) => {
     axios.post(`http://kiboengage.cloudapp.net/api/assignToAgent`, data,config)
       .then((res) => {
-        // dispatch(confirmInvite(res))
+        dispatch(assign_agent_status('Successfully Assigned'));
         console.log("Agent Successfully Assigned");
       })
       .catch(function (error) {
         console.log('Error occured');
+        dispatch(assign_agent_status('Error Occurred'));
         console.log(error);
         // dispatch(confirmInvite(error));
       });
   };
 };
+
+
+export function assign_agent_status(data) {
+  return {
+    type: ActionTypes.ASSIGN_AGENT,
+    payload : data,
+  };
+}

@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   loading: true,
   chat: '',
   singleChat: '',
+  invite_agent_status: '',
   
 };
 
@@ -20,6 +21,8 @@ export default (state = INITIAL_STATE, action) => {
    
    case ActionTypes.SINGLE_CHATS:
       return {...state,singleChat:action.payload, loading:false};
+  case ActionTypes.ASSIGN_AGENT:
+      return {...state,invite_agent_status:action.payload};
     
    
     default:
