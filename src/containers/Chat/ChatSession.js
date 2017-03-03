@@ -106,13 +106,16 @@ class ChatSession extends Component {
   }
 
 
-  gotoChatBox = (nextProps, request_id, companyid, _id, departmentid) => {
+  gotoChatBox = (nextProps, request_id, companyid, _id, departmentid, status, team_name, channel_name) => {
     var mychats = nextProps.chat.data.filter((c)=> c.request_id == request_id);
     var sessiondata = {};
     sessiondata.request_id = request_id;
     sessiondata.companyid = companyid;
     sessiondata._id = _id;
     sessiondata.departmentid = departmentid;
+    sessiondata.status = status;
+    sessiondata.channel_name = channel_name;
+    sessiondata.team_name = team_name;
     this.props.singleChats(sessiondata);
     Actions.chat({chat: mychats});
   }
@@ -208,7 +211,7 @@ class ChatSession extends Component {
                     backgroundColor='#03A9F4'
                     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                     title='View Chats'
-                    onPress = {() => this.gotoChatBox(nextProps, item.request_id, item.companyid, item._id, item.departmentid)} />
+                    onPress = {() => this.gotoChatBox(nextProps, item.request_id, item.companyid, item._id, item.departmentid, item.status,teamname[0].deptname, channelName[0].msg_channel_name)} />
                 </Card>
       );
     }, this);

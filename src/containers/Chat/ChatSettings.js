@@ -155,10 +155,10 @@ class ChatSettings extends Component {
     <Text>{this.state.platform}</Text>
       <Text>Status</Text>
       <Text style={styles.cardDescription}>
-        Current Status - Assigned 
+        Current Status - {this.props.singleChat.status}
       </Text>
       <Text style={styles.cardDescription}>
-        Finance - Payment
+        {this.props.singleChat.team_name} - {this.props.singleChat.channel_name}
       </Text>
       
     </Card>
