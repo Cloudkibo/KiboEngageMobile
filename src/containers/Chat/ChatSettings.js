@@ -70,7 +70,7 @@ class ChatSettings extends Component {
     this.state.channelList = [];
      nextProps.agents.map((item, index) => {
        return this.state.items.push(
-           <Picker.Item label={item.firstname + ' ' + item.lastname} key={'key-'+item._id } value={item._id} />
+           <Picker.Item label={item.firstname + ' ' + item.lastname} key={'key-'+item._id } value={item._id+','+item.email} />
        );
      });
       nextProps.groups.map((item, index) => {
@@ -91,13 +91,15 @@ class ChatSettings extends Component {
       console.log('token is Launchview is: ' + token);
       if(token != ''){
         //preparing data
+        id_emails = this.state.assignedAgent.split(",");
         input = {
-          agentidTo: this.state.assignedAgent,
+          agentidTo: id_emails[0],
           agentidBy: this.props.userdetails._id,
           companyid: this.props.singleChat.companyid,
           requestid: this.props.singleChat.request_id,
           _id: this.props.singleChat._id,
-          type: 'agent'
+          type: 'agent',
+          email: [id_emails[1]]
         };
 
         this.props.moveAgent(token, input);
@@ -153,6 +155,11 @@ class ChatSettings extends Component {
     
     <Card>
     <Text>{this.state.platform}</Text>
+         <Alerts
+            status={ this.props.invite_agent_status }
+            success=''
+            error=''
+      />
       <Text>Status</Text>
       <Text style={styles.cardDescription}>
         Current Status - {this.props.singleChat.status}
@@ -234,8 +241,8 @@ function mapStateToProps(state) {
    const { groups } = state.groups;
    const { channels} = state.channels;
    const { userdetails } = state.user;
-   const { singleChat } = state.chat;
-   return { agents, groups, channels, userdetails, singleChat };
+   const { singleChat,invite_agent_status } = state.chat;
+   return { agents, groups, channels, userdetails, singleChat, invite_agent_status };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSettings);
 
