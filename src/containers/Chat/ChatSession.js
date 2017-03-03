@@ -22,7 +22,6 @@ import * as TeamActions from '@redux/team/teamActions';
 import * as AgentActions from '@redux/agents/agentActions';
 import * as ChannelActions from '@redux/channel/ChannelActions';
 import * as GroupActions from '@redux/group/GroupActions';
-
 import Loading from '@components/general/Loading';
 
 import auth from '../../services/auth';
@@ -90,6 +89,8 @@ class ChatSession extends Component {
         this.props.chatsFetch(token);
         this.props.channelFetch(token);
         this.props.agentGroupFetch(token);
+        this.props.agentFetch(token);
+        
        }
   }
 
@@ -99,7 +100,7 @@ class ChatSession extends Component {
     // this.props is still the old set of props
     // console.log('componentWillReceiveProps is called with chat session data');
     // console.log(nextProps.teams);
-    if(nextProps.data && nextProps.teams && nextProps.chat){
+    if(nextProps.data && nextProps.teams && nextProps.chat && nextProps.agents && nextProps.teamagents && nextProps.groupagents){
        this.renderCard(nextProps);
        this.setState({loading:false});
      }
@@ -140,15 +141,25 @@ class ChatSession extends Component {
 
 
       var teamname = nextProps.teams.filter((t)=> t._id == item.departmentid);
-      
+  
       var channelname = '';
-      for (i = 0; i < item.messagechannel.length; i++){
-        channelname = item.messagechannel[i];
+      if(item.messagechannel.length>0){
+        channelname = item.messagechannel[item.messagechannel.length-1];
       }
         var group_agents_name = 'Not assigned yet';
-        for (i = 0; i < item.agent_ids.length; i++){
-        group_agents_name = item.agent_ids[i].id;
+     if(item.agent_ids.length > 0){
+      if(item.agent_ids[item.agent_ids.length-1].type == 'agent'){
+        var agentassigned = this.props.agents.filter((a)=> a._id == item.agent_ids[item.agent_ids.length-1].id)[0];
+
+        group_agents_name = agentassigned.firstname + agentassigned.lastname;
       }
+      else{
+        // add condition to show group name
+      group_agents_name = item.agent_ids[item.agent_ids.length-1].id;
+
+      }
+     }
+      
       // var agent_name = nextProps.groupagents.filter((g) => g.agent_id == channelname);
       var channelName = nextProps.channels.filter((c) => c._id == channelname);
       return this.state.menuItems.push(
@@ -248,13 +259,15 @@ const mapDispatchToProps = {
   channelFetch: ChannelActions.channelFetch,
   groupFetch: GroupActions.groupFetch,
   agentGroupFetch : GroupActions.agentGroupFetch,
+  agentFetch:AgentActions.agentFetch
 };
 function mapStateToProps(state) {
    const { data, loading, chat } = state.chat;
    const { teams ,teamagents} = state.teams;
     const { channels} = state.channels;
+    const {agents} = state.agents;
     const { groupagents } = state.groups;
-  return { data, loading, teams, teamagents, chat, channels, groupagents };
+  return { data, loading, teams, teamagents,agents, chat, channels, groupagents };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSession);

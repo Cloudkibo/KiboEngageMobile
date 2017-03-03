@@ -47,7 +47,7 @@ class ChatSettings extends Component {
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
-        this.props.agentFetch(token);
+        //this.props.agentFetch(token); //No need to call this endpoint here again, I have added it in ChatSession [Zarmeen]
         this.props.groupFetch(token);
         this.props.channelFetch(token);
        }
