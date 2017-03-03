@@ -315,7 +315,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		Ug2hgXh92uLtFhFUC8p2y0lP5dE=
+		thiptpAkstHJIzVYn+SRd4ixU0U=
 		</data>
 		<key>Ionicons.ttf</key>
 		<data>
@@ -333,13 +333,17 @@
 		<data>
 		4NxU0SilOddSzgLxIXFBKs7oDH8=
 		</data>
+		<key>MaterialCommunityIcons.ttf</key>
+		<data>
+		W28Wp8frwGzTm8xVYZzGjCm0cW4=
+		</data>
 		<key>MaterialIcons.ttf</key>
 		<data>
 		/AXeMSNOAJD33cKM4bI69AJssdo=
 		</data>
 		<key>Octicons.ttf</key>
 		<data>
-		XF4wYBlFFw56fAqk3ggmUtwnNQI=
+		nDHzgr8cV2wncaeFbvmESHJDPUg=
 		</data>
 		<key>PkgInfo</key>
 		<data>
@@ -351,7 +355,7 @@
 		</data>
 		<key>PlugIns/StarterKitTests.xctest/StarterKitTests</key>
 		<data>
-		x+aSfx7+kDU1WrrQs26aXdbP/Uk=
+		8tTgdLYVv9I479Gnta+ilicS1us=
 		</data>
 		<key>PlugIns/StarterKitTests.xctest/_CodeSignature/CodeResources</key>
 		<data>
@@ -1255,6 +1259,17 @@
 			UcprCggVgrQ9n+/OXwHhvg56gMNbFoNEDtnoFsm79eU=
 			</data>
 		</dict>
+		<key>MaterialCommunityIcons.ttf</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			W28Wp8frwGzTm8xVYZzGjCm0cW4=
+			</data>
+			<key>hash2</key>
+			<data>
+			MDrqh7+l+hNgAV8dCByqY6LZ0ainLHm9rBg2H+vNdnU=
+			</data>
+		</dict>
 		<key>MaterialIcons.ttf</key>
 		<dict>
 			<key>hash</key>
@@ -1270,11 +1285,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			XF4wYBlFFw56fAqk3ggmUtwnNQI=
+			nDHzgr8cV2wncaeFbvmESHJDPUg=
 			</data>
 			<key>hash2</key>
 			<data>
-			sw1aNDI0CqTWoFwAl/BoysSnzVrJqfoRSzi3y6/KJCM=
+			zLOa3HG6r1FR8G3HAL3RBNLhvSx9Ru2iAlXyNPR6vuo=
 			</data>
 		</dict>
 		<key>PlugIns/StarterKitTests.xctest/Info.plist</key>
@@ -1292,11 +1307,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			x+aSfx7+kDU1WrrQs26aXdbP/Uk=
+			8tTgdLYVv9I479Gnta+ilicS1us=
 			</data>
 			<key>hash2</key>
 			<data>
-			NWab+zTd8qZt8iN9wJzaEzRMFTDcQfqthHWELYvPQKc=
+			HemHzra5Wi8vpvKZRt/UKJsyn9s4qrXoacCsmU7coIw=
 			</data>
 		</dict>
 		<key>PlugIns/StarterKitTests.xctest/_CodeSignature/CodeResources</key>

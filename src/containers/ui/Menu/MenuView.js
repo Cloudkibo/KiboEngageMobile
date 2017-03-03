@@ -170,6 +170,12 @@ class Menu extends Component {
           onPress: () => { this.props.closeSideMenu(); Actions.AddFbPage(); },
           icon: 'facebook',
           
+        },
+        {
+          title: 'Facebook Chat',
+          onPress: () => { this.props.closeSideMenu(); Actions.FbCustomers(); },
+          icon: 'facebook',
+          
         }
       
 

@@ -11,13 +11,13 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
    
-    case ActionTypes.CREATE_FBPAGE_SUCCESS:
-      return { ...state, ...INITIAL_STATE,fbpages : state.fbpages,fbpageerror: '', fbpagesuccess: 'Page details added successfully' };
-    case ActionTypes.CREATE_FBPAGE_SUCCESS:
-      return { ...state, fbpages : state.fbpages,fbpageerror: 'There is an error occurred. Please try later', fbpagesuccess:'' ,loading: false };
+    case ActionTypes.FBPAGE_SUCCESS:
+      return { ...state,fbpageerror: '', fbpagesuccess: action.payload };
+    case ActionTypes.FBPAGE_FAIL:
+      return { ...state,fbpageerror: 'There is an error occurred. Please try later', fbpagesuccess:'' ,loading: false };
 
     case ActionTypes.SHOW_FB_CUSTOMERS:
-      return { ...state, fbpages : state.fbpages,fbcustomers:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
+      return { ...state,fbcustomers:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
 
     default:
       return state;

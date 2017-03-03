@@ -58,6 +58,8 @@ import TabsScenes from './tabs';
 
 
 import AddFbPage from '@containers/Facebook/AddFbPage';
+import EditFbPage from '@containers/Facebook/EditFbPage';
+import FbCustomers from '@containers/Facebook/FbCustomers';
 /* Routes ==================================================================== */
 export default Actions.create(
   <Scene key={'root'} {...AppConfig.navbarProps}>
@@ -295,6 +297,20 @@ export default Actions.create(
         title={'Add Facebook Page'}
         component={AddFbPage}
         analyticsDesc={'AddFbPage: AddFbPage'}
+      />
+
+       <Scene
+        key={'EditFbPage'}
+        title={'Edit Facebook Page'}
+        component={EditFbPage}
+        analyticsDesc={'EditFbPage: EditFbPage'}
+      />
+
+       <Scene
+        key={'FbCustomers'}
+        title={'Facebook Customers'}
+        component={FbCustomers}
+        analyticsDesc={'FbCustomers: FbCustomers'}
       />
 
     </Scene>

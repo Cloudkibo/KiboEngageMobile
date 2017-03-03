@@ -100,7 +100,7 @@ export const assignAgent = (token, input,session) => {
     return (dispatch) => {
     axios.post(`http://kiboengage.cloudapp.net/api/assignToAgent`, data,config)
     .then(()=>{
-      axios.post(`https://api.kibosupport.com/api/visitorcalls/pickSession`, session,configKS)
+      axios.post(`${baseURL}/api/visitorcalls/pickSession`, session,configKS)
     })
       .then((res) => {
         dispatch(assign_agent_status('Successfully Assigned'));

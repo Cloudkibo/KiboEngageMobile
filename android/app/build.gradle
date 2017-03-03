@@ -126,6 +126,9 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-google-analytics-bridge')
+    compile project(':react-native-device-info')
 
     compile "com.google.android.gms:play-services-gcm:9.4.0"
     compile "com.google.firebase:firebase-messaging:9.4.0"
