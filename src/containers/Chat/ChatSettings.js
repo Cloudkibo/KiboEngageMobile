@@ -92,6 +92,13 @@ class ChatSettings extends Component {
       if(token != ''){
         //preparing data
         id_emails = this.state.assignedAgent.split(",");
+
+        //update session status on server
+        var session = {
+          request_id : this.props.singleChat.request_id,
+          status : 'assigned',
+        }
+        
         input = {
           agentidTo: id_emails[0],
           agentidBy: this.props.userdetails._id,
@@ -102,7 +109,7 @@ class ChatSettings extends Component {
           email: [id_emails[1]]
         };
 
-        this.props.moveAgent(token, input);
+        this.props.moveAgent(token, input,session);
        }
   }
 

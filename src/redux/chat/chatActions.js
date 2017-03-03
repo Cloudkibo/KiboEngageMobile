@@ -64,11 +64,19 @@ export function singleChats(data) {
 
 
 // Assign Agent
-export const assignAgent = (token, input) => {
+export const assignAgent = (token, input,session) => {
     var config = {
       rejectUnauthorized : false,
       headers: {
             'authorization': token,
+            'content-type': 'application/json',
+            },
+
+          };
+    var configKS = {
+      rejectUnauthorized : false,
+      headers: {
+            'authorization': `Bearer ${token}`,
             'content-type': 'application/json',
             },
 
@@ -91,6 +99,9 @@ export const assignAgent = (token, input) => {
   console.log(data);
     return (dispatch) => {
     axios.post(`http://kiboengage.cloudapp.net/api/assignToAgent`, data,config)
+    .then(()=>{
+      axios.post(`https://api.kibosupport.com/api/visitorcalls/pickSession`, session,configKS)
+    })
       .then((res) => {
         dispatch(assign_agent_status('Successfully Assigned'));
         console.log("Agent Successfully Assigned");
