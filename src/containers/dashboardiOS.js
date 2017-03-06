@@ -23,6 +23,7 @@ import AppAPI from '@lib/api';
 import { AppStyles } from '@theme/';
 import { connect } from 'react-redux';
 import * as UserActions from '@redux/user/actions';
+import * as FbActions from '@redux/facebook/FbActions';
 import Loading from '@components/general/Loading';
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
@@ -45,18 +46,20 @@ class DashboardiOS extends Component {
     super(props);
     
     this.state = {'userdetails' : null,loading : true,connectionInfo:''};
-    this.register = this.register.bind(this);
-    
+   // this.register = this.register.bind(this);
+   this._onRemoteNotification = this._onRemoteNotification.bind(this);
+   this.requestPermissions = this.requestPermissions.bind(this);
+
   }
  
   requestPermissions() {
-    NotificationHub.addEventListener('register', this._onRegistered);
+   /* NotificationHub.addEventListener('register', this._onRegistered);
     NotificationHub.addEventListener('registrationError', this._onRegistrationError);
     NotificationHub.addEventListener('registerAzureNotificationHub', this._onAzureNotificationHubRegistered);
     NotificationHub.addEventListener('azureNotificationHubRegistrationError', this._onAzureNotificationHubRegistrationError);
     NotificationHub.addEventListener('notification', this._onRemoteNotification);
     NotificationHub.addEventListener('localNotification', this._onLocalNotification);
-
+*/
     NotificationHub.requestPermissions();
   }
 
@@ -123,8 +126,14 @@ class DashboardiOS extends Component {
 
   componentDidMount = async() => {
   
-
+    NotificationHub.addEventListener('register', this._onRegistered);
+    NotificationHub.addEventListener('registrationError', this._onRegistrationError);
+    NotificationHub.addEventListener('registerAzureNotificationHub', this._onAzureNotificationHubRegistered);
+    NotificationHub.addEventListener('azureNotificationHubRegistrationError', this._onAzureNotificationHubRegistrationError);
+    NotificationHub.addEventListener('notification', this._onRemoteNotification);
+    NotificationHub.addEventListener('localNotification', this._onLocalNotification);
     this.requestPermissions();
+
     var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
@@ -200,7 +209,7 @@ renderLoadingView(){
     
     
   }
-   _onRegistered(deviceToken) {
+   async _onRegistered(deviceToken) {
     remoteNotificationsDeviceToken = deviceToken;
     //this.register();
     
@@ -212,6 +221,38 @@ renderLoadingView(){
         onPress: null,
       }]
     );
+
+     console.log('registerering to hub');
+   // var token = NotificationHub.register({connectionString, hubName, senderID, tags})
+    
+    try {
+    var {
+     message
+    } = await NotificationHub.register(remoteNotificationsDeviceToken,{connectionString, hubName, senderID, tagName});
+
+    Alert.alert(
+            'Registered For Remote Push',
+            'Sucessfully registered',
+
+            [{
+              text: 'Dismiss',
+              onPress: null,
+            }]
+          );
+
+  } catch (e) {
+   Alert.alert(
+            'Registered For Remote Push',
+            'Error occured',
+
+            [{
+              text: 'Dismiss',
+              onPress: null,
+            }]
+          );
+
+  }
+
 
      
   }
@@ -227,17 +268,29 @@ renderLoadingView(){
     );
   }
 
-  _onRemoteNotification(notification) {
+  async _onRemoteNotification(notification) {
     console.log('notification');
     console.log(notification);
     Alert.alert(
       'Push Notification Received',
-      'Alert message: ' + notification.message,
+      'Alert message: ' + notification._data.data.status,
       [{
         text: 'Dismiss',
         onPress: null,
       }]
     );
+
+    if(notification._data.data.type == 'fbchat'){
+          var token =  await auth.getToken();
+          // console.log('token is Launchview is: ' + token);
+          if(token != ''){
+            this.props.fetchfbcustomers(token);
+            this.props.getfbChatsUpdate(token,this.props.fbchatSelected);
+
+            //this.forceUpdate();
+            
+           }
+    }
   }
 
   _onAzureNotificationHubRegistered(registrationInfo) {
@@ -281,12 +334,16 @@ renderLoadingView(){
 const mapDispatchToProps = {
   getuser: UserActions.getuser,
   getsqlData:UserActions.getsqlData,
+
+  fetchfbcustomers: FbActions.fetchfbcustomers,
+  getfbChats:FbActions.getfbChats,
+  getfbChatsUpdate:FbActions.getfbChatsUpdate,
  };
 
 function mapStateToProps(state) {
    const { userdetails,fetchedR} = state.user;
-  
-  return {userdetails,fetchedR};
+   const {fbchatSelected} = state.fbpages;
+  return {userdetails,fetchedR,fbchatSelected};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(DashboardiOS);

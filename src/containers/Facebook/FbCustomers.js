@@ -90,7 +90,7 @@ class FbCustomers extends Component {
       // console.log('token is Launchview is: ' + token);
       if(token != ''){
         this.props.fetchfbcustomers(token);
-      
+        this.props.getfbChats(token);
         
        }
   }
@@ -101,16 +101,16 @@ class FbCustomers extends Component {
     // this.props is still the old set of props
     // console.log('componentWillReceiveProps is called with chat session data');
     // console.log(nextProps.teams);
-    if(nextProps.fbcustomers){
+    if(nextProps.fbcustomers && nextProps.fbchats){
        this.renderCard(nextProps);
        this.setState({loading:false});
      }
   }
 
 
-  gotoChatBox = (nextProps) => {
+  gotoChatBox = (item) => {
    //will call chat messages page
-   var fbpage = {
+   /*var fbpage = {
       pageid:"101",
       appid:"101",
       pageToken:"101",
@@ -119,7 +119,10 @@ class FbCustomers extends Component {
       companyid:"cd89f71715f2014725163952",
      
     }
-    Actions.EditFbPage({fbpage:fbpage});
+    Actions.EditFbPage({fbpage:fbpage});*/
+   this.props.updatedSelectedFbChats(this.props.fbchats.filter((c)=>c.senderid == item.user_id || c.recipientid == item.user_id).reverse());
+   //Actions.fbChats({fbchatSelected:this.props.fbchats.filter((c)=>c.senderid == item.user_id || c.recipientid == item.user_id)})
+   Actions.fbChats();
   }
 
   renderCard = (nextProps) => {
@@ -160,12 +163,14 @@ class FbCustomers extends Component {
 
 const mapDispatchToProps = {
   fetchfbcustomers: FbActions.fetchfbcustomers,
+  getfbChats:FbActions.getfbChats,
+  updatedSelectedFbChats:FbActions.updatedSelectedFbChats,
   
 };
 function mapStateToProps(state) {
-   const { fbcustomers} = state.fbpages;
+   const { fbcustomers,fbchats,fbchatSelected} = state.fbpages;
   
-  return { fbcustomers};
+  return { fbcustomers,fbchats,fbchatSelected};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FbCustomers);

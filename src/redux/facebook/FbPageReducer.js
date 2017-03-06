@@ -19,6 +19,15 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.SHOW_FB_CUSTOMERS:
       return { ...state,fbcustomers:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
 
+    case ActionTypes.SHOW_FB_CHATS:
+    return { ...state,fbchats:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
+
+    case ActionTypes.SHOW_FB_SELECTEDCHATS:
+    return { ...state,fbchatSelected:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
+
+    case ActionTypes.SHOW_FB_CHATS_UPDATED:
+    return { ...state,fbchatSelected:action.fbchatSelected,fbchats:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
+
     default:
       return state;
   }

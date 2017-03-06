@@ -116,10 +116,16 @@ export const fetchfbcustomers=(token) => {
   };
 };
 
+export const updatedSelectedFbChats=(fbchatsSelected) => {
+   return{
+    type: ActionTypes.SHOW_FB_SELECTEDCHATS,
+    payload: fbchatsSelected,
+  };
 
+}
 
 const showfbcustomers = (fbCustomers) => {
-  console.log(fbCustomers)
+  console.log(fbCustomers);
   return{
     type: ActionTypes.SHOW_FB_CUSTOMERS,
     payload: fbCustomers,
@@ -128,3 +134,72 @@ const showfbcustomers = (fbCustomers) => {
   
 };
 
+
+export const getfbChats=(token) => {
+    var token = token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/x-www-form-urlencoded'
+            },
+      
+          };
+    
+  return (dispatch) => {
+    console.log('calling api');
+    axios.get(`${baseURL}/api/fbmessages/`,config).then(res => dispatch(showfbchats(res.data)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+      
+      });
+    
+  };
+};
+
+
+
+const showfbchats = (fbchats) => {
+
+  return{
+    type: ActionTypes.SHOW_FB_CHATS,
+    payload: fbchats,
+  };
+
+  
+};
+
+export const getfbChatsUpdate=(token,selectedChat) => {
+    var token = token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/x-www-form-urlencoded'
+            },
+      
+          };
+    
+  return (dispatch) => {
+    console.log('calling api');
+    axios.get(`${baseURL}/api/fbmessages/`,config).then(res => dispatch(showfbchatsupdated(res.data,selectedChat)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+      
+      });
+    
+  };
+};
+const showfbchatsupdated = (fbchats,selectedChat) => {
+  var currently_selectedId = selectedChat[selectedChat.length-1].senderid;
+  var selected = fbchats.filter((c)=>c.senderid == currently_selectedId || c.recipientid == currently_selectedId).reverse();
+  return{
+    type: ActionTypes.SHOW_FB_CHATS_UPDATED,
+    payload: fbchats,
+    fbchatSelected:selected,
+  };
+
+  
+};

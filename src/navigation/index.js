@@ -60,6 +60,7 @@ import TabsScenes from './tabs';
 import AddFbPage from '@containers/Facebook/AddFbPage';
 import EditFbPage from '@containers/Facebook/EditFbPage';
 import FbCustomers from '@containers/Facebook/FbCustomers';
+import FbChat from '@containers/Facebook/FbChat';
 /* Routes ==================================================================== */
 export default Actions.create(
   <Scene key={'root'} {...AppConfig.navbarProps}>
@@ -311,6 +312,13 @@ export default Actions.create(
         title={'Facebook Customers'}
         component={FbCustomers}
         analyticsDesc={'FbCustomers: FbCustomers'}
+      />
+
+       <Scene
+        key={'fbChats'}
+        title={'Chat'}
+        component={FbChat}
+        analyticsDesc={'FbChat: FbChat'}
       />
 
     </Scene>
