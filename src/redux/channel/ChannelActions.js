@@ -300,19 +300,19 @@ export const assignChannel = (token, input) => {
     var config = {
       rejectUnauthorized : false,
       headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authorization': token,
             'content-type': 'application/json',
             },
 
           };
       var data =  {
            companyid : input.companyid,
-           sessionid : input._id,
+           sessionid : input.requestid,
            channelAssignment : {
             movedto : input.channel_to,
             movedfrom : input.channel_from,
             movedby : input.agentidBy,
-            sessionid  : input._id,
+            sessionid  :  dinput.requestid,
             companyid  : input.companyid ,
             datetime   : Date.now(),
           },
@@ -323,6 +323,7 @@ export const assignChannel = (token, input) => {
       .then((res) => {
         // dispatch(confirmInvite(res))
         console.log("Channel Successfully Assigned");
+        console.log(res);
       })
       .catch(function (error) {
         console.log('Error occured in assigning channel');
