@@ -297,6 +297,7 @@ export function readChannels(){
 
 // Assign Agent
 export const assignChannel = (token, input) => {
+  console.log("Move Channel Called");
     var config = {
       rejectUnauthorized : false,
       headers: {
@@ -305,6 +306,7 @@ export const assignChannel = (token, input) => {
             },
 
           };
+          console.log("After config");
       var data =  {
            companyid : input.companyid,
            sessionid : input.requestid,
@@ -312,11 +314,12 @@ export const assignChannel = (token, input) => {
             movedto : input.channel_to,
             movedfrom : input.channel_from,
             movedby : input.agentidBy,
-            sessionid  :  dinput.requestid,
+            sessionid  :  input.requestid,
             companyid  : input.companyid ,
             datetime   : Date.now(),
           },
       };
+      console.log("After data");
   console.log(data);
     return (dispatch) => {
     axios.post(`http://kiboengage.cloudapp.net/api/movedToMessageChannel`, data,config)
@@ -324,13 +327,20 @@ export const assignChannel = (token, input) => {
         // dispatch(confirmInvite(res))
         console.log("Channel Successfully Assigned");
         console.log(res);
+        dispatch(assign_agent_status('Successfully Assigned'));
       })
       .catch(function (error) {
         console.log('Error occured in assigning channel');
         console.log(error);
+        dispatch(assign_agent_status('Error Occurred'));
         // dispatch(confirmInvite(error));
       });
   };
 };
 
-
+export function assign_agent_status(data) {
+  return {
+    type: ActionTypes.ASSIGN_AGENT,
+    payload : data,
+  };
+}
