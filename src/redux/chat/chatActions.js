@@ -111,3 +111,29 @@ export function assign_agent_status(data) {
     payload : data,
   };
 }
+
+// Send Chat to server
+export const sendChat  = (token, input) => {
+    console.log("In send chat");
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+            },
+
+          };
+    return (dispatch) => {
+    axios.post(`https://api.kibosupport.com/api/userchat/create`, input,config)
+      .then((res) => {
+        // dispatch(assign_agent_status('Successfully Assigned'));
+        console.log("Chat Message Sent Successfully");
+      })
+      .catch(function (error) {
+        console.log('Error occured');
+        // dispatch(assign_agent_status('Error Occurred'));
+        console.log(error);
+        // dispatch(confirmInvite(error));
+      });
+  };
+};
