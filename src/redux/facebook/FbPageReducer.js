@@ -5,7 +5,7 @@ const INITIAL_STATE = {
  fbpagesuccess:'',
  fbpageerror:'',
  fbcustomers:[],
-  
+ msgstatus:'',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -27,6 +27,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case ActionTypes.SHOW_FB_CHATS_UPDATED:
     return { ...state,fbchatSelected:action.fbchatSelected,fbchats:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
+
+    case ActionTypes.FBCHAT_SENT_TO_AGENT:
+     return { ...state,msgstatus:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
 
     default:
       return state;

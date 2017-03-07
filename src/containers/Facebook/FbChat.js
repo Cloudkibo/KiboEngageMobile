@@ -97,7 +97,7 @@ class FbChat extends Component {
                     attachments:item.message.attachments,
                     seen:false,
                     user: {
-                      _id: item.senderid,
+                      _id: this.props.senderid == item.senderid?2:1,
                      // name:  item.senderid,
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
@@ -120,7 +120,7 @@ class FbChat extends Component {
                     attachments:item.message.attachments,
                     seen:false,
                     user: {
-                      _id: item.senderid,
+                      _id: this.props.senderid == item.senderid?2:1,
                      // name:  item.senderid,
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
@@ -141,6 +141,39 @@ class FbChat extends Component {
     }
 
   onSend(messages = []) {
+   var msgObj = messages[0];
+   var today = new Date();  
+   var uid = Math.random().toString(36).substring(7);
+   var unique_id = 'f' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
+
+
+    var pageid=''
+    for(var i=0;i<this.props.fbchatSelected.length;i++){
+      if(this.props.fbchatSelected[i].senderid == this.props.senderid){
+        pageid = this.props.fbchatSelected[i].recipientid;
+        //alert(pageid)
+        break;
+      }
+    }
+    var saveMsg = {
+              senderid: this.props.userdetails._id,
+              recipientid:this.props.senderid,
+              companyid:this.props.userdetails.uniqueid,
+              timestamp:Date.now(),
+              message:{
+                mid:unique_id,
+                seq:1,
+                text:msgObj.text,
+              },
+
+             pageid:pageid
+              
+    }
+
+
+    console.log(saveMsg);
+
+    this.props.getfbchatfromAgent(saveMsg);
     this.setState((previousState) => {
       return {
         messages: GiftedChat.append(previousState.messages, messages),
@@ -165,12 +198,12 @@ const mapDispatchToProps = {
  // fetchfbcustomers: FbActions.fetchfbcustomers,
  // getfbChats:FbActions.getfbChats,
  // updatedSelectedFbChats:FbActions.updatedSelectedFbChats,
-  
+  getfbchatfromAgent:FbActions.getfbchatfromAgent
 };
 function mapStateToProps(state) {
    const { fbcustomers,fbchats,fbchatSelected} = state.fbpages;
-  
-  return { fbcustomers,fbchats,fbchatSelected};
+    const { userdetails} = state.user;
+  return { fbcustomers,fbchats,fbchatSelected,userdetails};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FbChat);

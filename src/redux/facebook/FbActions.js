@@ -2,6 +2,7 @@
 import axios from 'axios';
 import * as ActionTypes from '../types';
 var baseURL = `https://api.kibosupport.com`
+var baseURLKibo= `https://f8f0f00b.ngrok.io` //change this to production url of kiboengage when putting in production
 var querystring = require('querystring');
 import SqliteCalls from '../../services/SqliteCalls';
 var SQLite = require('react-native-sqlite-storage')
@@ -203,3 +204,35 @@ const showfbchatsupdated = (fbchats,selectedChat) => {
 
   
 };
+
+
+
+//send message to customer
+export function getfbchatfromAgent(chat){
+  var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Content-Type': 'application/json',
+            },
+      
+          };
+    
+ return (dispatch) => {
+    axios.post(`${baseURLKibo}/api/sendfbchat`,chat,config).then(res => dispatch(fbchatmessageSent(res)))
+    .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+      
+      });
+    
+  };
+};
+
+export function fbchatmessageSent(res){
+    return {
+    type: ActionTypes.FBCHAT_SENT_TO_AGENT,
+    payload : res.status,
+  //  customerid,
+
+  };
+}
