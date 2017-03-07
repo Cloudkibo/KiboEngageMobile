@@ -172,7 +172,9 @@ class ChatSettings extends Component {
           requestid: this.props.singleChat.request_id,
           _id: this.props.singleChat._id,
         };
+        console.log("Calling move channel");
         this.props.moveChannel(token, input);
+        // console.log("Channel Move called");
        }
   }
 
