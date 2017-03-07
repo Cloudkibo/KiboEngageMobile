@@ -50,6 +50,7 @@ class ChatSettings extends Component {
         //this.props.agentFetch(token); //No need to call this endpoint here again, I have added it in ChatSession [Zarmeen]
         this.props.groupFetch(token);
         this.props.channelFetch(token);
+        this.props.agentGroupFetch(token);
        }
   }
 
@@ -59,7 +60,7 @@ class ChatSettings extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     // console.log(nextProps);
-    if(nextProps.agents && nextProps.groups && nextProps.channels && nextProps.singleChat){
+    if(nextProps.agents && nextProps.groups && nextProps.channels && nextProps.singleChat && nextProps.groupagents){
        this.createPickerItems(nextProps);
      }
   }
@@ -120,13 +121,31 @@ class ChatSettings extends Component {
       console.log('token is Launchview is: ' + token);
       if(token != ''){
         //preparing data
+         var emails = []; 
+         this.props.groups.map((item, index) => {
+          var agents = this.props.groupagents.filter((g)=> g.groupid == item._id);
+          console.log("Filtered Objects");
+          console.log(this.props.agents);
+          for(i = 0; i < agents.length; i++){
+            for(j = 0; j < this.props.agents.length; j++){
+              if(this.props.agents[j]._id == agents[i].agentid){
+                // console.log(this.props.agents[j].email);
+                emails.push(this.props.agents[j].email);
+              }
+            }
+          }
+         });
+         console.log("Emails");
+         var unique = emails.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
+          console.log(unique);
         input = {
           agentidTo: this.state.assignedGroup,
           agentidBy: this.props.userdetails._id,
           companyid: this.props.singleChat.companyid,
-          requestid: this.props.singleChat.requestid,
+          requestid: this.props.singleChat.request_id,
           _id: this.props.singleChat._id,
-          type: 'group'
+          type: 'group',
+          email: unique,
         };
 
         this.props.moveAgent(token, input);
@@ -144,11 +163,9 @@ class ChatSettings extends Component {
           channel_from: this.props.singleChat.departmentid,
           agentidBy: this.props.userdetails._id,
           companyid: this.props.singleChat.companyid,
-          requestid: this.props.singleChat.requestid,
+          requestid: this.props.singleChat.request_id,
           _id: this.props.singleChat._id,
-          type: 'group'
         };
-
         this.props.moveChannel(token, input);
        }
   }
@@ -195,7 +212,7 @@ class ChatSettings extends Component {
     </Card>
 
      <Card>
-    <Text>Assign To Group {this.state.assignedGroup}</Text>
+    <Text>Assign To Group</Text>
     <Spacer size={10} />
       <Picker
           selectedValue={this.state.assignedGroup}
@@ -242,14 +259,15 @@ const mapDispatchToProps = {
   channelFetch: ChannelActions.channelFetch,
   moveAgent: chatActions.assignAgent,
   moveChannel: ChannelActions.assignChannel,
+  agentGroupFetch : GroupActions.agentGroupFetch,
 };
 function mapStateToProps(state) {
    const { agents } = state.agents;
-   const { groups } = state.groups;
+   const { groups, groupagents } = state.groups;
    const { channels} = state.channels;
    const { userdetails } = state.user;
    const { singleChat,invite_agent_status } = state.chat;
-   return { agents, groups, channels, userdetails, singleChat, invite_agent_status };
+   return { agents, groups, channels, userdetails, singleChat, invite_agent_status, groupagents };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSettings);
 
