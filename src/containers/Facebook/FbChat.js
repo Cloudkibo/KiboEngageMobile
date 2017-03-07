@@ -107,6 +107,7 @@ class FbChat extends Component {
                  );
              }
               else if(item.message.attachments && item.message.attachments.length >0 && item.message.attachments[0].type == "image"){
+                 console.log(item.message.attachments);
                  temparray.push(
                     {
                     _id: i,
@@ -125,6 +126,7 @@ class FbChat extends Component {
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
                     },
                     image:item.message.attachments[0].payload.url,
+                    //image: 'https://scontent.xx.fbcdn.net/v/t34.0-12/16933685_1261326827270353_187253959_n.png',
                    
                   }
                  );

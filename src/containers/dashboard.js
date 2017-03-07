@@ -23,6 +23,8 @@ import { AppStyles } from '@theme/';
 import { connect } from 'react-redux';
 import * as UserActions from '@redux/user/actions';
 import Loading from '@components/general/Loading';
+import * as FbActions from '@redux/facebook/FbActions';
+
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 /*const NotificationHub = require('react-native-azurenotificationhub/index.ios');
@@ -38,7 +40,7 @@ const NotificationHub = require('react-native-azurenotificationhub');
 const connectionString = 'Endpoint=sb://kiboengagepushns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=gDirYG/+a/dN5Md5rOXMX6QFfiFnX0Dg3kabUNCjIy0='; // The Notification Hub connection string
 const hubName = 'KiboEngagePush';          // The Notification Hub name
 const senderID = '626408245088';         // The Sender ID from the Cloud Messaging tab of the Firebase console
-const tags = ['sojharo','sojharo3800399'];           // The set of tags to subscribe to
+const tags = ['sojharo@gmail.com','sojharo3800399','jekram@hotmail.com'];           // The set of tags to subscribe to
 
 
 var remoteNotificationsDeviceToken = '';  // The device token registered with APNS
@@ -53,6 +55,9 @@ class Dashboard extends Component {
     
     this.state = {'userdetails' : null,loading : true};
    // this.register = this.register.bind(this);
+   this._onRemoteNotification = this._onRemoteNotification.bind(this);
+   //this.requestPermissions = this.requestPermissions.bind(this);
+
   }
  
   requestPermissions() {
@@ -213,17 +218,29 @@ renderLoadingView(){
     );
   }
 
-  _onRemoteNotification(notification) {
+  async _onRemoteNotification(notification) {
     console.log('notification');
     console.log(notification);
     Alert.alert(
       'Push Notification Received',
-      'Alert message: ' + notification.message,
+      'Alert message: ' + notification._data.data.status,
       [{
         text: 'Dismiss',
         onPress: null,
       }]
     );
+
+    if(notification._data.data.type == 'fbchat'){
+          var token =  await auth.getToken();
+          // console.log('token is Launchview is: ' + token);
+          if(token != ''){
+            this.props.fetchfbcustomers(token);
+            this.props.getfbChatsUpdate(token,this.props.fbchatSelected);
+
+            //this.forceUpdate();
+            
+           }
+    }
   }
 
   _onAzureNotificationHubRegistered(registrationInfo) {
@@ -266,13 +283,19 @@ renderLoadingView(){
 
 const mapDispatchToProps = {
   getuser: UserActions.getuser,
+  getsqlData:UserActions.getsqlData,
+
+  fetchfbcustomers: FbActions.fetchfbcustomers,
+  getfbChats:FbActions.getfbChats,
+  getfbChatsUpdate:FbActions.getfbChatsUpdate,
  };
 
 function mapStateToProps(state) {
-   const { userdetails} = state.user;
-  
-  return {userdetails};
+   const { userdetails,fetchedR} = state.user;
+   const {fbchatSelected} = state.fbpages;
+  return {userdetails,fetchedR,fbchatSelected};
 
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
