@@ -120,6 +120,12 @@ class ChatSettings extends Component {
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
+         //update session status on server
+        var session = {
+          request_id : this.props.singleChat.request_id,
+          status : 'assigned',
+        }
+        
         //preparing data
          var emails = []; 
          this.props.groups.map((item, index) => {
@@ -148,7 +154,7 @@ class ChatSettings extends Component {
           email: unique,
         };
 
-        this.props.moveAgent(token, input);
+        this.props.moveAgent(token, input,session);
        }
   }
 
