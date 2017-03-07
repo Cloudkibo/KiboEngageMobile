@@ -90,6 +90,7 @@ class ChatSession extends Component {
         this.props.channelFetch(token);
         this.props.agentGroupFetch(token);
         this.props.agentFetch(token);
+        this.props.groupFetch(token); 
         
        }
   }
@@ -100,7 +101,7 @@ class ChatSession extends Component {
     // this.props is still the old set of props
     // console.log('componentWillReceiveProps is called with chat session data');
     // console.log(nextProps.teams);
-    if(nextProps.data && nextProps.teams && nextProps.chat && nextProps.agents && nextProps.teamagents && nextProps.groupagents){
+    if(nextProps.data && nextProps.teams && nextProps.chat && nextProps.agents && nextProps.teamagents && nextProps.groupagents && nextProps.groups){
        this.renderCard(nextProps);
        this.setState({loading:false});
      }
@@ -124,6 +125,7 @@ class ChatSession extends Component {
   renderCard = (nextProps) => {
       var data = nextProps.data;
       var team = nextProps.teams;
+      var groups = nextProps.groups;
       this.state.menuItems = [];
       // Build the actual Menu Items
     data.map((item, index) => {
@@ -141,7 +143,6 @@ class ChatSession extends Component {
 
 
       var teamname = nextProps.teams.filter((t)=> t._id == item.departmentid);
-  
       var channelname = '';
       if(item.messagechannel.length>0){
         channelname = item.messagechannel[item.messagechannel.length-1];
@@ -155,7 +156,9 @@ class ChatSession extends Component {
       }
       else{
         // add condition to show group name
-      group_agents_name = item.agent_ids[item.agent_ids.length-1].id;
+        var groupname = nextProps.groups.filter((g)=>g._id == item.agent_ids[item.agent_ids.length-1].id)[0];
+      
+        group_agents_name = groupname.groupname;
 
       }
      }
@@ -266,8 +269,8 @@ function mapStateToProps(state) {
    const { teams ,teamagents} = state.teams;
     const { channels} = state.channels;
     const {agents} = state.agents;
-    const { groupagents } = state.groups;
-  return { data, loading, teams, teamagents,agents, chat, channels, groupagents };
+    const { groupagents,groups } = state.groups;
+  return { data, loading, teams, teamagents,agents, chat, channels, groupagents,groups };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSession);

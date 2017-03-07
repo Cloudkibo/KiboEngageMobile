@@ -48,9 +48,9 @@ class ChatSettings extends Component {
       console.log('token is Launchview is: ' + token);
       if(token != ''){
         //this.props.agentFetch(token); //No need to call this endpoint here again, I have added it in ChatSession [Zarmeen]
-        this.props.groupFetch(token);
-        this.props.channelFetch(token);
-        this.props.agentGroupFetch(token);
+      //  this.props.groupFetch(token); //No need to call this endpoint here again, I have added it in ChatSession [Zarmeen]
+       // this.props.channelFetch(token); //No need to call this endpoint here again,already in ChatSession
+       // this.props.agentGroupFetch(token);//No need to call this endpoint here again,already in ChatSession
        }
   }
 
@@ -79,7 +79,7 @@ class ChatSettings extends Component {
            <Picker.Item label={item.groupname} key={'key-'+item._id } value={item._id} />
        );
      });
-     nextProps.channels.map((item, index) => {
+     nextProps.channels.filter((c)=>c.groupid == nextProps.singleChat.departmentid).map((item, index) => {
        return this.state.channelList.push(
            <Picker.Item label={item.msg_channel_name} key={'key-'+item._id } value={item._id} />
        );
