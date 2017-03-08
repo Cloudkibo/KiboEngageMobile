@@ -100,11 +100,12 @@ class Chat extends Component {
       fromMobile:"yes" // yes/no
       };
 
-      // console.log(body);
+      console.log(body);
       
       // console.log(this.props.sessioninfo);
       if(token != ''){
-        console.log("Calling send Chat");  
+        console.log("Calling send Chat");
+        console.log("Print token " + token);  
         this.props.sendChat(token, body);
       }
   }

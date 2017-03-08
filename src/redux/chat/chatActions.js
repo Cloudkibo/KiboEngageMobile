@@ -119,15 +119,31 @@ export const sendChat  = (token, input) => {
       rejectUnauthorized : false,
       headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'kibo-app-id' : '5wdqvvi8jyvfhxrxmu73dxun9za8x5u6n59',
+          'kibo-app-secret': 'jcmhec567tllydwhhy2z692l79j8bkxmaa98do1bjer16cdu5h79xvx',
+          'kibo-client-id': 'cd89f71715f2014725163952',
+          'authorization': token,
             },
 
           };
     return (dispatch) => {
-    axios.post(`https://api.kibosupport.com/api/userchat/create`, input,config)
+    axios.post(`https://api.kibosupport.com/api/userchats/create`, input,config)
       .then((res) => {
         // dispatch(assign_agent_status('Successfully Assigned'));
         console.log("Chat Message Sent Successfully");
+
+              axios.post(`http://kiboengage.cloudapp.net/api/getchatfromagent`, input,config)
+                  .then((res) => {
+                    // dispatch(assign_agent_status('Successfully Assigned'));
+                    console.log("Chat Message Sent Successfully to get chat from agent");
+                  })
+                  .catch(function (error) {
+                    console.log('Error occured in get chat from agent');
+                    // dispatch(assign_agent_status('Error Occurred'));
+                    console.log(error);
+                    // dispatch(confirmInvite(error));
+                  });
+
       })
       .catch(function (error) {
         console.log('Error occured');
