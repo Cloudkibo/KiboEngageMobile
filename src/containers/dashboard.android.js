@@ -221,16 +221,19 @@ renderLoadingView(){
   async _onRemoteNotification(notification) {
     console.log('notification');
     console.log(notification);
-    Alert.alert(
+    var notif = JSON.parse(notification.message);
+    console.log(notif);
+    
+    /*Alert.alert(
       'Push Notification Received',
-      'Alert message: ' + notification._data.data.status,
+      'Alert message: ' + notif.data.status,
       [{
         text: 'Dismiss',
         onPress: null,
       }]
     );
-
-    if(notification._data.data.type == 'fbchat'){
+    */
+    if(notif.data.type == 'fbchat'){
           var token =  await auth.getToken();
           // console.log('token is Launchview is: ' + token);
           if(token != ''){

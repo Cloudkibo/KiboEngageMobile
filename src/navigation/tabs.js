@@ -21,9 +21,14 @@ import StyleGuide from '@containers/StyleGuideView';
 import Recipes from '@containers/recipes/Browse/BrowseContainer';
 import RecipeView from '@containers/recipes/RecipeView';
 import Dashboard from '@containers/dashboard';
-import DashboardiOS from '@containers/dashboardiOS';
+//import DashboardiOS from '@containers/dashboardiOS';
+//const Dashboard = require('@containers/dashboard');
 var ReactNative = require('react-native');
-
+/*var Dashboard = ReactNative.Platform.select({
+  ios: () => require('@containers/dashboardiOS'),
+  android: () => require('@containers/dashboard'),
+})();
+*/
 const navbarPropsTabs = {
   ...AppConfig.navbarProps,
   renderLeftButton: () => <NavbarMenuButton />,
@@ -36,15 +41,7 @@ const navbarPropsTabs = {
 /* Routes ==================================================================== */
 const scenes = (
   <Scene key={'tabBar'} tabs tabBarIconContainerStyle={AppStyles.tabbar} pressOpacity={0.95}>
-   {ReactNative.Platform.OS == 'ios'?
-     <Scene
-        {...navbarPropsTabs}
-        key={'teamListing'}
-        title={'Dashboard'}
-        component={DashboardiOS}
-        analyticsDesc={'Dashboard'}
-      />:
-
+     
       <Scene
         {...navbarPropsTabs}
         key={'teamListing'}
@@ -52,7 +49,7 @@ const scenes = (
         component={Dashboard}
         analyticsDesc={'Dashboard'}
       />
-    }
+    
     <Scene
       {...navbarPropsTabs}
       key={'recipes'}

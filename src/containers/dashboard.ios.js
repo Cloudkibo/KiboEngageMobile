@@ -38,8 +38,8 @@ const tagName = 'jekram@hotmail.com';           // The set of tags to subscribe 
 var remoteNotificationsDeviceToken = '';  // The device token registered with APNS
 
 /* Component ==================================================================== */
-class DashboardiOS extends Component {
-  static componentName = 'DashboardiOS';
+class Dashboard extends Component {
+  static componentName = 'Dashboard';
 
  
   constructor(props) {
@@ -346,5 +346,5 @@ function mapStateToProps(state) {
   return {userdetails,fetchedR,fbchatSelected};
 
 }
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardiOS);
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 
