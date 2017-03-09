@@ -153,3 +153,35 @@ export const sendChat  = (token, input) => {
       });
   };
 };
+
+
+export const resolveChatSession =  (token, sessionid) => {
+
+   var config = {
+           headers:{
+          'Content-Type': 'application/json',
+          'Authorization': token,
+      },
+    };
+      
+
+    data = {
+        request_id : sessionid,
+     };
+  return (dispatch) => {
+
+    axios.get(`http://kiboengage.cloudapp.net/api/resolvechatsession`, data, config)
+    .then(res => {
+      
+      console.log("Chat marked as resolved");
+      // dispatch(showSessions(res))
+        dispatch(assign_agent_status('Chat Marked As Resolved'));
+      }).catch(function (error) {
+        console.log('Unable to mark chat as resolved');
+        // dispatch(assign_agent_status('Error Occurred'));
+        console.log(error);
+        // dispatch(confirmInvite(error));
+        dispatch(assign_agent_status('Unable to mark chat as resolved'));
+      });   
+  };
+};
