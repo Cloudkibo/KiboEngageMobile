@@ -58,6 +58,7 @@ import TabsScenes from './tabs';
 
 
 import AddFbPage from '@containers/Facebook/AddFbPage';
+import FBPages from '@containers/Facebook/FBPages';
 import EditFbPage from '@containers/Facebook/EditFbPage';
 import FbCustomers from '@containers/Facebook/FbCustomers';
 import FbChat from '@containers/Facebook/FbChat';
@@ -248,7 +249,7 @@ export default Actions.create(
         rightTitle="Add"
         analyticsDesc={'Cannedresponse: Cannedresponse'}
       />
-      
+
       <Scene
         key={'inviteAgent'}
         title={'Invite Agent'}
@@ -298,6 +299,15 @@ export default Actions.create(
         title={'Add Facebook Page'}
         component={AddFbPage}
         analyticsDesc={'AddFbPage: AddFbPage'}
+      />
+
+      <Scene
+        key={'fbpages'}
+        title={'Facebook Pages'}
+        onRight={() => Actions.AddFbPage()}
+        rightTitle="Add"
+        component={FBPages}
+        analyticsDesc={'FBPages: FBPages'}
       />
 
        <Scene

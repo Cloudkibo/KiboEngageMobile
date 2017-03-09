@@ -1,4 +1,4 @@
-import * as ActionTypes from '../types'; 
+import * as ActionTypes from '../types';
 
 const INITIAL_STATE = {
   fbpages:[],
@@ -10,7 +10,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-   
+
     case ActionTypes.FBPAGE_SUCCESS:
       return { ...state,fbpageerror: '', fbpagesuccess: action.payload };
     case ActionTypes.FBPAGE_FAIL:
@@ -30,6 +30,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case ActionTypes.FBCHAT_SENT_TO_AGENT:
      return { ...state,msgstatus:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
+
+    case ActionTypes.ADD_FB_PAGES:
+      return { ...state, fbpages: action.payload, fbpageerror: '', fbpagesuccess: '', loading: false };
 
     default:
       return state;

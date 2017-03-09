@@ -19,9 +19,9 @@ export const createPage=(fbpage,token) => {
             'Authorization': `Bearer ${token}`,
             'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
-    
+
   return (dispatch) => {
     console.log('calling api');
     axios.post(`${baseURL}/api/fbpages/`,querystring.stringify(fbpage),config).then(res => dispatch(fbpageCreateSuccess(res)))
@@ -30,7 +30,7 @@ export const createPage=(fbpage,token) => {
         console.log(error);
         dispatch(fbpageCreateFail());
       });
-    
+
   };
 };
 
@@ -46,9 +46,9 @@ export const editPage=(fbpage,token) => {
             'Authorization': `Bearer ${token}`,
             'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
-    
+
   return (dispatch) => {
     console.log('calling api');
     axios.put(`${baseURL}/api/fbpages/${id}`,querystring.stringify(fbpage),config).then(res => dispatch(fbpageEditSuccess(res)))
@@ -57,7 +57,7 @@ export const editPage=(fbpage,token) => {
         console.log(error);
         dispatch(fbpageEditFail());
       });
-    
+
   };
 };
 
@@ -73,7 +73,7 @@ const fbpageCreateSuccess = (res) => {
     payload: 'Page Information added successfully'
   };
 
-  
+
 };
 
 
@@ -88,7 +88,7 @@ const fbpageEditSuccess = (res) => {
     payload: 'Information updated successfully'
   };
 
-  
+
 };
 
 
@@ -102,18 +102,18 @@ export const fetchfbcustomers=(token) => {
             'Authorization': `Bearer ${token}`,
             'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
-    
+
   return (dispatch) => {
     console.log('calling api');
     axios.get(`${baseURL}/api/fbCustomers/`,config).then(res => dispatch(showfbcustomers(res.data)))
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
-      
+
       });
-    
+
   };
 };
 
@@ -132,7 +132,7 @@ const showfbcustomers = (fbCustomers) => {
     payload: fbCustomers,
   };
 
-  
+
 };
 
 
@@ -144,21 +144,20 @@ export const getfbChats=(token) => {
             'Authorization': `Bearer ${token}`,
             'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
-    
+
   return (dispatch) => {
     console.log('calling api');
     axios.get(`${baseURL}/api/fbmessages/`,config).then(res => dispatch(showfbchats(res.data)))
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
-      
+
       });
-    
+
   };
 };
-
 
 
 const showfbchats = (fbchats) => {
@@ -168,7 +167,7 @@ const showfbchats = (fbchats) => {
     payload: fbchats,
   };
 
-  
+
 };
 
 export const getfbChatsUpdate=(token,selectedChat) => {
@@ -179,18 +178,18 @@ export const getfbChatsUpdate=(token,selectedChat) => {
             'Authorization': `Bearer ${token}`,
             'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
-    
+
   return (dispatch) => {
     console.log('calling api');
     axios.get(`${baseURL}/api/fbmessages/`,config).then(res => dispatch(showfbchatsupdated(res.data,selectedChat)))
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
-      
+
       });
-    
+
   };
 };
 const showfbchatsupdated = (fbchats,selectedChat) => {
@@ -202,7 +201,7 @@ const showfbchatsupdated = (fbchats,selectedChat) => {
     fbchatSelected:selected,
   };
 
-  
+
 };
 
 
@@ -214,17 +213,17 @@ export function getfbchatfromAgent(chat){
       headers: {
             'Content-Type': 'application/json',
             },
-      
+
           };
-    
+
  return (dispatch) => {
     axios.post(`${baseURLKibo}/api/sendfbchat`,chat,config).then(res => dispatch(fbchatmessageSent(res)))
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
-      
+
       });
-    
+
   };
 };
 
@@ -235,4 +234,31 @@ export function fbchatmessageSent(res){
   //  customerid,
 
   };
-}
+};
+
+export function showfbpages(res){
+    return {
+    type: ActionTypes.ADD_FB_PAGES,
+    payload : res,
+
+  };
+};
+
+export const getfbpages = (token) => {
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+        'Authorization': `Bearer ${token}`,
+        'content-type' : 'application/x-www-form-urlencoded'
+    },
+  };
+
+  return (dispatch) => {
+    console.log('calling api');
+    axios.get(`${baseURL}/api/fbpages/`, config).then(res => dispatch(showfbpages(res.data)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+      });
+  };
+};

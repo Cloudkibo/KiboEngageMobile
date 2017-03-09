@@ -167,17 +167,17 @@ class Menu extends Component {
         },
         {
           title: 'Facebook Pages',
-          onPress: () => { this.props.closeSideMenu(); Actions.AddFbPage(); },
+          onPress: () => { this.props.closeSideMenu(); Actions.fbpages(); },
           icon: 'facebook',
-          
+
         },
         {
           title: 'Facebook Chat',
           onPress: () => { this.props.closeSideMenu(); Actions.FbCustomers(); },
           icon: 'facebook',
-          
+
         }
-      
+
 
       ],
     };
@@ -230,7 +230,7 @@ class Menu extends Component {
         <View style={[styles.menuContainer]}>
         <ScrollView>
           <View style={[styles.menu]}>{menuItems}</View>
-          
+
           <View style={[styles.menuBottom]}>
              <View>
 
