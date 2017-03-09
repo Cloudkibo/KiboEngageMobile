@@ -2,7 +2,7 @@
 import axios from 'axios';
 import * as ActionTypes from '../types';
 var baseURL = `https://api.kibosupport.com`
-var baseURLKibo= `https://a9b1ec95.ngrok.io` //change this to production url of kiboengage when putting in production
+var baseURLKibo= `https://kiboengage.kibosupport.com/` //change this to production url of kiboengage when putting in production
 var querystring = require('querystring');
 import SqliteCalls from '../../services/SqliteCalls';
 var SQLite = require('react-native-sqlite-storage')
@@ -193,13 +193,24 @@ export const getfbChatsUpdate=(token,selectedChat) => {
   };
 };
 const showfbchatsupdated = (fbchats,selectedChat) => {
-  var currently_selectedId = selectedChat[selectedChat.length-1].senderid;
-  var selected = fbchats.filter((c)=>c.senderid == currently_selectedId || c.recipientid == currently_selectedId).reverse();
+  
+  if(selectedChat.length > 0){
+     var currently_selectedId = selectedChat[selectedChat.length-1].senderid;
+     var selected = fbchats.filter((c)=>c.senderid == currently_selectedId || c.recipientid == currently_selectedId).reverse();
+  
+     return{ type: ActionTypes.SHOW_FB_CHATS_UPDATED,
+      payload: fbchats,
+      fbchatSelected:selected,
+    }
+  }
+  else{
   return{
     type: ActionTypes.SHOW_FB_CHATS_UPDATED,
     payload: fbchats,
-    fbchatSelected:selected,
+    fbchatSelected:[],
   };
+
+}
 
 
 };
@@ -208,6 +219,7 @@ const showfbchatsupdated = (fbchats,selectedChat) => {
 
 //send message to customer
 export function getfbchatfromAgent(chat){
+  console.log(baseURLKibo);
   var config = {
       rejectUnauthorized : false,
       headers: {

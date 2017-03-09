@@ -56,7 +56,7 @@ class FbChat extends Component {
     // console.log(nextProps.teams);
     if(nextProps.fbchatSelected){
       this.renderChat(nextProps);
-    //  this.forceUpdate(); 
+      this.forceUpdate(); 
      }
   }
 

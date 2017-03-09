@@ -54,22 +54,12 @@ class Dashboard extends Component {
     super(props);
     
     this.state = {'userdetails' : null,loading : true};
-   // this.register = this.register.bind(this);
+    this.register = this.register.bind(this);
    this._onRemoteNotification = this._onRemoteNotification.bind(this);
-   //this.requestPermissions = this.requestPermissions.bind(this);
-
+  
   }
  
-  requestPermissions() {
-  //  NotificationHub.addEventListener('register', this._onRegistered);
-  //  NotificationHub.addEventListener('registrationError', this._onRegistrationError);
-  //  NotificationHub.addEventListener('registerAzureNotificationHub', this._onAzureNotificationHubRegistered);
-  //  NotificationHub.addEventListener('azureNotificationHubRegistrationError', this._onAzureNotificationHubRegistrationError);
-  //  NotificationHub.addEventListener('notification', this._onRemoteNotification);
-  //  NotificationHub.addEventListener('localNotification', this._onLocalNotification);
-
-  //  NotificationHub.requestPermissions();
-  }
+ 
 
   async register() {
     console.log('registerering to hub');
@@ -119,7 +109,7 @@ class Dashboard extends Component {
     }
   }
   componentDidMount = async() => {
-    this.requestPermissions();
+    this.register();
     var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
@@ -191,32 +181,7 @@ renderLoadingView(){
     
     
   }
-   _onRegistered(deviceToken) {
-    remoteNotificationsDeviceToken = deviceToken;
-    //this.register();
-    
-    Alert.alert(
-      'Registered For Remote Push',
-      `Device Token: ${deviceToken}`,
-      [{
-        text: 'Dismiss',
-        onPress: null,
-      }]
-    );
-
-     
-  }
-
-  _onRegistrationError(error) {
-    Alert.alert(
-      'Failed To Register For Remote Push',
-      `Error (${error.code}): ${error.message}`,
-      [{
-        text: 'Dismiss',
-        onPress: null,
-      }]
-    );
-  }
+ 
 
   async _onRemoteNotification(notification) {
     console.log('notification');
@@ -246,39 +211,6 @@ renderLoadingView(){
     }
   }
 
-  _onAzureNotificationHubRegistered(registrationInfo) {
-    console.log('registered');
-    console.log(registrationInfo);
-    Alert.alert('Registered For Azure notification hub',
-      'Registered For Azure notification hub'
-      [{
-        text: 'Dismiss',
-        onPress: null,
-      }]
-    );
-  }
-
-  _onAzureNotificationHubRegistrationError(error) {
-    Alert.alert(
-      'Failed To Register For Azure Notification Hub',
-      `Error (${error.code}): ${error.message}`,
-      [{
-        text: 'Dismiss',
-        onPress: null,
-      }]
-    );
-  }
-
-  _onLocalNotification(notification){
-    Alert.alert(
-      'Local Notification Received',
-      'Alert message: ' + notification.getMessage(),
-      [{
-        text: 'Dismiss',
-        onPress: null,
-      }]
-    );
-  }
 
 }
 

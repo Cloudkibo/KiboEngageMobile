@@ -6,6 +6,8 @@ const INITIAL_STATE = {
  fbpageerror:'',
  fbcustomers:[],
  msgstatus:'',
+ fbchatSelected:[],
+ fbchats:[],
 };
 
 export default (state = INITIAL_STATE, action) => {
