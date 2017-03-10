@@ -178,6 +178,13 @@ class ChatSettings extends Component {
        }
   }
 
+  markChatResolved = async () => {
+    var token =  await auth.getToken();
+    if(token != ''){
+      this.props.markResolve(token, this.props.singleChat.request_id);
+    }
+  }
+
   render() {
     return (
 
@@ -253,6 +260,14 @@ class ChatSettings extends Component {
       />
     </Card>
 
+    <Spacer size={20} />
+     <Button
+        title="Mark Resolved"
+        color="#841584"
+        accessibilityLabel="Mark As Resolved"
+        onPress={this.markChatResolved}
+      />
+
   </View>
   </ScrollView>
     );
@@ -266,6 +281,7 @@ const mapDispatchToProps = {
   groupFetch: GroupActions.groupFetch,
   channelFetch: ChannelActions.channelFetch,
   moveAgent: chatActions.assignAgent,
+  markResolve: chatActions.resolveChatSession,
   moveChannel: ChannelActions.assignChannel,
   agentGroupFetch : GroupActions.agentGroupFetch,
 };
