@@ -5,9 +5,12 @@ import utils from '../../services/utils';
 import SqliteCalls from '../../services/SqliteCalls';
 var SQLite = require('react-native-sqlite-storage')
 
-var baseURL = `https://api.kibosupport.com`
-var baseURLKiboEngage = `http://kiboengage.cloudapp.net`
 var querystring = require('querystring');
+
+import * as Config from '../config';
+var baseURL = Config.baseURLKiboSupport;
+var baseURLKiboEngage = Config.baseURLKiboEngage;
+
 //var baseURLKiboEngage = `http://localhost:8000`
 export function showGroups(groups) {
   console.log('Groups data');

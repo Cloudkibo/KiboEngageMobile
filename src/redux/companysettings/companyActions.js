@@ -1,7 +1,9 @@
 import axios from 'axios';
 import * as ActionTypes from '../types';
-var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
+import * as Config from '../config';
+var baseURL = Config.baseURLKiboSupport;
+var baseURLKiboEngage = Config.baseURLKiboEngage;
 
 export function showSettings(data) {
   console.log('show data');
@@ -43,7 +45,7 @@ export const settingsSave =  (token, companyObj) => {
       
   console.log("THis is the token in action " + token);
   return (dispatch) => {
-    axios.post(`https://api.kibosupport.com/api/companyprofiles/updatecompanyprofile`, companyObj,config)
+    axios.post(`${baseURL}/api/companyprofiles/updatecompanyprofile`, companyObj,config)
       .then((res) => dispatch(confirmSave('Settings Saved Successfully')))
       .catch(function (error) {
         console.log('Error occured');

@@ -2,12 +2,13 @@
 import axios from 'axios';
 import * as ActionTypes from '../types';
 import utils from '../../services/utils';
-var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
-var baseURLKiboEngage = `http://kiboengage.cloudapp.net`
 //var baseURLKiboEngage = `http://localhost:8000`
 import SqliteCalls from '../../services/SqliteCalls';
 var SQLite = require('react-native-sqlite-storage')
+import * as Config from '../config';
+var baseURL = Config.baseURLKiboSupport;
+var baseURLKiboEngage = Config.baseURLKiboEngage;
 import {
  
   Alert,

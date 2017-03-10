@@ -1,11 +1,12 @@
 //import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import * as ActionTypes from '../types';
-var baseURL = `https://api.kibosupport.com`
-var baseURLKiboEngage = `http://kiboengage.cloudapp.net`
 var querystring = require('querystring');
 import SqliteCalls from '../../services/SqliteCalls';
 var SQLite = require('react-native-sqlite-storage')
+import * as Config from '../config';
+var baseURL = Config.baseURLKiboSupport;
+var baseURLKiboEngage = Config.baseURLKiboEngage;
 
 //var baseURLKiboEngage = `http://localhost:8000`
 export function showChannels(channels) {
@@ -322,7 +323,7 @@ export const assignChannel = (token, input) => {
       console.log("After data");
   console.log(data);
     return (dispatch) => {
-    axios.post(`http://kiboengage.cloudapp.net/api/movedToMessageChannel`, data,config)
+    axios.post(`${baseURLKiboEngage}/api/movedToMessageChannel`, data,config)
       .then((res) => {
         // dispatch(confirmInvite(res))
         console.log("Channel Successfully Assigned");

@@ -4,7 +4,9 @@ import * as ActionTypes from '../types';
 
 var querystring = require('querystring');
 
-const baseURL = 'https://api.kibosupport.com';
+import * as Config from '../config';
+var baseURL = Config.baseURLKiboSupport;
+var baseURLKiboEngage = Config.baseURLKiboEngage;
 
 // var baseURLKiboEngage = `http://localhost:8000`
 
@@ -76,7 +78,7 @@ export const emailCustomer = (emailMsg, token) => {
   return (dispatch) => {
     dispatch(sendEmailInAction());
     console.log('calling api');
-    axios.post('http://kiboengage.cloudapp.net/api/emailCustomer', querystring.stringify(data), config).then(res => dispatch(sendEmailSuccess(res)))
+    axios.post(`${baseURLKiboEngage}/api/emailCustomer`, querystring.stringify(data), config).then(res => dispatch(sendEmailSuccess(res)))
       .catch((error) => {
         console.log('Error occured');
         console.log(error);

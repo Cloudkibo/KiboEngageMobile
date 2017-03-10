@@ -1,10 +1,13 @@
 //import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import * as ActionTypes from '../types';
-var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
 import SqliteCalls from '../../services/SqliteCalls';
 var SQLite = require('react-native-sqlite-storage')
+
+import * as Config from '../config';
+var baseURL = Config.baseURLKiboSupport;
+var baseURLKiboEngage = Config.baseURLKiboEngage;
 
 export function showResponses(cannedresponses) {
   //console.log(cannedresponses);

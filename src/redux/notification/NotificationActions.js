@@ -1,8 +1,10 @@
 //import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import * as ActionTypes from '../types';
-var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
+import * as Config from '../config';
+var baseURL = Config.baseURLKiboSupport;
+var baseURLKiboEngage = Config.baseURLKiboEngage;
 
 export function showNotifications(notifications) {
 console.log(notifications.data);
@@ -54,7 +56,7 @@ export const createNotification = (notification) => {
   console.log(data);
       
   return (dispatch) => {
-    axios.post(`http://kiboengage.cloudapp.net/api/createNotification`,data,config).then(res => dispatch(notificationCreateSuccess(res)))
+    axios.post(`${baseURLKiboEngage}/api/createNotification`,data,config).then(res => dispatch(notificationCreateSuccess(res)))
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -87,7 +89,7 @@ export const resendNotification = (notification) => {
   console.log(data);
       
   return (dispatch) => {
-    axios.post(`http://kiboengage.cloudapp.net/api/resendNotification`,data,config).then(res => dispatch(notificationResendSuccess(res)))
+    axios.post(`${baseURLKiboEngage}/api/resendNotification`,data,config).then(res => dispatch(notificationResendSuccess(res)))
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);

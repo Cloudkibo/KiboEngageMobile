@@ -1,11 +1,12 @@
 //import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import * as ActionTypes from '../types';
-var baseURL = `https://api.kibosupport.com`
-var baseURLKibo= `https://kiboengage.kibosupport.com/` //change this to production url of kiboengage when putting in production
 var querystring = require('querystring');
 import SqliteCalls from '../../services/SqliteCalls';
 var SQLite = require('react-native-sqlite-storage')
+import * as Config from '../config';
+var baseURL = Config.baseURLKiboSupport;
+var baseURLKiboEngage = Config.baseURLKiboEngage;
 
 
 
@@ -219,8 +220,7 @@ const showfbchatsupdated = (fbchats,selectedChat) => {
 
 //send message to customer
 export function getfbchatfromAgent(chat){
-  console.log(baseURLKibo);
-  var config = {
+ var config = {
       rejectUnauthorized : false,
       headers: {
             'Content-Type': 'application/json',
@@ -229,7 +229,7 @@ export function getfbchatfromAgent(chat){
           };
 
  return (dispatch) => {
-    axios.post(`${baseURLKibo}/api/sendfbchat`,chat,config).then(res => dispatch(fbchatmessageSent(res)))
+    axios.post(`${baseURLKiboEngage}/api/sendfbchat`,chat,config).then(res => dispatch(fbchatmessageSent(res)))
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);

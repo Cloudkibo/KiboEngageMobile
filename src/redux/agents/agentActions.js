@@ -1,9 +1,12 @@
 import axios from 'axios';
 import * as ActionTypes from '../types';
-var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
 import SqliteCalls from '../../services/SqliteCalls';
 var SQLite = require('react-native-sqlite-storage')
+
+import * as Config from '../config';
+var baseURL = Config.baseURLKiboSupport;
+var baseURLKiboEngage = Config.baseURLKiboEngage;
 
 export function showAgents(agents) {
   // console.log('show agents');
@@ -60,7 +63,7 @@ export const agentInvite =  (token, inviteEmail) => {
       
   // console.log("THis is the token in action " + token);
   return (dispatch) => {
-    axios.post(`https://api.kibosupport.com/api/tempaccounts/kiboengage`, data,config)
+    axios.post(`${baseURL}/api/tempaccounts/kiboengage`, data,config)
       .then((res) => dispatch(confirmInvite(res)))
       .catch(function (error) {
         // console.log('Error occured');

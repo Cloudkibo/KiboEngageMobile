@@ -2,8 +2,10 @@
 import axios from 'axios';
 import * as ActionTypes from '../types';
 
-var baseURL = 'https://api.kibosupport.com';
 var querystring = require('querystring');
+import * as Config from '../config';
+var baseURL = Config.baseURLKiboSupport;
+var baseURLKiboEngage = Config.baseURLKiboEngage;
 
 export function showCustomers(customers) {
 //console.log(customers.data);

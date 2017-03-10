@@ -1,7 +1,6 @@
 //import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import * as ActionTypes from '../types';
-var baseURL = `https://api.kibosupport.com`
 var querystring = require('querystring');
 import { Actions } from 'react-native-router-flux';
 import {
@@ -9,6 +8,10 @@ import {
 } from 'react-native'
 
 var STORAGE_KEY = 'id_token';
+import * as Config from '../config';
+var baseURL = Config.baseURLKiboSupport;
+var baseURLKiboEngage = Config.baseURLKiboEngage;
+
 export const emailChanged = (text) => {
   return {
     type: ActionTypes.EMAIL_CHANGED,
@@ -51,7 +54,7 @@ export const loginUser = (creds) => {
   return (dispatch) => {
     dispatch(loginInAction());
     console.log('calling api');
-    axios.post('https://api.kibosupport.com/auth/local',querystring.stringify(data),config).then(user => dispatch(loginUserSuccess(user)))
+    axios.post(`${baseURL}/auth/local`,querystring.stringify(data),config).then(user => dispatch(loginUserSuccess(user)))
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -144,7 +147,7 @@ export const signupuser = (user) => {
   return (dispatch) => {
     //dispatch(loginInAction());
     console.log('calling api');
-    axios.post('https://api.kibosupport.com/api/users/kiboengage',querystring.stringify(data),config).then(user => dispatch(signupSuccess(user)))
+    axios.post(`${baseURL}/api/users/kiboengage`,querystring.stringify(data),config).then(user => dispatch(signupSuccess(user)))
       .catch(function (error) {
         console.log('Error occured');
          if (error.response && error.response.status == 422 ) {

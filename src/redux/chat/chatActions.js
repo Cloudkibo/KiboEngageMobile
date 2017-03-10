@@ -1,6 +1,8 @@
 import axios from 'axios';
 import * as ActionTypes from '../types';
-var baseURL = `https://api.kibosupport.com`
+import * as Config from '../config';
+var baseURL = Config.baseURLKiboSupport;
+var baseURLKiboEngage = Config.baseURLKiboEngage;
 var querystring = require('querystring');
 
 export function showChats(data) {
@@ -98,7 +100,7 @@ export const assignAgent = (token, input,session) => {
       };
   console.log(data);
     return (dispatch) => {
-    axios.post(`http://kiboengage.cloudapp.net/api/assignToAgent`, data,config)
+    axios.post(`${baseURLKiboEngage}/api/assignToAgent`, data,config)
     .then(()=>{
       axios.post(`${baseURL}/api/visitorcalls/pickSession`, session,configKS)
     })
@@ -138,12 +140,12 @@ export const sendChat  = (token, input) => {
 
           };
     return (dispatch) => {
-    axios.post(`https://api.kibosupport.com/api/userchats/create`, input,config)
+    axios.post(`${baseURL}/api/userchats/create`, input,config)
       .then((res) => {
         // dispatch(assign_agent_status('Successfully Assigned'));
         console.log("Chat Message Sent Successfully");
 
-              axios.post(`http://kiboengage.cloudapp.net/api/getchatfromagent`, input,config)
+              axios.post(`${baseURLKiboEngage}/api/getchatfromagent`, input,config)
                   .then((res) => {
                     // dispatch(assign_agent_status('Successfully Assigned'));
                     console.log("Chat Message Sent Successfully to get chat from agent");
@@ -181,9 +183,9 @@ export const resolveChatSession =  (token, sessionid) => {
      };
   return (dispatch) => {
 
-    axios.get(`http://kiboengage.cloudapp.net/api/resolvechatsession`, data, config)
+    axios.post(`${baseURLKiboEngage}/api/resolvechatsession`, data, config)
     .then(res => {
-      
+      console.log(res);
       console.log("Chat marked as resolved");
       // dispatch(showSessions(res))
         dispatch(assign_agent_status('Chat Marked As Resolved'));
