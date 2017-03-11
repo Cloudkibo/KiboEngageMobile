@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GiftedChat } from 'react-native-gifted-chat';
+import * as GChat  from 'react-native-gifted-chat';
 import {
   View,
   ListView,
@@ -22,6 +22,8 @@ import { AppColors, AppStyles } from '@theme/';
 
 // Components
 import { Alerts, Spacer, Text } from '@components/ui/';
+import CustomActions from './CustomActions';
+import CustomView from './CustomView';
 
 var handleDate = function(d){
 
@@ -36,6 +38,10 @@ class FbChat extends Component {
     // this.state = 
     this.onSend = this.onSend.bind(this);
     this.renderChat = this.renderChat.bind(this);
+    this.renderBubble = this.renderBubble.bind(this);
+    
+    this.renderAccessory = this.renderAccessory.bind(this);
+    
    // this.renderChat(this.props.fbchatSelected);
   }
 
@@ -176,19 +182,79 @@ class FbChat extends Component {
     this.props.getfbchatfromAgent(saveMsg);
     this.setState((previousState) => {
       return {
-        messages: GiftedChat.append(previousState.messages, messages),
+        messages: GChat.GiftedChat.append(previousState.messages, messages),
       };
     });
   }
 
+
+  renderCustomActions(props) {
+    if (Platform.OS === 'ios') {
+      return (
+        <CustomActions
+          {...props}
+        />
+      );
+    }
+    const options = {
+      'Action 1': (props) => {
+        alert('option 1');
+      },
+      'Action 2': (props) => {
+        alert('option 2');
+      },
+      'Cancel': () => {},
+    };
+    return (
+      <GChat.Actions
+        {...props}
+        options={options}
+      />
+    );
+  }
+
+  renderBubble(props) {
+    return (
+      <GChat.Bubble
+        {...props}
+        wrapperStyle={{
+          left: {
+            backgroundColor: '#f0f0f0',
+          }
+        }}
+      />
+    );
+  }
+
+  renderCustomView(props) {
+    return (
+      <CustomView
+        {...props}
+      />
+    );
+  }
+  renderAccessory(props) {
+    return (
+      <CustomActions
+          {...props}
+        />
+    );
+  }
+   
+
+
   render() {
     return (
-      <GiftedChat
+      <GChat.GiftedChat
         messages={this.state.messages}
         onSend={this.onSend}
         user={{
           _id: 1,
         }}
+
+        renderBubble={this.renderBubble}
+        renderAccessory={this.renderAccessory}
+        renderFooter={this.renderFooter}
       />
     );
   }

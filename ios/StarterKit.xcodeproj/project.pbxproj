@@ -24,6 +24,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		1E56DFDC331B421FA75490CB /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 548AF1745EBA4CBDB90DFB8B /* FontAwesome.ttf */; };
 		276F5E15D4514EE7A7AE7464 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C6AFDA8C52A54659AB5F9CDB /* MaterialCommunityIcons.ttf */; };
+		509596D91E72D14000D0F121 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 509596C21E72D11C00D0F121 /* libRCTCameraRoll.a */; };
 		50CACDAE1E45DC7F00B516FE /* libRCTAzureNotificationHubManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50CACDA61E45DC7200B516FE /* libRCTAzureNotificationHubManager.a */; };
 		50CACDAF1E45DC8500B516FE /* libWindowsAzureMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50CACDAD1E45DC7500B516FE /* libWindowsAzureMessaging.a */; };
 		51A64EA78A8D46F280ACA0A2 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B0EB039134EA094DBEA8E /* libRNVectorIcons.a */; };
@@ -116,6 +117,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = E23D7B471ACEFE2A00C59171;
 			remoteInfo = SQLite;
+		};
+		509596C11E72D11C00D0F121 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 509596B91E72D11C00D0F121 /* RCTCameraRoll.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
+			remoteInfo = RCTCameraRoll;
 		};
 		50CACDA51E45DC7200B516FE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -252,6 +260,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		16666ED9705445DD8C63F562 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		329B0EB039134EA094DBEA8E /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
+		509596B91E72D11C00D0F121 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
 		50CACDA11E45DC7200B516FE /* RCTAzureNotificationHubManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAzureNotificationHubManager.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/RCTAzureNotificationHubManager.xcodeproj"; sourceTree = "<group>"; };
 		50CACDA71E45DC7500B516FE /* WindowsAzureMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WindowsAzureMessaging.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/WindowsAzureMessaging.xcodeproj"; sourceTree = "<group>"; };
 		50CACDB01E45DC8A00B516FE /* StarterKit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = StarterKit.entitlements; path = StarterKit/StarterKit.entitlements; sourceTree = "<group>"; };
@@ -293,6 +302,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				509596D91E72D14000D0F121 /* libRCTCameraRoll.a in Frameworks */,
 				50CACDAF1E45DC8500B516FE /* libWindowsAzureMessaging.a in Frameworks */,
 				50CACDAE1E45DC7F00B516FE /* libRCTAzureNotificationHubManager.a in Frameworks */,
 				C9ED47AF1E10C8B0007B919A /* libRCTAnimation.a in Frameworks */,
@@ -429,6 +439,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		509596BA1E72D11C00D0F121 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				509596C21E72D11C00D0F121 /* libRCTCameraRoll.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		50CACDA21E45DC7200B516FE /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -465,6 +483,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				509596B91E72D11C00D0F121 /* RCTCameraRoll.xcodeproj */,
 				50CACDA71E45DC7500B516FE /* WindowsAzureMessaging.xcodeproj */,
 				50CACDA11E45DC7200B516FE /* RCTAzureNotificationHubManager.xcodeproj */,
 				C9ED47841E10C863007B919A /* RCTAnimation.xcodeproj */,
@@ -658,6 +677,10 @@
 					ProjectRef = 50CACDA11E45DC7200B516FE /* RCTAzureNotificationHubManager.xcodeproj */;
 				},
 				{
+					ProductGroup = 509596BA1E72D11C00D0F121 /* Products */;
+					ProjectRef = 509596B91E72D11C00D0F121 /* RCTCameraRoll.xcodeproj */;
+				},
+				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
 					ProjectRef = 00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */;
 				},
@@ -784,6 +807,13 @@
 			fileType = archive.ar;
 			path = libSQLite.a;
 			remoteRef = 503E426A1E5EBA1C00DAD2E4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		509596C21E72D11C00D0F121 /* libRCTCameraRoll.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTCameraRoll.a;
+			remoteRef = 509596C11E72D11C00D0F121 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		50CACDA61E45DC7200B516FE /* libRCTAzureNotificationHubManager.a */ = {
