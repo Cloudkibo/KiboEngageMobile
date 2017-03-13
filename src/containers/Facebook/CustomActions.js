@@ -8,111 +8,60 @@ import {
 } from 'react-native';
 
 import CameraRollPicker from 'react-native-camera-roll-picker';
+import ImagePicker from 'react-native-image-picker';
+
 import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav';
 
 export default class CustomActions extends React.Component {
   constructor(props) {
     super(props);
-    this._images = [];
-    this.state = {
-      modalVisible: false,
+   
+    
+    this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
+  }
+
+  
+   selectPhotoTapped() {
+    console.log('selectPhotoTapped called');
+    const options = {
+      quality: 1.0,
+      maxWidth: 500,
+      maxHeight: 500,
+      storageOptions: {
+        skipBackup: true
+      }
     };
-    this.onActionsPress = this.onActionsPress.bind(this);
-    this.selectImages = this.selectImages.bind(this);
-  }
 
-  setImages(images) {
-    this._images = images;
-  }
+    ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
 
-  getImages() {
-    return this._images;
-  }
+      if (response.didCancel) {
+        console.log('User cancelled photo picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
 
-  setModalVisible(visible = false) {
-    this.setState({modalVisible: visible});
-  }
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-  onActionsPress() {
-    const options = ['Choose From Library', 'Send Location', 'Cancel'];
-    const cancelButtonIndex = options.length - 1;
-    this.context.actionSheet().showActionSheetWithOptions({
-      options,
-      cancelButtonIndex,
-    },
-    (buttonIndex) => {
-      switch (buttonIndex) {
-        case 0:
-          this.setModalVisible(true);
-          break;
-        case 1:
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              this.props.onSend({
-                location: {
-                  latitude: position.coords.latitude,
-                  longitude: position.coords.longitude,
-                },
-              });
-            },
-            (error) => alert(error.message),
-            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-          );
-          break;
-        default:
+         var images = [];
+         images.push({
+              image: response.uri,
+            })
+         
+         
+          this.props.onSend(images,response.fileSize);
       }
     });
   }
 
-  selectImages(images) {
-    this.setImages(images);
-  }
-
-  renderNavBar() {
-    return (
-      <NavBar style={{
-        statusBar: {
-          backgroundColor: '#FFF',
-        },
-        navBar: {
-          backgroundColor: '#FFF',
-        },
-      }}>
-        <NavButton onPress={() => {
-          this.setModalVisible(false);
-        }}>
-          <NavButtonText style={{
-            color: '#000',
-          }}>
-            {'Cancel'}
-          </NavButtonText>
-        </NavButton>
-        <NavTitle style={{
-          color: '#000',
-        }}>
-          {'Camera Roll'}
-        </NavTitle>
-        <NavButton onPress={() => {
-          this.setModalVisible(false);
-
-          const images = this.getImages().map((image) => {
-            return {
-              image: image.uri,
-            };
-          });
-          this.props.onSend(images);
-          this.setImages([]);
-        }}>
-          <NavButtonText style={{
-            color: '#000',
-          }}>
-            {'Send'}
-          </NavButtonText>
-        </NavButton>
-      </NavBar>
-    );
-  }
-
+  
   renderIcon() {
     if (this.props.icon) {
       return this.props.icon();
@@ -136,68 +85,26 @@ export default class CustomActions extends React.Component {
       <View style={{flexDirection:'row',flex:1}}>
       <TouchableOpacity
         style={[styles.container, this.props.containerStyle]}
-        onPress={this.onActionsPress}
+        onPress={this.selectPhotoTapped}
       >
-        <Modal
-          animationType={'slide'}
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            this.setModalVisible(false);
-          }}
-        >
-          {this.renderNavBar()}
-          <CameraRollPicker
-            maximum={10}
-            imagesPerRow={4}
-            callback={this.selectImages}
-            selected={[]}
-          />
-        </Modal>
+       
         {this.renderIcon()}
       </TouchableOpacity>
-            <TouchableOpacity
+
+
+
+     <TouchableOpacity
         style={[styles.container, this.props.containerStyle]}
-        onPress={this.onActionsPress}
+        onPress={this.selectPhotoTapped}
       >
-        <Modal
-          animationType={'slide'}
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            this.setModalVisible(false);
-          }}
-        >
-          {this.renderNavBar()}
-          <CameraRollPicker
-            maximum={10}
-            imagesPerRow={4}
-            callback={this.selectImages}
-            selected={[]}
-          />
-        </Modal>
+       
         {this.renderIcon()}
       </TouchableOpacity>
-            <TouchableOpacity
+     <TouchableOpacity
         style={[styles.container, this.props.containerStyle]}
-        onPress={this.onActionsPress}
+        onPress={this.selectPhotoTapped}
       >
-        <Modal
-          animationType={'slide'}
-          transparent={false}
-          visible={this.state.modalVisible}
-          onRequestClose={() => {
-            this.setModalVisible(false);
-          }}
-        >
-          {this.renderNavBar()}
-          <CameraRollPicker
-            maximum={10}
-            imagesPerRow={4}
-            callback={this.selectImages}
-            selected={[]}
-          />
-        </Modal>
+       
         {this.renderIcon()}
       </TouchableOpacity>
       </View>

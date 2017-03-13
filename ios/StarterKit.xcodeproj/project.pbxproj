@@ -27,6 +27,7 @@
 		509596D91E72D14000D0F121 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 509596C21E72D11C00D0F121 /* libRCTCameraRoll.a */; };
 		50CACDAE1E45DC7F00B516FE /* libRCTAzureNotificationHubManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50CACDA61E45DC7200B516FE /* libRCTAzureNotificationHubManager.a */; };
 		50CACDAF1E45DC8500B516FE /* libWindowsAzureMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50CACDAD1E45DC7500B516FE /* libWindowsAzureMessaging.a */; };
+		50D0FD641E767F24001F94DB /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D0FD5F1E767F04001F94DB /* libRNImagePicker.a */; };
 		51A64EA78A8D46F280ACA0A2 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 329B0EB039134EA094DBEA8E /* libRNVectorIcons.a */; };
 		56DD6D870C2347BB9B7B6936 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E4A354EEC094D7A8E4DCB16 /* Entypo.ttf */; };
 		5AD9BC4730DB4D8190085A2E /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B832C4BF386947BE8F3FEAA3 /* SimpleLineIcons.ttf */; };
@@ -138,6 +139,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 906E403816A86A3200817A11;
 			remoteInfo = WindowsAzureMessaging;
+		};
+		50D0FD5E1E767F04001F94DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50D0FD431E767F04001F94DB /* RNImagePicker.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
+			remoteInfo = RNImagePicker;
 		};
 		50F4F2111E69770E005D01A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -264,6 +272,8 @@
 		50CACDA11E45DC7200B516FE /* RCTAzureNotificationHubManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAzureNotificationHubManager.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/RCTAzureNotificationHubManager.xcodeproj"; sourceTree = "<group>"; };
 		50CACDA71E45DC7500B516FE /* WindowsAzureMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WindowsAzureMessaging.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/WindowsAzureMessaging.xcodeproj"; sourceTree = "<group>"; };
 		50CACDB01E45DC8A00B516FE /* StarterKit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = StarterKit.entitlements; path = StarterKit/StarterKit.entitlements; sourceTree = "<group>"; };
+		50D0FD2E1E767EA0001F94DB /* libRNImagePicker.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRNImagePicker.a; path = "../node_modules/react-native-image-picker/ios/build/Debug-iphoneos/libRNImagePicker.a"; sourceTree = "<group>"; };
+		50D0FD431E767F04001F94DB /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "/Users/zarmeen/KiboEngageMobile/node_modules/react-native-vector-icons/../react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<absolute>"; };
 		548AF1745EBA4CBDB90DFB8B /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		5A2E880D2C394ECCB205CA8A /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		637E4719B62D4C978EB58849 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
@@ -302,6 +312,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50D0FD641E767F24001F94DB /* libRNImagePicker.a in Frameworks */,
 				509596D91E72D14000D0F121 /* libRCTCameraRoll.a in Frameworks */,
 				50CACDAF1E45DC8500B516FE /* libWindowsAzureMessaging.a in Frameworks */,
 				50CACDAE1E45DC7F00B516FE /* libRCTAzureNotificationHubManager.a in Frameworks */,
@@ -463,6 +474,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		50D0FD441E767F04001F94DB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				50D0FD5F1E767F04001F94DB /* libRNImagePicker.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		50F4F1F81E69770E005D01A7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -483,6 +502,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				50D0FD431E767F04001F94DB /* RNImagePicker.xcodeproj */,
 				509596B91E72D11C00D0F121 /* RCTCameraRoll.xcodeproj */,
 				50CACDA71E45DC7500B516FE /* WindowsAzureMessaging.xcodeproj */,
 				50CACDA11E45DC7200B516FE /* RCTAzureNotificationHubManager.xcodeproj */,
@@ -544,6 +564,7 @@
 		8A7012F9BFFB4B19B8D28519 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				50D0FD2E1E767EA0001F94DB /* libRNImagePicker.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -725,6 +746,10 @@
 					ProjectRef = AB668AEFAC344D4CAAFAD145 /* RNDeviceInfo.xcodeproj */;
 				},
 				{
+					ProductGroup = 50D0FD441E767F04001F94DB /* Products */;
+					ProjectRef = 50D0FD431E767F04001F94DB /* RNImagePicker.xcodeproj */;
+				},
+				{
 					ProductGroup = 50F4F1F81E69770E005D01A7 /* Products */;
 					ProjectRef = 92E525329CF64ECB883AF335 /* RNVectorIcons.xcodeproj */;
 				},
@@ -828,6 +853,13 @@
 			fileType = archive.ar;
 			path = libWindowsAzureMessaging.a;
 			remoteRef = 50CACDAC1E45DC7500B516FE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		50D0FD5F1E767F04001F94DB /* libRNImagePicker.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNImagePicker.a;
+			remoteRef = 50D0FD5E1E767F04001F94DB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		50F4F2121E69770E005D01A7 /* libRNVectorIcons.a */ = {
@@ -1019,6 +1051,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StarterKit.app/StarterKit";
@@ -1035,6 +1068,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1057,6 +1091,7 @@
 					"$(SRCROOT)/../node_modules/react-native-azurenotificationhub/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 				);
 				INFOPLIST_FILE = StarterKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1086,6 +1121,7 @@
 					"$(SRCROOT)/../node_modules/react-native-azurenotificationhub/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 				);
 				INFOPLIST_FILE = StarterKit/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1141,6 +1177,7 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1184,6 +1221,7 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/RNDeviceInfo",
 					"$(SRCROOT)/../node_modules/react-native-sqlite-storage/src/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

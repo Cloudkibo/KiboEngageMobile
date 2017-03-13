@@ -146,8 +146,11 @@ class FbChat extends Component {
               this.setState({messages:temparray});
     }
 
-  onSend(messages = []) {
+  async onSend(messages = [],filesize =0 ) {
+
    var msgObj = messages[0];
+   console.log('msgObj');
+   console.log(msgObj);
    var today = new Date();  
    var uid = Math.random().toString(36).substring(7);
    var unique_id = 'f' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
@@ -161,25 +164,78 @@ class FbChat extends Component {
         break;
       }
     }
-    var saveMsg = {
-              senderid: this.props.userdetails._id,
-              recipientid:this.props.senderid,
-              companyid:this.props.userdetails.uniqueid,
-              timestamp:Date.now(),
-              message:{
-                mid:unique_id,
-                seq:1,
-                text:msgObj.text,
-              },
 
-             pageid:pageid
-              
+    /*** for text message *****/
+    if(msgObj.text){
+              var saveMsg = {
+                        senderid: this.props.userdetails._id,
+                        recipientid:this.props.senderid,
+                        companyid:this.props.userdetails.uniqueid,
+                        timestamp:Date.now(),
+                        message:{
+                          mid:unique_id,
+                          seq:1,
+                          text:msgObj.text,
+                        },
+
+                       pageid:pageid
+                        
+              }
+
+
+              console.log(saveMsg);
+
+              this.props.getfbchatfromAgent(saveMsg);
+            }
+
+
+    /*** for image file ******/
+    var filename = msgObj.image.split('/');
+    console.log(filename[filename.length-1]);
+    
+    if(msgObj.image){
+      if (auth.loggedIn() === true) {
+          console.log('auth.loggedIn() return true');
+          const token = await auth.getToken();
+            var photo = {
+                  uri: msgObj.image,
+                  type: 'image',
+                  name: filename[filename.length-1],
+              };
+
+
+               var saveMsg = {
+                                  senderid: this.props.userdetails._id,
+                                  recipientid:this.props.senderid,
+                                  companyid:this.props.userdetails.uniqueid,
+                                  timestamp:Date.now(),
+                                  message:{
+                                    mid:unique_id,
+                                    seq:1,
+                                    attachments:[{
+                                      type:'image',
+                                      payload:{
+                                        url:'',
+                                      }
+
+                                    }]
+                                  },
+
+                                 pageid:pageid
+                  
+                            }
+           
+                   var fileData = new FormData();
+                  fileData.append('file', photo);
+                  fileData.append('filename',  photo.name);
+                  fileData.append('filetype',  photo.type);
+                  fileData.append('filesize',  filesize);
+                  fileData.append('chatmsg', JSON.stringify(saveMsg));
+                  this.props.uploadFbChatfile(fileData,token);
+
     }
+  }
 
-
-    console.log(saveMsg);
-
-    this.props.getfbchatfromAgent(saveMsg);
     this.setState((previousState) => {
       return {
         messages: GChat.GiftedChat.append(previousState.messages, messages),
@@ -264,7 +320,9 @@ const mapDispatchToProps = {
  // fetchfbcustomers: FbActions.fetchfbcustomers,
  // getfbChats:FbActions.getfbChats,
  // updatedSelectedFbChats:FbActions.updatedSelectedFbChats,
-  getfbchatfromAgent:FbActions.getfbchatfromAgent
+  getfbchatfromAgent:FbActions.getfbchatfromAgent,
+
+  uploadFbChatfile:FbActions.uploadFbChatfile
 };
 function mapStateToProps(state) {
    const { fbcustomers,fbchats,fbchatSelected} = state.fbpages;

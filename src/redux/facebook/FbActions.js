@@ -240,9 +240,10 @@ export function getfbchatfromAgent(chat){
 };
 
 export function fbchatmessageSent(res){
+  console.log(res);
     return {
     type: ActionTypes.FBCHAT_SENT_TO_AGENT,
-    payload : res.status,
+    payload : 'success',
   //  customerid,
 
   };
@@ -274,3 +275,45 @@ export const getfbpages = (token) => {
       });
   };
 };
+
+
+export const uploadFbChatfile =(fileData,token)=>{
+  console.log(fileData);
+  const config = {
+      method: 'post',
+      body: fileData,
+       headers: {
+        'Authorization': token,
+        
+    }
+  }
+    console.log('console body');
+    console.log(config.body);
+  /*const config = {
+    rejectUnauthorized: false,
+    headers: {
+        'Authorization': token,
+        'content-type': 'multipart/form-data'
+        
+    },
+  };
+
+  return (dispatch) => {
+    console.log('calling api');
+    axios.post(`${baseURLKiboEngage}/api/uploadchatfilefb/`, fileData,config).then(res => dispatch(fbchatmessageSent(res.data)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+      });
+  };*/
+
+return (dispatch) => {
+  fetch(`${baseURLKiboEngage}/api/uploadchatfilefb/`, config
+    ).then(res => dispatch(fbchatmessageSent(res)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+      });
+  };
+}
+
