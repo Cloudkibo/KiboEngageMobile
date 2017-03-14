@@ -279,19 +279,7 @@ export const getfbpages = (token) => {
 
 export const uploadFbChatfile =(fileData,token)=>{
   console.log(fileData);
-  const config = {
-      method: 'post',
-      body: fileData,
-       headers: {
-
-        'Authorization': token,
-        
-       
-        
-    }
-  }
-    console.log('console body');
-    console.log(config.headers);
+  
   /*const config = {
     rejectUnauthorized: false,
     headers: {
@@ -320,7 +308,7 @@ export const uploadFbChatfile =(fileData,token)=>{
   };*/
 
 
-return (dispatch) => {
+/*return (dispatch) => {
   fetch(`${baseURLKiboEngage}/api/uploadchatfilefb/`,{
   method: 'post',
   headers: {
@@ -335,6 +323,26 @@ return (dispatch) => {
   }).catch(err => {
     console.log(err)
   })  
+  }*/
+
+return (dispatch) => {
+          var request = new XMLHttpRequest();
+          request.onreadystatechange = (e) => {
+            if (request.readyState !== 4) {
+              return;
+            }
+
+            if (request.status === 200) {
+              console.log('success', request.responseText);
+            } else {
+              console.log(request.status);
+              console.warn('error');
+            }
+          };
+
+            request.open('POST', `${baseURLKiboEngage}/api/uploadchatfilefb/` );
+          
+            request.send(fileData);
+          }
   }
-}
 

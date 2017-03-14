@@ -227,7 +227,7 @@ class FbChat extends Component {
                             }
            
                    var fileData = new FormData();
-                  fileData.append('file', photo, { type: 'multipart/form-data' });
+                  fileData.append('file', photo);
                   fileData.append('filename',  photo.name);
                   fileData.append('filetype',  photo.type);
                   fileData.append('filesize',  filesize);
