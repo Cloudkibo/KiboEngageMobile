@@ -283,12 +283,15 @@ export const uploadFbChatfile =(fileData,token)=>{
       method: 'post',
       body: fileData,
        headers: {
+
         'Authorization': token,
+        
+       
         
     }
   }
     console.log('console body');
-    console.log(config.body);
+    console.log(config.headers);
   /*const config = {
     rejectUnauthorized: false,
     headers: {
@@ -307,13 +310,31 @@ export const uploadFbChatfile =(fileData,token)=>{
       });
   };*/
 
-return (dispatch) => {
+/*return (dispatch) => {
   fetch(`${baseURLKiboEngage}/api/uploadchatfilefb/`, config
     ).then(res => dispatch(fbchatmessageSent(res)))
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
       });
-  };
+  };*/
+
+
+return (dispatch) => {
+  fetch(`${baseURLKiboEngage}/api/uploadchatfilefb/`,{
+  method: 'post',
+  headers: {
+    'Content-Type': 'multipart/form-data',
+    'Authorization': token,
+  },
+  body: fileData
+  }).then(response => {
+    console.log("image uploaded")
+    console.log(response)
+    dispatch(fbchatmessageSent(response))
+  }).catch(err => {
+    console.log(err)
+  })  
+  }
 }
 

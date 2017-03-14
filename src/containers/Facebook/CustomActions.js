@@ -5,11 +5,12 @@ import {
   TouchableOpacity,
   View,
   Text,
+  Alert
 } from 'react-native';
 
 import CameraRollPicker from 'react-native-camera-roll-picker';
 import ImagePicker from 'react-native-image-picker';
-
+const DocumentPicker = require('react-native').NativeModules.RNDocumentPicker;
 import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav';
 
 export default class CustomActions extends React.Component {
@@ -18,6 +19,7 @@ export default class CustomActions extends React.Component {
    
     
     this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
+    this.selectFileTapped = this.selectFileTapped.bind(this);
   }
 
   
@@ -61,6 +63,19 @@ export default class CustomActions extends React.Component {
     });
   }
 
+
+   selectFileTapped() {
+    console.log('selectFileTapped called');
+    
+
+    DocumentPicker.show({
+      filetype: ['public.image','com.adobe.pdf','com.microsoft.word.doc','com.microsoft.excel.xls','com.microsoft.powerpoint.​ppt'],
+    },(error,url) => {
+     // Alert(url);
+      console.log(url);
+    });
+  }
+
   
   renderIcon() {
     if (this.props.icon) {
@@ -95,7 +110,7 @@ export default class CustomActions extends React.Component {
 
      <TouchableOpacity
         style={[styles.container, this.props.containerStyle]}
-        onPress={this.selectPhotoTapped}
+        onPress={this.selectFileTapped}
       >
        
         {this.renderIcon()}

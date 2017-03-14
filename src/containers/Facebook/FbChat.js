@@ -189,11 +189,12 @@ class FbChat extends Component {
             }
 
 
-    /*** for image file ******/
+    
+    if(msgObj.image){
+      /*** for image file ******/
     var filename = msgObj.image.split('/');
     console.log(filename[filename.length-1]);
     
-    if(msgObj.image){
       if (auth.loggedIn() === true) {
           console.log('auth.loggedIn() return true');
           const token = await auth.getToken();
@@ -226,7 +227,7 @@ class FbChat extends Component {
                             }
            
                    var fileData = new FormData();
-                  fileData.append('file', photo);
+                  fileData.append('file', photo, { type: 'multipart/form-data' });
                   fileData.append('filename',  photo.name);
                   fileData.append('filetype',  photo.type);
                   fileData.append('filesize',  filesize);
