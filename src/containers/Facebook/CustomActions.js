@@ -58,7 +58,9 @@ export default class CustomActions extends React.Component {
             })
          
          
-          this.props.onSend(images,response.fileSize);
+        setTimeout( () => {
+                this.props.onSend(images,response.fileSize);
+        },1000);
       }
     });
   }
