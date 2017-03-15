@@ -6,6 +6,8 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  TextInput,
+  Image,
 } from 'react-native';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import { List, ListItem, SocialIcon, Card, Button, Icon } from 'react-native-elements';
@@ -34,14 +36,13 @@ return c;
 class FbChat extends Component {
   constructor(props) {
     super(props);
-    this.state = {messages: []};
-    // this.state = 
+    this.state = {messages: [], text: 'Useless Placeholder' };
     this.onSend = this.onSend.bind(this);
     this.renderChat = this.renderChat.bind(this);
     this.renderBubble = this.renderBubble.bind(this);
-    
     this.renderAccessory = this.renderAccessory.bind(this);
-    
+    this.renderComposer = this.renderComposer.bind(this);
+    this.renderSend = this.renderSend.bind(this);
    // this.renderChat(this.props.fbchatSelected);
   }
 
@@ -147,14 +148,26 @@ class FbChat extends Component {
     }
 
   async onSend(messages = [],filesize =0 ) {
-
+  //   var data = { 
+  //     _id:"9be49b8a-d930-4b0b-8962-af54fa0cd86b",
+  //     createdAt: Date.now(),
+  //     text:this.state.text,
+  //     user: {
+  //       _id:1
+  //     },
+  // };
+  // messages[0] = data;
+    console.log("On Send", messages);
+  //  messages[0].text = this.state.text; 
+  if(messages[0].text == ''){
+    messages[0].image = 'http://1.bp.blogspot.com/-qns_lZPjg0I/VWY2dO1HN-I/AAAAAAAACVA/akLTMY7RJSk/s1600/Thumbs-up-facebook-icon-small.png'; 
+  }
    var msgObj = messages[0];
    console.log('msgObj');
    console.log(msgObj);
    var today = new Date();  
    var uid = Math.random().toString(36).substring(7);
    var unique_id = 'f' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
-
 
     var pageid=''
     for(var i=0;i<this.props.fbchatSelected.length;i++){
@@ -184,7 +197,7 @@ class FbChat extends Component {
 
 
               console.log(saveMsg);
-
+              this.setState({text: ''});
               this.props.getfbchatfromAgent(saveMsg);
             }
 
@@ -233,7 +246,6 @@ class FbChat extends Component {
                   fileData.append('filesize',  filesize);
                   fileData.append('chatmsg', JSON.stringify(saveMsg));
                   this.props.uploadFbChatfile(fileData,token);
-
     }
   }
 
@@ -299,12 +311,48 @@ class FbChat extends Component {
   }
    
 
+  renderComposer(props){
+     console.log('renderComposer props',props);
+     
+
+    return(
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <TextInput placeholderTextColor="rgba(67,88,101,0.4)" 
+         value={this.state.text} multiline={true} 
+         style={{maxHeight:100,height:Math.max(40,props.composerHeight),color: 'rgb(67,88,101)' ,fontSize: 15, flex: 4, padding:5}}
+          onChangeText={(e) => {
+            this.setState({text:e});
+            console.log("Printing e in onchange", e);
+        }}
+        />
+        </View>
+    )
+  }
+
+  renderSend(props) {
+    var button = 'paper-plane';
+    if(this.state.text == ''){
+      button = 'thumbs-o-up';
+    }
+    return (
+<Icon
+  reverse
+  name={button}
+  type='font-awesome'
+  color='#517fa4'
+  size={15} 
+  onPress={() => props.onSend({text:this.state.text.trim()}, true)}
+/>
+    );
+  }
 
   render() {
     return (
       <GChat.GiftedChat
         messages={this.state.messages}
+        renderComposer={this.renderComposer}
         onSend={this.onSend}
+        renderSend = {this.renderSend}
         user={{
           _id: 1,
         }}
