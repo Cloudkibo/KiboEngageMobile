@@ -34,7 +34,12 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new ImagePickerPackage(),
+            // new VectorIconsPackage(),
+            // new GoogleAnalyticsBridgePackage(),
+            // new RNDeviceInfo(),
+
             new ReactNativeDocumentPicker(),
+
           //  new VectorIconsPackage(),
          //   new GoogleAnalyticsBridgePackage(),
         ///    new RNDeviceInfo(),

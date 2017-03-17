@@ -189,7 +189,7 @@ renderLoadingView(){
     var notif = JSON.parse(notification.message);
     console.log(notif);
     
-    /*Alert.alert(
+    Alert.alert(
       'Push Notification Received',
       'Alert message: ' + notif.data.status,
       [{
@@ -197,7 +197,7 @@ renderLoadingView(){
         onPress: null,
       }]
     );
-    */
+    
     if(notif.data.type == 'fbchat'){
           var token =  await auth.getToken();
           // console.log('token is Launchview is: ' + token);

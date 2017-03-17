@@ -346,3 +346,31 @@ return (dispatch) => {
           }
   }
 
+// Fetch Chat from facebook
+export const fetchChat=(token, request_id) => {
+    var token = token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            },
+
+          };
+      var data = {
+        uniqueid: request_id,
+      };
+
+  return (dispatch) => {
+    console.log('calling api');
+    axios.post(`${baseURL}/api/userchats/fetchChat`,data,config).then(res => {
+      console.log("Chat fetch from facebook");
+      console.log(res);
+    })
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        // dispatch(fbpageCreateFail());
+      });
+
+  };
+};
