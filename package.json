@@ -28,6 +28,7 @@
     "react-native-document-picker": "git+https://git@github.com/Elyx0/react-native-document-picker.git",
     "react-native-dropdown": "0.0.6",
     "react-native-elements": "^0.9.7",
+    "react-native-emojipicker": "^1.0.0",
     "react-native-gifted-chat": "^0.1.3",
     "react-native-google-analytics-bridge": "^4.0.1",
     "react-native-image-picker": "^0.24.1",

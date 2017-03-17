@@ -1,13 +1,14 @@
 import * as ActionTypes from '../types';
 
 const INITIAL_STATE = {
-  fbpages:[],
+ fbpages:[],
  fbpagesuccess:'',
  fbpageerror:'',
  fbcustomers:[],
  msgstatus:'',
  fbchatSelected:[],
  fbchats:[],
+ emojiVisible: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -35,7 +36,8 @@ export default (state = INITIAL_STATE, action) => {
 
     case ActionTypes.ADD_FB_PAGES:
       return { ...state, fbpages: action.payload, fbpageerror: '', fbpagesuccess: '', loading: false };
-
+    case ActionTypes.EMOJI_VISIBLE:
+      return { ...state, emojiVisible: action.payload,};
     default:
       return state;
   }

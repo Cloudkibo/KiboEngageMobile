@@ -374,3 +374,13 @@ export const fetchChat=(token, request_id) => {
 
   };
 };
+
+
+export function emojiToggle(val){
+    return {
+    type: ActionTypes.EMOJI_VISIBLE,
+    payload : val,
+  //  customerid,
+
+  };
+};

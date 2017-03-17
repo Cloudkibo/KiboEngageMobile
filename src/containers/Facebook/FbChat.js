@@ -19,6 +19,8 @@ import auth from '../../services/auth';
 import * as FbActions from '@redux/facebook/FbActions';
 
 
+import EmojiPicker from 'react-native-emojipicker/lib/Picker';
+
 // Consts and Libs
 import { AppColors, AppStyles } from '@theme/';
 
@@ -43,6 +45,8 @@ class FbChat extends Component {
     this.renderAccessory = this.renderAccessory.bind(this);
     this.renderComposer = this.renderComposer.bind(this);
     this.renderSend = this.renderSend.bind(this);
+    this.logEmoji = this.logEmoji.bind(this);
+    this.renderFooter  = this.renderFooter.bind(this);
    // this.renderChat(this.props.fbchatSelected);
   }
 
@@ -311,6 +315,8 @@ class FbChat extends Component {
   }
    
 
+   
+
   renderComposer(props){
      console.log('renderComposer props',props);
      
@@ -329,13 +335,19 @@ class FbChat extends Component {
     )
   }
 
+    logEmoji (emoji, props) {
+    console.log(emoji);
+    this.setState({text: this.state.text + emoji});
+    this.props.toggleEmoji(!this.props.emojiVisible)
+  }
+
   renderSend(props) {
     var button = 'paper-plane';
     if(this.state.text == ''){
       button = 'thumbs-o-up';
     }
     return (
-<Icon
+    <Icon
   reverse
   name={button}
   type='font-awesome'
@@ -343,7 +355,23 @@ class FbChat extends Component {
   size={15} 
   onPress={() => props.onSend({text:this.state.text.trim()}, true)}
 />
-    );
+);
+}
+
+  renderFooter(propy) {
+      if(!this.props.emojiVisible){
+        return null;
+      }else{
+      return (
+    <ScrollView style={styles.footerContainer}>
+        <EmojiPicker
+          onEmojiSelected={(emoji) => {this.logEmoji(emoji, propy)}}
+          visible={this.props.emojiVisible}
+          />
+        </ScrollView>
+      );
+      }
+    
   }
 
   render() {
@@ -371,12 +399,13 @@ const mapDispatchToProps = {
  // updatedSelectedFbChats:FbActions.updatedSelectedFbChats,
   getfbchatfromAgent:FbActions.getfbchatfromAgent,
 
-  uploadFbChatfile:FbActions.uploadFbChatfile
+  uploadFbChatfile:FbActions.uploadFbChatfile,
+  toggleEmoji:FbActions.emojiToggle,
 };
 function mapStateToProps(state) {
-   const { fbcustomers,fbchats,fbchatSelected} = state.fbpages;
+   const { fbcustomers,fbchats,fbchatSelected, emojiVisible} = state.fbpages;
     const { userdetails} = state.user;
-  return { fbcustomers,fbchats,fbchatSelected,userdetails};
+  return { fbcustomers,fbchats,fbchatSelected,userdetails, emojiVisible};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FbChat);

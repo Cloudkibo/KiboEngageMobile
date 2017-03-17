@@ -7,14 +7,18 @@ import {
   Text,
   Alert
 } from 'react-native';
-
+import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
 import CameraRollPicker from 'react-native-camera-roll-picker';
 import ImagePicker from 'react-native-image-picker';
 const DocumentPicker = require('react-native').NativeModules.RNDocumentPicker;
 import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav';
+
+import * as FbActions from '@redux/facebook/FbActions';
+import { List, ListItem, SocialIcon, Card, Button, Icon } from 'react-native-elements';
 var ReactNative = require('react-native');
 
-export default class CustomActions extends React.Component {
+class CustomActions extends React.Component {
   constructor(props) {
     super(props);
    
@@ -133,6 +137,18 @@ export default class CustomActions extends React.Component {
        
         {this.renderIcon()}
       </TouchableOpacity>
+      <TouchableOpacity
+        style={{paddingLeft:3}}
+        onPress={() => { this.props.toggleEmoji(!this.props.emojiVisible)}}
+      >
+       
+        <Icon
+          name='smile-o'
+          type='font-awesome'
+          color='#d35400'
+          size={26}
+        />
+      </TouchableOpacity>
       </View>
     );
   }
@@ -181,3 +197,14 @@ CustomActions.propTypes = {
   wrapperStyle: View.propTypes.style,
   iconTextStyle: Text.propTypes.style,
 };
+
+
+const mapDispatchToProps = {
+
+  toggleEmoji:FbActions.emojiToggle,
+};
+function mapStateToProps(state) {
+  const { emojiVisible } = state.fbpages;
+  return { emojiVisible };
+}
+export default connect(mapStateToProps, mapDispatchToProps)(CustomActions);
