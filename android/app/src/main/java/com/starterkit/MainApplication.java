@@ -5,6 +5,7 @@ import android.app.Application;
 import com.azure.reactnative.notificationhub.ReactNativeNotificationHubPackage;
 import com.facebook.react.ReactApplication;
 import com.imagepicker.ImagePickerPackage;
+import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
 //import com.oblador.vectoricons.VectorIconsPackage;
 //import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 //import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -36,6 +37,9 @@ public class MainApplication extends Application implements ReactApplication {
             // new VectorIconsPackage(),
             // new GoogleAnalyticsBridgePackage(),
             // new RNDeviceInfo(),
+
+            new ReactNativeDocumentPicker(),
+
           //  new VectorIconsPackage(),
          //   new GoogleAnalyticsBridgePackage(),
         ///    new RNDeviceInfo(),

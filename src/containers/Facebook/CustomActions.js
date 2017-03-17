@@ -12,6 +12,7 @@ import CameraRollPicker from 'react-native-camera-roll-picker';
 import ImagePicker from 'react-native-image-picker';
 const DocumentPicker = require('react-native').NativeModules.RNDocumentPicker;
 import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav';
+var ReactNative = require('react-native');
 
 export default class CustomActions extends React.Component {
   constructor(props) {
@@ -69,9 +70,17 @@ export default class CustomActions extends React.Component {
    selectFileTapped() {
     console.log('selectFileTapped called');
     
-
+    if(ReactNative.Platform.OS == "android"){
+       DocumentPicker.show({
+      filetype:['*/*']
+    },(error,url) => {
+     // Alert(url);
+      console.log(url);
+    }); 
+    }
+    else if(ReactNative.Platform.OS == "ios")
     DocumentPicker.show({
-      filetype: ['public.image','com.adobe.pdf','com.microsoft.word.doc','com.microsoft.excel.xls','com.microsoft.powerpoint.​ppt'],
+         filetype: ['public.image','com.adobe.pdf','com.microsoft.word.doc','com.microsoft.excel.xls','com.microsoft.powerpoint.​ppt'],
     },(error,url) => {
      // Alert(url);
       console.log(url);
