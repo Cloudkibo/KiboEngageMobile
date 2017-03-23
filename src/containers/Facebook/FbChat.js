@@ -38,7 +38,7 @@ return c;
 class FbChat extends Component {
   constructor(props) {
     super(props);
-    this.state = {messages: [], text: 'Useless Placeholder' };
+    this.state = {messages: [], text: 'Useless Placeholder', gifItems:[], stickerItems:[], chatProp: {}, stickgif: false, };
     this.onSend = this.onSend.bind(this);
     this.renderChat = this.renderChat.bind(this);
     this.renderBubble = this.renderBubble.bind(this);
@@ -47,6 +47,8 @@ class FbChat extends Component {
     this.renderSend = this.renderSend.bind(this);
     this.logEmoji = this.logEmoji.bind(this);
     this.renderFooter  = this.renderFooter.bind(this);
+    this.sendStickerGif = this.sendStickerGif.bind(this);
+
    // this.renderChat(this.props.fbchatSelected);
   }
 
@@ -68,6 +70,8 @@ class FbChat extends Component {
     if(nextProps.fbchatSelected){
       this.renderChat(nextProps);
       this.forceUpdate(); 
+      this.renderGif(nextProps);
+      this.renderSticker(nextProps);
      }
   }
 
@@ -166,6 +170,10 @@ class FbChat extends Component {
   if(messages[0].text == ''){
     messages[0].image = 'http://1.bp.blogspot.com/-qns_lZPjg0I/VWY2dO1HN-I/AAAAAAAACVA/akLTMY7RJSk/s1600/Thumbs-up-facebook-icon-small.png'; 
   }
+  // if(this.state.stickgif){
+  //   message[0].image =  message[0].text;
+  //   message[0].text = false;
+  // }
    var msgObj = messages[0];
    console.log('msgObj');
    console.log(msgObj);
@@ -252,7 +260,7 @@ class FbChat extends Component {
                   this.props.uploadFbChatfile(fileData,token);
     }
   }
-
+    this.state.stickgif = false;
     this.setState((previousState) => {
       return {
         messages: GChat.GiftedChat.append(previousState.messages, messages),
@@ -357,12 +365,49 @@ class FbChat extends Component {
 />
 );
 }
+  renderGif(nextProps){
+    this.state.gifItems = [];
+    for(i = 0; i < nextProps.gifs.length; i++){
+      this.state.gifItems.push(<TouchableOpacity identifier={i} key={i}  onPress = {this.sendStickerGif.bind(this, nextProps.gifs[i])}><Image
+          style={{width: 100, height:100 }}
+          source={{uri: nextProps.gifs[i]}}
+        /></TouchableOpacity>);
+    }
+    console.log("In render gif");
+    console.log(nextProps.gifs);
+  }
+
+  renderSticker(nextProps){
+    this.state.stickerItems = [];
+    for(i = 0; i < nextProps.stickers.length; i++){
+      console.log("Sticker Items " + nextProps.stickers[i]);
+      this.state.stickerItems.push(<TouchableOpacity identifier={i} key={i}  onPress = {this.sendStickerGif.bind(this, nextProps.stickers[i])}><Image
+          style={{width: 100, height:100 }}
+          source={{uri: nextProps.stickers[i]}}
+        /></TouchableOpacity>);
+    }
+    console.log("In render sticker");
+    console.log(this.props.stickerVisible);
+    console.log(nextProps.stickers);
+  }
+
+  sendStickerGif(image_uri){
+    console.log("In Sticker Gif");
+    console.log(image_uri);
+    this.state.stickgif = true;
+     var images = [];
+         images.push({
+              image: image_uri,
+            })
+    this.state.chatProp.onSend(images,0);
+    this.props.toggleSticker(false);
+    this.props.toggleGif(false)
+  }
 
   renderFooter(propy) {
-      if(!this.props.emojiVisible){
-        return null;
-      }else{
-      return (
+    this.state.chatProp = propy;
+      if(this.props.emojiVisible){
+        return (
     <ScrollView style={styles.footerContainer}>
         <EmojiPicker
           onEmojiSelected={(emoji) => {this.logEmoji(emoji, propy)}}
@@ -371,7 +416,22 @@ class FbChat extends Component {
         </ScrollView>
       );
       }
-    
+      if(this.props.gifVisible){
+        return (
+    <ScrollView horizontal={true} style={styles.footerContainer}>
+        {this.state.gifItems}
+        </ScrollView>
+      );
+      }
+      if(this.props.stickerVisible){
+        return (
+    <ScrollView horizontal={true} style={styles.footerContainer}>
+      <Text>Sticker</Text>
+        {this.state.stickerItems}
+        </ScrollView>
+      );
+      }
+      return null;
   }
 
   render() {
@@ -401,11 +461,13 @@ const mapDispatchToProps = {
 
   uploadFbChatfile:FbActions.uploadFbChatfile,
   toggleEmoji:FbActions.emojiToggle,
+  toggleGif:FbActions.gifToggle,
+  toggleSticker:FbActions.stickerToggle,
 };
 function mapStateToProps(state) {
-   const { fbcustomers,fbchats,fbchatSelected, emojiVisible} = state.fbpages;
+   const { fbcustomers,fbchats,fbchatSelected, emojiVisible, gifVisible, gifs, stickers, stickerVisible} = state.fbpages;
     const { userdetails} = state.user;
-  return { fbcustomers,fbchats,fbchatSelected,userdetails, emojiVisible};
+  return { fbcustomers,fbchats,fbchatSelected,userdetails, emojiVisible, gifVisible, gifs, stickers, stickerVisible};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FbChat);
