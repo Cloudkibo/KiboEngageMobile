@@ -7,14 +7,14 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
-  Image,
 } from 'react-native';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import { List, ListItem, SocialIcon, Card, Button, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import Loading from '@components/general/Loading';
-
+import Image from 'react-native-image-progress';
+import * as Progress from 'react-native-progress';
 import auth from '../../services/auth';
 import * as FbActions from '@redux/facebook/FbActions';
 
@@ -371,6 +371,7 @@ class FbChat extends Component {
       this.state.gifItems.push(<TouchableOpacity identifier={i} key={i}  onPress = {this.sendStickerGif.bind(this, nextProps.gifs[i])}><Image
           style={{width: 100, height:100 }}
           source={{uri: nextProps.gifs[i]}}
+          indicator={Progress.CircleSnail } 
         /></TouchableOpacity>);
     }
     console.log("In render gif");
@@ -384,6 +385,7 @@ class FbChat extends Component {
       this.state.stickerItems.push(<TouchableOpacity identifier={i} key={i}  onPress = {this.sendStickerGif.bind(this, nextProps.stickers[i])}><Image
           style={{width: 100, height:100 }}
           source={{uri: nextProps.stickers[i]}}
+          indicator={Progress.CircleSnail} 
         /></TouchableOpacity>);
     }
     console.log("In render sticker");
