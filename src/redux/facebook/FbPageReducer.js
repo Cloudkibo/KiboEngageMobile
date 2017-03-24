@@ -9,6 +9,10 @@ const INITIAL_STATE = {
  fbchatSelected:[],
  fbchats:[],
  emojiVisible: false,
+ gifVisible: false,
+ stickerVisible: false,
+ gifs: [],
+ stickers: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -38,6 +42,14 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, fbpages: action.payload, fbpageerror: '', fbpagesuccess: '', loading: false };
     case ActionTypes.EMOJI_VISIBLE:
       return { ...state, emojiVisible: action.payload,};
+    case ActionTypes.GIF_VISIBLE:
+      return { ...state, gifVisible: action.payload,};
+    case ActionTypes.STICKER_VISIBLE:
+      return { ...state, stickerVisible: action.payload,};      
+    case ActionTypes.GIF_UPDATE:
+      return { ...state, gifs: action.payload,};
+    case ActionTypes.STICKER_UPDATE:
+      return { ...state, stickers: action.payload,};
     default:
       return state;
   }

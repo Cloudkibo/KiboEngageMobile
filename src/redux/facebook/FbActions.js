@@ -384,3 +384,84 @@ export function emojiToggle(val){
 
   };
 };
+
+export function gifToggle(val){
+    return {
+    type: ActionTypes.GIF_VISIBLE,
+    payload : val,
+  //  customerid,
+
+  };
+};
+export function stickerToggle(val){
+    return {
+    type: ActionTypes.STICKER_VISIBLE,
+    payload : val,
+  //  customerid,
+
+  };
+};
+
+export function updateGif(val){
+    return {
+    type: ActionTypes.GIF_UPDATE,
+    payload : val,
+  //  customerid,
+
+  };
+};
+
+export function updateSticker(val){
+    return {
+    type: ActionTypes.STICKER_UPDATE,
+    payload : val,
+  //  customerid,
+
+  };
+};
+
+export function fetchGif(){
+
+  return (dispatch) => {
+    axios.get(`http://api.giphy.com/v1/gifs/search?q=funny+cat&api_key=dc6zaTOxFJmzC&limit=10`)
+    .then(
+      res => {
+        // console.log(res);
+        console.log("New Log");
+        var gifs = [];
+        for(i = 0; i < res.data.data.length; i++){
+            gifs.push(res.data.data[i].images.fixed_height.url);
+        }
+        console.log(gifs);
+        dispatch(updateGif(gifs));
+      }
+      ).catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+
+      });
+  };
+};
+
+export function fetchSticker(){
+
+  return (dispatch) => {
+    axios.get(`http://api.giphy.com/v1/stickers/search?q=happy&api_key=dc6zaTOxFJmzC`)
+    .then(
+      res => {
+        // console.log(res);
+        console.log("New Log");
+        var gifs = [];
+        for(i = 0; i < res.data.data.length; i++){
+            gifs.push(res.data.data[i].images.fixed_height.url);
+        }
+        console.log(gifs);
+        dispatch(updateSticker(gifs));
+      }
+      ).catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+
+      });
+  };
+};

@@ -149,6 +149,32 @@ class CustomActions extends React.Component {
           size={26}
         />
       </TouchableOpacity>
+       <TouchableOpacity
+        style={{paddingLeft:3}}
+    onPress={() => { this.props.toggleGif(!this.props.gifVisible); this.props.gifFetch()}}
+      >
+       
+        <Icon
+          name='picture-o'
+          type='font-awesome'
+          color='#d35400'
+          size={26}
+        />
+      </TouchableOpacity>
+
+       <TouchableOpacity
+        style={{paddingLeft:3}}
+    onPress={() => { this.props.toggleSticker(!this.props.stickerVisible); this.props.stickerFetch()}}
+      >
+       
+        <Icon
+          name='certificate'
+          type='font-awesome'
+          color='#d35400'
+          size={26}
+        />
+      </TouchableOpacity>
+      
       </View>
     );
   }
@@ -202,9 +228,13 @@ CustomActions.propTypes = {
 const mapDispatchToProps = {
 
   toggleEmoji:FbActions.emojiToggle,
+  toggleGif:FbActions.gifToggle,
+  gifFetch:FbActions.fetchGif,
+  toggleSticker:FbActions.stickerToggle,
+  stickerFetch:FbActions.fetchSticker,
 };
 function mapStateToProps(state) {
-  const { emojiVisible } = state.fbpages;
-  return { emojiVisible };
+  const { emojiVisible, gifVisible, stickerVisible } = state.fbpages;
+  return { emojiVisible, gifVisible, stickerVisible };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CustomActions);
