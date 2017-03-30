@@ -17,7 +17,7 @@ import Image from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
 import auth from '../../services/auth';
 import * as FbActions from '@redux/facebook/FbActions';
-
+import ReactTimeout from 'react-timeout/native';
 
 import EmojiPicker from 'react-native-emojipicker/lib/Picker';
 
@@ -28,6 +28,7 @@ import { AppColors, AppStyles } from '@theme/';
 import { Alerts, Spacer, Text } from '@components/ui/';
 import CustomActions from './CustomActions';
 import CustomView from './CustomView';
+
 
 var handleDate = function(d){
 
@@ -215,9 +216,11 @@ class FbChat extends Component {
 
 
     
-    if(msgObj.image){
+    else if(msgObj.image){
       /*** for image file ******/
     var filename = msgObj.image.split('/');
+    var fileext = filename[filename.length-1].split('.');
+
     console.log(filename[filename.length-1]);
     
       if (auth.loggedIn() === true) {
@@ -225,7 +228,8 @@ class FbChat extends Component {
           const token = await auth.getToken();
             var photo = {
                   uri: msgObj.image,
-                  type: 'image',
+                  type: 'image'+'/'+fileext[1],
+                  data:msgObj.data,
                   name: filename[filename.length-1],
               };
 
@@ -251,13 +255,53 @@ class FbChat extends Component {
                   
                             }
            
-                   var fileData = new FormData();
-                  fileData.append('file', photo);
-                  fileData.append('filename',  photo.name);
-                  fileData.append('filetype',  photo.type);
-                  fileData.append('filesize',  filesize);
-                  fileData.append('chatmsg', JSON.stringify(saveMsg));
-                  this.props.uploadFbChatfile(fileData,token);
+                
+                  this.props.uploadFbChatfile(photo,saveMsg);
+
+            }
+  }
+
+
+
+   else if(msgObj.file){
+      /*** for image file ******/
+    const split = msgObj.file.split('/');
+    const filename = split.pop();
+    const inbox = split.pop();
+    var fileext = filename[filename.length-1].split('.');
+
+      if (auth.loggedIn() === true) {
+          console.log('auth.loggedIn() return true');
+          const token = await auth.getToken();
+            var fileobj = {
+                  uri: msgObj.file,
+                  type: fileext,
+                  name: filename[filename.length-1],
+              };
+
+
+               var saveMsg = {
+                                  senderid: this.props.userdetails._id,
+                                  recipientid:this.props.senderid,
+                                  companyid:this.props.userdetails.uniqueid,
+                                  timestamp:Date.now(),
+                                  message:{
+                                    mid:unique_id,
+                                    seq:1,
+                                    attachments:[{
+                                      type:'file',
+                                      payload:{
+                                        url:'',
+                                      }
+
+                                    }]
+                                  },
+
+                                 pageid:pageid
+                  
+                            }
+           
+                  this.props.uploadFbChatDocfile(fileobj,saveMsg);
     }
   }
     this.state.stickgif = false;
@@ -462,6 +506,7 @@ const mapDispatchToProps = {
   getfbchatfromAgent:FbActions.getfbchatfromAgent,
 
   uploadFbChatfile:FbActions.uploadFbChatfile,
+  uploadFbChatDocfile:FbActions.uploadFbChatDocfile,
   toggleEmoji:FbActions.emojiToggle,
   toggleGif:FbActions.gifToggle,
   toggleSticker:FbActions.stickerToggle,

@@ -60,12 +60,16 @@ class CustomActions extends React.Component {
          var images = [];
          images.push({
               image: response.uri,
+              data:response.data,
             })
          
          
         setTimeout( () => {
-                this.props.onSend(images,response.fileSize);
-        },1000);
+                console.log('setTimeout called');
+                if(response.uri!= ''){
+                     this.props.onSend(images,response.fileSize);
+              }
+        },5000);
       }
     });
   }
@@ -88,6 +92,18 @@ class CustomActions extends React.Component {
     },(error,url) => {
      // Alert(url);
       console.log(url);
+       var files = [];
+         files.push({
+              file: url,
+            })
+          setTimeout( () => {
+                console.log('setTimeout called');
+                if(url!= ''){
+                     this.props.onSend(files);
+              }
+        },5000);
+         
+       
     });
   }
 

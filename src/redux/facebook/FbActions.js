@@ -7,6 +7,7 @@ var SQLite = require('react-native-sqlite-storage')
 import * as Config from '../config';
 var baseURL = Config.baseURLKiboSupport;
 var baseURLKiboEngage = Config.baseURLKiboEngage;
+import RNFetchBlob from 'react-native-fetch-blob';
 
 
 
@@ -277,73 +278,70 @@ export const getfbpages = (token) => {
 };
 
 
-export const uploadFbChatfile =(fileData,token)=>{
-  console.log(fileData);
-  
-  /*const config = {
-    rejectUnauthorized: false,
-    headers: {
-        'Authorization': token,
-        'content-type': 'multipart/form-data'
-        
-    },
-  };
-
-  return (dispatch) => {
-    console.log('calling api');
-    axios.post(`${baseURLKiboEngage}/api/uploadchatfilefb/`, fileData,config).then(res => dispatch(fbchatmessageSent(res.data)))
-      .catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
-      });
-  };*/
-
-/*return (dispatch) => {
-  fetch(`${baseURLKiboEngage}/api/uploadchatfilefb/`, config
-    ).then(res => dispatch(fbchatmessageSent(res)))
-      .catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
-      });
-  };*/
+export const uploadFbChatfile =(filedata,chatmsg)=>{
+     return (dispatch) => {
+               
+                RNFetchBlob.fetch('POST', `${baseURLKiboEngage}/api/uploadchatfilefb/`, {
+                               
+                                'Content-Type' : 'multipart/form-data',
+                              }, [
+                                // element with property `filename` will be transformed into `file` in form data
+                                { name : 'file', type: filedata.type,filename : filedata.name, data: filedata.data},
+                                { name : 'chatmsg', data : JSON.stringify(chatmsg)},
+                                
+                              ])// listen to upload progress event
+                                .uploadProgress((written, total) => {
+                                    console.warn('uploaded', written / total)
+                                })
+                               
+                                .then((resp) => {
+                                   if(resp.statusCode == 200){
+                                      console.log('File uploaded')
+                                  }
+                                })
+                                .catch((err) => {
+                                  console.warn(err);
+                                })
+             }
 
 
-/*return (dispatch) => {
-  fetch(`${baseURLKiboEngage}/api/uploadchatfilefb/`,{
-  method: 'post',
-  headers: {
-    'Content-Type': 'multipart/form-data',
-    'Authorization': token,
-  },
-  body: fileData
-  }).then(response => {
-    console.log("image uploaded")
-    console.log(response)
-    dispatch(fbchatmessageSent(response))
-  }).catch(err => {
-    console.log(err)
-  })  
-  }*/
+  }
 
-return (dispatch) => {
-          var request = new XMLHttpRequest();
-          request.onreadystatechange = (e) => {
-            if (request.readyState !== 4) {
-              return;
-            }
 
-            if (request.status === 200) {
-              console.log('success', request.responseText);
-            } else {
-              console.log(request.status);
-              console.warn('error');
-            }
-          };
 
-            request.open('POST', `${baseURLKiboEngage}/api/uploadchatfilefb/` );
-          
-            request.send(fileData);
-          }
+export const uploadFbChatDocfile =(filedata,chatmsg)=>{
+     return (dispatch) => {
+               
+                RNFetchBlob.fetch('POST', `${baseURLKiboEngage}/api/uploadchatfilefb/`, {
+                               
+                                'Content-Type' : 'multipart/form-data',
+                              }, [
+                                // element with property `filename` will be transformed into `file` in form data
+                                { name : 'file', type: filedata.type,filename : filedata.name, data: RNFetchBlob.wrap(filedata.uri.replace("file://", ""))},
+                                { name : 'chatmsg', data : JSON.stringify(chatmsg)},
+                                
+                              ])// listen to upload progress event
+                                .uploadProgress((written, total) => {
+                                    console.log('uploaded', written / total)
+                                    if(written / total == 1){
+                                      console.warn('uploaded');  
+                                    }
+                                    
+                                })
+                               
+                                .then((resp) => {
+                                  
+                                  if(resp.statusCode == 200){
+                                      console.log('File uploaded')
+                                  }
+
+                                })
+                                .catch((err) => {
+                                  console.warn(err);
+                                })
+             }
+
+
   }
 
 // Fetch Chat from facebook
