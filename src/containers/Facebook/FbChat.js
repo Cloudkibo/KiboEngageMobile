@@ -147,6 +147,32 @@ class FbChat extends Component {
                   }
                  );
                   
+            }else if(item.message.attachments && item.message.attachments.length >0 && item.message.attachments[0].type == "file"){
+                 console.log(item.message.attachments);
+                 var url = item.message.attachments[0].payload.url;
+                 temparray.push(
+                    {
+                    _id: i,
+                    text: url.split('/')[url.split('/').length-1].split('?')[0],
+                    createdAt: handleDate(item.timestamp),
+                    timestamp:item.timestamp,
+                    senderid:item.senderid,
+                    recipientid:item.recipientid,
+                    mid:item.message.mid,
+                    attachments:item.message.attachments,
+                    seen:false,
+                    user: {
+                      _id: this.props.senderid == item.senderid?2:1,
+                     // name:  item.senderid,
+                      name: 'React Native',
+                      avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
+                    },
+                    image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',
+                    //image: 'https://scontent.xx.fbcdn.net/v/t34.0-12/16933685_1261326827270353_187253959_n.png',
+                   
+                  }
+                 );
+                  
             }
            
   
