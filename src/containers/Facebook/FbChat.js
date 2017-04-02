@@ -265,18 +265,27 @@ class FbChat extends Component {
 
    else if(msgObj.file){
       /*** for image file ******/
-    const split = msgObj.file.split('/');
-    const filename = split.pop();
-    const inbox = split.pop();
-    var fileext = filename[filename.length-1].split('.');
+      var filename;
+      var fileext;
+      if(msgObj.file.filename){
+         filename = msgObj.file.filename;
+         fileext = filename.split('.');
 
+      }
+      else{
+         const split = msgObj.file.split('/');
+         filename = split.pop();
+         fileext = filename[filename.length-1].split('.');
+         filename = filename[filename.length-1]
+      }
+   
       if (auth.loggedIn() === true) {
           console.log('auth.loggedIn() return true');
           const token = await auth.getToken();
             var fileobj = {
-                  uri: msgObj.file,
-                  type: fileext,
-                  name: filename[filename.length-1],
+                  uri: msgObj.file.uri?msgObj.file.uri+'/'+msgObj.file.filename:msgObj.file,
+                  type: fileext[1],
+                  name: filename,
               };
 
 

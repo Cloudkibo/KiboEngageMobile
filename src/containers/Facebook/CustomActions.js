@@ -84,6 +84,18 @@ class CustomActions extends React.Component {
     },(error,url) => {
      // Alert(url);
       console.log(url);
+       var files = [];
+         files.push({
+              file: {
+                filename:url.fileName,
+                uri:url.uri
+            }})
+          setTimeout( () => {
+                console.log('setTimeout called');
+                if(url!= ''){
+                     this.props.onSend(files);
+              }
+        },5000);
     }); 
     }
     else if(ReactNative.Platform.OS == "ios")
