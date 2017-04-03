@@ -31,9 +31,9 @@ import Cannedresponse from '@containers/CannedResponses/Cannedresponse';
 import CreateCannedresponse from '@containers/CannedResponses/CreateCannedResponse';
 import EditCannedresponse from '@containers/CannedResponses/EditCannedResponse';
 
-import CreateChannel from '@containers/MessageChannels/CreateChannel';
-import Channels from '@containers/MessageChannels/Channels';
-import EditChannel from '@containers/MessageChannels/EditChannel';
+import CreateSubGroup from '@containers/SubGroups/CreateSubGroup';
+import Subgroups from '@containers/SubGroups/Subgroups';
+import EditSubgroup from '@containers/SubGroups/EditSubgroup';
 import Groups from '@containers/Groups/Groups';
 import CreateGroup from '@containers/Groups/CreateGroup';
 import JoinGroup from '@containers/Groups/JoinGroup';
@@ -145,17 +145,17 @@ export default Actions.create(
 
       <Scene
         key={'channelCreate'}
-        title={'Create Channel'}
-        component={CreateChannel}
-        analyticsDesc={'CreateChannel: Create Channel'}
+        title={'CreateSubGroup'}
+        component={CreateSubGroup}
+        analyticsDesc={'CreateSubGroup: Create Channel'}
       />
       <Scene
-        key={'channels'}
-        title={'Channels'}
+        key={'subgroups'}
+        title={'Sub Groups'}
         onRight={() => Actions.channelCreate()}
         rightTitle="Add"
-        component={Channels}
-        analyticsDesc={'Channels: Channels'}
+        component={Subgroups}
+        analyticsDesc={'Subgroup: Subgroup'}
       />
 
       <Scene
@@ -275,9 +275,9 @@ export default Actions.create(
 
       <Scene
         key={'channelEdit'}
-        title={'Edit Channel'}
-        component={EditChannel}
-        analyticsDesc={'EditChannel: Edit Channel'}
+        title={'Edit Subgroup'}
+        component={EditSubgroup}
+        analyticsDesc={'EditSubgroup: Edit Subgroup'}
       />
 
       <Scene

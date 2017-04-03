@@ -20,7 +20,7 @@ import { connect } from 'react-redux';
 import * as chatActions from '@redux/chat/chatActions';
 import * as TeamActions from '@redux/team/teamActions';
 import * as AgentActions from '@redux/agents/agentActions';
-import * as ChannelActions from '@redux/channel/ChannelActions';
+import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import * as GroupActions from '@redux/group/GroupActions';
 import Loading from '@components/general/Loading';
 
@@ -164,14 +164,14 @@ class ChatSession extends Component {
      }
       
       // var agent_name = nextProps.groupagents.filter((g) => g.agent_id == channelname);
-      var channelName = nextProps.channels.filter((c) => c._id == channelname);
+      var subgroupName = nextProps.subgroups.filter((c) => c._id == channelname);
       return this.state.menuItems.push(
           
         
           <Card title = {name} key={index}>
              <View>
                 <Text style={[styles.menuItem_text]}>
-                    { teamname[0].deptname }
+                    { teamname.length>0?teamname[0].deptname :'-'}
                 </Text>
                  <View style={[styles.menuItem]}>
                     <View style={styles.iconContainer}>
@@ -190,7 +190,7 @@ class ChatSession extends Component {
                     </View>
                     <View>
                         <Text style={[styles.menuItem_text]}>
-                        {channelName[0].msg_channel_name}
+                        {subgroupName.length>0?subgroupName[0].msg_channel_name:'-'}
                         </Text>
                     </View>
 
@@ -225,7 +225,7 @@ class ChatSession extends Component {
                     backgroundColor='#03A9F4'
                     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                     title='View Chats'
-                    onPress = {() => this.gotoChatBox(nextProps, item.request_id, item.companyid, item._id, item.departmentid, item.status,teamname[0].deptname, channelName[0].msg_channel_name, item)} />
+                    onPress = {() => this.gotoChatBox(nextProps, item.request_id, item.companyid, item._id, item.departmentid, item.status,teamname[0].deptname?teamname[0].deptname:'-', subgroupName[0].msg_channel_name?subgroupName[0].msg_channel_name:'-', item)} />
                 </Card>
       );
     }, this);
@@ -259,7 +259,7 @@ const mapDispatchToProps = {
   teamFetch: TeamActions.teamFetch,
   agentTeamFetch : TeamActions.agentTeamFetch,
   singleChats: chatActions.singleChats,
-  channelFetch: ChannelActions.channelFetch,
+  channelFetch: SubgroupActions.channelFetch,
   groupFetch: GroupActions.groupFetch,
   agentGroupFetch : GroupActions.agentGroupFetch,
   agentFetch:AgentActions.agentFetch
@@ -267,10 +267,10 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
    const { data, loading, chat } = state.chat;
    const { teams ,teamagents} = state.teams;
-    const { channels} = state.channels;
+    const { subgroups} = state.subgroups;
     const {agents} = state.agents;
     const { groupagents,groups } = state.groups;
-  return { data, loading, teams, teamagents,agents, chat, channels, groupagents,groups };
+  return { data, loading, teams, teamagents,agents, chat, subgroups, groupagents,groups };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSession);

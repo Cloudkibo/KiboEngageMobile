@@ -171,7 +171,7 @@ class CompanySettings extends Component {
    
         newVals = {
           maxNumberOfTeams: nextProps.data.maxnumberofdepartment,
-          maxNumberOfChannelsPerTeam: nextProps.data.maxnumberofchannels,
+          maxNumberOfChannelsPerTeam: nextProps.data.maxnumberofsubgroups,
           notificationemailaddress: nextProps.data.notificationemailaddress,
           smsPhoneNumber: nextProps.data.smsphonenumber,
           companyDomainEmails: nextProps.data.isdomainemail,
@@ -210,7 +210,7 @@ class CompanySettings extends Component {
     console.log(credentials);
     }
      this.state.updatedData.maxnumberofdepartment = credentials.maxNumberOfTeams;
-     this.state.updatedData.maxnumberofchannels = credentials.maxNumberOfChannelsPerTeam;
+     this.state.updatedData.maxnumberofsubgroups = credentials.maxNumberOfChannelsPerTeam;
      this.state.updatedData.notificationemailaddress = credentials.notificationemailaddress;
      this.state.updatedData.smsphonenumber = credentials.smsPhoneNumber;
      this.state.updatedData.isdomainemail = credentials.companyDomainEmails;

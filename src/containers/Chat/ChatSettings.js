@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import * as AgentActions from '@redux/agents/agentActions';
 import * as GroupActions from '@redux/group/GroupActions';
-import * as ChannelActions from '@redux/channel/ChannelActions';
+import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import * as chatActions from '@redux/chat/chatActions';
 var querystring = require('querystring');
 /* Component ==================================================================== */
@@ -60,7 +60,7 @@ class ChatSettings extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     // console.log(nextProps);
-    if(nextProps.agents && nextProps.groups && nextProps.channels && nextProps.singleChat && nextProps.groupagents){
+    if(nextProps.agents && nextProps.groups && nextProps.subgroups && nextProps.singleChat && nextProps.groupagents){
        this.createPickerItems(nextProps);
      }
   }
@@ -79,7 +79,7 @@ class ChatSettings extends Component {
            <Picker.Item label={item.groupname} key={'key-'+item._id } value={item._id} />
        );
      });
-     nextProps.channels.filter((c)=>c.groupid == nextProps.singleChat.departmentid).map((item, index) => {
+     nextProps.subgroups.filter((c)=>c.groupid == nextProps.singleChat.departmentid).map((item, index) => {
        return this.state.channelList.push(
            <Picker.Item label={item.msg_channel_name} key={'key-'+item._id } value={item._id} />
        );
@@ -172,7 +172,7 @@ class ChatSettings extends Component {
           requestid: this.props.singleChat.request_id,
           _id: this.props.singleChat._id,
         };
-        console.log("Calling move channel");
+        console.log("Calling move subgroup");
         this.props.moveChannel(token, input);
         // console.log("Channel Move called");
        }
@@ -279,19 +279,19 @@ class ChatSettings extends Component {
 const mapDispatchToProps = {
   agentFetch: AgentActions.agentFetch,
   groupFetch: GroupActions.groupFetch,
-  channelFetch: ChannelActions.channelFetch,
+  channelFetch: SubgroupActions.channelFetch,
   moveAgent: chatActions.assignAgent,
   markResolve: chatActions.resolveChatSession,
-  moveChannel: ChannelActions.assignChannel,
+  moveChannel: SubgroupActions.assignChannel,
   agentGroupFetch : GroupActions.agentGroupFetch,
 };
 function mapStateToProps(state) {
    const { agents } = state.agents;
    const { groups, groupagents } = state.groups;
-   const { channels} = state.channels;
+   const { subgroups} = state.subgroups;
    const { userdetails } = state.user;
    const { singleChat,invite_agent_status } = state.chat;
-   return { agents, groups, channels, userdetails, singleChat, invite_agent_status, groupagents };
+   return { agents, groups, subgroups, userdetails, singleChat, invite_agent_status, groupagents };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSettings);
 

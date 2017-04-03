@@ -2,17 +2,18 @@ import { AppStyles } from '@theme/';
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 import * as TeamActions from '@redux/team/teamActions';
 import * as UserActions from '@redux/user/actions';
-import * as ChannelActions from '@redux/channel/ChannelActions';
+import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import React, { Component, PropTypes } from 'react';
 import { View , Alert} from 'react-native';
 import { connect } from 'react-redux';
 import ModalDropdown from 'react-native-modal-dropdown';
 import FormValidation from 'tcomb-form-native';
 import auth from '../../services/auth';
+import { Keyboard , TouchableWithoutFeedback} from 'react-native'
 var _ = require('lodash');
 
-class EditChannel extends Component {
-  static componentName = 'EditChannel';
+class EditSubgroup extends Component {
+  static componentName = 'EditSubgroup';
 
   constructor(props) {
     super(props);
@@ -41,26 +42,26 @@ class EditChannel extends Component {
         error: '',
       },
       form_fields: FormValidation.struct({
-        channelName: validName,
-        channelDescription: validDesc,
+        subgroupName: validName,
+        subgroupDescription: validDesc,
       }),
       empty_form_values: {
-        channelName: '',
-        channelDescription: '',
+        subgroupName: '',
+        subgroupDescription: '',
       },
       form_values: {
-        channelName : this.props.channel.msg_channel_name,
-        channelDescription : this.props.channel.msg_channel_description
+        subgroupName : this.props.subgroup.msg_channel_name,
+        subgroupDescription : this.props.subgroup.msg_channel_description
       },
       options: {
         fields: {
-          channelName: {
-            error: 'Please enter channel name',
+          subgroupName: {
+            error: 'Please enter subgroup name',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
           },
-          channelDescription: {
-            error: 'Please enter short channel description',
+          subgroupDescription: {
+            error: 'Please enter short subgroup description',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
             multiline: true,
@@ -75,7 +76,7 @@ class EditChannel extends Component {
 
  
 
-  editChannel = async () => {
+  editSubgroup = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();
 
@@ -93,27 +94,27 @@ class EditChannel extends Component {
           console.log('auth.loggedIn() return true');
           const token = await auth.getToken();
           console.log(token);
-          const channel = {
-            '_id' : this.props.channel._id,
-            'msg_channel_name': credentials.channelName,
-            'msg_channel_description': credentials.channelDescription,
-            'companyid': this.props.channel.companyid,
-            'groupid': this.props.channel.groupid,
-            'createdby': this.props.channel.createdby,
-            'activeStatus' : this.props.channel.activeStatus,
+          const subgroup = {
+            '_id' : this.props.subgroup._id,
+            'msg_channel_name': credentials.subgroupName,
+            'msg_channel_description': credentials.subgroupDescription,
+            'companyid': this.props.subgroup.companyid,
+            'groupid': this.props.subgroup.groupid,
+            'createdby': this.props.subgroup.createdby,
+            'activeStatus' : this.props.subgroup.activeStatus,
           };
 
-          console.log(channel);
+          console.log(subgroup);
     
-          this.props.editChannel(channel, token);
+          this.props.editSubgroup(subgroup, token);
         }
       });
     }
   }
 
-  deleteChannelConfirm = async () => {
+  deleteSubgroupConfirm = async () => {
     // Form is valid
-        this.setState({ resultMsg: { status: 'Deleting Channel...' } });
+        this.setState({ resultMsg: { status: 'Deleting subgroup...' } });
 
         // Scroll to top, to show message
         if (this.scrollView) {
@@ -125,20 +126,20 @@ class EditChannel extends Component {
             var token = await auth.getToken();
             console.log(token);
    
-            this.props.deleteChannel(this.props.channel,token);
+            this.props.deleteSubgroup(this.props.subgroup,token);
         }
      
   }
  
 
-  deleteChannel = () => {
+  deleteSubgroup = () => {
 
     Alert.alert(
-            'Delete Channel',
-            'Are you sure you want to delete this channel?',
+            'Delete Subgroup',
+            'Are you sure you want to delete this subgroup?',
             [
               {text: 'No', onPress: () => console.log('Cancel Pressed!')},
-              {text: 'Yes', onPress: () => this.deleteChannelConfirm()},
+              {text: 'Yes', onPress: () => this.deleteSubgroupConfirm()},
             ]
           )
 
@@ -154,11 +155,13 @@ class EditChannel extends Component {
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
+       <TouchableWithoutFeedback onPress={ () => { Keyboard.dismiss() } }>
+        <View>
         <Spacer size={55} />
         <Card title = {'Team : ' + this.props.teamName}>
           <Alerts
             status={this.state.resultMsg.status}
-            success={this.props.channelsuccess}
+            success={this.props.subgroupsuccess}
             error={this.props.channelerror}
           />
           <Form
@@ -173,18 +176,20 @@ class EditChannel extends Component {
 
           <Button
             title={'Save Changes'}
-            onPress={this.editChannel}
+            onPress={this.editSubgroup}
           />
 
           <Button
-            title={'Delete Channel'}
-            onPress={this.deleteChannel}
+            title={'Delete Subgroup'}
+            onPress={this.deleteSubgroup}
           />
           <Spacer size={10} />
 
          
 
         </Card>
+                </View>
+      </TouchableWithoutFeedback>
       </View>
     );
   }
@@ -194,16 +199,16 @@ class EditChannel extends Component {
 
 const mapDispatchToProps = {
  
-  editChannel: ChannelActions.editChannel,
-  deleteChannel : ChannelActions.deleteChannel,
+  editSubgroup: SubgroupActions.editSubgroup,
+  deleteSubgroup : SubgroupActions.deleteSubgroup,
 };
 
 function mapStateToProps(state) {
   
   const { userdetails } = state.user;
-  const { channels, channelerror, channelsuccess } = state.channels;
+  const { subgroups, channelerror, subgroupsuccess } = state.subgroups;
  
-  return { userdetails, channels, channelerror, channelsuccess };
+  return { userdetails, subgroups, channelerror, subgroupsuccess };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditChannel);
+export default connect(mapStateToProps, mapDispatchToProps)(EditSubgroup);

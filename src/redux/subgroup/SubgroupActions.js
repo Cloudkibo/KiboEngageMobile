@@ -9,11 +9,11 @@ var baseURL = Config.baseURLKiboSupport;
 var baseURLKiboEngage = Config.baseURLKiboEngage;
 
 //var baseURLKiboEngage = `http://localhost:8000`
-export function showChannels(channels) {
-console.log(channels.data);
+export function showChannels(subgroups) {
+console.log(subgroups.data);
   return {
     type: ActionTypes.ADD_CHANNELS,
-    payload : channels.data,
+    payload : subgroups.data,
 
   };
 }
@@ -52,7 +52,7 @@ const channelCreateInAction = () => {
 };
 
 const channelCreateSuccess = (res) => {
-  console.log('channel created');
+  console.log('subgroup created');
 
   return {
     type: ActionTypes.CREATE_CHANNEL_SUCCESS,
@@ -66,19 +66,19 @@ const channelCreateFail = () => {
   };
 };
 
-// create channel
-export const createChannel = (channel, token) => {
+// create subgroup
+export const createChannel = (subgroup, token) => {
   var config = {
     rejectUnauthorized: false,
     headers: {
         'Authorization': `Bearer ${token}`,
     },
   };
-  console.log(channel);
+  console.log(subgroup);
   return (dispatch) => {
     dispatch(channelCreateInAction());
     console.log('calling api');
-    axios.post(`${baseURL}/api/messagechannels`, querystring.stringify(channel), config).then(res => dispatch(channelCreateSuccess(res)))
+    axios.post(`${baseURL}/api/messagechannels`, querystring.stringify(subgroup), config).then(res => dispatch(channelCreateSuccess(res)))
       .catch((error) => {
         console.log('Error occured');
         console.log(error);
@@ -89,7 +89,7 @@ export const createChannel = (channel, token) => {
 
 
 
-export const editChannel = (channel,token) => {
+export const editSubgroup = (subgroup,token) => {
     console.log('editchannel is called');
     var config = {
       rejectUnauthorized : false,
@@ -100,7 +100,7 @@ export const editChannel = (channel,token) => {
       
           };
       var data =  {
-       'channel' : channel,
+       'subgroup' : subgroup,
       
       }
   console.log(data);
@@ -108,7 +108,7 @@ export const editChannel = (channel,token) => {
   return (dispatch) => {
     console.log('calling api');
     console.log(config.headers.authorization);
-    axios.post(`${baseURLKiboEngage}/api/editChannel`,data,config).then(res => dispatch(channelEditSuccess(res)))
+    axios.post(`${baseURLKiboEngage}/api/editSubgroup`,data,config).then(res => dispatch(channelEditSuccess(res)))
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -120,8 +120,8 @@ export const editChannel = (channel,token) => {
 
 
 
-export const deleteChannel = (channel,token) => {
-    console.log('deleteChannel is called');
+export const deleteSubgroup = (subgroup,token) => {
+    console.log('deleteSubgroup is called');
     var config = {
      
       rejectUnauthorized : false,
@@ -130,7 +130,7 @@ export const deleteChannel = (channel,token) => {
             'content-type' : 'application/json'
             },
       data : {
-       'channel' : channel,
+       'subgroup' : subgroup,
       
       }
           };
@@ -140,7 +140,7 @@ export const deleteChannel = (channel,token) => {
   return (dispatch) => {
     console.log('calling api');
     console.log(config.headers.authorization);
-    axios.delete(`${baseURLKiboEngage}/api/deleteChannel?id=${channel._id}`,config).then(res => dispatch(channelDeleteSuccess(res)))
+    axios.delete(`${baseURLKiboEngage}/api/deleteSubgroup?id=${subgroup._id}`,config).then(res => dispatch(channelDeleteSuccess(res)))
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -184,7 +184,7 @@ const channelDeleteSuccess = (res) => {
 
 /**** SQLite***/
 
-export function callbackchannels(results) {
+export function callbacksubgroups(results) {
  var fteams = []
   var len = results.rows.length;
   for (let i = 0; i < len; i++) {
@@ -204,7 +204,7 @@ export function callbackchannels(results) {
 
 
 
-export  function writeChannels(channels){
+export  function writeChannels(subgroups){
   var db = SqliteCalls.getConnection();
    var res = [];
 
@@ -221,17 +221,17 @@ export  function writeChannels(channels){
   
 
  var rows = []
- for(var i=0;i<channels.length;i++){
+ for(var i=0;i<subgroups.length;i++){
   var record = []
-  record.push(channels[i]._id)
-  record.push(channels[i].msg_channel_name);
-  record.push(channels[i].msg_channel_description);
-  record.push(channels[i].companyid);
-  record.push(channels[i].groupid);
-  record.push(channels[i].createdby);
-  record.push(channels[i].creationdate);
-  record.push(channels[i].activeStatus);
-  record.push(channels[i].deleteStatus);
+  record.push(subgroups[i]._id)
+  record.push(subgroups[i].msg_channel_name);
+  record.push(subgroups[i].msg_channel_description);
+  record.push(subgroups[i].companyid);
+  record.push(subgroups[i].groupid);
+  record.push(subgroups[i].createdby);
+  record.push(subgroups[i].creationdate);
+  record.push(subgroups[i].activeStatus);
+  record.push(subgroups[i].deleteStatus);
   rows.push(record);
  // addItem(db,record);
 
@@ -261,7 +261,7 @@ return (dispatch) => {
              console.log('Transaction ERROR: ' + error.message);
   }, function() {
           console.log('Populated database OK');
-           dispatch(callbackchannels(res));
+           dispatch(callbacksubgroups(res));
   }
   );
   
@@ -286,7 +286,7 @@ export function readChannels(){
              console.log('Transaction ERROR: ' + error.message);
   }, function() {
           console.log('Populated database OK');
-           dispatch(callbackchannels(res));
+           dispatch(callbacksubgroups(res));
   }
   );
   
@@ -331,7 +331,7 @@ export const assignChannel = (token, input) => {
         dispatch(assign_agent_status('Successfully Assigned'));
       })
       .catch(function (error) {
-        console.log('Error occured in assigning channel');
+        console.log('Error occured in assigning subgroup');
         console.log(error);
         dispatch(assign_agent_status('Error Occurred'));
         // dispatch(confirmInvite(error));

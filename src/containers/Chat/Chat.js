@@ -91,7 +91,7 @@ class Chat extends Component {
       datetime: Date.now(),//date time
       time: "",
       request_id: this.props.sessioninfo.request_id, //Session’s request id
-      messagechannel: this.props.sessioninfo.messagechannel[0], //channel id of session
+      messagechannel: this.props.sessioninfo.messagechannel[0], //subgroup id of session
       companyid: this.props.sessioninfo.companyid,
       is_seen:"no", //yes/no
       customerid:this.props.sessioninfo.customerid,  //7 keys, Obj of customer id inside Session obj

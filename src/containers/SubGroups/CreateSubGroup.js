@@ -2,17 +2,18 @@ import { AppStyles } from '@theme/';
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 import * as TeamActions from '@redux/team/teamActions';
 import * as UserActions from '@redux/user/actions';
-import * as ChannelActions from '@redux/channel/ChannelActions';
+import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import React, { Component, PropTypes } from 'react';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import ModalDropdown from 'react-native-modal-dropdown';
 import FormValidation from 'tcomb-form-native';
 import auth from '../../services/auth';
+import { Keyboard , TouchableWithoutFeedback} from 'react-native'
 var _ = require('lodash');
 
-class CreateChannel extends Component {
-  static componentName = 'CreateChannel';
+class CreateSubGroup extends Component {
+  static componentName = 'CreateSubGroup';
 
   constructor(props) {
     super(props);
@@ -43,23 +44,23 @@ class CreateChannel extends Component {
       },
       groupid: '',
       form_fields: FormValidation.struct({
-        channelName: validName,
-        channelDescription: validDesc,
+        subgroupName: validName,
+        subgroupDescription: validDesc,
       }),
       empty_form_values: {
-        channelName: '',
-        channelDescription: '',
+        subgroupName: '',
+        subgroupDescription: '',
       },
       form_values: {},
       options: {
         fields: {
-          channelName: {
-            error: 'Please enter channel name',
+          subgroupName: {
+            error: 'Please enter subgroup name',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
           },
-          channelDescription: {
-            error: 'Please enter short channel description',
+          subgroupDescription: {
+            error: 'Please enter short subgroup description',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
             multiline: true,
@@ -107,17 +108,17 @@ class CreateChannel extends Component {
           console.log('auth.loggedIn() return true');
           const token = await auth.getToken();
           console.log(token);
-          const channel = {
-            'msg_channel_name': credentials.channelName,
-            'msg_channel_description': credentials.channelDescription,
+          const subgroup = {
+            'msg_channel_name': credentials.subgroupName,
+            'msg_channel_description': credentials.subgroupDescription,
             'companyid': this.props.userdetails.uniqueid,
             'groupid': this.state.groupid,
             'createdby': this.props.userdetails._id,
           };
 
-          console.log(channel);
+          console.log(subgroup);
 
-          this.props.createChannel(channel, token);
+          this.props.createChannel(subgroup, token);
         }
       });
     }
@@ -147,11 +148,13 @@ class CreateChannel extends Component {
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
+      <TouchableWithoutFeedback onPress={ () => { Keyboard.dismiss() } }>
+        <View>
         <Spacer size={55} />
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
-            success={this.props.channelsuccess}
+            success={this.props.subgroupsuccess}
             error={this.props.channelerror}
           />
 
@@ -175,19 +178,21 @@ class CreateChannel extends Component {
           <Spacer size={55} />
 
           <Button
-            title={'Create Channel'}
+            title={'Create Subgroup'}
             onPress={this.createChannel}
           />
 
           <Spacer size={10} />
 
         </Card>
+        </View>
+      </TouchableWithoutFeedback>
       </View>
     );
   }
 }
 
-CreateChannel.propTypes = {
+CreateSubGroup.propTypes = {
   teamFetch: PropTypes.func,
   getuser: PropTypes.func,
   teams: PropTypes.array,
@@ -196,15 +201,15 @@ CreateChannel.propTypes = {
 const mapDispatchToProps = {
   teamFetch: TeamActions.teamFetch,
   getuser: UserActions.getuser,
-  createChannel: ChannelActions.createChannel,
+  createChannel: SubgroupActions.createChannel,
 };
 
 function mapStateToProps(state) {
-  const { channels, channelerror, channelsuccess } = state.channels;
+  const { subgroups, channelerror, subgroupsuccess } = state.subgroups;
   const { teams } = state.teams;
   const { userdetails } = state.user;
 
-  return { teams, userdetails, channels, channelerror, channelsuccess };
+  return { teams, userdetails, subgroups, channelerror, subgroupsuccess };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateChannel);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateSubGroup);

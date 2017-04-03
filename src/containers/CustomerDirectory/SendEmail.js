@@ -11,7 +11,7 @@ import auth from '../../services/auth';
 var _ = require('lodash');
 
 class SendEmail extends Component {
-  static componentName = 'CreateChannel';
+  static componentName = 'SendEmail';
 
   constructor(props) {
     super(props);

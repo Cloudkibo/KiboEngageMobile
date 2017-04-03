@@ -91,7 +91,7 @@ class FBPages extends Component {
     */
 
   goToView2(fbpage) {
-    console.log('navigate channel is called');
+    console.log('navigate subgroup is called');
     Actions.EditFbPage({ fbpage });
   }
   renderRow = (fbpage) => (

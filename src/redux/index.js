@@ -18,7 +18,7 @@ import teams from '@redux/team/TeamReducer';
 import agents from '@redux/agents/AgentReducer';
 import cannedresponses from '@redux/cannedresponse/CannedReducer';
 import notifications from '@redux/notification/NotificationReducer';
-import channels from '@redux/channel/ChannelReducer';
+import subgroups from '@redux/subgroup/SubgroupReducer';
 import customers from '@redux/Customers/CustomersReducer';
 import groups from '@redux/group/GroupReducer';
 import company from '@redux/companysettings/companyReducer';
@@ -35,7 +35,7 @@ const appReducer = combineReducers({
   agents,
   cannedresponses,
   notifications,
-  channels,
+  subgroups,
   customers,
   groups,
   company,

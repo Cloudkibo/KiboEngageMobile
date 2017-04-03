@@ -16,7 +16,7 @@ import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import { List, ListItem, SocialIcon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import * as ChannelActions from '@redux/channel/ChannelActions';
+import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import * as TeamActions from '@redux/team/teamActions';
 
 import Loading from '@components/general/Loading';
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
 });
 
 /* Component ==================================================================== */
-class MessageChannels extends Component {
-  static componentName = 'Message Channels';
+class SubGroups extends Component {
+  static componentName = 'Message Subgroup';
 
    constructor(props) {
     super(props);
@@ -76,37 +76,37 @@ class MessageChannels extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     console.log(nextProps);
-    if(nextProps.channels && nextProps.teams){
+    if(nextProps.subgroups && nextProps.teams){
       this.setState({loading:false});
        this.createDataSource(nextProps);
      }
   }
 
-  createDataSource({ channels 
+  createDataSource({ subgroups 
   }) {
     const ds = new ListView.DataSource({
   
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
-    this.dataSource = ds.cloneWithRows(channels);
+    this.dataSource = ds.cloneWithRows(subgroups);
   }
 
   /**
     * Each List Item
     */
 
-  goToView2(channel,teamName)
+  goToView2(subgroup,teamName)
   {
-        console.log('navigate channel is called');
-        Actions.channelEdit({channel:channel,teamName:teamName});
+        console.log('navigate subgroup is called');
+        Actions.channelEdit({subgroup:subgroup,teamName:teamName});
   }
-  renderRow = (channel) => (
+  renderRow = (subgroup) => (
     <ListItem
-      key={`list-row-${channel._id}`}
-      onPress={this.goToView2.bind(this,channel,this.props.teams.filter((c) => c._id == channel.groupid)[0].deptname)}
-      title={channel.msg_channel_name}
-      subtitle={this.props.teams.filter((c) => c._id == channel.groupid)[0].deptname + '\n' + channel.msg_channel_description || null}
+      key={`list-row-${subgroup._id}`}
+      onPress={this.goToView2.bind(this,subgroup,this.props.teams.filter((c) => c._id == subgroup.groupid)[0].deptname)}
+      title={subgroup.msg_channel_name}
+      subtitle={this.props.teams.filter((c) => c._id == subgroup.groupid)[0].deptname + '\n' + subgroup.msg_channel_description || null}
      
     />
 
@@ -154,17 +154,17 @@ class MessageChannels extends Component {
 }
 
 const mapDispatchToProps = {
-  channelFetch: ChannelActions.channelFetch,
+  channelFetch: SubgroupActions.channelFetch,
   teamFetch: TeamActions.teamFetch,
  
 };
 function mapStateToProps(state) {
-   const { channels} = state.channels;
+   const { subgroups} = state.subgroups;
    const { teams} = state.teams;
     
 
-  return {channels,teams};
+  return {subgroups,teams};
 
 }
-export default connect(mapStateToProps, mapDispatchToProps)(MessageChannels);
+export default connect(mapStateToProps, mapDispatchToProps)(SubGroups);
 

@@ -123,8 +123,8 @@ class Menu extends Component {
           icon:'account-circle',
         },
         {
-          title: 'Message Channels',
-          onPress: () => { this.props.closeSideMenu(); Actions.channels(); },
+          title: 'Sub Groups',
+          onPress: () => { this.props.closeSideMenu(); Actions.subgroups(); },
           icon:'message',
         },
 
