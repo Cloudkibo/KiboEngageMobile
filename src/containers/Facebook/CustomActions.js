@@ -148,7 +148,7 @@ class CustomActions extends React.Component {
         onPress={this.selectPhotoTapped}
       >
        
-        {this.renderIcon()}
+        <Icon name='photo' color="#444d56" size={26} />
       </TouchableOpacity>
 
 
@@ -158,15 +158,14 @@ class CustomActions extends React.Component {
         onPress={this.selectFileTapped}
       >
        
-        {this.renderIcon()}
+         <Icon
+          name='paperclip'
+          type='font-awesome'
+          color='#444d56;'
+          size={26}
+        />
       </TouchableOpacity>
-     <TouchableOpacity
-        style={[styles.container, this.props.containerStyle]}
-        onPress={this.selectPhotoTapped}
-      >
-       
-        {this.renderIcon()}
-      </TouchableOpacity>
+     
       <TouchableOpacity
         style={{paddingLeft:3}}
         onPress={() => { this.props.toggleEmoji(!this.props.emojiVisible)}}
@@ -175,7 +174,7 @@ class CustomActions extends React.Component {
         <Icon
           name='smile-o'
           type='font-awesome'
-          color='#d35400'
+          color='#444d56'
           size={26}
         />
       </TouchableOpacity>
@@ -185,9 +184,9 @@ class CustomActions extends React.Component {
       >
        
         <Icon
-          name='picture-o'
-          type='font-awesome'
-          color='#d35400'
+          name='gif'
+         
+          color='#444d56'
           size={26}
         />
       </TouchableOpacity>

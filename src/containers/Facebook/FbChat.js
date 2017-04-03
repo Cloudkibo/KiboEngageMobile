@@ -29,7 +29,6 @@ import { Alerts, Spacer, Text } from '@components/ui/';
 import CustomActions from './CustomActions';
 import CustomView from './CustomView';
 
-
 var handleDate = function(d){
 
 var c = new Date(Number(d));
@@ -167,7 +166,7 @@ class FbChat extends Component {
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
                     },
-                    image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',
+                    image:'https://cdn4.iconfinder.com/data/icons/miu/24/cloud-cloud_download-arrow-down-2-glyph-24.png',
                     //image: 'https://scontent.xx.fbcdn.net/v/t34.0-12/16933685_1261326827270353_187253959_n.png',
                    
                   }
@@ -295,26 +294,28 @@ class FbChat extends Component {
       var fileext;
       if(msgObj.file.filename){
          filename = msgObj.file.filename;
-         fileext = filename.split('.');
+         fileext = filename.split('.').pop();
 
       }
       else{
          const split = msgObj.file.split('/');
          filename = split.pop();
-         fileext = filename[filename.length-1].split('.');
-         filename = filename[filename.length-1]
+         fileext = filename.split('.').pop();
+        // filename = filename[filename.length-1]
       }
-   
+      console.log('fileext');
+      console.log(fileext);
+      console.log(filename);
       if (auth.loggedIn() === true) {
           console.log('auth.loggedIn() return true');
           const token = await auth.getToken();
             var fileobj = {
                   uri: msgObj.file.uri?msgObj.file.uri+'/'+msgObj.file.filename:msgObj.file,
-                  type: fileext[1],
+                  type: 'application/'+fileext,
                   name: filename,
               };
 
-
+              console.log(fileobj);
                var saveMsg = {
                                   senderid: this.props.userdetails._id,
                                   recipientid:this.props.senderid,
