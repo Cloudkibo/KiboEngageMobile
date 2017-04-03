@@ -185,7 +185,13 @@ export const getfbChatsUpdate=(token,selectedChat) => {
 
   return (dispatch) => {
     console.log('calling api');
-    axios.get(`${baseURL}/api/fbmessages/`,config).then(res => dispatch(showfbchatsupdated(res.data,selectedChat)))
+    axios.get(`${baseURL}/api/fbmessages/`,config).then((res) =>{
+     
+     console.log("THis is the chat received");
+     console.log(res.data);
+     dispatch(showfbchatsupdated(res.data,selectedChat));
+     
+    })
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -199,13 +205,14 @@ const showfbchatsupdated = (fbchats,selectedChat) => {
   if(selectedChat.length > 0){
      var currently_selectedId = selectedChat[selectedChat.length-1].senderid;
      var selected = fbchats.filter((c)=>c.senderid == currently_selectedId || c.recipientid == currently_selectedId).reverse();
-  
+     console.log("Found a selected chat");
      return{ type: ActionTypes.SHOW_FB_CHATS_UPDATED,
       payload: fbchats,
       fbchatSelected:selected,
     }
   }
   else{
+    console.log("Cant find a selected chat");
   return{
     type: ActionTypes.SHOW_FB_CHATS_UPDATED,
     payload: fbchats,
