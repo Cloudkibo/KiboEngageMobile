@@ -84,10 +84,14 @@ class CustomActions extends React.Component {
     },(error,url) => {
      // Alert(url);
       console.log(url);
-      var files = [];
+
+       var files = [];
          files.push({
-              file: url,
-            })
+              file: {
+                filename:url.fileName,
+                uri:url.uri
+            }})
+
           setTimeout( () => {
                 console.log('setTimeout called');
                 if(url!= ''){
