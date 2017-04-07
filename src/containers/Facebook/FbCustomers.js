@@ -100,7 +100,7 @@ class FbCustomers extends Component {
     // will be rendered with
     // this.props is still the old set of props
     // console.log('componentWillReceiveProps is called with chat session data');
-    // console.log(nextProps.teams);
+    // console.log(nextProps.groups);
     if(nextProps.fbcustomers && nextProps.fbchats){
        this.renderCard(nextProps);
        this.setState({loading:false});

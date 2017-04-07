@@ -19,8 +19,9 @@ import { List, ListItem, SocialIcon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import Groups from './Groups';
+//import MyGroups from './Groups';
 import CreateGroup from './CreateGroup';
-import MyGroups from './MyGroups';
+import MyGroups from '../Groups/MyGroups';
 import auth from '../../services/auth';
 
 // Consts and Libs
@@ -54,7 +55,7 @@ class GroupsMain extends Component {
    constructor(props) {
           super(props);
          this.state = {
-           selectedTab: 'groups',
+           selectedTab: 'myGroups',
           }
   }
 
@@ -72,31 +73,31 @@ class GroupsMain extends Component {
                 <Tab
                   titleStyle={{fontWeight: 'bold', fontSize: 10}}
                   selectedTitleStyle={{marginTop: -1, marginBottom: 6}}
-                  selected={selectedTab === 'myGrp'}
+                  selected={selectedTab === 'myGroups'}
                   title={'My Groups'}
                   renderIcon={() => <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 12}} color={'#5e6977'} name='group' size={33} />}
                   renderSelectedIcon={() => <Icon color={'#6296f9'} name='group-add' size={30} />}
-                  onPress={() => this.changeTab('myGrp')}>
+                  onPress={() => this.changeTab('myGroups')}>
                   <MyGroups />
                 </Tab>
                 <Tab
                   titleStyle={{fontWeight: 'bold', fontSize: 10}}
                   selectedTitleStyle={{marginTop: -1, marginBottom: 6}}
-                  selected={selectedTab === 'groups'}
-                  title={'Search Group'}
+                  selected={selectedTab === 'searchGroups'}
+                  title={'Search Groups'}
                   renderIcon={() => <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 12}} color={'#5e6977'} name='search' size={33} />}
                   renderSelectedIcon={() => <Icon color={'#6296f9'} name='search' size={30} />}
-                  onPress={() => this.changeTab('groups')}>
+                  onPress={() => this.changeTab('searchGroups')}>
                   <Groups />
                 </Tab>
                 <Tab
                   titleStyle={{fontWeight: 'bold', fontSize: 10}}
                   selectedTitleStyle={{marginTop: -1, marginBottom: 6}}
-                  selected={selectedTab === 'createGrp'}
-                  title={'Create Group'}
+                  selected={selectedTab === 'addGroups'}
+                  title={'Add Groups'}
                   renderIcon={() => <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 12}} color={'#5e6977'} name='group-add' size={33} />}
                   renderSelectedIcon={() => <Icon color={'#6296f9'} name='group-add' size={30} />}
-                  onPress={() => this.changeTab('createGrp')}>
+                  onPress={() => this.changeTab('addGroups')}>
                   <CreateGroup />
                 </Tab>
 

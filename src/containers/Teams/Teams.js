@@ -13,10 +13,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
-import { List, ListItem, SocialIcon } from 'react-native-elements';
+import { List, ListItem, SearchBar } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import * as TeamActions from '@redux/team/teamActions';
+import * as TeamActions from '@redux/team/TeamActions';
 import * as AgentActions from '@redux/agents/agentActions';
 import Loading from '@components/general/Loading';
 
@@ -50,25 +50,26 @@ const styles = StyleSheet.create({
 class Teams extends Component {
   static componentName = 'Teams';
 
-   constructor(props) {
+  constructor(props) {
     super(props);
-    this.state = {loading : true};
-    this.createDataSource(props);
+    this.state = {
+      loading: true,
+      text: '',
+    };
+    this.createDataSource(props.teams);
+    this.filteredData = this.filteredData.bind(this);
   }
 
    componentDidMount = async() => {
     console.log('team component did mount called');
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
-      if(token != ''){
-     
+      if(token !== ''){
             this.props.teamFetch(token);
             this.props.agentTeamFetch(token);
             this.props.agentFetch(token);
-
-            
           }
-  
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -79,18 +80,35 @@ class Teams extends Component {
     console.log(nextProps);
     if(nextProps.teams && nextProps.teamagents && nextProps.agents){
       this.setState({loading:false});
-       this.createDataSource(nextProps);
+       this.createDataSource(nextProps.teams);
      }
   }
 
-  createDataSource({ teams 
-  }) {
+  createDataSource(teams) {
     const ds = new ListView.DataSource({
-  
+
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
     this.dataSource = ds.cloneWithRows(teams);
+  }
+
+  filteredData(text) {
+    this.setState({
+      text,
+    });
+    const searchText = text.toLowerCase();
+    let filtered = [];
+    let index = 0;
+    console.log(this.props.teams);
+    for (let i = 0; i < this.props.teams.length; i++) {
+      if (this.props.teams[i].groupname.toLowerCase().search(searchText) > -1) {
+        filtered[index] = this.props.teams[i];
+        index++;
+      }
+    }
+    console.log(filtered);
+    this.createDataSource(filtered);
   }
 
   /**
@@ -100,19 +118,25 @@ class Teams extends Component {
   goToView2(team)
   {
         console.log('navigate team is called');
-        Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
+        if(team.createdby == this.props.userdetails._id){
+          Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
+      }
+
+      else{
+         Actions.teamJoin({team:team,teamagents : this.props.teamagents})
+      }
   }
   renderRow = (team) => (
     <ListItem
       key={`list-row-${team._id}`}
       onPress={this.goToView2.bind(this,team)}
-      title={team.deptname}
-      subtitle={team.deptdescription || null}
+      title={team.groupname}
+      subtitle={team.status +'\n' + team.groupdescription || null}
 
-      
+
     />
 
- 
+
   )
 
 
@@ -132,7 +156,7 @@ class Teams extends Component {
 
   render = () => {
     if (this.state.loading) return <Loading />;
-    
+
     return(
           <View style={[AppStyles.container]}>
           <Spacer size={15} />
@@ -140,17 +164,25 @@ class Teams extends Component {
               automaticallyAdjustContentInsets={false}
               style={[AppStyles.container]}
             >
-             <Spacer size={50} />
               <List>
+                <Spacer size={25} />
+                <SearchBar
+                  lightTheme
+                  round
+                  ref={(b) => { this.search = b; }}
+                  onChangeText={this.filteredData}
+                  value={this.state.text}
+                  placeholder="Search"
+                />
                 <ListView
                  dataSource={this.dataSource}
                  renderRow={this.renderRow}
                 />
               </List>
-              
+
             </ScrollView>
             </View>
- 
+
   );
 }
 }
@@ -159,13 +191,14 @@ const mapDispatchToProps = {
   teamFetch: TeamActions.teamFetch,
   agentTeamFetch : TeamActions.agentTeamFetch,
   agentFetch: AgentActions.agentFetch,
+
 };
 function mapStateToProps(state) {
-   const { teams ,teamagents} = state.teams;
-   const { agents } = state.agents;
+  const { teams, teamagents } = state.teams;
+  const { agents } = state.agents;
+  const { userdetails } = state.user;
+  return { teams, teamagents, agents, userdetails };
 
-  return {teams ,teamagents,agents};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Teams);
-

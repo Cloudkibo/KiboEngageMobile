@@ -22,7 +22,7 @@ import { List, ListItem, SocialIcon } from 'react-native-elements';
 // Consts and Libs
 import AppAPI from '@lib/api';
 import { AppStyles, AppSizes} from '@theme/';
-import * as GroupActions from '@redux/group/GroupActions';
+import * as TeamActions from '@redux/team/TeamActions';
 import { connect } from 'react-redux';
 var _ = require('lodash');
 
@@ -30,13 +30,13 @@ var _ = require('lodash');
 import { Alerts, Card, Spacer, Text, Button } from '@components/ui/';
 
 /* Component ==================================================================== */
-class JoinGroup extends Component {
-  static componentName = 'JoinGroup';
+class JoinTeam extends Component {
+  static componentName = 'JoinTeam';
 
   constructor(props) {
     super(props);
-    console.log('join group is called');
-    console.log(this.props.group);
+    console.log('join team is called');
+    console.log(this.props.team);
     const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
 
     // overriding the text color
@@ -45,15 +45,15 @@ class JoinGroup extends Component {
     
    
     const validName= FormValidation.refinement(
-      FormValidation.String, (groupname) => {
-        if (groupname.length < 1) return false;
+      FormValidation.String, (teamname) => {
+        if (teamname.length < 1) return false;
         return true;
       },
     );
 
     const validDesc= FormValidation.refinement(
-      FormValidation.String, (groupdesc) => {
-        if (groupdesc.length < 1) return false;
+      FormValidation.String, (teamdesc) => {
+        if (teamdesc.length < 1) return false;
         return true;
       },
     );
@@ -70,31 +70,31 @@ class JoinGroup extends Component {
 
       
       form_fields: FormValidation.struct({
-        groupName:validName,
-        groupDescription: validDesc,
+        teamName:validName,
+        teamDescription: validDesc,
         status:validDesc,
       }),
       empty_form_values: {
-        groupName:'',
-        groupDescription: '',
+        teamName:'',
+        teamDescription: '',
       
       },
       form_values: {
-        groupName:this.props.group.groupname,
-        groupDescription: this.props.group.groupdescription,
-        status:this.props.group.status,
+        teamName:this.props.team.teamname,
+        teamDescription: this.props.team.teamdescription,
+        status:this.props.team.status,
       
       },
       options: {
         fields: {
-          groupName: {
-            error: 'Please enter group name',
+          teamName: {
+            error: 'Please enter team name',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
             editable : false,
           },
-          groupDescription: {
-            error: 'Please enter short group description',
+          teamDescription: {
+            error: 'Please enter short team description',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
             multiline: true,
@@ -119,7 +119,7 @@ class JoinGroup extends Component {
  
   confirmJoin = async() => {
     // Form is valid
-       this.setState({ resultMsg: { status: 'Joining group...' } });
+       this.setState({ resultMsg: { status: 'Joining team...' } });
 
         // Scroll to top, to show message
         if (this.scrollView) {
@@ -132,28 +132,28 @@ class JoinGroup extends Component {
             var token = await auth.getToken();
             console.log(token);
    
-            this.props.joingroup({
-              groupid:this.props.group._id,
+            this.props.jointeam({
+              teamid:this.props.team._id,
               agentid : this.props.userdetails._id,
               token:token,
             })
         }
   }
 
-  joinGroup = () => {
+  joinTeam = () => {
 
     var useringrp = false;
-    for(var i =0;i<this.props.groupagents.length;i++){
-          if(this.props.groupagents[i].agentid._id == this.props.userdetails._id && this.props.groupagents[i].groupid._id == this.props.group._id){
+    for(var i =0;i<this.props.teamagents.length;i++){
+          if(this.props.teamagents[i].agentid._id == this.props.userdetails._id && this.props.teamagents[i].teamid._id == this.props.team._id){
             useringrp = true;
-            console.log('user in group already');
+            console.log('user in team already');
             break;
           }
         }
     if(useringrp == false){
     Alert.alert(
-            'Join Group',
-            'Are you sure you want to join this group?',
+            'Join Team',
+            'Are you sure you want to join this team?',
             [
               {text: 'No', onPress: () => console.log('Cancel Pressed!')},
               {text: 'Yes', onPress: () => this.confirmJoin()},
@@ -163,7 +163,7 @@ class JoinGroup extends Component {
     }
 
     else{
-       this.setState({ resultMsg: { status: 'You are already in this group' } });
+       this.setState({ resultMsg: { status: 'You are already in this team' } });
 
     }
      
@@ -179,8 +179,8 @@ class JoinGroup extends Component {
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
-            success={this.props.groupsuccess}
-            error={this.props.grouperror}
+            success={this.props.teamsuccess}
+            error={this.props.teamerror}
           />
 
   
@@ -193,8 +193,8 @@ class JoinGroup extends Component {
 
          <Spacer size={20} />
           <Button
-            title={'Join Group'}
-            onPress={this.joinGroup}
+            title={'Join Team'}
+            onPress={this.joinTeam}
           />
          
 
@@ -207,18 +207,18 @@ class JoinGroup extends Component {
 
 
 function mapStateToProps(state) {
-   const {groups,grouperror,groupsuccess} =  state.groups;
+   const {teams,teamerror,teamsuccess} =  state.teams;
    const { userdetails } = state.user;
   
-  return {groups,grouperror,groupsuccess,userdetails};
+  return {teams,teamerror,teamsuccess,userdetails};
 }
 
 
 // Any actions to map to the component?
 const mapDispatchToProps = {
-  joingroup: GroupActions.joingroup
+  jointeam: TeamActions.jointeam
   
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(JoinGroup);
+export default connect(mapStateToProps, mapDispatchToProps)(JoinTeam);
 

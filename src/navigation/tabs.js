@@ -44,7 +44,7 @@ const scenes = (
      
       <Scene
         {...navbarPropsTabs}
-        key={'teamListing'}
+        key={'groupListing'}
         title={'Dashboard'}
         component={Dashboard}
         analyticsDesc={'Dashboard'}

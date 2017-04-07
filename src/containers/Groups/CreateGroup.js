@@ -9,38 +9,34 @@ import {
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
-  View,
-  ListView,
-  
+  View
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
 import auth from '../../services/auth';
-import { List, ListItem, SocialIcon } from 'react-native-elements';
-
+var _ = require('lodash');
 // Consts and Libs
 import AppAPI from '@lib/api';
-import { AppStyles, AppSizes} from '@theme/';
-import * as GroupActions from '@redux/group/GroupActions';
+import { AppStyles } from '@theme/';
+import * as GroupActions from '@redux/group/groupActions';
 import { connect } from 'react-redux';
-var _ = require('lodash');
 
 // Components
-import { Alerts, Card, Spacer, Text, Button } from '@components/ui/';
+import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 
 /* Component ==================================================================== */
 class CreateGroup extends Component {
   static componentName = 'CreateGroup';
 
+  
   constructor(props) {
     super(props);
+    // clone the default stylesheet
     const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
 
     // overriding the text color
     stylesheet.textbox.normal.height = 80;
     stylesheet.textbox.error.height = 80;
-
-   
     const validName= FormValidation.refinement(
       FormValidation.String, (groupname) => {
         if (groupname.length < 1) return false;
@@ -55,36 +51,24 @@ class CreateGroup extends Component {
       },
     );
 
-    var Status = FormValidation.enums({
-              public: 'Public',
-              private: 'Private'
-            });
-
     this.state = {
       resultMsg: {
         status: '',
         success: '',
         error: '',
-
       },
-      
-      
       form_fields: FormValidation.struct({
         groupName:validName,
         groupDescription: validDesc,
-        status:Status,
       }),
       empty_form_values: {
         groupName:'',
         groupDescription: '',
       
       },
-      form_values: {
-        status:'public',
-        
-      },
+      form_values: {},
       options: {
-       fields: {
+        fields: {
           groupName: {
             error: 'Please enter group name',
             autoCapitalize: 'none',
@@ -95,26 +79,33 @@ class CreateGroup extends Component {
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
             multiline: true,
-            stylesheet: stylesheet 
-          },
-          status:{
-            nullOption:false,
-          }
-          
+            stylesheet: stylesheet // overriding the style of the textbox
+                      
         },
       },
-    };
+    }
+  }
+}
 
+  componentDidMount = async () => {
+    // Get user data from AsyncStorage to populate fields
+  /*  const values = await AsyncStorage.getItem('api/credentials');
+    const jsonValues = JSON.parse(values);
 
+    if (values !== null) {
+      this.setState({
+        form_values: {
+          Domain: jsonValues.domain,
+          Email: jsonValues.username,
+          Password: jsonValues.password,
 
-    
-
+        },
+      });
+    }*/
   }
 
-  
-
   /**
-    * Create Group
+    * Create Team
     */
   createGroup = async () => {
     // Get new credentials and update
@@ -123,7 +114,7 @@ class CreateGroup extends Component {
     // Form is valid
     if (credentials) {
       this.setState({ form_values: credentials }, async () => {
-        this.setState({ resultMsg: { status: 'Creating group...' } });
+        this.setState({ resultMsg: { status: 'One moment...' } });
 
         // Scroll to top, to show message
         if (this.scrollView) {
@@ -134,34 +125,36 @@ class CreateGroup extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-    
-            console.log(credentials.status);
-           this.props.creategroup({
-                          groupname: credentials.groupName,
-                          groupdescription: credentials.groupDescription,
-                          status : credentials.status,
-                          token:token,
-            });
+   
+            this.props.creategroup({
+              groupname: credentials.groupName,
+              description: credentials.groupDescription,
+            
+              token:token,
+            })
         }
       });
     }
   }
   
-  
   render = () => {
     const Form = FormValidation.form.Form;
 
     return (
-      <ScrollView style={[AppStyles.container]}>
+      <View
+        
+        style={[AppStyles.container]}
+        contentContainerStyle={[AppStyles.container]}
+      >
       <Spacer size={55} />
         <Card>
           <Alerts
-            status={this.state.resultMsg.status}
+             status={this.state.resultMsg.status}
             success={this.props.groupsuccess}
             error={this.props.grouperror}
           />
+       
 
-  
           <Form
             ref={(b) => { this.form = b; }}
             type={this.state.form_fields}
@@ -169,17 +162,14 @@ class CreateGroup extends Component {
             options={this.state.options}
           />
 
-
-           <Spacer size={20} />
-          
           <Button
             title={'Create Group'}
             onPress={this.createGroup}
           />
-       
-         
+
+          
         </Card>
-       </ScrollView>
+      </View>
     );
   }
 }
@@ -188,15 +178,13 @@ class CreateGroup extends Component {
 function mapStateToProps(state) {
    const {groups,grouperror,groupsuccess} =  state.groups;
   
-  return {groups,grouperror,groupsuccess};
+  return {groups,grouperror,groupsuccess };
 }
 
 
 // Any actions to map to the component?
 const mapDispatchToProps = {
   creategroup: GroupActions.creategroup,
- 
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateGroup);
-

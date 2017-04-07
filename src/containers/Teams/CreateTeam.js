@@ -9,34 +9,38 @@ import {
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
-  View
+  View,
+  ListView,
+  
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
 import auth from '../../services/auth';
-var _ = require('lodash');
+import { List, ListItem, SocialIcon } from 'react-native-elements';
+
 // Consts and Libs
 import AppAPI from '@lib/api';
-import { AppStyles } from '@theme/';
-import * as TeamActions from '@redux/team/teamActions';
+import { AppStyles, AppSizes} from '@theme/';
+import * as TeamActions from '@redux/team/TeamActions';
 import { connect } from 'react-redux';
+var _ = require('lodash');
 
 // Components
-import { Alerts, Card, Spacer, Text, Button } from '@ui/';
+import { Alerts, Card, Spacer, Text, Button } from '@components/ui/';
 
 /* Component ==================================================================== */
 class CreateTeam extends Component {
   static componentName = 'CreateTeam';
 
-  
   constructor(props) {
     super(props);
-    // clone the default stylesheet
     const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
 
     // overriding the text color
     stylesheet.textbox.normal.height = 80;
     stylesheet.textbox.error.height = 80;
+
+   
     const validName= FormValidation.refinement(
       FormValidation.String, (teamname) => {
         if (teamname.length < 1) return false;
@@ -51,24 +55,36 @@ class CreateTeam extends Component {
       },
     );
 
+    var Status = FormValidation.enums({
+              public: 'Public',
+              private: 'Private'
+            });
+
     this.state = {
       resultMsg: {
         status: '',
         success: '',
         error: '',
+
       },
+      
+      
       form_fields: FormValidation.struct({
         teamName:validName,
         teamDescription: validDesc,
+        status:Status,
       }),
       empty_form_values: {
         teamName:'',
         teamDescription: '',
       
       },
-      form_values: {},
+      form_values: {
+        status:'public',
+        
+      },
       options: {
-        fields: {
+       fields: {
           teamName: {
             error: 'Please enter team name',
             autoCapitalize: 'none',
@@ -79,30 +95,23 @@ class CreateTeam extends Component {
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
             multiline: true,
-            stylesheet: stylesheet // overriding the style of the textbox
-                      
+            stylesheet: stylesheet 
+          },
+          status:{
+            nullOption:false,
+          }
+          
         },
       },
-    }
+    };
+
+
+
+    
+
   }
-}
 
-  componentDidMount = async () => {
-    // Get user data from AsyncStorage to populate fields
-  /*  const values = await AsyncStorage.getItem('api/credentials');
-    const jsonValues = JSON.parse(values);
-
-    if (values !== null) {
-      this.setState({
-        form_values: {
-          Domain: jsonValues.domain,
-          Email: jsonValues.username,
-          Password: jsonValues.password,
-
-        },
-      });
-    }*/
-  }
+  
 
   /**
     * Create Team
@@ -114,7 +123,7 @@ class CreateTeam extends Component {
     // Form is valid
     if (credentials) {
       this.setState({ form_values: credentials }, async () => {
-        this.setState({ resultMsg: { status: 'One moment...' } });
+        this.setState({ resultMsg: { status: 'Creating team...' } });
 
         // Scroll to top, to show message
         if (this.scrollView) {
@@ -125,35 +134,34 @@ class CreateTeam extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-   
-            this.props.createteam({
-              teamname: credentials.teamName,
-              description: credentials.teamDescription,
-            
-              token:token,
-            })
+    
+            console.log(credentials.status);
+           this.props.createteam({
+                          groupname: credentials.teamName,
+                          groupdescription: credentials.teamDescription,
+                          status : credentials.status,
+                          token:token,
+            });
         }
       });
     }
   }
   
+  
   render = () => {
     const Form = FormValidation.form.Form;
 
     return (
-      <View
-        
-        style={[AppStyles.container]}
-        contentContainerStyle={[AppStyles.container]}
-      >
+      <ScrollView style={[AppStyles.container]}>
       <Spacer size={55} />
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
-            success={this.state.resultMsg.success}
-            error={this.state.resultMsg.error}
+            success={this.props.teamsuccess}
+            error={this.props.teamerror}
           />
 
+  
           <Form
             ref={(b) => { this.form = b; }}
             type={this.state.form_fields}
@@ -161,20 +169,17 @@ class CreateTeam extends Component {
             options={this.state.options}
           />
 
+
+           <Spacer size={20} />
+          
           <Button
             title={'Create Team'}
             onPress={this.createTeam}
           />
-
-          <Spacer size={10} />
-
-           <Alerts
-           
-            success={this.props.teamsuccess}
-            error={this.props.teamerror}
-          />
+       
+         
         </Card>
-      </View>
+       </ScrollView>
     );
   }
 }
@@ -183,13 +188,15 @@ class CreateTeam extends Component {
 function mapStateToProps(state) {
    const {teams,teamerror,teamsuccess} =  state.teams;
   
-  return {teams,teamerror,teamsuccess };
+  return {teams,teamerror,teamsuccess};
 }
 
 
 // Any actions to map to the component?
 const mapDispatchToProps = {
   createteam: TeamActions.createteam,
+ 
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateTeam);
+

@@ -15,7 +15,7 @@ import Drawer from '@containers/ui/DrawerContainer';
 
 // Scenes
 import AppLaunch from '@containers/Launch/LaunchContainer';
-import Teams from '@containers/Teams/Teams';
+import Groups from '@containers/Groups/Groups';
 
 import ChatSession from '@containers/Chat/ChatSession';
 import Chat from '@containers/Chat/Chat';
@@ -25,8 +25,8 @@ import TeamsMain from '@containers/Teams/TeamsMain';
 import Agents from '@containers/Agents/Agents';
 import InviteAgent from '@containers/Agents/InviteAgent';
 import GroupsMain from '@containers/Groups/GroupsMain';
-import CreateTeam from '@containers/Teams/CreateTeam';
-import EditTeam from '@containers/Teams/EditTeam';
+import CreateGroup from '@containers/Groups/CreateGroup';
+import EditGroup from '@containers/Groups/EditGroup';
 import Cannedresponse from '@containers/CannedResponses/Cannedresponse';
 import CreateCannedresponse from '@containers/CannedResponses/CreateCannedResponse';
 import EditCannedresponse from '@containers/CannedResponses/EditCannedResponse';
@@ -34,11 +34,11 @@ import EditCannedresponse from '@containers/CannedResponses/EditCannedResponse';
 import CreateSubGroup from '@containers/SubGroups/CreateSubGroup';
 import Subgroups from '@containers/SubGroups/Subgroups';
 import EditSubgroup from '@containers/SubGroups/EditSubgroup';
-import Groups from '@containers/Groups/Groups';
-import CreateGroup from '@containers/Groups/CreateGroup';
-import JoinGroup from '@containers/Groups/JoinGroup';
 
-import EditGroup from '@containers/Groups/EditGroup';
+import Teams from '@containers/Teams/Teams';
+import CreateTeam  from '@containers/Teams/CreateTeam';
+import JoinTeam from '@containers/Teams/JoinTeam';
+import EditTeam  from '@containers/Teams/EditTeam';
 
 import Notifications from '@containers/Notifications/Notifications';
 import AddNotification from '@containers/Notifications/AddNotification';
@@ -122,25 +122,25 @@ export default Actions.create(
       />
 
       <Scene
-        key={'teamCreate'}
-        title={'Create Team'}
-        component={CreateTeam}
-        analyticsDesc={'CreateTeam: Create Team'}
+        key={'groupCreate'}
+        title={'Create Group'}
+        component={CreateGroup}
+        analyticsDesc={'CreateGroup: Create Group'}
       />
       <Scene
-        key={'teams'}
-        title={'Teams'}
-        onRight={() => Actions.teamCreate()}
+        key={'groups'}
+        title={'Groups'}
+        onRight={() => Actions.groupCreate()}
         rightTitle="Add"
-        component={Teams}
-        analyticsDesc={'Teams: Teams'}
+        component={Groups}
+        analyticsDesc={'Groups: Groups'}
       />
 
       <Scene
-        key={'teamsMain'}
-        title={'Teams'}
-        component={TeamsMain}
-        analyticsDesc={'Teams: Teams'}
+        key={'groupsmain'}
+        title={'Groups'}
+        component={GroupsMain}
+        analyticsDesc={'Groups: Groups'}
       />
 
       <Scene
@@ -178,40 +178,40 @@ export default Actions.create(
       />
 
       <Scene
-        key={'groups'}
-        title={'Groups'}
-        onRight={() => Actions.groupCreate()}
+        key={'teams'}
+        title={'Teams'}
+        onRight={() => Actions.teamCreate()}
         rightTitle="Add"
-        component={Groups}
-        analyticsDesc={'Groups: Groups'}
+        component={Teams}
+        analyticsDesc={'Teams: Teams'}
       />
 
       <Scene
-        key={'groupsmain'}
-        title={'Groups'}
+        key={'teamsmain'}
+        title={'Teams'}
 
-        component={GroupsMain}
-        analyticsDesc={'Groups Main: Groups'}
+        component={TeamsMain}
+        analyticsDesc={'Teams Main: Teams'}
       />
 
       <Scene
-        key={'groupEdit'}
-        title={'Edit Group'}
-        component={EditGroup}
-        analyticsDesc={'EditGroup: Edit Group'}
+        key={'teamEdit'}
+        title={'Edit Team'}
+        component={EditTeam}
+        analyticsDesc={'EditTeam: Edit Team'}
       />
 
       <Scene
-        key={'groupJoin'}
-        title={'Join Group'}
-        component={JoinGroup}
+        key={'teamJoin'}
+        title={'Join Team'}
+        component={JoinTeam}
         analyticsDesc={'JoinGroup: Join Group'}
       />
        <Scene
-        key={'groupCreate'}
-        title={'Create Group'}
-        component={CreateGroup}
-        analyticsDesc={'CreateGroup: CreateGroup'}
+        key={'teamCreate'}
+        title={'Create Team'}
+        component={CreateTeam}
+        analyticsDesc={'CreateTeam: CreateTeam'}
       />
       <Scene
         key={'addNotification'}
@@ -267,10 +267,10 @@ export default Actions.create(
       />
 
       <Scene
-        key={'teamEdit'}
-        title={'Edit Team'}
-        component={EditTeam}
-        analyticsDesc={'EditTeam: Edit Team'}
+        key={'groupEdit'}
+        title={'Edit Group'}
+        component={EditGroup}
+        analyticsDesc={'EditGroup: Edit Group'}
       />
 
       <Scene

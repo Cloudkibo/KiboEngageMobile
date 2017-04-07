@@ -1,6 +1,6 @@
 import { AppStyles } from '@theme/';
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
-import * as TeamActions from '@redux/team/teamActions';
+import * as GroupActions from '@redux/group/groupActions';
 import * as UserActions from '@redux/user/actions';
 import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import React, { Component, PropTypes } from 'react';
@@ -158,7 +158,7 @@ class EditSubgroup extends Component {
        <TouchableWithoutFeedback onPress={ () => { Keyboard.dismiss() } }>
         <View>
         <Spacer size={55} />
-        <Card title = {'Team : ' + this.props.teamName}>
+        <Card title = {'Team : ' + this.props.groupName}>
           <Alerts
             status={this.state.resultMsg.status}
             success={this.props.subgroupsuccess}

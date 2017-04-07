@@ -1,6 +1,6 @@
 import { AppStyles } from '@theme/';
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
-import * as TeamActions from '@redux/team/teamActions';
+import * as GroupActions from '@redux/group/groupActions';
 import * as UserActions from '@redux/user/actions';
 import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import React, { Component, PropTypes } from 'react';
@@ -75,7 +75,7 @@ class CreateSubGroup extends Component {
     const token = await auth.getToken();
     console.log(`token is Launchview is: ${token}`);
     if (token !== '') {
-      this.props.teamFetch(token);
+      this.props.groupFetch(token);
       this.props.getuser(token);
     }
   }
@@ -125,10 +125,10 @@ class CreateSubGroup extends Component {
   }
 
   dropDownOnSelect(idx, value) {
-    for (var i = 0; i< this.props.teams.length; i++) {
-       if (this.props.teams[i].deptname === value) {
+    for (var i = 0; i< this.props.groups.length; i++) {
+       if (this.props.groups[i].deptname === value) {
          this.setState({
-           groupid: this.props.teams[i]._id,
+           groupid: this.props.groups[i]._id,
          });
          break;
        }
@@ -139,8 +139,8 @@ class CreateSubGroup extends Component {
     const Form = FormValidation.form.Form;
     var optionList = [];
 
-    for (var i = 0; i < this.props.teams.length; i++){
-      optionList[i] = this.props.teams[i].deptname;
+    for (var i = 0; i < this.props.groups.length; i++){
+      optionList[i] = this.props.groups[i].deptname;
     }
 
     return (
@@ -193,23 +193,23 @@ class CreateSubGroup extends Component {
 }
 
 CreateSubGroup.propTypes = {
-  teamFetch: PropTypes.func,
+  groupFetch: PropTypes.func,
   getuser: PropTypes.func,
-  teams: PropTypes.array,
+  groups: PropTypes.array,
 };
 
 const mapDispatchToProps = {
-  teamFetch: TeamActions.teamFetch,
+  groupFetch: GroupActions.groupFetch,
   getuser: UserActions.getuser,
   createChannel: SubgroupActions.createChannel,
 };
 
 function mapStateToProps(state) {
   const { subgroups, channelerror, subgroupsuccess } = state.subgroups;
-  const { teams } = state.teams;
+  const { groups } = state.groups;
   const { userdetails } = state.user;
 
-  return { teams, userdetails, subgroups, channelerror, subgroupsuccess };
+  return { groups, userdetails, subgroups, channelerror, subgroupsuccess };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateSubGroup);

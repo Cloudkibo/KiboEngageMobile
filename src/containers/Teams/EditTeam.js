@@ -22,7 +22,7 @@ import { List, ListItem, SocialIcon } from 'react-native-elements';
 // Consts and Libs
 import AppAPI from '@lib/api';
 import { AppStyles, AppSizes} from '@theme/';
-import * as TeamActions from '@redux/team/teamActions';
+import * as TeamActions from '@redux/team/TeamActions';
 import { connect } from 'react-redux';
 var _ = require('lodash');
 
@@ -42,7 +42,10 @@ class EditTeam extends Component {
     // overriding the text color
     stylesheet.textbox.normal.height = 80;
     stylesheet.textbox.error.height = 80;
-
+    var Status = FormValidation.enums({
+              public: 'Public',
+              private: 'Private'
+            });
    
     const validName= FormValidation.refinement(
       FormValidation.String, (teamname) => {
@@ -77,6 +80,7 @@ class EditTeam extends Component {
       form_fields: FormValidation.struct({
         teamName:validName,
         teamDescription: validDesc,
+        status:Status,
       }),
       empty_form_values: {
         teamName:'',
@@ -84,8 +88,9 @@ class EditTeam extends Component {
       
       },
       form_values: {
-        teamName:this.props.team.deptname,
-        teamDescription: this.props.team.deptdescription,
+        teamName:this.props.team.groupname,
+        teamDescription: this.props.team.groupdescription,
+        status:this.props.team.status,
       
       },
       options: {
@@ -102,6 +107,9 @@ class EditTeam extends Component {
             multiline: true,
             stylesheet: stylesheet 
           },
+          status:{
+            nullOption:false,
+          }
           
         },
       },
@@ -116,12 +124,14 @@ class EditTeam extends Component {
   componentDidMount =  () => {
     // Get user data from AsyncStorage to populate fields
   
-      this.newFellowAgents  = this.props.teamagents.filter((c) => c.deptid == this.props.team._id)
+      
+      this.newFellowAgents  = this.props.teamagents.filter((c) => c.teamid == this.props.team._id)
       
       let ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
       let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents);
 
       this.setState({
+
           dataSourceAllAgents  : ds,
           dataSourceFellowAgents  : ds2,
 
@@ -134,7 +144,7 @@ class EditTeam extends Component {
   /**
     * Create Team
     */
-   renderRow = (agent) => (
+  renderRow = (agent) => (
     <ListItem
       key={`list-row-${agent._id}`}
       onPress={this.addAgent.bind(this,agent)}
@@ -168,64 +178,36 @@ class EditTeam extends Component {
             for(var j=0;j<this.newFellowAgents.length;j++){
                agentid.push({"_id" :this.newFellowAgents[j].agentid})
             }
-            console.log('teamDescription');
-            console.log(credentials.teamDescription);
+            
             this.props.editteam({
-              name: credentials.teamName,
-              desc: credentials.teamDescription,
-              id : this.props.team._id,
-              deptagents : agentid,
+              name :credentials.teamName,
+              desc:credentials.teamDescription,
+              status : credentials.status,
+              id:this.props.team._id,
               token:token,
-            })
+              teamagents: agentid
+            });
+    
         }
       });
     }
   }
   
-  deleteTeamConfirm = async () => {
-    // Form is valid
-        this.setState({ resultMsg: { status: 'One moment...' } });
+ 
 
-        // Scroll to top, to show message
-        if (this.scrollView) {
-          this.scrollView.scrollTo({ y: 0 });
-        }
-
-        if(auth.loggedIn() == true){
-            console.log('auth.loggedIn() return true');
-            var token = await auth.getToken();
-            console.log(token);
-   
-            this.props.deleteteam({
-              id:this.props.team._id,
-              token:token,
-            })
-        }
-     
-  }
-  
-
-  deleteTeam = () => {
-
-    Alert.alert(
-            'Delete Team',
-            'Are you sure you want to delete this team?',
-            [
-              {text: 'No', onPress: () => console.log('Cancel Pressed!')},
-              {text: 'Yes', onPress: () => this.deleteTeamConfirm()},
-            ]
-          )
-
-    
-     
-  }
   addAgent = (c) =>{
     console.log('addAgent is called');
-    console.log(this.props.teamagents.length);
-    this.newFellowAgents.push({'deptid': this.props.team._id,'agentid':c._id})
+    this.newFellowAgents.push({'teamid': this.props.team._id,'agentid': c._id})
     // update the DataSource in the component state
+
+     
    this.setState({
-          
+            form_values : {
+                teamName:this.form.getValue().teamName,
+                teamDescription: this.form.getValue().teamDescription,
+                status:this.form.getValue().status,
+             
+            },
             dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
         });
   }
@@ -233,11 +215,16 @@ class EditTeam extends Component {
 
   removeAgent = (c) =>{
     console.log('removeAgent is called');
-    var indexOfItem = this.newFellowAgents.findIndex((item) => item.deptid === c.deptid && item.agentid === c.agentid);
+    var indexOfItem = this.newFellowAgents.findIndex((item) => item.teamid === c.teamid && item.agentid === c.agentid);
     this.newFellowAgents.splice(indexOfItem, 1);
     // update the DataSource in the component state
    this.setState({
-          
+            form_values : {
+                teamName:this.form.getValue().teamName,
+                teamDescription: this.form.getValue().teamDescription,
+                status: this.form.getValue().status,
+             
+            },
             dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
         });
   }
@@ -266,7 +253,42 @@ class EditTeam extends Component {
     
   }
 
- 
+  confirmDelete = async() => {
+    // Form is valid
+        this.setState({ resultMsg: { status: 'Deleting team...' } });
+
+        // Scroll to top, to show message
+        if (this.scrollView) {
+          this.scrollView.scrollTo({ y: 0 });
+        }
+
+        if(auth.loggedIn() == true){
+            console.log('auth.loggedIn() return true');
+            var token = await auth.getToken();
+            console.log(token);
+   
+            this.props.deleteteam({
+              id:this.props.team._id,
+              token:token,
+            })
+        }
+  }
+
+  deleteTeam = () => {
+
+    Alert.alert(
+            'Delete Team',
+            'Are you sure you want to delete this team?',
+            [
+              {text: 'No', onPress: () => console.log('Cancel Pressed!')},
+              {text: 'Yes', onPress: () => this.confirmDelete()},
+            ]
+          )
+
+    
+     
+  }
+  
 
   render = () => {
     const Form = FormValidation.form.Form;
@@ -277,8 +299,8 @@ class EditTeam extends Component {
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
-            success={this.props.teameditsuccess}
-            error={this.props.teamediterror}
+            success={this.props.teamsuccess}
+            error={this.props.teamerror}
           />
 
   
@@ -290,15 +312,8 @@ class EditTeam extends Component {
           />
 
 
-          <View>
-            <Text h3> All Agents </Text>
-            <ListView
-                 dataSource={this.state.dataSourceAllAgents}
-                 renderRow={this.renderRow}
-            />
-          </View>
-
-          <View>
+           <Spacer size={20} />
+            <View>
             <Text h3> Fellow Agents </Text>
              <ListView dataSource={this.state.dataSourceFellowAgents}
               renderRow={this.renderFellowAgents}
@@ -306,11 +321,16 @@ class EditTeam extends Component {
            
           </View>
 
-           <Spacer size={20} />
-         
+         <View>
+            <Text h3> All Agents </Text>
+            <ListView
+                 dataSource={this.state.dataSourceAllAgents}
+                 renderRow={this.renderRow}
+            />
+          </View>
 
+         
            <Spacer size={20} />
-          
           <Button
             title={'Save Changes'}
             onPress={this.editTeam}
@@ -333,9 +353,9 @@ class EditTeam extends Component {
 
 
 function mapStateToProps(state) {
-   const {teams,teamediterror,teameditsuccess} =  state.teams;
+   const {teams,teamerror,teamsuccess} =  state.teams;
   
-  return {teams,teamediterror,teameditsuccess };
+  return {teams,teamerror,teamsuccess};
 }
 
 

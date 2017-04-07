@@ -17,7 +17,7 @@ import { List, ListItem, SocialIcon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
-import * as TeamActions from '@redux/team/teamActions';
+import * as GroupActions from '@redux/group/groupActions';
 
 import Loading from '@components/general/Loading';
 
@@ -62,7 +62,7 @@ class SubGroups extends Component {
       console.log('token is Launchview is: ' + token);
       if(token != ''){
      
-            this.props.teamFetch(token);
+            this.props.groupFetch(token);
             this.props.channelFetch(token);
             
             
@@ -76,7 +76,7 @@ class SubGroups extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
     console.log(nextProps);
-    if(nextProps.subgroups && nextProps.teams){
+    if(nextProps.subgroups && nextProps.groups){
       this.setState({loading:false});
        this.createDataSource(nextProps);
      }
@@ -96,17 +96,17 @@ class SubGroups extends Component {
     * Each List Item
     */
 
-  goToView2(subgroup,teamName)
+  goToView2(subgroup,groupName)
   {
         console.log('navigate subgroup is called');
-        Actions.channelEdit({subgroup:subgroup,teamName:teamName});
+        Actions.channelEdit({subgroup:subgroup,groupName:groupName});
   }
   renderRow = (subgroup) => (
     <ListItem
       key={`list-row-${subgroup._id}`}
-      onPress={this.goToView2.bind(this,subgroup,this.props.teams.filter((c) => c._id == subgroup.groupid)[0].deptname)}
+      onPress={this.goToView2.bind(this,subgroup,this.props.groups.filter((c) => c._id == subgroup.groupid)[0].deptname)}
       title={subgroup.msg_channel_name}
-      subtitle={this.props.teams.filter((c) => c._id == subgroup.groupid)[0].deptname + '\n' + subgroup.msg_channel_description || null}
+      subtitle={this.props.groups.filter((c) => c._id == subgroup.groupid)[0].deptname + '\n' + subgroup.msg_channel_description || null}
      
     />
 
@@ -155,15 +155,15 @@ class SubGroups extends Component {
 
 const mapDispatchToProps = {
   channelFetch: SubgroupActions.channelFetch,
-  teamFetch: TeamActions.teamFetch,
+  groupFetch: GroupActions.groupFetch,
  
 };
 function mapStateToProps(state) {
    const { subgroups} = state.subgroups;
-   const { teams} = state.teams;
+   const { groups} = state.groups;
     
 
-  return {subgroups,teams};
+  return {subgroups,groups};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SubGroups);

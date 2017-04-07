@@ -112,8 +112,8 @@ class Menu extends Component {
         // },
 
          {
-          title: 'Teams',
-          onPress: () => { this.props.closeSideMenu(); Actions.teamsMain(); },
+          title: 'Groups',
+          onPress: () => { this.props.closeSideMenu(); Actions.groupsmain(); },
           icon:'people',
         },
 
@@ -146,8 +146,8 @@ class Menu extends Component {
           icon:'notifications',
         },
         {
-          title: 'Groups',
-          onPress: () => { this.props.closeSideMenu(); Actions.groupsmain(); },
+          title: 'Teams',
+          onPress: () => { this.props.closeSideMenu(); Actions.teamsmain(); },
           icon:'group-add',
         },
         {

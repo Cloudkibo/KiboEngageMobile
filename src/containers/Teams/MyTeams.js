@@ -16,7 +16,7 @@ import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import { List, ListItem, SocialIcon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import * as TeamActions from '@redux/team/teamActions';
+import * as TeamActions from '@redux/team/TeamActions';
 import * as AgentActions from '@redux/agents/agentActions';
 import Loading from '@components/general/Loading';
 
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 
 /* Component ==================================================================== */
 class MyTeams extends Component {
-  static componentName = 'Teams';
+  static componentName = 'MyTeams';
 
    constructor(props) {
     super(props);
@@ -62,10 +62,9 @@ class MyTeams extends Component {
       console.log('token is Launchview is: ' + token);
       if(token != ''){
      
-            this.props.myTeamFetch(token);
+            this.props.myteamFetch(token);
             this.props.agentTeamFetch(token);
             this.props.agentFetch(token);
-
             
           }
   
@@ -100,17 +99,35 @@ class MyTeams extends Component {
   goToView2(team)
   {
         console.log('navigate team is called');
-        Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
+        console.log(team);
+        if(team.createdby == this.props.userdetails._id){
+          Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
+      }
+
+      else{
+        Actions.teamJoin({team:team,teamagents : this.props.teamagents})
+      }
   }
-  renderRow = (myteams) => (
+  renderRow = (team) => (
+    
+      team.groupid?
+       <ListItem
+      key={`list-row-${team.groupid._id}`}
+      onPress={this.goToView2.bind(this,team.groupid)}
+      title={team.groupid.groupname}
+      subtitle={team.groupid.status +'\n' + team.groupid.groupdescription || null}
+
+      
+    /> :
     <ListItem
       key={`list-row-${team._id}`}
-      onPress={this.goToView2.bind(this,myteams)}
-      title={myteams.deptname}
-      subtitle={myteams.deptdescription || null}
+      onPress={this.goToView2.bind(this,team)}
+      title={team.groupname}
+      subtitle={team.status +'\n' + team.groupdescription || null}
 
       
     />
+  
 
  
   )
@@ -156,15 +173,17 @@ class MyTeams extends Component {
 }
 
 const mapDispatchToProps = {
-  myTeamFetch: TeamActions.myTeamFetch,
+  myteamFetch: TeamActions.myteamFetch,
   agentTeamFetch : TeamActions.agentTeamFetch,
   agentFetch: AgentActions.agentFetch,
+
 };
 function mapStateToProps(state) {
-   const { myteams ,teamagents} = state.teams;
-   const { agents } = state.agents;
-
-  return {myteams ,teamagents,agents};
+   const {myteams, teams,teamagents } = state.teams;
+    const { agents } = state.agents;
+   const { userdetails } = state.user;
+  return {myteams,teams ,teamagents,agents,userdetails};
+  
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MyTeams);

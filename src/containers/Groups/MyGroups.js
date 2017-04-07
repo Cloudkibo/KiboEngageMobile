@@ -16,7 +16,7 @@ import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import { List, ListItem, SocialIcon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import * as GroupActions from '@redux/group/GroupActions';
+import * as GroupActions from '@redux/group/groupActions';
 import * as AgentActions from '@redux/agents/agentActions';
 import Loading from '@components/general/Loading';
 
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 
 /* Component ==================================================================== */
 class MyGroups extends Component {
-  static componentName = 'MyGroups';
+  static componentName = 'Groups';
 
    constructor(props) {
     super(props);
@@ -62,9 +62,10 @@ class MyGroups extends Component {
       console.log('token is Launchview is: ' + token);
       if(token != ''){
      
-            this.props.mygroupFetch(token);
+            this.props.myGroupFetch(token);
             this.props.agentGroupFetch(token);
             this.props.agentFetch(token);
+
             
           }
   
@@ -99,35 +100,17 @@ class MyGroups extends Component {
   goToView2(group)
   {
         console.log('navigate group is called');
-        console.log(group);
-        if(group.createdby == this.props.userdetails._id){
-          Actions.groupEdit({group:group,groupagents : this.props.groupagents,agents: this.props.agents})
-      }
-
-      else{
-        Actions.groupJoin({group:group,groupagents : this.props.groupagents})
-      }
+        Actions.groupEdit({group:group,groupagents : this.props.groupagents,agents: this.props.agents})
   }
-  renderRow = (group) => (
-    
-      group.groupid?
-       <ListItem
-      key={`list-row-${group.groupid._id}`}
-      onPress={this.goToView2.bind(this,group.groupid)}
-      title={group.groupid.groupname}
-      subtitle={group.groupid.status +'\n' + group.groupid.groupdescription || null}
-
-      
-    /> :
+  renderRow = (mygroups) => (
     <ListItem
-      key={`list-row-${group._id}`}
-      onPress={this.goToView2.bind(this,group)}
-      title={group.groupname}
-      subtitle={group.status +'\n' + group.groupdescription || null}
+      key={`list-row-${mygroups._id}`}
+      onPress={this.goToView2.bind(this,mygroups)}
+      title={mygroups.deptname}
+      subtitle={mygroups.deptdescription || null}
 
       
     />
-  
 
  
   )
@@ -173,17 +156,15 @@ class MyGroups extends Component {
 }
 
 const mapDispatchToProps = {
-  mygroupFetch: GroupActions.mygroupFetch,
+  myGroupFetch: GroupActions.myGroupFetch,
   agentGroupFetch : GroupActions.agentGroupFetch,
   agentFetch: AgentActions.agentFetch,
-
 };
 function mapStateToProps(state) {
-   const {mygroups, groups,groupagents } = state.groups;
-    const { agents } = state.agents;
-   const { userdetails } = state.user;
-  return {mygroups,groups ,groupagents,agents,userdetails};
-  
+   const { mygroups ,groupagents} = state.groups;
+   const { agents } = state.agents;
+
+  return {mygroups ,groupagents,agents};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MyGroups);

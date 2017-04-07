@@ -1,50 +1,50 @@
-//import { Actions } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import * as ActionTypes from '../types';
 import utils from '../../services/utils';
-var querystring = require('querystring');
-//var baseURLKiboEngage = `http://localhost:8000`
 import SqliteCalls from '../../services/SqliteCalls';
 var SQLite = require('react-native-sqlite-storage')
+
+var querystring = require('querystring');
+
 import * as Config from '../config';
 var baseURL = Config.baseURLKiboSupport;
 var baseURLKiboEngage = Config.baseURLKiboEngage;
-import {
- 
-  Alert,
- 
-} from 'react-native';
+
+//var baseURLKiboEngage = `http://localhost:8000`
 export function showTeams(teams) {
-  // console.log('show teams');
-  // console.log(teams);
+  console.log('Teams data');
+  //console.log(teams.data);
+    return {
+      type: ActionTypes.ADD_TEAMS,
+      payload : teams.data,
 
-  return {
-    type: ActionTypes.ADD_TEAMS,
-    payload : teams.data,
-
-  };
+    };
 }
 
 
-export function showMyTeams(teams) {
-  // console.log('show my teams');
-  // console.log(teams);
-  return {
-    type: ActionTypes.ADD_MY_TEAMS,
-    payload : teams.data,
+export function showMyTeams(myteams) {
+  console.log('Myteams');
+  console.log(myteams.data);
+  if(myteams.data.createdDept){
+    console.log('true')
+    return {
+      type: ActionTypes.ADD_MY_TEAMS,
+      payload : myteams.data.createdDept,
 
-  };
-}
+    };
+  }
 
-export function showDeptAgents(teamagents) {
-  // console.log('show dept agents');
-  // console.log(teamagents.data);
-  return {
-    type: ActionTypes.ADD_TEAM_AGENTS,
-    payload : teamagents.data,
+  else{
+     return {
+      type: ActionTypes.ADD_MY_TEAMS,
+      payload : myteams.data,
 
-  };
-}
+    };
+  }
+  }
+
+
 
 export const teamFetch = (token) => {
    var config = {
@@ -57,7 +57,7 @@ export const teamFetch = (token) => {
           };
 
   return (dispatch) => {
-    axios.get(`${baseURL}/api/departments`,config)
+    axios.get(`${baseURL}/api/groups`,config)
     .then((res) => res).then(res => dispatch(writeTeams(res.data)))
      .catch(function (error) {
         console.log('Error occured');
@@ -68,10 +68,12 @@ export const teamFetch = (token) => {
           dispatch(readTeams());
         }
        }); 
+
   };
 };
 
-export const myTeamFetch = (token) => {
+
+export const myteamFetch = (token) => {
    var config = {
       rejectUnauthorized : false,
       headers: {
@@ -82,122 +84,38 @@ export const myTeamFetch = (token) => {
           };
 
   return (dispatch) => {
-    axios.get(`${baseURL}/api/departments/mydepartmentsKiboEngage`,config)
+    axios.get(`${baseURL}/api/groups/mygroups`,config)
     .then((res) => res).then(res => dispatch(showMyTeams(res)));
 
-
   };
 };
-
-
-export const agentTeamFetch = (token) => {
-   var config = {
-      rejectUnauthorized : false,
-      headers: {
-           'Authorization': `Bearer ${token}`,
-           'content-type' : 'application/x-www-form-urlencoded'
-            },
-
-          };
-
-  return (dispatch) => {
-    axios.get(`${baseURL}/api/deptagents`,config)
-    .then((res) => res).then(res => dispatch(writeTeamAgents(res.data)))
-    .catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
-        if(error = 'Network Error')
-        {
-          //Alert.alert('You are not connected with Internet');
-          dispatch(readTeamAgents());
-        }
-       }); 
-  };
-};
-
-
-
 // create team
 export const createteam = (team) => {
     var token = team.token;
     var config = {
       rejectUnauthorized : false,
       headers: {
-            'Authorization': token,
+            'Authorization': `Bearer ${token}`,
             'content-type' : 'application/x-www-form-urlencoded'
             },
 
           };
-       var data =  {
-        deptname : team.teamname,
-        deptdescription : team.description,
-      
+      var data =  {
+          groupname: team.groupname,
+          groupdescription: team.groupdescription,
+          status : team.status,
+
+
       }
-  // console.log(data);
+  console.log(data);
   return (dispatch) => {
-    dispatch(teamCreateInAction());
-    // console.log('calling api');
-    axios.post(`${baseURLKiboEngage}/api/createteam`,querystring.stringify(data),config).then(res => dispatch(teamCreateSuccess(res)))
+   console.log('calling api');
+    axios.post(`${baseURL}/api/groups`,querystring.stringify(data),config).then(res => dispatch(teamCreateSuccess(res)))
       .catch(function (error) {
-        // console.log('Error occured');
-        // console.log(error);
+        console.log('Error occured');
+        console.log(error);
         dispatch(teamCreateFail());
       });
-
-  };
-};
-
-
-export const editteam = (team) => {
-    var token = team.token;
-    // console.log('without remove_dups');
-    // console.log(team.deptagents);
-    var remove_dups = utils.removeDuplicates(team.deptagents, '_id');
-    // console.log('removeDuplicates');
-    // console.log(remove_dups);
-    var config = {
-      rejectUnauthorized : false,
-      headers: {
-            'Authorization': `Bearer ${token}`,
-            'content-type' : 'application/json'
-            },
-      
-          };
-    var d = {
-          _id:team.id,
-          deptname: team.name,
-          deptdescription: team.desc,
-        }
-    var data = {
-      'dept' : d,
-      'deptagents': remove_dups,
-      
-      }
-
-
-  // console.log('data of edit team');
-  // console.log(data);
-  return (dispatch) => {
-    dispatch(teamEditInAction());
-    // console.log('calling api');
-    axios.post(`${baseURL}/api/departments/update/`,data,config).then(res => dispatch(teamEditSuccess(res)))
-      .catch(function (error) {
-        //console.log(error.response)
-        // console.log('Error occured');
-        // console.log(error);
-        dispatch(teamEditFail());
-      });
-    
-  };
-};
-
-
-
-
-
-const teamCreateInAction = () => {
-  return {
-    type: ActionTypes.CREATE_TEAM,
 
   };
 };
@@ -209,7 +127,6 @@ const teamCreateFail = () => {
 };
 
 const teamCreateSuccess = (res) => {
-  // console.log('team created');
   //Actions.main();
   return{
     type: ActionTypes.CREATE_TEAM_SUCCESS,
@@ -219,13 +136,87 @@ const teamCreateSuccess = (res) => {
 
 };
 
-const teamEditInAction = () => {
+
+// fetch agents in teams list
+
+export function showTeamAgents(teamagents) {
+  console.log('show team agents');
   return {
-    type: ActionTypes.EDIT_TEAM,
-   
+    type: ActionTypes.ADD_TEAM_AGENTS,
+    payload : teamagents.data,
+
+  };
+}
+export const agentTeamFetch = (token) => {
+   var config = {
+      rejectUnauthorized : false,
+      headers: {
+           'Authorization': `Bearer ${token}`,
+           'content-type' : 'application/x-www-form-urlencoded'
+            },
+
+          };
+
+  return (dispatch) => {
+    axios.get(`${baseURL}/api/teamagents`,config)
+    .then((res) => res).then(res => dispatch(writeTeamAgents(res.data)))
+     .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        if(error = 'Network Error')
+        {
+          //Alert.alert('You are not connected with Internet');
+          dispatch(readTeamAgents());
+        }
+       }); 
+
   };
 };
 
+
+export const editteam = (team) => {
+    var token = team.token;
+    console.log('without remove_dups');
+    console.log(team.teamagents);
+    var remove_dups = utils.removeDuplicates(team.teamagents, '_id');
+    console.log('removeDuplicates');
+    console.log(remove_dups);
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/json'
+            },
+
+          };
+    var d = {
+          _id:team.id,
+          groupname: team.name,
+          groupdescription: team.desc,
+          status : team.status,
+        }
+    var data = {
+      'group' : d,
+      'groupagents': remove_dups,
+
+      }
+
+
+  console.log('data of edit team');
+  console.log(data);
+  return (dispatch) => {
+
+    console.log('calling api');
+    axios.post(`${baseURL}/api/groups/update/`,data,config).then(res => dispatch(teamEditSuccess(res)))
+      .catch(function (error) {
+        console.log(error.response)
+        console.log('Error occured');
+        console.log(error);
+        dispatch(teamEditFail());
+      });
+
+  };
+};
 
 
 const teamEditFail = () => {
@@ -233,32 +224,25 @@ const teamEditFail = () => {
 };
 
 const teamEditSuccess = (res) => {
-  // console.log('team created');
+  console.log('team edited');
   //Actions.main();
   return{
     type: ActionTypes.EDIT_TEAM_SUCCESS,
     payload: res
   };
 
-  
+
+};
+
+const teamDeleteFail = () => {
+  return{ type: ActionTypes.DELETE_TEAM_FAIL };
 };
 
 const teamDeleteSuccess = (res) => {
-  // console.log('team deleted');
+  console.log('team deleted');
   //Actions.main();
   return{
     type: ActionTypes.DELETE_TEAM_SUCCESS,
-    payload: res
-  };
-
-
-};
-
-const teamDeleteFail = (res) => {
-  // console.log('team deleted fail');
-  //Actions.main();
-  return{
-    type: ActionTypes.DELETE_TEAM_FAIL,
     payload: res
   };
 
@@ -278,11 +262,11 @@ export const deleteteam = (team) => {
 
           };
   return (dispatch) => {
-  //  console.log('calling api');
-    axios.delete(`${baseURL}/api/departments/kiboengage/${id}`,config).then(res => dispatch(teamDeleteSuccess(res)))
+   console.log('calling api');
+    axios.delete(`${baseURL}/api/groups/${id}`,config).then(res => dispatch(teamDeleteSuccess(res)))
       .catch(function (error) {
-        // console.log('Error occured');
-        // console.log(error);
+        console.log('Error occured');
+        console.log(error);
         dispatch(teamDeleteFail());
       });
 
@@ -291,17 +275,60 @@ export const deleteteam = (team) => {
 
 
 
-/***** SQLite Actions **********/
+// join team
+const teamJoinFail = () => {
+  return{ type: ActionTypes.JOIN_TEAM_FAIL };
+};
+
+const teamJoinSuccess = (res) => {
+  console.log('team joined');
+  //Actions.main();
+  return{
+    type: ActionTypes.JOIN_TEAM_SUCCESS,
+    payload: res
+  };
+
+
+};
+export const jointeam = (team) => {
+    var token = team.token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/x-www-form-urlencoded'
+            },
+
+          };
+      var data =  {
+           teamid:team.teamid,
+           agentid : team.agentid,
+
+
+      }
+  console.log(data);
+  return (dispatch) => {
+   console.log('calling api');
+    axios.post(`${baseURL}/api/groups/join/`,querystring.stringify(data),config).then(res => dispatch(teamJoinSuccess(res)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        dispatch(teamJoinFail());
+      });
+
+  };
+};
+
+
+/*** SQlite ****/
 export function callbackteams(results) {
  var fteams = []
   var len = results.rows.length;
   for (let i = 0; i < len; i++) {
     let row = results.rows.item(i);
     console.log('row');
-    console.log(row);
     fteams.push(row);
   }
-  console.log('fteams');
   console.log(fteams);
  
   return {
@@ -310,15 +337,12 @@ export function callbackteams(results) {
  
   };
 }
-
-
 export function callbackteamAgents(results) {
  var fteams = []
   var len = results.rows.length;
   for (let i = 0; i < len; i++) {
     let row = results.rows.item(i);
     console.log('row');
-    console.log(row);
     fteams.push(row);
   }
   console.log(fteams);
@@ -336,27 +360,25 @@ export  function writeTeams(teams){
    var res = [];
   var CREATE_Teams_TABLE = "CREATE TABLE TEAMS ("
                 + "_id TEXT PRIMARY KEY,"
-                + "deptname TEXT,"
-                + "deptdescription TEXT,"
+                + "groupname TEXT,"
+                + "groupdescription TEXT,"
                 + "companyid TEXT,"
                 + "createdby TEXT,"
                 + "creationdate TEXT,"
-                + "isFbTeam TEXT,"
-                + "fbPageID TEXT,"
+                + "status TEXT,"
                 + "deleteStatus TEXT" + ")";
 
  var rows = []
  for(var i=0;i<teams.length;i++){
   var record = []
   record.push(teams[i]._id)
-  record.push(teams[i].deptname);
-  record.push(teams[i].deptdescription);
+  record.push(teams[i].groupname);
+  record.push(teams[i].groupdescription);
   record.push(teams[i].companyid);
   record.push(teams[i].createdby._id);
   record.push(teams[i].creationdate);
+  record.push(teams[i].status);
   record.push(teams[i].deleteStatus);
-  record.push(teams[i].isFbTeam);
-  record.push(teams[i].fbPageID?teams[i].fbPageID:"");
   rows.push(record);
  // addItem(db,record);
 
@@ -372,7 +394,7 @@ return (dispatch) => {
     tx.executeSql(CREATE_Teams_TABLE);
 
     for(var j=0;j<rows.length;j++){
-       tx.executeSql('INSERT INTO TEAMS VALUES (?,?,?,?,?,?,?,?,?)',rows[j]);
+       tx.executeSql('INSERT INTO TEAMS VALUES (?,?,?,?,?,?,?,?)',rows[j]);
    
     }
     tx.executeSql('SELECT * FROM TEAMS', [], (tx,results) => {
@@ -402,9 +424,9 @@ export  function writeTeamAgents(teamAgents){
    var res = [];
   var CREATE_TeamAgents_TABLE = "CREATE TABLE TEAMAGENTS ("
                 + "_id TEXT PRIMARY KEY,"
-                + "agentid TEXT,"
+                + "groupid TEXT,"
                 + "companyid TEXT,"
-                + "deptid TEXT,"
+                + "agentid TEXT,"
                 + "joindate TEXT,"
                 + "deleteStatus TEXT" + ")";
 
@@ -412,9 +434,9 @@ export  function writeTeamAgents(teamAgents){
  for(var i=0;i<teamAgents.length;i++){
   var record = []
   record.push(teamAgents[i]._id)
-  record.push(teamAgents[i].agentid);
+  record.push(teamAgents[i].groupid._id);
   record.push(teamAgents[i].companyid);
-  record.push(teamAgents[i].deptid);
+  record.push(teamAgents[i].agentid._id);
   record.push(teamAgents[i].joindate);
   record.push(teamAgents[i].deleteStatus);
   rows.push(record);
@@ -462,7 +484,6 @@ export function readTeams(){
    
     tx.executeSql('SELECT * FROM TEAMS', [], (tx,results) => {
           console.log("Query completed");
-          console.log(results);
           res = results;
           
         });
@@ -488,7 +509,6 @@ export function readTeamAgents(){
    
     tx.executeSql('SELECT * FROM TEAMAGENTS', [], (tx,results) => {
           console.log("Query completed");
-          console.log(results);
           res = results;
           
         });
@@ -504,4 +524,3 @@ export function readTeamAgents(){
   }
 
 }
-

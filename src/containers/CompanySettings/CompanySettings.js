@@ -71,14 +71,14 @@ class CompanySettings extends Component {
     stylesheet.textbox.normal.height = 80;
     stylesheet.textbox.error.height = 80;
     const validString= FormValidation.refinement(
-      FormValidation.String, (teamname) => {
-        if (teamname.length < 1) return false;
+      FormValidation.String, (groupname) => {
+        if (groupname.length < 1) return false;
         return true;
       },
     );
 
     const validNumber= FormValidation.refinement(
-      FormValidation.Number, (teamname) => {
+      FormValidation.Number, (groupname) => {
         return true;
       },
     );

@@ -20,7 +20,7 @@ import auth from '../../services/auth';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import * as AgentActions from '@redux/agents/agentActions';
-import * as GroupActions from '@redux/group/GroupActions';
+import * as GroupActions from '@redux/group/groupActions';
 import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import * as chatActions from '@redux/chat/chatActions';
 var querystring = require('querystring');

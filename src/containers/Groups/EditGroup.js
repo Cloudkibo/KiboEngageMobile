@@ -22,7 +22,7 @@ import { List, ListItem, SocialIcon } from 'react-native-elements';
 // Consts and Libs
 import AppAPI from '@lib/api';
 import { AppStyles, AppSizes} from '@theme/';
-import * as GroupActions from '@redux/group/GroupActions';
+import * as GroupActions from '@redux/group/groupActions';
 import { connect } from 'react-redux';
 var _ = require('lodash');
 
@@ -42,10 +42,7 @@ class EditGroup extends Component {
     // overriding the text color
     stylesheet.textbox.normal.height = 80;
     stylesheet.textbox.error.height = 80;
-    var Status = FormValidation.enums({
-              public: 'Public',
-              private: 'Private'
-            });
+
    
     const validName= FormValidation.refinement(
       FormValidation.String, (groupname) => {
@@ -80,7 +77,6 @@ class EditGroup extends Component {
       form_fields: FormValidation.struct({
         groupName:validName,
         groupDescription: validDesc,
-        status:Status,
       }),
       empty_form_values: {
         groupName:'',
@@ -88,9 +84,8 @@ class EditGroup extends Component {
       
       },
       form_values: {
-        groupName:this.props.group.groupname,
-        groupDescription: this.props.group.groupdescription,
-        status:this.props.group.status,
+        groupName:this.props.group.deptname,
+        groupDescription: this.props.group.deptdescription,
       
       },
       options: {
@@ -107,9 +102,6 @@ class EditGroup extends Component {
             multiline: true,
             stylesheet: stylesheet 
           },
-          status:{
-            nullOption:false,
-          }
           
         },
       },
@@ -124,14 +116,12 @@ class EditGroup extends Component {
   componentDidMount =  () => {
     // Get user data from AsyncStorage to populate fields
   
-      
-      this.newFellowAgents  = this.props.groupagents.filter((c) => c.groupid == this.props.group._id)
+      this.newFellowAgents  = this.props.groupagents.filter((c) => c.deptid == this.props.group._id)
       
       let ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
       let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents);
 
       this.setState({
-
           dataSourceAllAgents  : ds,
           dataSourceFellowAgents  : ds2,
 
@@ -144,7 +134,7 @@ class EditGroup extends Component {
   /**
     * Create Team
     */
-  renderRow = (agent) => (
+   renderRow = (agent) => (
     <ListItem
       key={`list-row-${agent._id}`}
       onPress={this.addAgent.bind(this,agent)}
@@ -178,36 +168,64 @@ class EditGroup extends Component {
             for(var j=0;j<this.newFellowAgents.length;j++){
                agentid.push({"_id" :this.newFellowAgents[j].agentid})
             }
-            
+            console.log('groupDescription');
+            console.log(credentials.groupDescription);
             this.props.editgroup({
-              name :credentials.groupName,
-              desc:credentials.groupDescription,
-              status : credentials.status,
-              id:this.props.group._id,
+              name: credentials.groupName,
+              desc: credentials.groupDescription,
+              id : this.props.group._id,
+              deptagents : agentid,
               token:token,
-              groupagents: agentid
-            });
-    
+            })
         }
       });
     }
   }
   
- 
+  deleteGroupConfirm = async () => {
+    // Form is valid
+        this.setState({ resultMsg: { status: 'One moment...' } });
 
+        // Scroll to top, to show message
+        if (this.scrollView) {
+          this.scrollView.scrollTo({ y: 0 });
+        }
+
+        if(auth.loggedIn() == true){
+            console.log('auth.loggedIn() return true');
+            var token = await auth.getToken();
+            console.log(token);
+   
+            this.props.deletegroup({
+              id:this.props.group._id,
+              token:token,
+            })
+        }
+     
+  }
+  
+
+  deleteGroup = () => {
+
+    Alert.alert(
+            'Delete Group',
+            'Are you sure you want to delete this group?',
+            [
+              {text: 'No', onPress: () => console.log('Cancel Pressed!')},
+              {text: 'Yes', onPress: () => this.deleteGroupConfirm()},
+            ]
+          )
+
+    
+     
+  }
   addAgent = (c) =>{
     console.log('addAgent is called');
-    this.newFellowAgents.push({'groupid': this.props.group._id,'agentid': c._id})
+    console.log(this.props.groupagents.length);
+    this.newFellowAgents.push({'deptid': this.props.group._id,'agentid':c._id})
     // update the DataSource in the component state
-
-     
    this.setState({
-            form_values : {
-                groupName:this.form.getValue().groupName,
-                groupDescription: this.form.getValue().groupDescription,
-                status:this.form.getValue().status,
-             
-            },
+          
             dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
         });
   }
@@ -215,16 +233,11 @@ class EditGroup extends Component {
 
   removeAgent = (c) =>{
     console.log('removeAgent is called');
-    var indexOfItem = this.newFellowAgents.findIndex((item) => item.groupid === c.groupid && item.agentid === c.agentid);
+    var indexOfItem = this.newFellowAgents.findIndex((item) => item.deptid === c.deptid && item.agentid === c.agentid);
     this.newFellowAgents.splice(indexOfItem, 1);
     // update the DataSource in the component state
    this.setState({
-            form_values : {
-                groupName:this.form.getValue().groupName,
-                groupDescription: this.form.getValue().groupDescription,
-                status: this.form.getValue().status,
-             
-            },
+          
             dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
         });
   }
@@ -253,42 +266,7 @@ class EditGroup extends Component {
     
   }
 
-  confirmDelete = async() => {
-    // Form is valid
-        this.setState({ resultMsg: { status: 'Deleting group...' } });
-
-        // Scroll to top, to show message
-        if (this.scrollView) {
-          this.scrollView.scrollTo({ y: 0 });
-        }
-
-        if(auth.loggedIn() == true){
-            console.log('auth.loggedIn() return true');
-            var token = await auth.getToken();
-            console.log(token);
-   
-            this.props.deletegroup({
-              id:this.props.group._id,
-              token:token,
-            })
-        }
-  }
-
-  deleteGroup = () => {
-
-    Alert.alert(
-            'Delete Group',
-            'Are you sure you want to delete this group?',
-            [
-              {text: 'No', onPress: () => console.log('Cancel Pressed!')},
-              {text: 'Yes', onPress: () => this.confirmDelete()},
-            ]
-          )
-
-    
-     
-  }
-  
+ 
 
   render = () => {
     const Form = FormValidation.form.Form;
@@ -299,8 +277,8 @@ class EditGroup extends Component {
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
-            success={this.props.groupsuccess}
-            error={this.props.grouperror}
+            success={this.props.groupeditsuccess}
+            error={this.props.groupediterror}
           />
 
   
@@ -312,16 +290,7 @@ class EditGroup extends Component {
           />
 
 
-           <Spacer size={20} />
-            <View>
-            <Text h3> Fellow Agents </Text>
-             <ListView dataSource={this.state.dataSourceFellowAgents}
-              renderRow={this.renderFellowAgents}
-            />
-           
-          </View>
-
-         <View>
+          <View>
             <Text h3> All Agents </Text>
             <ListView
                  dataSource={this.state.dataSourceAllAgents}
@@ -329,8 +298,19 @@ class EditGroup extends Component {
             />
           </View>
 
-         
+          <View>
+            <Text h3> Fellow Agents </Text>
+             <ListView dataSource={this.state.dataSourceFellowAgents}
+              renderRow={this.renderFellowAgents}
+            />
+           
+          </View>
+
            <Spacer size={20} />
+         
+
+           <Spacer size={20} />
+          
           <Button
             title={'Save Changes'}
             onPress={this.editGroup}
@@ -353,9 +333,9 @@ class EditGroup extends Component {
 
 
 function mapStateToProps(state) {
-   const {groups,grouperror,groupsuccess} =  state.groups;
+   const {groups,groupediterror,groupeditsuccess} =  state.groups;
   
-  return {groups,grouperror,groupsuccess};
+  return {groups,groupediterror,groupeditsuccess };
 }
 
 

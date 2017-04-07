@@ -13,10 +13,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
-import { List, ListItem, SearchBar } from 'react-native-elements';
+import { List, ListItem, SocialIcon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import * as GroupActions from '@redux/group/GroupActions';
+import * as GroupActions from '@redux/group/groupActions';
 import * as AgentActions from '@redux/agents/agentActions';
 import Loading from '@components/general/Loading';
 
@@ -50,26 +50,25 @@ const styles = StyleSheet.create({
 class Groups extends Component {
   static componentName = 'Groups';
 
-  constructor(props) {
+   constructor(props) {
     super(props);
-    this.state = {
-      loading: true,
-      text: '',
-    };
-    this.createDataSource(props.groups);
-    this.filteredData = this.filteredData.bind(this);
+    this.state = {loading : true};
+    this.createDataSource(props);
   }
 
    componentDidMount = async() => {
     console.log('group component did mount called');
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
-      if(token !== ''){
+      if(token != ''){
+     
             this.props.groupFetch(token);
             this.props.agentGroupFetch(token);
             this.props.agentFetch(token);
-          }
 
+            
+          }
+  
   }
 
   componentWillReceiveProps(nextProps) {
@@ -80,35 +79,18 @@ class Groups extends Component {
     console.log(nextProps);
     if(nextProps.groups && nextProps.groupagents && nextProps.agents){
       this.setState({loading:false});
-       this.createDataSource(nextProps.groups);
+       this.createDataSource(nextProps);
      }
   }
 
-  createDataSource(groups) {
+  createDataSource({ groups 
+  }) {
     const ds = new ListView.DataSource({
-
+  
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
     this.dataSource = ds.cloneWithRows(groups);
-  }
-
-  filteredData(text) {
-    this.setState({
-      text,
-    });
-    const searchText = text.toLowerCase();
-    let filtered = [];
-    let index = 0;
-    console.log(this.props.groups);
-    for (let i = 0; i < this.props.groups.length; i++) {
-      if (this.props.groups[i].groupname.toLowerCase().search(searchText) > -1) {
-        filtered[index] = this.props.groups[i];
-        index++;
-      }
-    }
-    console.log(filtered);
-    this.createDataSource(filtered);
   }
 
   /**
@@ -118,25 +100,19 @@ class Groups extends Component {
   goToView2(group)
   {
         console.log('navigate group is called');
-        if(group.createdby == this.props.userdetails._id){
-          Actions.groupEdit({group:group,groupagents : this.props.groupagents,agents: this.props.agents})
-      }
-
-      else{
-         Actions.groupJoin({group:group,groupagents : this.props.groupagents})
-      }
+        Actions.groupEdit({group:group,groupagents : this.props.groupagents,agents: this.props.agents})
   }
   renderRow = (group) => (
     <ListItem
       key={`list-row-${group._id}`}
       onPress={this.goToView2.bind(this,group)}
-      title={group.groupname}
-      subtitle={group.status +'\n' + group.groupdescription || null}
+      title={group.deptname}
+      subtitle={group.deptdescription || null}
 
-
+      
     />
 
-
+ 
   )
 
 
@@ -156,7 +132,7 @@ class Groups extends Component {
 
   render = () => {
     if (this.state.loading) return <Loading />;
-
+    
     return(
           <View style={[AppStyles.container]}>
           <Spacer size={15} />
@@ -164,25 +140,17 @@ class Groups extends Component {
               automaticallyAdjustContentInsets={false}
               style={[AppStyles.container]}
             >
+             <Spacer size={50} />
               <List>
-                <Spacer size={25} />
-                <SearchBar
-                  lightTheme
-                  round
-                  ref={(b) => { this.search = b; }}
-                  onChangeText={this.filteredData}
-                  value={this.state.text}
-                  placeholder="Search"
-                />
                 <ListView
                  dataSource={this.dataSource}
                  renderRow={this.renderRow}
                 />
               </List>
-
+              
             </ScrollView>
             </View>
-
+ 
   );
 }
 }
@@ -191,14 +159,13 @@ const mapDispatchToProps = {
   groupFetch: GroupActions.groupFetch,
   agentGroupFetch : GroupActions.agentGroupFetch,
   agentFetch: AgentActions.agentFetch,
-
 };
 function mapStateToProps(state) {
-  const { groups, groupagents } = state.groups;
-  const { agents } = state.agents;
-  const { userdetails } = state.user;
-  return { groups, groupagents, agents, userdetails };
+   const { groups ,groupagents} = state.groups;
+   const { agents } = state.agents;
 
+  return {groups ,groupagents,agents};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Groups);
+

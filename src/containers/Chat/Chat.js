@@ -16,7 +16,7 @@ import Loading from '@components/general/Loading';
 import auth from '../../services/auth';
 
 import * as chatActions from '@redux/chat/chatActions';
-import * as TeamActions from '@redux/team/teamActions';
+import * as GroupActions from '@redux/group/groupActions';
 import * as AgentActions from '@redux/agents/agentActions';
 
 
@@ -128,8 +128,8 @@ class Chat extends Component {
 const mapDispatchToProps = {
   sessionsFetch: chatActions.sessionsFetch,
   chatsFetch: chatActions.chatsFetch,
-  teamFetch: TeamActions.teamFetch,
-  agentTeamFetch : TeamActions.agentTeamFetch,
+  groupFetch: GroupActions.groupFetch,
+  agentGroupFetch : GroupActions.agentGroupFetch,
   sendChat: chatActions.sendChat,
   
 };
