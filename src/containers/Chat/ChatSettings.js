@@ -40,7 +40,8 @@ class ChatSettings extends Component {
   constructor(props) {
     super(props);
     var ReactNative = require('react-native');
-    this.state = {items: [], language: '', groupsList: [], channelList: [], assignedAgent: '', assignedGroup: '', assignedChannel: '', platform: 'Detected Platform: ' + ReactNative.Platform.OS};
+    this.state = {items: [], language: '', teamsList: [], channelList: [], assignedAgent: '', assignedTeam: '', assignedChannel: '', platform: 'Detected Platform: ' + ReactNative.Platform.OS};
+    this.createPickerItems = this.createPickerItems.bind(this);
 }
   componentWillMount = async () => {
     //this.props.agentFetch();
@@ -48,42 +49,45 @@ class ChatSettings extends Component {
       console.log('token is Launchview is: ' + token);
       if(token != ''){
         //this.props.agentFetch(token); //No need to call this endpoint here again, I have added it in ChatSession [Zarmeen]
-        this.props.groupFetch(token);
-        this.props.channelFetch(token);
-        this.props.agentGroupFetch(token);
+       // this.props.teamFetch(token);
+       // this.props.channelFetch(token);
+       // this.props.agentTeamFetch(token);
        }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentDidMount() {
     // nextProps are the next set of props that this component
     // will be rendered with
     // this.props is still the old set of props
-    console.log('componentWillReceiveProps is called');
     // console.log(nextProps);
-    if(nextProps.agents && nextProps.groups && nextProps.subgroups && nextProps.singleChat && nextProps.groupagents){
-       this.createPickerItems(nextProps);
+    if(this.props.agents && this.props.teams && this.props.subgroups && this.props.singleChat && this.props.teamagents){
+       this.createPickerItems();
      }
   }
 
-  createPickerItems(nextProps){
+  createPickerItems(){
+     console.log('called');
     this.state.items = [];
-    this.state.groupsList = [];
+    this.state.teamsList = [];
     this.state.channelList = [];
-     nextProps.agents.map((item, index) => {
+    this.props.agents.map((item, index) => {
        return this.state.items.push(
            <Picker.Item label={item.firstname + ' ' + item.lastname} key={'key-'+item._id } value={item._id+','+item.email} />
        );
      });
-      nextProps.groups.map((item, index) => {
-       return this.state.groupsList.push(
+      this.props.teams.map((item, index) => {
+       return this.state.teamsList.push(
            <Picker.Item label={item.groupname} key={'key-'+item._id } value={item._id} />
        );
      });
-     nextProps.subgroups.filter((c)=>c.groupid == nextProps.singleChat.departmentid).map((item, index) => {
+     this.props.subgroups.filter((c)=>c.groupid == this.props.singleChat.departmentid).map((item, index) => {
        return this.state.channelList.push(
            <Picker.Item label={item.msg_channel_name} key={'key-'+item._id } value={item._id} />
        );
      });
+
+     console.log(this.state.teamsList);
+     this.forceUpdate();
   }
 
   assignToAgents = async () => {
@@ -128,8 +132,8 @@ class ChatSettings extends Component {
         
         //preparing data
          var emails = []; 
-         this.props.groups.map((item, index) => {
-          var agents = this.props.groupagents.filter((g)=> g.groupid == item._id);
+         this.props.teams.map((item, index) => {
+          var agents = this.props.teamagents.filter((g)=> g.groupid == item._id);
           console.log("Filtered Objects");
           console.log(this.props.agents);
           for(i = 0; i < agents.length; i++){
@@ -145,7 +149,7 @@ class ChatSettings extends Component {
          var unique = emails.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
           console.log(unique);
         input = {
-          agentidTo: this.state.assignedGroup,
+          agentidTo: this.state.assignedTeam,
           agentidBy: this.props.userdetails._id,
           companyid: this.props.singleChat.companyid,
           requestid: this.props.singleChat.request_id,
@@ -227,12 +231,12 @@ class ChatSettings extends Component {
     </Card>
 
      <Card>
-    <Text>Assign To Group</Text>
+    <Text>Assign To Team</Text>
     <Spacer size={10} />
       <Picker
-          selectedValue={this.state.assignedGroup}
-        onValueChange={(toGroupId) => this.setState({assignedGroup: toGroupId})}>
-  {this.state.groupsList}
+          selectedValue={this.state.assignedTeam}
+        onValueChange={(toGroupId) => this.setState({assignedTeam: toGroupId})}>
+  {this.state.teamsList}
 </Picker>
      <Spacer size={10} />
      <Button
@@ -278,20 +282,20 @@ class ChatSettings extends Component {
 /* Export Component ==================================================================== */
 const mapDispatchToProps = {
   agentFetch: AgentActions.agentFetch,
-  groupFetch: GroupActions.groupFetch,
+  //teamFetch: TeamActions.teamFetch,
   channelFetch: SubgroupActions.channelFetch,
   moveAgent: chatActions.assignAgent,
   markResolve: chatActions.resolveChatSession,
   moveChannel: SubgroupActions.assignChannel,
-  agentGroupFetch : GroupActions.agentGroupFetch,
+ // agentTeamFetch : TeamActions.agentTeamFetch,
 };
 function mapStateToProps(state) {
    const { agents } = state.agents;
-   const { groups, groupagents } = state.groups;
+   const { teams, teamagents } = state.teams;
    const { subgroups} = state.subgroups;
    const { userdetails } = state.user;
    const { singleChat,invite_agent_status } = state.chat;
-   return { agents, groups, subgroups, userdetails, singleChat, invite_agent_status, groupagents };
+   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSettings);
 

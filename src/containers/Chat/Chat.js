@@ -134,9 +134,15 @@ const mapDispatchToProps = {
   
 };
 function mapStateToProps(state) {
-   const { singleChat } = state.chat;
-  const { userdetails } = state.user;
-  return { singleChat, userdetails };
+   const { userdetails } = state.user;
+   const { agents } = state.agents;
+   const { teams, teamagents } = state.teams;
+   const { subgroups} = state.subgroups;
+   const { singleChat,invite_agent_status } = state.chat;
+   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents };
+ 
+
+
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

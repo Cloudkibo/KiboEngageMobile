@@ -101,7 +101,7 @@ class ChatSession extends Component {
     // this.props is still the old set of props
     // console.log('componentWillReceiveProps is called with chat session data');
     // console.log(nextProps.groups);
-    if(nextProps.data && nextProps.groups && nextProps.chat && nextProps.agents && nextProps.groupagents && nextProps.groupagents && nextProps.groups){
+    if(nextProps.data && nextProps.teams && nextProps.chat && nextProps.agents && nextProps.groupagents && nextProps.teamagents && nextProps.groups){
        this.renderCard(nextProps);
        this.setState({loading:false});
      }
@@ -156,14 +156,14 @@ class ChatSession extends Component {
       }
       else{
         // add condition to show group name
-        var groupname = nextProps.groups.filter((g)=>g._id == item.agent_ids[item.agent_ids.length-1].id)[0];
+        var teamname = nextProps.teams.filter((g)=>g._id == item.agent_ids[item.agent_ids.length-1].id)[0];
       
-        group_agents_name = groupname.groupname;
+        group_agents_name = teamname.groupname;
 
       }
      }
       
-      // var agent_name = nextProps.groupagents.filter((g) => g.agent_id == channelname);
+      // var agent_name = nextProps.teamagents.filter((g) => g.agent_id == channelname);
       var subgroupName = nextProps.subgroups.filter((c) => c._id == channelname);
       return this.state.menuItems.push(
           
