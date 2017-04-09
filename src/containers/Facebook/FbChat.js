@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import { List, ListItem, SocialIcon, Card, Button, Icon } from 'react-native-elements';
@@ -137,7 +138,7 @@ class FbChat extends Component {
                     seen:false,
                     user: {
                       _id: this.props.senderid == item.senderid?2:1,
-                     // name:  item.senderid,
+                    //  name:  item.senderid,
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
                     },
@@ -167,7 +168,7 @@ class FbChat extends Component {
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
                     },
-                    image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',
+                    // image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',
                     //image: 'https://scontent.xx.fbcdn.net/v/t34.0-12/16933685_1261326827270353_187253959_n.png',
                    
                   }
@@ -364,10 +365,23 @@ class FbChat extends Component {
     );
   }
 
-  renderBubble(props) {
+  renderBubble(prop) {
+    
     return (
       <GChat.Bubble
-        {...props}
+        onLongPress = {() => {
+          if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'file'){
+    console.log("In Props: ", prop.currentMessage.text);
+    
+          Alert.alert(
+            'Download File',
+            "Do you want to download this file: " + prop.currentMessage.text,
+            [
+              {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+              {text: 'OK', onPress: () => this.props.downloadFile(prop.currentMessage.attachments[0].payload.url, prop.currentMessage.text)},
+            ]
+        );}}}
+        {...prop}
         wrapperStyle={{
           left: {
             backgroundColor: '#f0f0f0',
@@ -375,6 +389,8 @@ class FbChat extends Component {
         }}
       />
     );
+
+    // this.props.downloadFile(); 
   }
 
   renderCustomView(props) {
@@ -423,6 +439,7 @@ class FbChat extends Component {
     var button = 'paper-plane';
     if(this.state.text == ''){
       button = 'thumbs-o-up';
+      
     }
     return (
     <Icon
@@ -469,11 +486,16 @@ class FbChat extends Component {
     this.state.stickgif = true;
      var images = [];
          images.push({
+              createdAt: Date.now(),
               image: image_uri,
+              user:{
+                _id: 1,
+              }
             })
-    this.state.chatProp.onSend(images,0);
+    this.onSend(images,0);
     this.props.toggleSticker(false);
-    this.props.toggleGif(false)
+    this.props.toggleGif(false);
+    
   }
 
   renderFooter(propy) {
@@ -530,12 +552,12 @@ const mapDispatchToProps = {
  // getfbChats:FbActions.getfbChats,
  // updatedSelectedFbChats:FbActions.updatedSelectedFbChats,
   getfbchatfromAgent:FbActions.getfbchatfromAgent,
-
   uploadFbChatfile:FbActions.uploadFbChatfile,
   uploadFbChatDocfile:FbActions.uploadFbChatDocfile,
   toggleEmoji:FbActions.emojiToggle,
   toggleGif:FbActions.gifToggle,
   toggleSticker:FbActions.stickerToggle,
+  downloadFile: FbActions.downloadFile,
 };
 function mapStateToProps(state) {
    const { fbcustomers,fbchats,fbchatSelected, emojiVisible, gifVisible, gifs, stickers, stickerVisible} = state.fbpages;
