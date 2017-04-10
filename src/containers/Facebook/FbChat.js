@@ -49,7 +49,7 @@ class FbChat extends Component {
     this.logEmoji = this.logEmoji.bind(this);
     this.renderFooter  = this.renderFooter.bind(this);
     this.sendStickerGif = this.sendStickerGif.bind(this);
-
+    
    // this.renderChat(this.props.fbchatSelected);
   }
 
@@ -379,15 +379,16 @@ class FbChat extends Component {
     return (
       <GChat.Bubble
         onLongPress = {() => {
+          
           if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'file'){
     console.log("In Props: ", prop.currentMessage.text);
-    
+          
           Alert.alert(
             'Download File',
             "Do you want to download this file: " + prop.currentMessage.text,
             [
               {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-              {text: 'OK', onPress: () => this.props.downloadFile(prop.currentMessage.attachments[0].payload.url, prop.currentMessage.text)},
+              {text: 'OK', onPress: () => { this.props.downloadFileFromFb(prop.currentMessage.attachments[0].payload.url, prop.currentMessage.text)}},
             ]
         );}}}
         {...prop}
@@ -566,7 +567,7 @@ const mapDispatchToProps = {
   toggleEmoji:FbActions.emojiToggle,
   toggleGif:FbActions.gifToggle,
   toggleSticker:FbActions.stickerToggle,
-  downloadFile: FbActions.downloadFile,
+  downloadFileFromFb: FbActions.downloadFile,
 };
 function mapStateToProps(state) {
    const { fbcustomers,fbchats,fbchatSelected, emojiVisible, gifVisible, gifs, stickers, stickerVisible} = state.fbpages;
