@@ -134,7 +134,7 @@ class FbCustomers extends Component {
       return this.state.menuItems.push(
            <ListItem
                   roundAvatar
-                  //avatar={{uri:"https://graph.facebook.com/"+item.user_id+"/picture?width=100&height=100"}}
+                  avatar={{uri: item.profile_pic}}
                   key={index}
                   title={item.first_name + ' ' + item.last_name}
                   onPress={this.gotoChatBox.bind(this,item)}

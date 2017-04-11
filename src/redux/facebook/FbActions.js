@@ -8,7 +8,7 @@ import * as Config from '../config';
 var baseURL = Config.baseURLKiboSupport;
 var baseURLKiboEngage = Config.baseURLKiboEngage;
 import RNFetchBlob from 'react-native-fetch-blob';
-
+import OpenFile from 'react-native-doc-viewer';
 
 
 
@@ -490,10 +490,26 @@ export function downloadFile(url_file, name){
   .fetch('GET', url_file, {
     //some headers 
   })
+  // listen to download progress event
+    .progress((received, total) => {
+        console.log('progress', received / total)
+    })
   .then((res) => {
-    // the temp file path
-    console.log('The file saved to ', res.path())
-  })
+                console.log(res.path());
+                console.log(name);
+                //RNFetchBlob.ios.previewDocument(res.path()+'/'+name);
+                OpenFile.openDoc([{
+                     url:res.path()+'/'+name,
+                     fileName:"sample",
+                     
+                   }], (error, url) => {
+                      if (error) {
+                        console.error(error);
+                      } else {
+                        console.log(url)
+                      }
+                    })
+    })
 
    return{
     type: ActionTypes.DOWNLOAD_FILE,
