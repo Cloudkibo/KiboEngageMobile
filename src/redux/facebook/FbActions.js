@@ -473,27 +473,30 @@ export function fetchSticker(){
 };
 
 export function downloadFile(url_file, name){
-  // let dirs = RNFetchBlob.fs.dirs;
-  // RNFetchBlob
-  // .config({
-  //       fileCache : true,
-  //       trusty : true,
-  //       addAndroidDownloads : {
-  //           useDownloadManager : true, // <-- this is the only thing required
-  //           // Optional, but recommended since android DownloadManager will fail when
-  //           // the url does not contains a file extension, by default the mime type will be text/plain
-  //           description : 'File downloaded by download manager.',
-  //           mediaScannable : true,
-  //           mime : 'application/octet-stream',
-  //       },
-  //   })
-  // .fetch('GET', url_file, {
-  //   //some headers 
-  // })
-  // .then((res) => {
-  //   // the temp file path
-  //   console.log('The file saved to ', res.path())
-  // })
+  let dirs = RNFetchBlob.fs.dirs;
+  RNFetchBlob
+  .config({
+        fileCache : true,
+        trusty : true,
+        addAndroidDownloads : {
+            useDownloadManager : true, // <-- this is the only thing required
+            // Optional, but recommended since android DownloadManager will fail when
+            // the url does not contains a file extension, by default the mime type will be text/plain
+            description : 'File downloaded by download manager.',
+            mediaScannable : true,
+            mime : 'application/octet-stream',
+        },
+    })
+  .fetch('GET', url_file, {
+    //some headers 
+  })
+  .then((res) => {
+    // the temp file path
+    console.log('The file saved to ', res.path())
+  })
 
-  console.log("Download this piece of SHITTTTTTTTTTTTTTT");
+   return{
+    type: ActionTypes.DOWNLOAD_FILE,
+    payload: 'File Downloaded Successfully'
+  };
 }

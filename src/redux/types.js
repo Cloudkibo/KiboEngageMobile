@@ -78,3 +78,4 @@ export const GIF_VISIBLE = 'GIF_VISIBLE';
 export const STICKER_VISIBLE = 'STICKER_VISIBLE';
 export const GIF_UPDATE = 'GIF_UPDATE';
 export const STICKER_UPDATE = 'STICKER_UPDATE';
+export const DOWNLOAD_FILE = 'DOWNLOAD_FILE';
