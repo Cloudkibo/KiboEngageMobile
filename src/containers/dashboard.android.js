@@ -24,6 +24,7 @@ import { connect } from 'react-redux';
 import * as UserActions from '@redux/user/actions';
 import Loading from '@components/general/Loading';
 import * as FbActions from '@redux/facebook/FbActions';
+import * as chatActions from '@redux/chat/chatActions';
 
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
@@ -187,7 +188,7 @@ renderLoadingView(){
     console.log('notification');
     console.log(notification);
     var notif = JSON.parse(notification.message);
-    console.log(notif);
+    console.log("Notif", notif);
     
     Alert.alert(
       'Push Notification Received',
@@ -209,6 +210,16 @@ renderLoadingView(){
             
            }
     }
+    if(notif.data.request_id && notif.data.uniqueid){
+      console.log("Fetching the receieved chat");
+          var token =  await auth.getToken();
+          // console.log('token is Launchview is: ' + token);
+          if(token != ''){
+            this.props.fetchChat(token, notif.data);
+            
+           }
+      
+    }
   }
 
 
@@ -219,7 +230,7 @@ renderLoadingView(){
 const mapDispatchToProps = {
   getuser: UserActions.getuser,
   getsqlData:UserActions.getsqlData,
-
+  fetchChat: chatActions.fetchChat,
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,

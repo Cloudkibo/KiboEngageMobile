@@ -41,19 +41,19 @@ export const sessionsFetch =  (token) => {
   };
 };
 
-export const chatsFetch =  (token) => {
+// export const chatsFetch =  (token) => {
 
-   var config = {
-      headers: {
-          'Authorization': `Bearer ${token}`,
-      },
-    };
+//    var config = {
+//       headers: {
+//           'Authorization': `Bearer ${token}`,
+//       },
+//     };
       
-  return (dispatch) => {
-    axios.get(`${baseURL}/api/userchats/`,config)
-    .then(res => dispatch(showChats(res)));   
-  };
-};
+//   return (dispatch) => {
+//     axios.get(`${baseURL}/api/userchats/`,config)
+//     .then(res => dispatch(showChats(res)));   
+//   };
+// };
 
 export function singleChats(data) {
   // console.log('show single chat messages data');
@@ -231,3 +231,26 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
 
 
   }
+
+
+  export const fetchChat =  (token, data) => {
+
+   var config = {
+      headers: {
+          'Authorization': `Bearer ${token}`,      
+      },
+      
+    };
+    var data = {
+        'uniqueid': data.uniqueid,
+        'request_id': data.request_id,
+      };
+  return (dispatch) => {
+    axios.post(`${baseURL}/api/userchats/fetchChat`,data,config)
+    .then(res => {
+      console.log("Response of fetchChat api", res);
+    }).catch((err) => {
+      
+      console.log("Printing the err", err)});   
+  };
+};
