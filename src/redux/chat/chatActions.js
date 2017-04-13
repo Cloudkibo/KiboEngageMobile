@@ -198,3 +198,36 @@ export const resolveChatSession =  (token, sessionid) => {
       });   
   };
 };
+
+export const uploadChatDocfile =(filedata,chatmsg)=>{
+     return (dispatch) => {
+               console.log("Sending file.....");
+                RNFetchBlob.fetch('POST', `https://kiboengage.kibosupport.com/api/uploadchatfile`, {
+                               
+                                'Content-Type' : 'multipart/form-data',
+                                'file': filedata,
+                                'chatmsg': chatmsg,
+                              },
+                              )// listen to upload progress event
+                                .uploadProgress((written, total) => {
+                                    console.log('uploaded', written / total)
+                                    if(written / total == 1){
+                                      console.warn('uploaded');  
+                                    }
+                                    
+                                })
+                               
+                                .then((resp) => {
+                                  
+                                  if(resp.statusCode == 200){
+                                      console.log('File uploaded')
+                                  }
+
+                                })
+                                .catch((err) => {
+                                  console.warn(err);
+                                })
+             }
+
+
+  }
