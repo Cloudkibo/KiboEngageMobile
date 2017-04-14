@@ -41,19 +41,19 @@ export const sessionsFetch =  (token) => {
   };
 };
 
-export const chatsFetch =  (token) => {
+// export const chatsFetch =  (token) => {
 
-   var config = {
-      headers: {
-          'Authorization': `Bearer ${token}`,
-      },
-    };
+//    var config = {
+//       headers: {
+//           'Authorization': `Bearer ${token}`,
+//       },
+//     };
       
-  return (dispatch) => {
-    axios.get(`${baseURL}/api/userchats/`,config)
-    .then(res => dispatch(showChats(res)));   
-  };
-};
+//   return (dispatch) => {
+//     axios.get(`${baseURL}/api/userchats/`,config)
+//     .then(res => dispatch(showChats(res)));   
+//   };
+// };
 
 export function singleChats(data) {
   // console.log('show single chat messages data');
@@ -196,5 +196,61 @@ export const resolveChatSession =  (token, sessionid) => {
         // dispatch(confirmInvite(error));
         dispatch(assign_agent_status('Unable to mark chat as resolved'));
       });   
+  };
+};
+
+export const uploadChatDocfile =(filedata,chatmsg)=>{
+     return (dispatch) => {
+               console.log("Sending file.....");
+                RNFetchBlob.fetch('POST', `https://kiboengage.kibosupport.com/api/uploadchatfile`, {
+                               
+                                'Content-Type' : 'multipart/form-data',
+                                'file': filedata,
+                                'chatmsg': chatmsg,
+                              },
+                              )// listen to upload progress event
+                                .uploadProgress((written, total) => {
+                                    console.log('uploaded', written / total)
+                                    if(written / total == 1){
+                                      console.warn('uploaded');  
+                                    }
+                                    
+                                })
+                               
+                                .then((resp) => {
+                                  
+                                  if(resp.statusCode == 200){
+                                      console.log('File uploaded')
+                                  }
+
+                                })
+                                .catch((err) => {
+                                  console.warn(err);
+                                })
+             }
+
+
+  }
+
+
+  export const fetchChat =  (token, data) => {
+
+   var config = {
+      headers: {
+          'Authorization': `Bearer ${token}`,      
+      },
+      
+    };
+    var data = {
+        'uniqueid': data.uniqueid,
+        'request_id': data.request_id,
+      };
+  return (dispatch) => {
+    axios.post(`${baseURL}/api/userchats/fetchChat`,data,config)
+    .then(res => {
+      console.log("Response of fetchChat api", res);
+    }).catch((err) => {
+      
+      console.log("Printing the err", err)});   
   };
 };

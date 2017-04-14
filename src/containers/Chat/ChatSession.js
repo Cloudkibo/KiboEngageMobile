@@ -122,6 +122,7 @@ class ChatSession extends Component {
     Actions.chat({chat: mychats, sessioninfo: item});
   }
 
+
   renderCard = (nextProps) => {
       var data = nextProps.data;
       var group = nextProps.groups;
