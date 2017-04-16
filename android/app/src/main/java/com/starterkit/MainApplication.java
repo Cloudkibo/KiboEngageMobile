@@ -21,6 +21,9 @@ import java.util.List;
 
 import org.pgsqlite.SQLitePluginPackage;
 
+import com.rngrp.RNGRPPackage; // <------- add package
+import com.filepicker.FilePickerPackage; // import package
+
 //import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 
 public class MainApplication extends Application implements ReactApplication {
@@ -50,7 +53,10 @@ public class MainApplication extends Application implements ReactApplication {
           //  new RNDeviceInfo(),
          // new GoogleAnalyticsBridgePackage(),
             new ReactNativeNotificationHubPackage(),
-            new SQLitePluginPackage()
+            new SQLitePluginPackage(),
+
+            new RNGRPPackage() ,
+            new FilePickerPackage()
           
         
       );
