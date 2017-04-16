@@ -8,7 +8,7 @@ import * as Config from '../config';
 var baseURL = Config.baseURLKiboSupport;
 var baseURLKiboEngage = Config.baseURLKiboEngage;
 import RNFetchBlob from 'react-native-fetch-blob';
-
+var RNGRP = require('react-native-get-real-path');
 
 
 
@@ -317,7 +317,17 @@ export const uploadFbChatfile =(filedata,chatmsg)=>{
 
 
 
-export const uploadFbChatDocfile =(filedata,chatmsg)=>{
+export const uploadFbChatDocfile = (filedata,chatmsg)=>{
+     console.log("Asking for permission", filedata);
+
+//      RNGRP.getRealPathFromURI(filedata.uri).then(filePath =>
+//   console.log(filePath)
+// );
+    RNFetchBlob.fs.readFile(filedata.uri, 'base64')
+.then((data) => {
+  // handle the data ..
+  console.log("Read data successfully", data);
+}).catch((err) => console.log(err));
      return (dispatch) => {
                
                 RNFetchBlob.fetch('POST', `${baseURLKiboEngage}/api/uploadchatfilefb/`, {
@@ -472,7 +482,28 @@ export function fetchSticker(){
   };
 };
 
-export function downloadFile(url_file, name){
+
+async function requestCameraPermission() {
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      {
+        'title': 'KiboEngage External Storage Permission',
+        'message': 'Cool Photo App needs access to your external storage ' +
+                   'so you can upload files.'
+      }
+    )
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log("You can use the camera")
+    } else {
+      console.log("Camera permission denied")
+    }
+  } catch (err) {
+    console.warn(err)
+  }
+}
+
+export function downloadFile(url_file, name_file){
   let dirs = RNFetchBlob.fs.dirs;
   RNFetchBlob
   .config({
@@ -484,6 +515,7 @@ export function downloadFile(url_file, name){
             // the url does not contains a file extension, by default the mime type will be text/plain
             description : 'File downloaded by download manager.',
             mediaScannable : true,
+            name: name_file,
             mime : 'application/octet-stream',
         },
     })

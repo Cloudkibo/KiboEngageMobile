@@ -152,6 +152,10 @@ dependencies {
     compile project(':react-native-azurenotificationhub')
     
     compile project(':react-native-sqlite-storage')
+
+    compile project(':react-native-get-real-path')
+
+    compile project(':react-native-file-picker')
    
 }
 
