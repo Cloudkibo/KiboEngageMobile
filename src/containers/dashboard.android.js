@@ -198,7 +198,7 @@ renderLoadingView(){
         onPress: null,
       }]
     );
-    
+    console.log("Current Chat", this.props.chat);
     if(notif.data.type == 'fbchat'){
           var token =  await auth.getToken();
           // console.log('token is Launchview is: ' + token);
@@ -239,7 +239,8 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
    const { userdetails,fetchedR} = state.user;
    const {fbchatSelected} = state.fbpages;
-  return {userdetails,fetchedR,fbchatSelected};
+   var {chat} = state.chat;
+  return {userdetails,fetchedR,fbchatSelected, chat};
 
 }
 

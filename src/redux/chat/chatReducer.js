@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   
   data: '',
   loading: true,
-  chat: '',
+  chat: [],
   singleChat: '',
   invite_agent_status: '',
   

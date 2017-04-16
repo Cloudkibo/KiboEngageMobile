@@ -62,6 +62,7 @@ import FBPages from '@containers/Facebook/FBPages';
 import EditFbPage from '@containers/Facebook/EditFbPage';
 import FbCustomers from '@containers/Facebook/FbCustomers';
 import FbChat from '@containers/Facebook/FbChat';
+import Reports from '@containers/Reports/Reports';
 /* Routes ==================================================================== */
 export default Actions.create(
   <Scene key={'root'} {...AppConfig.navbarProps}>
@@ -255,6 +256,13 @@ export default Actions.create(
         title={'Invite Agent'}
         component={InviteAgent}
         analyticsDesc={'Agents:Invite Agents'}
+      />
+
+      <Scene
+        key={'reports'}
+        title={'Reports'}
+        component={Reports}
+        analyticsDesc={'Reports'}
       />
 
       <Scene
