@@ -46,6 +46,7 @@ class Chat extends Component {
 
   renderChat = (whatever) => {
       // var temp = [];
+      console.log("Single Chat", this.props.singleChat);
      this.props.chat.map((item, index) => {
 
       this.state.messages.push(

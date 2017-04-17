@@ -20,6 +20,7 @@ export function showSessions(data) {
   var final = data.data.filter(function (el) {
     return el.platform == "mobile";
 });
+// console.log('Final', final);
   return {
     type: ActionTypes.FETCH_SESSIONS,
     payload : final,
@@ -248,7 +249,7 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
   return (dispatch) => {
     axios.post(`${baseURL}/api/userchats/fetchChat`,data,config)
     .then(res => {
-      console.log("Response of fetchChat api", res);
+      console.log("Response of fetchChat api", res.data);
     }).catch((err) => {
       
       console.log("Printing the err", err)});   

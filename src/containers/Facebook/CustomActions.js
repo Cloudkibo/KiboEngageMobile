@@ -17,6 +17,7 @@ import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav';
 import * as FbActions from '@redux/facebook/FbActions';
 import { List, ListItem, SocialIcon, Card, Button, Icon } from 'react-native-elements';
 var ReactNative = require('react-native');
+const FilePickerManager = require('NativeModules').FilePickerManager;
 
 class CustomActions extends React.Component {
   constructor(props) {
@@ -79,26 +80,53 @@ class CustomActions extends React.Component {
     console.log('selectFileTapped called');
     
     if(ReactNative.Platform.OS == "android"){
-       DocumentPicker.show({
-      filetype:['*/*']
-    },(error,url) => {
-     // Alert(url);
-      console.log(url);
 
-       var files = [];
+
+      FilePickerManager.showFilePicker(null, (response) => {
+  console.log('Response = ', response);
+
+  if (response.didCancel) {
+    console.log('User cancelled file picker');
+  }
+  else if (response.error) {
+    console.log('FilePickerManager Error: ', response.error);
+  }
+  else {
+      // console.log("Success", response);
+           var files = [];
+           var fileName = response.path.split("/");
+           fileName = fileName[fileName.length - 1];
          files.push({
               file: {
-                filename:url.fileName,
-                uri:url.uri
-            }})
+                filename:fileName,
+                uri:response.path.split("/").slice(0,-1).join("/")
+            }});
+             console.log(files);
+         this.props.onSend(files);
+  }
+});
 
-          setTimeout( () => {
-                console.log('setTimeout called');
-                if(url!= ''){
-                     this.props.onSend(files);
-              }
-        },5000);
-    }); 
+
+    //    DocumentPicker.show({
+    //   filetype:['*/*']
+    // },(error,url) => {
+    //  // Alert(url);
+    //   console.log(url);
+
+    //    var files = [];
+    //      files.push({
+    //           file: {
+    //             filename:url.fileName,
+    //             uri:url.uri
+    //         }})
+
+    //       setTimeout( () => {
+    //             console.log('setTimeout called');
+    //             if(url!= ''){
+    //                  this.props.onSend(files);
+    //           }
+    //     },5000);
+    // }); 
     }
     else if(ReactNative.Platform.OS == "ios")
     DocumentPicker.show({

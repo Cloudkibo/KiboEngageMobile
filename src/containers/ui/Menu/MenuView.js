@@ -176,7 +176,13 @@ class Menu extends Component {
           onPress: () => { this.props.closeSideMenu(); Actions.FbCustomers(); },
           icon: 'facebook',
 
-        }
+        },
+        {
+          title: 'Reports',
+          onPress: () => { this.props.closeSideMenu(); Actions.reports(); },
+          icon: 'report',
+
+        },
 
 
       ],

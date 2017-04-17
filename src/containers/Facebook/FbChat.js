@@ -306,6 +306,7 @@ class FbChat extends Component {
       console.log('fileext');
       console.log(fileext);
       console.log(filename);
+      console.log(msgObj.file);
       if (auth.loggedIn() === true) {
           console.log('auth.loggedIn() return true');
           const token = await auth.getToken();
