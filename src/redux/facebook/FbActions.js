@@ -13,7 +13,6 @@ var RNGRP = require('react-native-get-real-path');
 
 
 
-
 // create fbpage
 export const createPage=(fbpage,token) => {
     var token = token;
@@ -506,26 +505,47 @@ async function requestCameraPermission() {
 
 export function downloadFile(url_file, name_file){
   let dirs = RNFetchBlob.fs.dirs;
-  RNFetchBlob
-  .config({
-        fileCache : true,
-        trusty : true,
-        addAndroidDownloads : {
-            useDownloadManager : true, // <-- this is the only thing required
-            // Optional, but recommended since android DownloadManager will fail when
-            // the url does not contains a file extension, by default the mime type will be text/plain
-            description : 'File downloaded by download manager.',
-            mediaScannable : true,
-            name: name_file,
-            mime : 'application/octet-stream',
-        },
-    })
-  .fetch('GET', url_file, {
-    //some headers 
-  })
-  .then((res) => {
-    // the temp file path
-    console.log('The file saved to ', res.path())
+  var fext = name.split('.');
+  RNFetchBlob.fs.exists(dirs.DocumentDir + '/' + name)
+  .then((exist) => {
+      console.log(`file ${exist ? '' : 'not'} exists`)
+      if(exist == true){
+            RNFetchBlob.ios.openDocument(dirs.DocumentDir + '/' + name); // results in path/to/file.jpg
+                 
+      }
+      else{
+        RNFetchBlob
+          .config({
+                fileCache : true,
+                trusty : true,
+                addAndroidDownloads : {
+                    useDownloadManager : true, // <-- this is the only thing required
+                    // Optional, but recommended since android DownloadManager will fail when
+                    // the url does not contains a file extension, by default the mime type will be text/plain
+                    description : 'File downloaded by download manager.',
+                    mediaScannable : true,
+                    mime : 'application/octet-stream',
+                },
+                 appendExt: fext[fext.length-1], // only append an extension if the res.path() does not return one
+                 path : dirs.DocumentDir + '/' + name
+            })
+          .fetch('GET', url_file, {
+            //some headers 
+          })
+          // listen to download progress event
+            .progress((received, total) => {
+                console.log('progress', received / total)
+            })
+          .then((res) => {
+                        console.log(res.path());
+                        if(ReactNative.Platform.OS == 'ios'){
+                             RNFetchBlob.ios.openDocument(res.path()); // results in path/to/file.jpg
+                            //dispatch(filecomplete());
+                        }
+                     
+                      
+          })
+      }
   })
   
  return{
