@@ -71,7 +71,7 @@ class Chat extends Component {
 
     var msgObj = messages[0];
    console.log('msgObj');
-   console.log(msgObj);
+  // console.log(msgObj);
    var today = new Date();  
    var uid = Math.random().toString(36).substring(7);
    var unique_id = 'f' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
@@ -81,6 +81,7 @@ class Chat extends Component {
     if(msgObj.file){
       /*** for image file ******/
       console.log('msgObj.file is true');
+      console.log(msgObj.file);
       var filename;
       var fileext;
       if(msgObj.file.filename){
@@ -129,7 +130,7 @@ class Chat extends Component {
                   };
                   messages[0] = {
                     createdAt: Date.now(),
-                    text: filename + '.' + fileext,
+                    text: filename,
                     user: {
                       _id: 1,
                     },
@@ -137,7 +138,7 @@ class Chat extends Component {
                     _id:unique_id,
                   };
                   console.log("Updated messages", messages);
-                  // this.props.uploadChatDocfile(fileobj, body);
+                   this.props.uploadChatDocfile(fileobj, body);
     }
   }else{
      this.sendToServer(messages[0]);
@@ -184,12 +185,12 @@ class Chat extends Component {
       console.log(url);
        var files = [];
          files.push({
-              file: url,
+              file: url.uri,
             })
           setTimeout( () => {
                 console.log('setTimeout called');
                 if(url!= ''){
-                     this.props.onSend(files);
+                     this.onSend(files);
               }
         },5000);
          

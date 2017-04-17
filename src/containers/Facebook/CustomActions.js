@@ -17,7 +17,6 @@ import NavBar, { NavButton, NavButtonText, NavTitle } from 'react-native-nav';
 import * as FbActions from '@redux/facebook/FbActions';
 import { List, ListItem, SocialIcon, Card, Button, Icon } from 'react-native-elements';
 var ReactNative = require('react-native');
-const FilePickerManager = require('NativeModules').FilePickerManager;
 
 class CustomActions extends React.Component {
   constructor(props) {
@@ -81,6 +80,7 @@ class CustomActions extends React.Component {
     
     if(ReactNative.Platform.OS == "android"){
 
+      const FilePickerManager = require('NativeModules').FilePickerManager;
 
       FilePickerManager.showFilePicker(null, (response) => {
   console.log('Response = ', response);
@@ -136,7 +136,7 @@ class CustomActions extends React.Component {
       console.log(url);
        var files = [];
          files.push({
-              file: url,
+              file: url.uri,
             })
           setTimeout( () => {
                 console.log('setTimeout called');

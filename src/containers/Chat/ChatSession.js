@@ -133,7 +133,7 @@ class ChatSession extends Component {
       // Build the actual Menu Items
     data.map((item, index) => {
       var name =  item.customerID;
-      console.log(nextProps.chat);
+      //console.log(nextProps.chat);
       var mychats = nextProps.chat.data.filter((c)=> c.request_id == item.request_id);
        if(mychats.length <=  0){
          return;

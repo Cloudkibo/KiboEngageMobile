@@ -9,7 +9,6 @@ var baseURL = Config.baseURLKiboSupport;
 var baseURLKiboEngage = Config.baseURLKiboEngage;
 import RNFetchBlob from 'react-native-fetch-blob';
 var ReactNative = require('react-native');
-var RNGRP = require('react-native-get-real-path');
 
 
 

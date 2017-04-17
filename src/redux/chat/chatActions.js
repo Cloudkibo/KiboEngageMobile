@@ -4,6 +4,8 @@ import * as Config from '../config';
 var baseURL = Config.baseURLKiboSupport;
 var baseURLKiboEngage = Config.baseURLKiboEngage;
 var querystring = require('querystring');
+import RNFetchBlob from 'react-native-fetch-blob';
+var ReactNative = require('react-native');
 
 export function showChats(data) {
   // console.log('show chat messages data');
@@ -99,7 +101,7 @@ export const assignAgent = (token, input,session) => {
           },
           
       };
-  console.log(data);
+ // console.log(data);
     return (dispatch) => {
     axios.post(`${baseURLKiboEngage}/api/assignToAgent`, data,config)
     .then(()=>{
@@ -205,10 +207,9 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
                console.log("Sending file.....");
                 RNFetchBlob.fetch('POST', `https://kiboengage.kibosupport.com/api/uploadchatfile`, {
                                
-                                'Content-Type' : 'multipart/form-data',
-                                'file': filedata,
-                                'chatmsg': chatmsg,
-                              },
+                                'Content-Type' : 'multipart/form-data'},[
+                                { name : 'file', type: filedata.type,filename : filedata.name, data: RNFetchBlob.wrap(filedata.uri.replace("file://", ""))},
+                                { name : 'chatmsg', data : JSON.stringify(chatmsg)}]
                               )// listen to upload progress event
                                 .uploadProgress((written, total) => {
                                     console.log('uploaded', written / total)
@@ -219,8 +220,8 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
                                 })
                                
                                 .then((resp) => {
-                                  
-                                  if(resp.statusCode == 200){
+                                  console.log(resp);
+                                  if(resp.statusCode == 201){
                                       console.log('File uploaded')
                                   }
 
