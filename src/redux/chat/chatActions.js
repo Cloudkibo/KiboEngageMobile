@@ -41,19 +41,19 @@ export const sessionsFetch =  (token) => {
   };
 };
 
-// export const chatsFetch =  (token) => {
+export const chatsFetch =  (token) => {
 
-//    var config = {
-//       headers: {
-//           'Authorization': `Bearer ${token}`,
-//       },
-//     };
+   var config = {
+      headers: {
+          'Authorization': `Bearer ${token}`,
+      },
+    };
       
-//   return (dispatch) => {
-//     axios.get(`${baseURL}/api/userchats/`,config)
-//     .then(res => dispatch(showChats(res)));   
-//   };
-// };
+  return (dispatch) => {
+    axios.get(`${baseURL}/api/userchats/`,config)
+    .then(res => dispatch(showChats(res)));   
+  };
+};
 
 export function singleChats(data) {
   // console.log('show single chat messages data');

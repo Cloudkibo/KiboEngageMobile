@@ -108,7 +108,7 @@ class Chat extends Component {
               console.log(fileobj);
                var body = {
                   to: this.props.sessioninfo.customerID,//customerID
-                  from: this.props.userdetails.firstname + ' ' + this.props.userdetails.lastname,//agent name
+                  from: this.props.userdetails.firstname,//agent name
                   visitoremail: this.props.sessioninfo.customerid.email,// customer email
                   socketid:"",
                   status:"sent", // ‘sent’,’delivered’,’seen’
@@ -204,7 +204,7 @@ class Chat extends Component {
     var unique_id = 'h' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
     var body = {
       to: this.props.sessioninfo.customerID,//customerID
-      from: this.props.userdetails.firstname + ' ' + this.props.userdetails.lastname,//agent name
+      from: this.props.userdetails.firstname,//agent name
       visitoremail: this.props.sessioninfo.customerid.email,// customer email
       socketid:"",
       status:"sent", // ‘sent’,’delivered’,’seen’
