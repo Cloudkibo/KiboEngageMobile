@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   chat: [],
   singleChat: '',
   invite_agent_status: '',
+  upload: [],
   
 };
 
@@ -23,6 +24,8 @@ export default (state = INITIAL_STATE, action) => {
       return {...state,singleChat:action.payload, loading:false};
   case ActionTypes.ASSIGN_AGENT:
       return {...state,invite_agent_status:action.payload};
+  case ActionTypes.UPLOAD_PROGRESS:
+      return {...state,upload: [...state.upload, action.payload]};
     
    
     default:

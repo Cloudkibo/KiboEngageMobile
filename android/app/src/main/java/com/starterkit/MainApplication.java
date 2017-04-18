@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.azure.reactnative.notificationhub.ReactNativeNotificationHubPackage;
 import com.facebook.react.ReactApplication;
-import com.reactlibrary.RNReactNativeDocViewerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
@@ -38,20 +37,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNReactNativeDocViewerPackage(),
             new RNFetchBlobPackage(),
             new ImagePickerPackage(),
-            // new VectorIconsPackage(),
-            // new GoogleAnalyticsBridgePackage(),
-            // new RNDeviceInfo(),
-
             new ReactNativeDocumentPicker(),
-
-          //  new VectorIconsPackage(),
-         //   new GoogleAnalyticsBridgePackage(),
-        ///    new RNDeviceInfo(),
-          //  new RNDeviceInfo(),
-         // new GoogleAnalyticsBridgePackage(),
             new ReactNativeNotificationHubPackage(),
             new SQLitePluginPackage(),
 

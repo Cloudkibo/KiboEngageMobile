@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
+import * as GChat  from 'react-native-gifted-chat';
 import {
   View,
   ListView,
@@ -12,7 +13,7 @@ import { List, ListItem, SocialIcon, Card, Button, Icon } from 'react-native-ele
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import Loading from '@components/general/Loading';
-
+import PercentageCircle from 'react-native-percentage-circle';
 import auth from '../../services/auth';
 
 import * as chatActions from '@redux/chat/chatActions';
@@ -36,6 +37,7 @@ class Chat extends Component {
     this.renderChat = this.renderChat.bind(this);
     this.renderActions = this.renderActions.bind(this);
     this.selectFileTapped = this.selectFileTapped.bind(this);
+    this.renderBubble = this.renderBubble.bind(this);
     this.renderChat(this.props.chat);
   }
 
@@ -105,50 +107,57 @@ class Chat extends Component {
                   uri: msgObj.file.uri?msgObj.file.uri+'/'+msgObj.file.filename:msgObj.file,
                   type: 'application/'+fileext,
                   name: filename,
+                  _id:unique_id,
               };
 
               console.log(fileobj);
-               var body = {
-                  to: this.props.sessioninfo.customerID,//customerID
-                  from: this.props.userdetails.firstname,//agent name
-                  visitoremail: this.props.sessioninfo.customerid.email,// customer email
-                  socketid:"",
-                  status:"sent", // ‘sent’,’delivered’,’seen’
-                  type:"message",
-                  uniqueid: unique_id, //unique identifier
-                  msg: 'New file sent', //message
-                  datetime: Date.now(),//date time
-                  time: "",
-                  request_id: this.props.sessioninfo.request_id, //Session’s request id
-                  messagechannel: this.props.sessioninfo.messagechannel[0], //subgroup id of session
-                  companyid: this.props.sessioninfo.companyid,
-                  is_seen:"no", //yes/no
-                  customerid:this.props.sessioninfo.customerid,  //7 keys, Obj of customer id inside Session obj
-                  groupmembers:this.props.sessioninfo.agent_ids, //empty if session is ‘new’
-                  sendersEmail: this.props.userdetails.email, //Agent’s email
-                  fromMobile:"yes" // yes/no
-                  };
+              //  var body = {
+              //     to: this.props.sessioninfo.customerID,//customerID
+              //     from: this.props.userdetails.firstname,//agent name
+              //     visitoremail: this.props.sessioninfo.customerid.email,// customer email
+              //     socketid:"",
+              //     status:"sent", // ‘sent’,’delivered’,’seen’
+              //     type:"message",
+              //     uniqueid: unique_id, //unique identifier
+              //     msg: 'New file sent', //message
+              //     datetime: Date.now(),//date time
+              //     time: "",
+              //     request_id: this.props.sessioninfo.request_id, //Session’s request id
+              //     messagechannel: this.props.sessioninfo.messagechannel[0], //subgroup id of session
+              //     companyid: this.props.sessioninfo.companyid,
+              //     is_seen:"no", //yes/no
+              //     customerid:this.props.sessioninfo.customerid,  //7 keys, Obj of customer id inside Session obj
+              //     groupmembers:this.props.sessioninfo.agent_ids, //empty if session is ‘new’
+              //     sendersEmail: this.props.userdetails.email, //Agent’s email
+              //     fromMobile:"yes" // yes/no
+              //     };
                   messages[0] = {
                     createdAt: Date.now(),
                     text: filename,
                     user: {
                       _id: 1,
                     },
-
+                    type: 'file',
                     _id:unique_id,
                   };
                   console.log("Updated messages", messages);
-                   this.props.uploadChatDocfile(fileobj, body);
-    }
-  }else{
-     this.sendToServer(messages[0]);
-  }
-    console.log("Messages changed:", messages);
     this.setState((previousState) => {
       return {
         messages: GiftedChat.append(previousState.messages, messages),
       };
     });
+                   this.props.uploadChatDocfile(fileobj, {});
+    }
+  }else{
+     this.sendToServer(messages[0]);
+     console.log("Messages changed:", messages);
+    this.setState((previousState) => {
+      return {
+        messages: GiftedChat.append(previousState.messages, messages),
+      };
+    });
+}
+    
   }
 
 
@@ -156,26 +165,33 @@ class Chat extends Component {
     console.log('selectFileTapped called');
     
     if(ReactNative.Platform.OS == "android"){
-       DocumentPicker.show({
-      filetype:['*/*']
-    },(error,url) => {
-     // Alert(url);
-      console.log(url);
 
-       var files = [];
+      const FilePickerManager = require('NativeModules').FilePickerManager;
+
+      FilePickerManager.showFilePicker(null, (response) => {
+  console.log('Response = ', response);
+
+  if (response.didCancel) {
+    console.log('User cancelled file picker');
+  }
+  else if (response.error) {
+    console.log('FilePickerManager Error: ', response.error);
+  }
+  else {
+      // console.log("Success", response);
+           var files = [];
+           var fileName = response.path.split("/");
+           fileName = fileName[fileName.length - 1];
          files.push({
               file: {
-                filename:url.fileName,
-                uri:url.uri
-            }})
+                filename:fileName,
+                uri:response.path.split("/").slice(0,-1).join("/")
+            }});
+             console.log(files);
+         this.onSend(files);
+  }
+});
 
-          setTimeout( () => {
-                console.log('setTimeout called');
-                if(url!= ''){
-                     this.onSend(files);
-              }
-        },5000);
-    }); 
     }
     else if(ReactNative.Platform.OS == "ios")
     DocumentPicker.show({
@@ -190,7 +206,7 @@ class Chat extends Component {
           setTimeout( () => {
                 console.log('setTimeout called');
                 if(url!= ''){
-                     this.onSend(files);
+                     this.props.onSend(files);
               }
         },5000);
          
@@ -235,6 +251,50 @@ class Chat extends Component {
       }
   }
 
+    renderBubble(prop) {
+    console.log("IN render bubble", prop.currentMessage);
+    var isFile = false;
+    var fileUpload = {};
+    for(i=0; i < this.props.upload.length; i++){
+      if(prop.currentMessage._id == this.props.upload[i].message_id){
+          isFile = true;
+          fileUpload = this.props.upload[i];
+      }
+    }
+    
+    if(isFile  && fileUpload.progress < 100 && fileUpload.progress >= 0){
+      return (
+            <View>
+              <PercentageCircle radius={35} percent={this.props.upload_progress} color={"#3498db"}></PercentageCircle>  
+            </View>
+      );
+    }else if(fileUpload.progress == -1){
+      prop.currentMessage.text = 'Failed to upload' + prop.currentMessage.text;
+      return (
+      <GChat.Bubble
+        {...prop}
+        wrapperStyle={{
+          left: {
+            backgroundColor: '#f0f0f0',
+          }
+        }}
+      />
+    );
+    } 
+    else{
+    return (
+      <GChat.Bubble
+        {...prop}
+        wrapperStyle={{
+          left: {
+            backgroundColor: '#f0f0f0',
+          }
+        }}
+      />
+    );
+    }
+    // this.props.downloadFile(); 
+  }
 
   renderActions(prop){
     return (
@@ -256,6 +316,7 @@ class Chat extends Component {
         messages={this.state.messages}
         onSend={this.onSend}
         renderActions={this.renderActions}
+        renderBubble={this.renderBubble}
         user={{
           _id: 1,
         }}
@@ -280,8 +341,8 @@ function mapStateToProps(state) {
    const { agents } = state.agents;
    const { teams, teamagents } = state.teams;
    const { subgroups} = state.subgroups;
-   const { singleChat,invite_agent_status } = state.chat;
-   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents };
+   const { singleChat,invite_agent_status, upload } = state.chat;
+   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, upload };
  
 
 
