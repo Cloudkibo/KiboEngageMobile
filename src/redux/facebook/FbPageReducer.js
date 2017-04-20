@@ -13,6 +13,7 @@ const INITIAL_STATE = {
  stickerVisible: false,
  gifs: [],
  stickers: [],
+ upload: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -50,6 +51,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, gifs: action.payload,};
     case ActionTypes.STICKER_UPDATE:
       return { ...state, stickers: action.payload,};
+    case ActionTypes.UPLOAD_PROGRESS_FB:
+      return {...state,upload: [...state.upload, action.payload]};
     default:
       return state;
   }

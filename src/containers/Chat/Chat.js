@@ -265,7 +265,9 @@ class Chat extends Component {
     if(isFile  && fileUpload.progress < 100 && fileUpload.progress >= 0){
       return (
             <View>
-              <PercentageCircle radius={35} percent={this.props.upload_progress} color={"#3498db"}></PercentageCircle>  
+              <PercentageCircle radius={35} percent={fileUpload.progress} color={"#3498db"}>
+                <Text>{fileUpload.progress}%</Text>
+              </PercentageCircle>  
             </View>
       );
     }else if(fileUpload.progress == -1){

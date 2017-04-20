@@ -318,17 +318,11 @@ export const uploadFbChatfile =(filedata,chatmsg)=>{
 
 export const uploadFbChatDocfile = (filedata,chatmsg)=>{
      console.log("Asking for permission", filedata);
-
-//      RNGRP.getRealPathFromURI(filedata.uri).then(filePath =>
-//   console.log(filePath)
-// );
-    RNFetchBlob.fs.readFile(filedata.uri, 'base64')
-.then((data) => {
-  // handle the data ..
-  console.log("Read data successfully", data);
-}).catch((err) => console.log(err));
      return (dispatch) => {
-               
+                dispatch (update_upload_progress({
+                                    message_id: filedata._id,
+                                    progress: 1, 
+                                  }));
                 RNFetchBlob.fetch('POST', `${baseURLKiboEngage}/api/uploadchatfilefb/`, {
                                
                                 'Content-Type' : 'multipart/form-data',
@@ -342,18 +336,36 @@ export const uploadFbChatDocfile = (filedata,chatmsg)=>{
                                     console.log('uploaded', written / total)
                                     if(written / total == 1){
                                       console.warn('uploaded');  
+                                      dispatch (update_upload_progress({
+                                    message_id: filedata._id,
+                                    progress: 100, 
+                                  }));
                                     }
+
+                                  dispatch (update_upload_progress({
+                                    message_id: filedata._id,
+                                    progress: Math.round(written/total * 100), 
+                                  }));
                                     
                                 })
                                
                                 .then((resp) => {
-                                  
+                                  console.log("File Uploaded", resp);
+                                     dispatch (update_upload_progress({
+                                    message_id: filedata._id,
+                                    progress: 100, 
+                                  }));
                                   if(resp.statusCode == 200){
+                                   
                                       console.log('File uploaded')
                                   }
 
                                 })
                                 .catch((err) => {
+                                  dispatch (update_upload_progress({
+                                    message_id: filedata._id,
+                                    progress: -1, 
+                                  }));
                                   console.warn(err);
                                 })
              }
@@ -558,5 +570,12 @@ export function filecomplete(){
   return{
     type: ActionTypes.DOWNLOAD_FILE,
     payload: 'File Downloaded Successfully'
+  };
+}
+
+export function update_upload_progress(data) {
+  return {
+    type: ActionTypes.UPLOAD_PROGRESS_FB,
+    payload : data,
   };
 }
