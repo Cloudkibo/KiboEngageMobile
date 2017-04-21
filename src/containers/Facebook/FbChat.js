@@ -74,6 +74,10 @@ class FbChat extends Component {
       this.renderGif(nextProps);
       this.renderSticker(nextProps);
      }
+     if(nextProps.upload){
+       console.log("Upload updated");
+       this.renderChat(nextProps);
+     }
   }
 
    
@@ -94,8 +98,9 @@ class FbChat extends Component {
         mid:temp[i].message.mid,
         attachments:temp[i].message.attachments,
         seen:false
-*/
+*/  
      var temparray = [];
+     console.log("In render chat", nextProps.upload);
       for(var i=0;i<nextProps.fbchatSelected.length;i++){
 
        if(nextProps.fbchatSelected[i].message){
@@ -314,6 +319,7 @@ class FbChat extends Component {
                   uri: msgObj.file.uri?msgObj.file.uri+'/'+msgObj.file.filename:msgObj.file,
                   type: 'application/'+fileext,
                   name: filename,
+                  _id: msgObj._id,
               };
 
               console.log(fileobj);
@@ -337,7 +343,7 @@ class FbChat extends Component {
                                  pageid:pageid
                   
                             }
-           
+                  messages[0].text = filename;
                   this.props.uploadFbChatDocfile(fileobj,saveMsg);
     }
   }
@@ -376,7 +382,13 @@ class FbChat extends Component {
   }
 
   renderBubble(prop) {
-    
+    console.log("In render bubble", prop.currentMessage);
+    console.log("THis render upload", this.props.upload);
+    if(!prop.currentMessage.attachments && prop.currentMessage.file){
+        return (
+          <Text>{prop.currentMessage.text}</Text>
+        );
+    }else{
     return (
       <GChat.Bubble
         onLongPress = {() => {
@@ -400,7 +412,7 @@ class FbChat extends Component {
         }}
       />
     );
-
+    }
     // this.props.downloadFile(); 
   }
 
@@ -571,9 +583,9 @@ const mapDispatchToProps = {
   downloadFileFromFb: FbActions.downloadFile,
 };
 function mapStateToProps(state) {
-   const { fbcustomers,fbchats,fbchatSelected, emojiVisible, gifVisible, gifs, stickers, stickerVisible} = state.fbpages;
+   const { fbcustomers,fbchats,fbchatSelected, emojiVisible, gifVisible, gifs, stickers, stickerVisible, upload} = state.fbpages;
     const { userdetails} = state.user;
-  return { fbcustomers,fbchats,fbchatSelected,userdetails, emojiVisible, gifVisible, gifs, stickers, stickerVisible};
+  return { fbcustomers,fbchats,fbchatSelected,userdetails, emojiVisible, gifVisible, gifs, stickers, stickerVisible, upload};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FbChat);
