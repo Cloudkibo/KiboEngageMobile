@@ -75,7 +75,7 @@ class CustomActions extends React.Component {
   }
 
 
-   selectFileTapped() {
+  selectFileTapped() {
     console.log('selectFileTapped called');
     
     if(ReactNative.Platform.OS == "android"){
@@ -105,28 +105,7 @@ class CustomActions extends React.Component {
          this.props.onSend(files);
   }
 });
-
-
-    //    DocumentPicker.show({
-    //   filetype:['*/*']
-    // },(error,url) => {
-    //  // Alert(url);
-    //   console.log(url);
-
-    //    var files = [];
-    //      files.push({
-    //           file: {
-    //             filename:url.fileName,
-    //             uri:url.uri
-    //         }})
-
-    //       setTimeout( () => {
-    //             console.log('setTimeout called');
-    //             if(url!= ''){
-    //                  this.props.onSend(files);
-    //           }
-    //     },5000);
-    // }); 
+ 
     }
     else if(ReactNative.Platform.OS == "ios")
     DocumentPicker.show({

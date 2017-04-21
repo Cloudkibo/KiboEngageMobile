@@ -128,6 +128,13 @@ export function assign_agent_status(data) {
   };
 }
 
+export function update_upload_progress(data) {
+  return {
+    type: ActionTypes.UPLOAD_PROGRESS,
+    payload : data,
+  };
+}
+
 // Send Chat to server
 export const sendChat  = (token, input) => {
     console.log("In send chat");
@@ -205,6 +212,10 @@ export const resolveChatSession =  (token, sessionid) => {
 export const uploadChatDocfile =(filedata,chatmsg)=>{
      return (dispatch) => {
                console.log("Sending file.....");
+               dispatch (update_upload_progress({
+                                    message_id: filedata._id,
+                                    progress: 1, 
+                                  }));
                 RNFetchBlob.fetch('POST', `https://kiboengage.kibosupport.com/api/uploadchatfile`, {
                                
                                 'Content-Type' : 'multipart/form-data'},[
@@ -212,21 +223,41 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
                                 { name : 'chatmsg', data : JSON.stringify(chatmsg)}]
                               )// listen to upload progress event
                                 .uploadProgress((written, total) => {
-                                    console.log('uploaded', written / total)
+                                    console.log('uploaded', written / total * 100)
                                     if(written / total == 1){
-                                      console.warn('uploaded');  
+                                      console.warn('uploaded');
+                                      dispatch (update_upload_progress({
+                                    message_id: filedata._id,
+                                    progress: 100, 
+                                  }));  
                                     }
-                                    
+                                   dispatch (update_upload_progress({
+                                    message_id: filedata._id,
+                                    progress: Math.round(written/total * 100), 
+                                  }));
                                 })
                                
                                 .then((resp) => {
-                                  console.log(resp);
+                                  console.log("Me in then of sending.. fine", resp);
+                                  dispatch (update_upload_progress({
+                                    message_id: filedata._id,
+                                    progress: 100, 
+                                  }));
                                   if(resp.statusCode == 201){
-                                      console.log('File uploaded')
+                                      console.log('File uploaded');
+                                      dispatch ({
+                                    message_id: filedata._id,
+                                    progress: 100, 
+                                  });
                                   }
 
                                 })
                                 .catch((err) => {
+                                  update_upload_progress({
+                                    message_id: filedata._id,
+                                    progress: -1, 
+                                  });
+                                  console.log("Me in log of response", err);
                                   console.warn(err);
                                 })
              }
