@@ -131,7 +131,7 @@ class SendEmail extends Component {
           console.log(emailMsg);
           const token = await auth.getToken();
 
-          this.props.emailCustomer({ emailMsg, token });
+          this.props.emailCustomer(emailMsg, token );
         }
       });
     }
