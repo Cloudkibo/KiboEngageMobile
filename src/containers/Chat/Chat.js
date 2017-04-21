@@ -206,7 +206,7 @@ class Chat extends Component {
           setTimeout( () => {
                 console.log('setTimeout called');
                 if(url!= ''){
-                     this.props.onSend(files);
+                     this.onSend(files);
               }
         },5000);
          
@@ -255,17 +255,21 @@ class Chat extends Component {
     console.log("IN render bubble", prop.currentMessage);
     var isFile = false;
     var fileUpload = {};
-    for(i=0; i < this.props.upload.length; i++){
+    if(this.props.upload){
+    for(var i=0; i < this.props.upload.length; i++){
       if(prop.currentMessage._id == this.props.upload[i].message_id){
+          console.log(this.props.upload[i]);
           isFile = true;
           fileUpload = this.props.upload[i];
       }
     }
+  }
     
     if(isFile  && fileUpload.progress < 100 && fileUpload.progress >= 0){
+
       return (
             <View>
-              <PercentageCircle radius={35} percent={this.props.upload_progress} color={"#3498db"}></PercentageCircle>  
+              <PercentageCircle radius={35} percent={fileUpload.progress} color={"#3498db"}></PercentageCircle>  
             </View>
       );
     }else if(fileUpload.progress == -1){
