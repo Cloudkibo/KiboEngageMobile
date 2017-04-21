@@ -18,7 +18,7 @@ import { TextInput, Button } from 'react-native';
 import auth from '../../services/auth';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import * as AgentActions from '@redux/agents/agentActions';
+import * as reportActions from '@redux/reports/reportActions';
 var querystring = require('querystring');
 /* Component ==================================================================== */
 styles = {
@@ -38,22 +38,21 @@ class Reports extends Component {
     this.state = {
         error: '',
     };
+    this.fetchData();
   }
 
 
 
-  sendInvite = async () => {
-    this.setState({error: ''});
+  fetchData = async () => {
     var token =  await auth.getToken();
-    console.log(this.state.text);
-    console.log(token);
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if(!re.test(this.state.text)){
-        this.setState({error: 'Invalid Email'});
-        return;
+    if(token != ''){
+        this.props.fetchChannelStats(token);
+        this.props.fetchCountryStats(token);
+        this.props.fetchAgentStats(token);
+        this.props.fetchPageStats(token);
+        this.props.fetchTeamStats(token);
+        this.props.fetchNotificationStats(token);
     }
-
-    this.props.agentInvite(token, this.state.text);
   }
 
   render() {
@@ -394,7 +393,12 @@ Reports.componentName = 'Reports';
 
 /* Export Component ==================================================================== */
 const mapDispatchToProps = {
-  agentInvite: AgentActions.agentInvite,
+  fetchChannelStats: reportActions.fetchChannelStats,
+  fetchCountryStats: reportActions.fetchCountryStats,
+  fetchTeamStats: reportActions.fetchTeamStats,
+  fetchAgentStats: reportActions.fetchAgentStats,
+  fetchPageStats: reportActions.fetchPageStats,
+  fetchNotificationStats: reportActions.fetchNotificationStats,
 };
 function mapStateToProps(state) {
    const   {invite}    = state.agents;

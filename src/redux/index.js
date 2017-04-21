@@ -24,6 +24,7 @@ import teams from '@redux/team/TeamReducer';
 import company from '@redux/companysettings/companyReducer';
 import chat from '@redux/chat/chatReducer';
 import fbpages from '@redux/facebook/FbPageReducer';
+import reports from '@redux/reports/reportReducer';
 // Combine all
 const appReducer = combineReducers({
   router,
@@ -40,7 +41,8 @@ const appReducer = combineReducers({
   groups,
   company,
   chat,
-  fbpages
+  fbpages,
+  reports
 });
 
 // Setup root reducer
