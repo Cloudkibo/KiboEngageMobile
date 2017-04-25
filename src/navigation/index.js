@@ -62,6 +62,7 @@ import FBPages from '@containers/Facebook/FBPages';
 import EditFbPage from '@containers/Facebook/EditFbPage';
 import FbCustomers from '@containers/Facebook/FbCustomers';
 import FbChat from '@containers/Facebook/FbChat';
+import FbSettings from '@containers/Facebook/FbSettings';
 import Reports from '@containers/Reports/Reports';
 /* Routes ==================================================================== */
 export default Actions.create(
@@ -97,6 +98,13 @@ export default Actions.create(
         title={'Chat Settings'}
         component={ChatSettings}
         analyticsDesc={'Placeholder: Chat Settings'}
+      />
+
+      <Scene
+        key={'FbSettings'}
+        title={'Facebook Settings'}
+        component={FbSettings}
+        analyticsDesc={'Placeholder: Facebook Settings'}
       />
 
       <Scene
@@ -336,6 +344,8 @@ export default Actions.create(
         key={'fbChats'}
         title={'Chat'}
         component={FbChat}
+        onRight={() => Actions.FbSettings()}
+        rightTitle="Settings"
         analyticsDesc={'FbChat: FbChat'}
       />
 

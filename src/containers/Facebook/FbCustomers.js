@@ -138,7 +138,7 @@ class FbCustomers extends Component {
                   key={index}
                   title={item.first_name + ' ' + item.last_name}
                   onPress={this.gotoChatBox.bind(this,item)}
-                  
+                  subtitle={"Group Name, Status"}
             />
         
        

@@ -31,7 +31,7 @@ export const fetchChannelStats =  (token) => {
           };
     console.log("Fetch Channel", config);
   return (dispatch) => {
-    axios.get(`${baseURLKiboEngage}/api/getchannelwisecalls`,config)
+    axios.get(`${baseURLKiboEngage}/api/getsubgroupwisecalls`,config)
     .then((res) => res).then(res => console.log(res))
     .catch(function (error) {
         console.log('Error occured');
