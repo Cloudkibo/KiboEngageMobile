@@ -1,21 +1,24 @@
 import * as ActionTypes from '../types'; 
 
 const INITIAL_STATE = {
-  
-  loading: false,
-  agents:[],
-  invite: '',
-  
+  country: [],
+  page: [],
+  agent: [],
+  team: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
    
-   case ActionTypes.ADD_AGENTS:
-      return {...state,agents:action.payload};
-  
-   case ActionTypes.INVITE_AGENTS:
-      return {...state,invite:action.payload};
+   case ActionTypes.FETCH_COUNTRY_STATS:
+      return {...state,country:action.payload};
+
+   case ActionTypes.FETCH_PAGE_STATS:
+      return {...state,page:action.payload};
+  case ActionTypes.FETCH_AGENT_STATS:
+      return {...state,agent:action.payload};
+  case ActionTypes.FETCH_TEAM_STATS:
+      return {...state,team:action.payload};
    
     default:
       return state;

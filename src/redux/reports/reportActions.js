@@ -8,12 +8,34 @@ import * as Config from '../config';
 var baseURL = Config.baseURLKiboSupport;
 var baseURLKiboEngage = Config.baseURLKiboEngage;
 
-export function updateChannelStats(data) {
-  // console.log('show agents');
-  // console.log(agents);
+export function updatePageStats(data) {
   return {
-    type: ActionTypes.ADD_AGENTS,
-    payload : agents.data.agents,
+    type: ActionTypes.FETCH_PAGE_STATS,
+    payload : data,
+
+  };
+}
+
+export function updateCountryStats(data) {
+  return {
+    type: ActionTypes.FETCH_COUNTRY_STATS,
+    payload : data,
+
+  };
+}
+
+export function updateAgentStats(data) {
+  return {
+    type: ActionTypes.FETCH_AGENT_STATS,
+    payload : data,
+
+  };
+}
+
+export function updateTeamStats(data) {
+  return {
+    type: ActionTypes.FETCH_TEAM_STATS,
+    payload : data,
 
   };
 }
@@ -32,7 +54,7 @@ export const fetchChannelStats =  (token) => {
     console.log("Fetch Channel", config);
   return (dispatch) => {
     axios.get(`${baseURLKiboEngage}/api/getsubgroupwisecalls`,config)
-    .then((res) => res).then(res => console.log(res))
+    .then((res) => res).then(res => console.log("Channel Stats", res.data.info))
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -56,10 +78,13 @@ export const fetchCountryStats =  (token) => {
             },
       
           };
-    console.log("Fetch Channel", config);
+    console.log("Fetch Country", config);
   return (dispatch) => {
     axios.get(`${baseURLKiboEngage}/api/getplatformwisecalls`,config)
-    .then((res) => res).then(res => console.log(res))
+    .then((res) => res).then(res => {
+      console.log("Country Stats", res.data.info);
+      dispatch(updateCountryStats(res.data.info));
+  })
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -83,10 +108,13 @@ export const fetchTeamStats =  (token) => {
             },
       
           };
-    console.log("Fetch Channel", config);
+    console.log("Fetch Team", config);
   return (dispatch) => {
     axios.get(`${baseURLKiboEngage}/api/getdeptwisecalls`,config)
-    .then((res) => res).then(res => console.log(res))
+    .then((res) => res).then(res => {
+      console.log("Team Stats  Action", res.data.info);
+      dispatch(updateTeamStats(res.data.info));
+    })
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -109,10 +137,13 @@ export const fetchAgentStats =  (token) => {
             },
       
           };
-    console.log("Fetch Channel", config);
+    console.log("Fetch Agents", config);
   return (dispatch) => {
     axios.get(`${baseURLKiboEngage}/api/getagentwisecalls`,config)
-    .then((res) => res).then(res => console.log(res))
+    .then((res) => res).then(res => {
+      console.log("Agent Stats", res.data.info);
+      dispatch(updateAgentStats(res.data.info));
+    })
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -135,10 +166,13 @@ export const fetchPageStats =  (token) => {
             },
       
           };
-    console.log("Fetch Channel", config);
+    console.log("Fetch Page Stats", config);
   return (dispatch) => {
     axios.get(`${baseURLKiboEngage}/api/getpagewisecalls`,config)
-    .then((res) => res).then(res => console.log(res))
+    .then((res) => res).then(res => {
+      console.log("Page Stats", res);
+      dispatch(updatePageStats(res.data.info))
+    })
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -161,10 +195,10 @@ export const fetchNotificationStats =  (token) => {
             },
       
           };
-    console.log("Fetch Channel", config);
+    console.log("Fetch Notification Stats", config);
   return (dispatch) => {
     axios.get(`${baseURLKiboEngage}/api/getagentnotifications`,config)
-    .then((res) => res).then(res => console.log(res))
+    .then((res) => res).then(res => console.log("Notification Stats", res))
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);

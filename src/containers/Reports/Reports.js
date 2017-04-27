@@ -18,7 +18,10 @@ import { TextInput, Button } from 'react-native';
 import auth from '../../services/auth';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import { Platformwise } from './Platformwise';
+import { Pagewise } from './Pagewise';
 import * as reportActions from '@redux/reports/reportActions';
+import { groupBy } from 'underscore';
 var querystring = require('querystring');
 /* Component ==================================================================== */
 styles = {
@@ -55,8 +58,54 @@ class Reports extends Component {
     }
   }
 
+
+
+  handleCountryStats = (data) => {
+      var groupedData = groupBy(data, function(d){return d._id.platform});
+      console.log(groupedData);
+      var result = {};
+      for(var key in groupedData){
+          if (groupedData.hasOwnProperty(key)) {
+            result[key] = groupedData[key].reduce((total, obj) => total + obj.count, 0);
+          }
+      }
+      console.log(result);
+      return result;
+  }
+
+  handlePageStats = (data) => {
+      var groupedData = groupBy(data, function(d){return d._id.currentpage});
+      console.log(groupedData);
+      var result = {};
+      for(var key in groupedData){
+          if (groupedData.hasOwnProperty(key)) {
+            result[key] = groupedData[key].reduce((total, obj) => total + obj.count, 0);
+          }
+      }
+      console.log(result);
+      return result;
+  }
+
+  handleTeamStats = (data) => {
+      console.log("Handle teams", data);
+      var groupedData = groupBy(data, function(d){return d._id.currentpage});
+      console.log(groupedData);
+      var result = {};
+      for(var key in groupedData){
+          if (groupedData.hasOwnProperty(key)) {
+            result[key] = groupedData[key].reduce((total, obj) => total + obj.count, 0);
+          }
+      }
+      console.log("Handle team stats", result);
+      return result;
+  }
+
   render() {
-          var Highcharts='Highcharts';
+    
+    var countrySeries = this.handleCountryStats(this.props.country);
+    var pageSeries = this.handleCountryStats(this.props.page);
+    var teamSeries = this.handleTeamStats(this.props.team);
+    var Highcharts='Highcharts';
     var conf={
             chart: {
                 type: 'bar',
@@ -101,49 +150,7 @@ class Reports extends Component {
             }]
         };
 
-        var conf2={
-            chart: {
-                type: 'bar',
-                animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-            },
-            title: {
-                text: 'Platform wise session stat'
-            },
-            xAxis: {
-                 title: {
-                text: 'Number of calls'
-            },
-            categories: ['Web', 'Mobile']
-            },
-            yAxis: {
-                title: {
-                    text: 'Value'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            exporting: {
-                enabled: false
-            },
-            series: [{
-                name: 'Random data',
-                data: [30, 50],
-            }]
-        };
+  
 
 
         var conf3={
@@ -190,49 +197,7 @@ class Reports extends Component {
             }]
         };
 
-        var conf4={
-            chart: {
-                type: 'bar',
-                animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-            },
-            title: {
-                text: 'Page wise session stat'
-            },
-            xAxis: {
-                 title: {
-                text: 'Number of calls'
-            },
-            categories: ['Web', 'Mobile']
-            },
-            yAxis: {
-                title: {
-                    text: 'Value'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            exporting: {
-                enabled: false
-            },
-            series: [{
-                name: 'Random data',
-                data: [30, 50],
-            }]
-        };
+ 
 
         var conf5={
             chart: {
@@ -375,9 +340,9 @@ class Reports extends Component {
     </View>
     <ScrollView>
       <ChartView style={{height:300}} config={conf}></ChartView>
-      <ChartView style={{height:300}} config={conf2}></ChartView>
+      <Platformwise  data={countrySeries}></Platformwise>
       <ChartView style={{height:300}} config={conf3}></ChartView>
-      <ChartView style={{height:300}} config={conf4}></ChartView>
+      <Pagewise  data={pageSeries}></Pagewise>
       <ChartView style={{height:300}} config={conf5}></ChartView>
       <ChartView style={{height:300}} config={conf6}></ChartView>
       <ChartView style={{height:300}} config={conf7}></ChartView>
@@ -401,8 +366,8 @@ const mapDispatchToProps = {
   fetchNotificationStats: reportActions.fetchNotificationStats,
 };
 function mapStateToProps(state) {
-   const   {invite}    = state.agents;
-  return  {invite};
+   const   { country, page, team }    = state.reports;
+  return  { country, page, team };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Reports);
 

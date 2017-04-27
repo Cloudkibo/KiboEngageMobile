@@ -7,6 +7,7 @@ import com.facebook.react.ReactApplication;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
+import com.brentvatne.react.ReactVideoPackage;
 //import com.oblador.vectoricons.VectorIconsPackage;
 //import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 //import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -44,7 +45,8 @@ public class MainApplication extends Application implements ReactApplication {
             new SQLitePluginPackage(),
 
             new RNGRPPackage() ,
-            new FilePickerPackage()
+            new FilePickerPackage(),
+            new ReactVideoPackage()
           
         
       );
