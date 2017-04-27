@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.azure.reactnative.notificationhub.ReactNativeNotificationHubPackage;
 import com.facebook.react.ReactApplication;
+import com.reactnativeandroidmediaplayer.mediaplayer.MediaPlayerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
@@ -38,6 +39,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new MediaPlayerPackage(),
             new RNFetchBlobPackage(),
             new ImagePickerPackage(),
             new ReactNativeDocumentPicker(),
@@ -47,6 +49,7 @@ public class MainApplication extends Application implements ReactApplication {
             new RNGRPPackage() ,
             new FilePickerPackage(),
             new ReactVideoPackage()
+  
           
         
       );
