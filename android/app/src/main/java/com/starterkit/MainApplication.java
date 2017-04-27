@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.azure.reactnative.notificationhub.ReactNativeNotificationHubPackage;
 import com.facebook.react.ReactApplication;
+import com.zmxv.RNSound.RNSoundPackage;
 import com.reactnativeandroidmediaplayer.mediaplayer.MediaPlayerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -24,6 +25,7 @@ import org.pgsqlite.SQLitePluginPackage;
 
 import com.rngrp.RNGRPPackage; // <------- add package
 import com.filepicker.FilePickerPackage; // import package
+import com.audioStreaming.ReactNativeAudioStreamingPackage;
 
 //import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 
@@ -39,6 +41,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNSoundPackage(),
             new MediaPlayerPackage(),
             new RNFetchBlobPackage(),
             new ImagePickerPackage(),
@@ -48,7 +51,8 @@ public class MainApplication extends Application implements ReactApplication {
 
             new RNGRPPackage() ,
             new FilePickerPackage(),
-            new ReactVideoPackage()
+            new ReactVideoPackage(),
+            new ReactNativeAudioStreamingPackage()
   
           
         
