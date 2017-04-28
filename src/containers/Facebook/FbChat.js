@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  WebView
 } from 'react-native';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import { List, ListItem, SocialIcon, Card, Button, Icon } from 'react-native-elements';
@@ -21,6 +22,7 @@ import * as FbActions from '@redux/facebook/FbActions';
 import ReactTimeout from 'react-timeout/native';
 
 import EmojiPicker from 'react-native-emojipicker/lib/Picker';
+import Video from 'react-native-video';
 
 // Consts and Libs
 import { AppColors, AppStyles } from '@theme/';
@@ -29,6 +31,7 @@ import { AppColors, AppStyles } from '@theme/';
 import { Alerts, Spacer, Text } from '@components/ui/';
 import CustomActions from './CustomActions';
 import CustomView from './CustomView';
+
 
 var handleDate = function(d){
 
@@ -159,6 +162,31 @@ class FbChat extends Component {
                     {
                     _id: i,
                     text: url.split('/')[url.split('/').length-1].split('?')[0],
+                    createdAt: handleDate(item.timestamp),
+                    timestamp:item.timestamp,
+                    senderid:item.senderid,
+                    recipientid:item.recipientid,
+                    mid:item.message.mid,
+                    attachments:item.message.attachments,
+                    seen:false,
+                    user: {
+                      _id: this.props.senderid == item.senderid?2:1,
+                     // name:  item.senderid,
+                      name: 'React Native',
+                      avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
+                    },
+
+                    // image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',                   
+                  }
+                 );
+                  
+            }else if(item.message.attachments && item.message.attachments.length >0 && item.message.attachments[0].type == "video"){
+                 console.log(item.message.attachments);
+                 var url = item.message.attachments[0].payload.url;
+                 temparray.push(
+                    {
+                    _id: i,
+                    text: "Some stupid video",
                     createdAt: handleDate(item.timestamp),
                     timestamp:item.timestamp,
                     senderid:item.senderid,
@@ -388,7 +416,20 @@ class FbChat extends Component {
         return (
           <Text>{prop.currentMessage.text}</Text>
         );
-    }else{
+    }
+  else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'video'){
+        console.log("Video", prop.currentMessage.attachments[0].payload.url);
+        
+        return (
+          <WebView
+        source={{uri: prop.currentMessage.attachments[0].payload.url}}
+        style={{width:250,height:200}}
+        
+      />
+          // <Text>{prop.currentMessage.text}</Text>
+        );
+    }
+    else{
     return (
       <GChat.Bubble
         onLongPress = {() => {

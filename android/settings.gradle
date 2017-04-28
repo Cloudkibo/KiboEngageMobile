@@ -1,4 +1,6 @@
 rootProject.name = 'StarterKit'
+include ':react-native-android-video-player'
+project(':react-native-android-video-player').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-android-video-player/android')
 include ':react-native-fetch-blob'
 project(':react-native-fetch-blob').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fetch-blob/android')
 include ':react-native-image-picker'
@@ -26,4 +28,5 @@ project(':react-native-file-picker').projectDir = new File(settingsDir, '../node
 
 include ':react-native-video'
 project(':react-native-video').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-video/android')
+
 include ':app'

@@ -126,6 +126,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-android-video-player')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-image-picker')
      compile project(':react-native-document-picker')
@@ -157,7 +158,9 @@ dependencies {
 
     compile project(':react-native-file-picker')
 
-     compile project(':react-native-video')
+    compile project(':react-native-video')
+
+    
    
 }
 
