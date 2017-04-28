@@ -22,7 +22,6 @@ import * as FbActions from '@redux/facebook/FbActions';
 import ReactTimeout from 'react-timeout/native';
 
 import EmojiPicker from 'react-native-emojipicker/lib/Picker';
-import Video from 'react-native-video';
 
 // Consts and Libs
 import { AppColors, AppStyles } from '@theme/';
@@ -422,8 +421,9 @@ class FbChat extends Component {
         
         return (
           <WebView
-        source={{uri: prop.currentMessage.attachments[0].payload.url}}
-        style={{width:250,height:200}}
+        source={{uri: 'https://video.xx.fbcdn.net/v/t42.3356-2/16439442_221586971582204_6441453596759293952_n.mp4/video-1493362419.mp4?vabr=334260&amp;oh=9f6fb0b644db4174a9863ed48bac38df&amp;oe=59049B23'}}
+        style={{width:250,height:200,flexDirection: 'row'}}
+        javaScriptEnabled={true}
         
       />
           // <Text>{prop.currentMessage.text}</Text>
