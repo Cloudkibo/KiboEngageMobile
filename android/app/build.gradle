@@ -126,6 +126,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-sound')
     compile project(':react-native-android-video-player')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-image-picker')
@@ -160,7 +161,7 @@ dependencies {
 
     compile project(':react-native-video')
 
-    
+    compile project(':react-native-audio-streaming')
    
 }
 
