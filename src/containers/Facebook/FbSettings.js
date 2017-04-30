@@ -99,24 +99,24 @@ class FbSettings extends Component {
       if(token != ''){
         //preparing data
         id_emails = this.state.assignedAgent.split(",");
-
-        //update session status on server
-        var session = {
-          request_id : this.props.singleChat.request_id,
-          status : 'assigned',
+        data = {
+        companyid : this.props.currentSession.pageid.companyid,
+        pageid : this.props.currentSession.pageid._id, //_id field of page object
+        User_id: this.props.userdetails._id, //_id field of user object //Ask if this is small or capital?
+        agentAssignment : {
+            assignedto : this.props.userdetails._id,
+            assignedby : this.props.userdetails._id,
+            companyid : this.props.currentSession.pageid.companyid,
+            datetime : Date.now(),
+            type : 'agent',
+            pageid : this.props.currentSession.pageid._id, //fb page id, this is the ‘_id’ field of pageid object inside fbsession object
+            userid: this.props.userdetails._id, //fb user id, this is the ‘_id’ field of user_id object inside fbsession object
+        },
+          type : 'agent',
+          agentemail : [id_emails[1]]
         }
-        
-        input = {
-          agentidTo: id_emails[0],
-          agentidBy: this.props.userdetails._id,
-          companyid: this.props.singleChat.companyid,
-          requestid: this.props.singleChat.request_id,
-          _id: this.props.singleChat._id,
-          type: 'agent',
-          email: [id_emails[1]]
-        };
-
-        this.props.moveAgent(token, input,session);
+        console.log("Assign agent data stanza", data);
+        this.props.assignChatSession(token, data);
        }
   }
 
