@@ -14,6 +14,7 @@ const INITIAL_STATE = {
  gifs: [],
  stickers: [],
  upload: [],
+ fbSessions: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -53,6 +54,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, stickers: action.payload,};
     case ActionTypes.UPLOAD_PROGRESS_FB:
       return {...state,upload: [...state.upload, action.payload]};
+    case ActionTypes.FB_SESSIONS:
+      return {...state,fbSessions:action.payload};
     default:
       return state;
   }
