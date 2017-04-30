@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   page: [],
   agent: [],
   team: [],
+  notification: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -19,6 +20,8 @@ export default (state = INITIAL_STATE, action) => {
       return {...state,agent:action.payload};
   case ActionTypes.FETCH_TEAM_STATS:
       return {...state,team:action.payload};
+  case ActionTypes.FETCH_NOTIFICATION_STATS:
+      return {...state,notification:action.payload};
    
     default:
       return state;

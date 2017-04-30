@@ -40,6 +40,14 @@ export function updateTeamStats(data) {
   };
 }
 
+export function updateNotificationStats(data) {
+  return {
+    type: ActionTypes.FETCH_NOTIFICATION_STATS,
+    payload : data,
+
+  };
+}
+
 
 export const fetchChannelStats =  (token) => {
 
@@ -198,7 +206,10 @@ export const fetchNotificationStats =  (token) => {
     console.log("Fetch Notification Stats", config);
   return (dispatch) => {
     axios.get(`${baseURLKiboEngage}/api/getagentnotifications`,config)
-    .then((res) => res).then(res => console.log("Notification Stats", res))
+    .then((res) => res).then(res =>{ 
+       console.log("Notification Stats", res.data.info);
+      dispatch(updateNotificationStats(res.data.info))
+  })
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
