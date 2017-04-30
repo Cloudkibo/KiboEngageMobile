@@ -23,6 +23,7 @@ import * as AgentActions from '@redux/agents/agentActions';
 import * as GroupActions from '@redux/group/groupActions';
 import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import * as chatActions from '@redux/chat/chatActions';
+import * as FbActions from '@redux/facebook/FbActions';
 var querystring = require('querystring');
 /* Component ==================================================================== */
 styles = {
@@ -42,6 +43,7 @@ class FbSettings extends Component {
     var ReactNative = require('react-native');
     this.state = {items: [], language: '', teamsList: [], channelList: [], assignedAgent: '', assignedTeam: '', assignedChannel: '', platform: 'Detected Platform: ' + ReactNative.Platform.OS};
     this.createPickerItems = this.createPickerItems.bind(this);
+    console.log("Current Session",  this.props.currentSession);
 }
   componentWillMount = async () => {
     //this.props.agentFetch();
@@ -185,7 +187,13 @@ class FbSettings extends Component {
   markChatResolved = async () => {
     var token =  await auth.getToken();
     if(token != ''){
-      this.props.markResolve(token, this.props.singleChat.request_id);
+      data = {
+        companyid : this.props.currentSession.pageid.companyid,
+        pageid: this.props.currentSession.pageid._id, //_id field
+        user_id:this.props.userdetails._id, //_id field
+
+      };
+      this.props.resolveChatSessions(token, data);
     }
   }
 
@@ -287,6 +295,7 @@ const mapDispatchToProps = {
   moveAgent: chatActions.assignAgent,
   markResolve: chatActions.resolveChatSession,
   moveChannel: SubgroupActions.assignChannel,
+  resolveChatSessions: FbActions.resolveChatSessions,
  // agentTeamFetch : TeamActions.agentTeamFetch,
 };
 function mapStateToProps(state) {
@@ -295,7 +304,8 @@ function mapStateToProps(state) {
    const { subgroups} = state.subgroups;
    const { userdetails } = state.user;
    const { singleChat,invite_agent_status } = state.chat;
-   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents };
+   const { currentSession } = state.fbpages;
+   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, currentSession };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FbSettings);
 

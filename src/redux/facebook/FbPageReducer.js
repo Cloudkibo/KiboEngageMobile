@@ -15,6 +15,7 @@ const INITIAL_STATE = {
  stickers: [],
  upload: [],
  fbSessions: [],
+ currentSession: {},
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -56,6 +57,8 @@ export default (state = INITIAL_STATE, action) => {
       return {...state,upload: [...state.upload, action.payload]};
     case ActionTypes.FB_SESSIONS:
       return {...state,fbSessions:action.payload};
+    case ActionTypes.CURRENT_SESSION:
+      return {...state,currentSession:action.payload};
     default:
       return state;
   }
