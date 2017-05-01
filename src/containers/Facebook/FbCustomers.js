@@ -109,6 +109,7 @@ class FbCustomers extends Component {
 
 
   gotoChatBox = (item) => {
+    this.props.setSession(item);
    //will call chat messages page
    /*var fbpage = {
       pageid:"101",
@@ -166,6 +167,7 @@ const mapDispatchToProps = {
   getfbChats:FbActions.getfbChats,
   updatedSelectedFbChats:FbActions.updatedSelectedFbChats,
   fetchSession:FbActions.fetchChatSessions,
+  setSession: FbActions.setCurrentSession,
   
 };
 function mapStateToProps(state) {

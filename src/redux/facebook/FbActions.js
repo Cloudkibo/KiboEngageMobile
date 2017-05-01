@@ -436,6 +436,35 @@ export const fetchChatSessions=(token) => {
   };
 };
 
+
+export const resolveChatSessions=(token, data) => {
+    var token = token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+            },
+
+          };
+
+
+  return (dispatch) => {
+    axios.post(`${baseURLKiboEngage}/api/resolvechatsessionfb`,data, config).then(res => {
+      console.log("Facebook chat session was marked resolved", res);
+      // dispatch(updateFbSessions(res.data));
+    })
+      .catch(function (error) {
+        console.log('Error occured, cannot mark chat session resolved');
+        console.log(error);
+        
+      });
+
+  };
+};
+
+
+
 export function emojiToggle(val){
     return {
     type: ActionTypes.EMOJI_VISIBLE,
@@ -612,3 +641,12 @@ export function update_upload_progress(data) {
     payload : data,
   };
 }
+
+export function setCurrentSession(val){
+    return {
+    type: ActionTypes.CURRENT_SESSION,
+    payload : val,
+  //  customerid,
+
+  };
+};
