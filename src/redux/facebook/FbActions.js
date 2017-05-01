@@ -440,7 +440,6 @@ export const fetchChatSessions=(token) => {
 export const resolveChatSessions=(token, data) => {
     var token = token;
     var config = {
-      rejectUnauthorized : false,
       headers: {
             'Content-Type': 'application/json',
             'Authorization': token,
@@ -456,6 +455,35 @@ export const resolveChatSessions=(token, data) => {
     })
       .catch(function (error) {
         console.log('Error occured, cannot mark chat session resolved');
+        console.log(error);
+        
+      });
+
+  };
+};
+
+
+export const assignChatSession=(token, data) => {
+    var token = token;
+    var config = {
+      headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+            },
+
+          };
+      var data = {
+
+      };
+
+
+  return (dispatch) => {
+    axios.post(`${baseURLKiboEngage}/api/assignToAgentFB`,data, config).then(res => {
+      console.log("Facebook chat session was assigned", res);
+      // dispatch(updateFbSessions(res.data));
+    })
+      .catch(function (error) {
+        console.log('Error occured, cannot assign chat session');
         console.log(error);
         
       });
