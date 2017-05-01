@@ -190,7 +190,7 @@ class FbSettings extends Component {
       data = {
         companyid : this.props.currentSession.pageid.companyid,
         pageid: this.props.currentSession.pageid._id, //_id field
-        user_id:this.props.userdetails._id, //_id field
+        user_id:this.props.currentSession.user_id._id, //_id field
 
       };
       this.props.resolveChatSessions(token, data);
