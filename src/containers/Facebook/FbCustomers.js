@@ -120,9 +120,9 @@ class FbCustomers extends Component {
      
     }
     Actions.EditFbPage({fbpage:fbpage});*/
-   this.props.updatedSelectedFbChats(this.props.fbchats.filter((c)=>c.senderid == item.user_id._id || c.recipientid == item.user_id._id).reverse());
+   this.props.updatedSelectedFbChats(this.props.fbchats.filter((c)=>c.senderid == item.user_id.user_id || c.recipientid == item.user_id.user_id).reverse());
    //Actions.fbChats({fbchatSelected:this.props.fbchats.filter((c)=>c.senderid == item.user_id || c.recipientid == item.user_id)})
-   Actions.fbChats({senderid:item.user_id._id});
+   Actions.fbChats({senderid:item.user_id.user_id});
   }
 
   renderCard = (nextProps) => {
