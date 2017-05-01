@@ -78,6 +78,15 @@ const fbpageCreateSuccess = (res) => {
 
 };
 
+const updateFbSessions = (data) => {
+  return{
+    type: ActionTypes.FB_SESSIONS,
+    payload: data,
+  };
+
+
+};
+
 
 const fbpageEditFail = () => {
   return{ type: ActionTypes.FBPAGE_FAIL };
@@ -402,6 +411,30 @@ export const fetchChat=(token, request_id) => {
   };
 };
 
+
+export const fetchChatSessions=(token) => {
+    var token = token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            },
+
+          };
+
+  return (dispatch) => {
+    axios.get(`${baseURL}/api/fbsessions/`,config).then(res => {
+      console.log("Chat session from facebook", res);
+      dispatch(updateFbSessions(res.data));
+    })
+      .catch(function (error) {
+        console.log('Error occured, cannot fetch fb chat sessions');
+        console.log(error);
+        
+      });
+
+  };
+};
 
 export function emojiToggle(val){
     return {

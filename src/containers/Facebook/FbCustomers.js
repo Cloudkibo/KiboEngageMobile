@@ -91,7 +91,7 @@ class FbCustomers extends Component {
       if(token != ''){
         this.props.fetchfbcustomers(token);
         this.props.getfbChats(token);
-        
+        this.props.fetchSession(token);
        }
   }
 
@@ -120,25 +120,25 @@ class FbCustomers extends Component {
      
     }
     Actions.EditFbPage({fbpage:fbpage});*/
-   this.props.updatedSelectedFbChats(this.props.fbchats.filter((c)=>c.senderid == item.user_id || c.recipientid == item.user_id).reverse());
+   this.props.updatedSelectedFbChats(this.props.fbchats.filter((c)=>c.senderid == item.user_id._id || c.recipientid == item.user_id._id).reverse());
    //Actions.fbChats({fbchatSelected:this.props.fbchats.filter((c)=>c.senderid == item.user_id || c.recipientid == item.user_id)})
-   Actions.fbChats({senderid:item.user_id});
+   Actions.fbChats({senderid:item.user_id._id});
   }
 
   renderCard = (nextProps) => {
-      var data = nextProps.fbcustomers;
+      var data = nextProps.fbSessions;
       this.state.menuItems = [];
       // Build the actual Menu Items
     data.map((item, index) => {
-      var name =  item.first_name + ' ' + item.last_name;
+      var name =  item.user_id.first_name + ' ' + item.user_id.last_name;
       return this.state.menuItems.push(
            <ListItem
                   roundAvatar
-                  avatar={{uri: item.profile_pic}}
+                  avatar={{uri: item.user_id.profile_pic}}
                   key={index}
-                  title={item.first_name + ' ' + item.last_name}
+                  title={name}
                   onPress={this.gotoChatBox.bind(this,item)}
-                  subtitle={"Group Name, Status"}
+                  subtitle={"Group Name, " + item.status}
             />
         
        
@@ -165,12 +165,13 @@ const mapDispatchToProps = {
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   updatedSelectedFbChats:FbActions.updatedSelectedFbChats,
+  fetchSession:FbActions.fetchChatSessions,
   
 };
 function mapStateToProps(state) {
-   const { fbcustomers,fbchats,fbchatSelected} = state.fbpages;
+   const { fbcustomers,fbchats,fbchatSelected, fbSessions} = state.fbpages;
   
-  return { fbcustomers,fbchats,fbchatSelected};
+  return { fbcustomers,fbchats,fbchatSelected, fbSessions };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FbCustomers);
