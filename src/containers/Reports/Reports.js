@@ -20,6 +20,9 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Platformwise } from './Platformwise';
 import { Pagewise } from './Pagewise';
+import { Teamwise } from './Teamwise';
+import { Agentwise } from './Agentwise';
+import { Notificationwise } from './Notificationwise';
 import * as reportActions from '@redux/reports/reportActions';
 import { groupBy } from 'underscore';
 var querystring = require('querystring');
@@ -40,6 +43,12 @@ class Reports extends Component {
     super(props);
     this.state = {
         error: '',
+        filterDays: 30,
+        countrySeries: 0,
+        agentSeries: 0,
+        teamSeries: 0,
+        pageSeries: 0,
+        notificationSeries: 0,
     };
     this.fetchData();
   }
@@ -61,274 +70,100 @@ class Reports extends Component {
 
 
   handleCountryStats = (data) => {
+      var d = new Date();
+      d.setDate(d.getDate()-this.state.filterDays);
+      d.setHours(0,0,0,0);
       var groupedData = groupBy(data, function(d){return d._id.platform});
-      console.log(groupedData);
+      console.log("Country Series Stat", groupedData);
       var result = {};
       for(var key in groupedData){
           if (groupedData.hasOwnProperty(key)) {
-            result[key] = groupedData[key].reduce((total, obj) => total + obj.count, 0);
+            result[key] = groupedData[key].reduce((total, obj) => {    
+                     return (total + obj.count);
+            }, 0);
           }
       }
-      console.log(result);
+      console.log("Country Result", result);
       return result;
+    // this.setState({countrySeries: result})
   }
 
   handlePageStats = (data) => {
       var groupedData = groupBy(data, function(d){return d._id.currentpage});
-      console.log(groupedData);
+    //   console.log(groupedData);
       var result = {};
       for(var key in groupedData){
           if (groupedData.hasOwnProperty(key)) {
             result[key] = groupedData[key].reduce((total, obj) => total + obj.count, 0);
           }
       }
-      console.log(result);
-      return result;
+    //   console.log(result);
+    //   return result;
+    // this.setState({pageSeries: result});
+    return result;
   }
 
   handleTeamStats = (data) => {
       console.log("Handle teams", data);
-      var groupedData = groupBy(data, function(d){return d._id.currentpage});
-      console.log(groupedData);
+      var groupedData = groupBy(data.gotDeptCalls, function(d){return d._id.departmentid});
+    //   console.log(groupedData);
+      var result = {};
+      for(var key in groupedData){
+          if (groupedData.hasOwnProperty(key)) {
+            // result[key] = groupedData[key].reduce((total, obj) => total + obj.count, 0);
+            data.deptNames.map((obj) => {
+                if(obj._id == key){
+                    result[obj.deptname] =  groupedData[key].reduce((total, object) => total + object.count, 0);
+                }
+            });
+          }
+      }
+    //   console.log("Handle team stats", result);
+      // this.setState({teamSeries: result})
+      return result;
+  }
+
+  handleAgentStats = (data) => {
+      var groupedData = groupBy(data, function(d){return d._id.agent_ids.type});
+      console.log("Agent series stats", groupedData);
       var result = {};
       for(var key in groupedData){
           if (groupedData.hasOwnProperty(key)) {
             result[key] = groupedData[key].reduce((total, obj) => total + obj.count, 0);
           }
       }
-      console.log("Handle team stats", result);
+      console.log("Agent result", result);
+      //this.setState({agentSeries: result})
+      return result;
+  }
+
+  handleNotificationStats = (data) => {
+      var groupedData = groupBy(data.notficationsCount, function(d){return d._id.agent_id});
+      console.log("Notification series stats", groupedData);
+      var result = {};
+      for(var key in groupedData){
+          if (groupedData.hasOwnProperty(key)) {
+             data.agentData.map((obj) => {
+                if(obj._id == key){
+                    result[obj.firstname + ' ' +obj.lastname] =  groupedData[key].reduce((total, object) => total + object.count, 0);
+                }
+            });
+          }
+      }
+      console.log("Notification result", result);
+      // this.setState({notificationSeries: result});
       return result;
   }
 
   render() {
     
-    var countrySeries = this.handleCountryStats(this.props.country);
-    var pageSeries = this.handleCountryStats(this.props.page);
-    var teamSeries = this.handleTeamStats(this.props.team);
+    countrySeries = this.handleCountryStats(this.props.country);
+    pageSeries = this.handleCountryStats(this.props.page);
+    teamSeries = this.handleTeamStats(this.props.team);
+    agentSeries = this.handleAgentStats(this.props.agent);
+    notificationSeries = this.handleNotificationStats(this.props.notification);
     var Highcharts='Highcharts';
-    var conf={
-            chart: {
-                type: 'bar',
-                animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-            },
-            title: {
-                text: 'Subgroup wise session stat'
-            },
-            xAxis: {
-                 title: {
-                text: 'Number of calls'
-            },
-            categories: ['General']
-            },
-            yAxis: {
-                title: {
-                    text: 'Value'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            exporting: {
-                enabled: false
-            },
-            series: [{
-                name: 'Random data',
-                data: [30],
-            }]
-        };
-
-  
-
-
-        var conf3={
-            chart: {
-                type: 'bar',
-                animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-            },
-            title: {
-                text: 'Group wise session stat'
-            },
-            xAxis: {
-                 title: {
-                text: 'Number of calls'
-            },
-            categories: ['Web', 'Mobile']
-            },
-            yAxis: {
-                title: {
-                    text: 'Value'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            exporting: {
-                enabled: false
-            },
-            series: [{
-                name: 'Random data',
-                data: [30, 50],
-            }]
-        };
-
- 
-
-        var conf5={
-            chart: {
-                type: 'bar',
-                animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-            },
-            title: {
-                text: 'Mobile Clients vs Web Clients'
-            },
-            xAxis: {
-                 title: {
-                text: 'Number of calls'
-            },
-            categories: ['Web', 'Mobile']
-            },
-            yAxis: {
-                title: {
-                    text: 'Value'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            exporting: {
-                enabled: false
-            },
-            series: [{
-                name: 'Random data',
-                data: [30, 50],
-            }]
-        };
-
-        var conf6={
-            chart: {
-                type: 'bar',
-                animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-            },
-            title: {
-                text: 'Average Session Time'
-            },
-            xAxis: {
-                 title: {
-                text: 'Number of calls'
-            },
-            categories: ['Web', 'Mobile']
-            },
-            yAxis: {
-                title: {
-                    text: 'Value'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            exporting: {
-                enabled: false
-            },
-            series: [{
-                name: 'Random data',
-                data: [30, 50],
-            }]
-        };
-        var conf7={
-            chart: {
-                type: 'bar',
-                animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-            },
-            title: {
-                text: 'Agent wise notification stat'
-            },
-            xAxis: {
-                 title: {
-                text: 'Number of calls'
-            },
-            categories: ['Web', 'Mobile']
-            },
-            yAxis: {
-                title: {
-                    text: 'Value'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                formatter: function () {
-                    return '<b>' + this.series.name + '</b><br/>' +
-                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                        Highcharts.numberFormat(this.y, 2);
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            exporting: {
-                enabled: false
-            },
-            series: [{
-                name: 'Random data',
-                data: [30, 50],
-            }]
-        };
+    
     return (
       <View style={[AppStyles.container]}>
     <Spacer size={50} />
@@ -339,13 +174,11 @@ class Reports extends Component {
     <Button title="This year" style={{margin:3}}></Button>
     </View>
     <ScrollView>
-      <ChartView style={{height:300}} config={conf}></ChartView>
       <Platformwise  data={countrySeries}></Platformwise>
-      <ChartView style={{height:300}} config={conf3}></ChartView>
+      <Teamwise  data={teamSeries}></Teamwise>
       <Pagewise  data={pageSeries}></Pagewise>
-      <ChartView style={{height:300}} config={conf5}></ChartView>
-      <ChartView style={{height:300}} config={conf6}></ChartView>
-      <ChartView style={{height:300}} config={conf7}></ChartView>
+      <Agentwise  data={agentSeries}></Agentwise>
+      <Notificationwise  data={notificationSeries}></Notificationwise>
       </ScrollView>
   </View>
     );
@@ -366,8 +199,8 @@ const mapDispatchToProps = {
   fetchNotificationStats: reportActions.fetchNotificationStats,
 };
 function mapStateToProps(state) {
-   const   { country, page, team }    = state.reports;
-  return  { country, page, team };
+   const   { country, page, team, agent, notification }    = state.reports;
+  return  { country, page, team, agent, notification };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Reports);
 
