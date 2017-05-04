@@ -27,6 +27,9 @@ import * as FbActions from '@redux/facebook/FbActions';
 import Loading from '@components/general/Loading';
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
+import codePush from "react-native-code-push";
+let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
+
 const NotificationHub = require('react-native-azurenotificationhub/index.ios');
 const connectionString = 'Endpoint=sb://kiboengagetest.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=zKwwZV4p4KNXSJg6HDFkWOhXAeZpRJ7FWicdehpM/pQ=';
 const hubName = 'KiboEngageTestHub';          // The Notification Hub name
@@ -166,6 +169,7 @@ class Dashboard extends Component {
       <Spacer size={55} />
         <Card>
           <Text> Hello {this.state.userdetails.firstname}</Text>
+          
         </Card>
       </View>
     
@@ -195,6 +199,8 @@ renderLoadingView(){
       <Spacer size={55} />
         <Card>
           <Text> Hello {this.props.userdetails.firstname}</Text>
+          <Text> App updated</Text>
+          <Text> This is an updated version of app testing CodePush</Text>
         </Card>
 
         <TouchableOpacity onPress={this.register.bind(this)}>
@@ -346,5 +352,6 @@ function mapStateToProps(state) {
   return {userdetails,fetchedR,fbchatSelected};
 
 }
+Dashboard = codePush(codePushOptions)(Dashboard);
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 

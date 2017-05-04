@@ -66,6 +66,7 @@ import com.android.build.OutputFile
  */
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -126,6 +127,12 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-photo-view')
+    compile project(':react-native-share')
+    compile project(':react-native-linear-gradient')
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-video')
+    compile project(':react-native-code-push')
     compile project(':react-native-sound')
     compile project(':react-native-android-video-player')
     compile project(':react-native-fetch-blob')
@@ -159,7 +166,6 @@ dependencies {
 
     compile project(':react-native-file-picker')
 
-    compile project(':react-native-video')
 
     compile project(':react-native-audio-streaming')
    

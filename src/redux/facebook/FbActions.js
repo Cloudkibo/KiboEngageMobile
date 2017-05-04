@@ -606,7 +606,7 @@ async function requestCameraPermission() {
 
 export function downloadFile(url_file, name_file){
   let dirs = RNFetchBlob.fs.dirs;
-  var fext = name.split('.');
+  var fext = name_file.split('.');
   RNFetchBlob.fs.exists(dirs.DocumentDir + '/' + name)
   .then((exist) => {
       console.log(`file ${exist ? '' : 'not'} exists`)

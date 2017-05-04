@@ -21,9 +21,8 @@ import * as Progress from 'react-native-progress';
 import auth from '../../services/auth';
 import * as FbActions from '@redux/facebook/FbActions';
 import ReactTimeout from 'react-timeout/native';
-
 import EmojiPicker from 'react-native-emojipicker/lib/Picker';
-
+var ReactNative = require('react-native');
 // Consts and Libs
 import { AppColors, AppStyles } from '@theme/';
 
@@ -43,7 +42,9 @@ return c;
 class FbChat extends Component {
   constructor(props) {
     super(props);
-    this.state = {messages: [], text: 'Useless Placeholder', gifItems:[], stickerItems:[], chatProp: {}, stickgif: false, };
+    this.state = {messages: [], text: 'Useless Placeholder', gifItems:[], stickerItems:[], chatProp: {}, stickgif: false, 
+                 
+    };
     this.onSend = this.onSend.bind(this);
     this.renderChat = this.renderChat.bind(this);
     this.renderBubble = this.renderBubble.bind(this);
@@ -53,12 +54,17 @@ class FbChat extends Component {
     this.logEmoji = this.logEmoji.bind(this);
     this.renderFooter  = this.renderFooter.bind(this);
     this.sendStickerGif = this.sendStickerGif.bind(this);
-    
+
    // this.renderChat(this.props.fbchatSelected);
   }
 
+
+
+
+
   componentDidMount(){
     console.log('component did. mount called');
+    
     if(this.props.fbchatSelected){
       this.renderChat(this.props);
       this.forceUpdate(); 
@@ -444,17 +450,20 @@ class FbChat extends Component {
         );
     }
   else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'video'){
-        console.log("Video", prop.currentMessage.attachments[0].payload.url);
-        
-        return (
-          <WebView
-        source={{uri: 'https://video.xx.fbcdn.net/v/t42.3356-2/16439442_221586971582204_6441453596759293952_n.mp4/video-1493362419.mp4?vabr=334260&amp;oh=9f6fb0b644db4174a9863ed48bac38df&amp;oe=59049B23'}}
-        style={{width:250,height:200,flexDirection: 'row'}}
-        javaScriptEnabled={true}
-        
-      />
-          // <Text>{prop.currentMessage.text}</Text>
-        );
+    console.log(prop.currentMessage.attachments[0].payload.url);
+      return (
+                  <WebView
+                    source={{uri:prop.currentMessage.attachments[0].payload.url}}
+                    style={{width:250,height:200,flexDirection: 'row'}}
+                    startInLoadingState={true}
+                    scalesPageToFit={true}
+                   
+                    allowsInlineMediaPlayback={true}
+                  />
+      );
+      
+      
+       
     }else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'audio'){
         console.log("Audio", prop.currentMessage.attachments[0].payload.url);   
         return (
@@ -468,7 +477,7 @@ class FbChat extends Component {
           
           if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'file'){
     console.log("In Props: ", prop.currentMessage.text);
-          
+          console.log(prop.currentMessage.attachments[0].payload.url)
           Alert.alert(
             'Download File',
             "Do you want to download this file: " + prop.currentMessage.text,
@@ -642,6 +651,7 @@ class FbChat extends Component {
     );
   }
 }
+
 
 const mapDispatchToProps = {
  // fetchfbcustomers: FbActions.fetchfbcustomers,

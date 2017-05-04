@@ -1,4 +1,5 @@
 <resources>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">wjqmL8L7u3UrsmpIQPYm--N74H5I4klroPZkQ</string>
 
     <string name="app_name">StarterKit</string>
 </resources>
