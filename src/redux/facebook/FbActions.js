@@ -481,20 +481,24 @@ export const assignChatSession=(token, data) => {
             },
 
           };
-      var data = {
-
-      };
-
 
   return (dispatch) => {
     axios.post(`${baseURLKiboEngage}/api/assignToAgentFB`,data, config).then(res => {
       console.log("Facebook chat session was assigned", res);
+      if(data.type == 'agent'){
       dispatch(updateAssignAgentStatus({status: 'Agent Assigned'}));
+      }else{
+        dispatch(updateAssignAgentStatus({status: 'Team Assigned'}));
+      }
     })
       .catch(function (error) {
         console.log('Error occured, cannot assign chat session');
         console.log(error);
-        dispatch(updateAssignAgentStatus({status: 'Failed cannot assign agent'}));
+        if(data.type == 'agent'){
+          dispatch(updateAssignAgentStatus({status: 'Failed cannot assign agent'}));
+        }else{
+          dispatch(updateAssignAgentStatus({status: 'Failed cannot assign team'}));
+        }
         
       });
 

@@ -82,7 +82,8 @@ class FbSettings extends Component {
            <Picker.Item label={item.groupname} key={'key-'+item._id } value={item._id} />
        );
      });
-     itemsTemp.unshift(<Picker.Item label='Select an agent' value={'123'+','+'test'} />)
+     itemsTemp.unshift(<Picker.Item label='Select an agent' value={'123'+','+'test'} />);
+     teamsListTemp.unshift(<Picker.Item label='Select an team' value={'123'+','+'test'} />);
      console.log("Teams in fb settings", nextProps.teams);
      console.log("Agents in fb settings", nextProps.agents);
      this.setState({items: itemsTemp});
@@ -147,18 +148,38 @@ class FbSettings extends Component {
          });
          console.log("Emails");
          var unique = emails.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
-          console.log(unique);
-        input = {
-          agentidTo: this.state.assignedTeam,
-          agentidBy: this.props.userdetails._id,
-          companyid: this.props.singleChat.companyid,
-          requestid: this.props.singleChat.request_id,
-          _id: this.props.singleChat._id,
-          type: 'group',
-          email: unique,
-        };
+          console.log("Unique emails", unique);
+        
+        data = {
+        companyid : this.props.currentSession.pageid.companyid,
+        pageid : this.props.currentSession.pageid._id, //_id field of page object
+        user_id: this.props.currentSession.user_id._id, //_id field of user object //Ask if this is small or capital?
+        agentAssignment : {
+            assignedto : this.state.assignedTeam,
+            assignedby : this.props.userdetails._id,
+            companyid : this.props.currentSession.pageid.companyid,
+            datetime : Date.now(),
+            type : 'group',
+            pageid : this.props.currentSession.pageid._id, //fb page id, this is the ‘_id’ field of pageid object inside fbsession object
+            userid: this.props.currentSession.user_id._id, //fb user id, this is the ‘_id’ field of user_id object inside fbsession object
+        },
+          type : 'group',
+          agentemail : unique
+        }
+        console.log("Assign team data stanza", data);
+        this.props.assignChatSession(token, data);
+        
+        // input = {
+        //   agentidTo: this.state.assignedTeam,
+        //   agentidBy: this.props.userdetails._id,
+        //   companyid: this.props.singleChat.companyid,
+        //   requestid: this.props.singleChat.request_id,
+        //   _id: this.props.singleChat._id,
+        //   type: 'group',
+        //   email: unique,
+        // };
 
-        this.props.moveAgent(token, input,session);
+        // this.props.moveAgent(token, input,session);
        }
   }
 
@@ -239,7 +260,7 @@ class FbSettings extends Component {
     </Card>
 
      <Card>
-    <Text>Assign To Team</Text>
+    <Text>Assign To Team {this.state.assignedTeam}</Text>
     <Spacer size={10} />
       <Picker
           selectedValue={this.state.assignedTeam}
