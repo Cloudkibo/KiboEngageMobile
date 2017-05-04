@@ -16,6 +16,7 @@ const INITIAL_STATE = {
  upload: [],
  fbSessions: [],
  currentSession: {},
+ agent_assign_status: '',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -59,6 +60,8 @@ export default (state = INITIAL_STATE, action) => {
       return {...state,fbSessions:action.payload};
     case ActionTypes.CURRENT_SESSION:
       return {...state,currentSession:action.payload};
+    case ActionTypes.AGENT_ASSIGN_STATUS:
+      return {...state,agent_assign_status:action.payload};
     default:
       return state;
   }

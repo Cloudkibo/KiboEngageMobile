@@ -274,6 +274,14 @@ export function showfbpages(res){
   };
 };
 
+export function updateAssignAgentStatus(data){
+      return {
+    type: ActionTypes.AGENT_ASSIGN_STATUS,
+    payload : data.status,
+
+  };
+}
+
 export const getfbpages = (token) => {
   const config = {
     rejectUnauthorized: false,
@@ -480,11 +488,12 @@ export const assignChatSession=(token, data) => {
   return (dispatch) => {
     axios.post(`${baseURLKiboEngage}/api/assignToAgentFB`,data, config).then(res => {
       console.log("Facebook chat session was assigned", res);
-      // dispatch(updateFbSessions(res.data));
+      dispatch(updateAssignAgentStatus({status: 'Agent Assigned'}));
     })
       .catch(function (error) {
         console.log('Error occured, cannot assign chat session');
         console.log(error);
+        dispatch(updateAssignAgentStatus({status: 'Failed cannot assign agent'}));
         
       });
 
