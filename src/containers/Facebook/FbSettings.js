@@ -274,9 +274,8 @@ class FbSettings extends Component {
 const mapDispatchToProps = {
   agentFetch: AgentActions.agentFetch,
   teamFetch: TeamActions.teamFetch,
-  // channelFetch: SubgroupActions.channelFetch,
+  resolveChatSessions: FbActions.resolveChatSessions,
   moveAgent: chatActions.assignAgent,
-  markResolve: chatActions.resolveChatSession,
   moveChannel: SubgroupActions.assignChannel,
   agentTeamFetch : TeamActions.agentTeamFetch,
   assignChatSession: FbActions.assignChatSession,

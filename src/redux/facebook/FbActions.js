@@ -459,11 +459,12 @@ export const resolveChatSessions=(token, data) => {
   return (dispatch) => {
     axios.post(`${baseURLKiboEngage}/api/resolvechatsessionfb`,data, config).then(res => {
       console.log("Facebook chat session was marked resolved", res);
-      // dispatch(updateFbSessions(res.data));
+      dispatch(updateAssignAgentStatus({status: "Marked Resolved"}));
     })
       .catch(function (error) {
         console.log('Error occured, cannot mark chat session resolved');
         console.log(error);
+        dispatch(updateAssignAgentStatus({status: "Failed to marked resolved"}));
         
       });
 
