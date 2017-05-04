@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { Platformwise } from './Platformwise';
 import { Pagewise } from './Pagewise';
+import  Channelwise  from './Channelwise';
 import { Teamwise } from './Teamwise';
 import { Agentwise } from './Agentwise';
 import { Notificationwise } from './Notificationwise';
@@ -43,12 +44,12 @@ class Reports extends Component {
     super(props);
     this.state = {
         error: '',
-        filterDays: 30,
-        countrySeries: 0,
-        agentSeries: 0,
-        teamSeries: 0,
-        pageSeries: 0,
-        notificationSeries: 0,
+        filterDays: 365,
+        countrySeries: {web: 30, mobile:50},
+        agentSeries: {web: 30, mobile:50},
+        teamSeries: {web: 30, mobile:50},
+        pageSeries: {web: 30, mobile:50},
+        notificationSeries: {web: 30, mobile:50},
     };
     this.fetchData();
   }
@@ -58,7 +59,6 @@ class Reports extends Component {
   fetchData = async () => {
     var token =  await auth.getToken();
     if(token != ''){
-        this.props.fetchChannelStats(token);
         this.props.fetchCountryStats(token);
         this.props.fetchAgentStats(token);
         this.props.fetchPageStats(token);
@@ -67,6 +67,19 @@ class Reports extends Component {
     }
   }
 
+   componentWillReceiveProps(nextProps) {
+    // nextProps are the next set of props that this component
+    // will be rendered with
+    // this.props is still the old set of props
+       // console.log(nextProps.groups);
+    if(nextProps.country && nextProps.page){
+      this.handleCountryStats(nextProps.country);
+      this.handlePageStats(nextProps.page);
+      this.handleTeamStats(nextProps.team);
+      this.handleAgentStats(nextProps.agent);
+      this.handleNotificationStats(nextProps.notification);
+  }
+  }
 
 
   handleCountryStats = (data) => {
@@ -78,66 +91,105 @@ class Reports extends Component {
       var result = {};
       for(var key in groupedData){
           if (groupedData.hasOwnProperty(key)) {
-            result[key] = groupedData[key].reduce((total, obj) => {    
+            result[key] = groupedData[key].reduce((total, obj) => {  
+                var date = new Date(obj._id.month + '-' + obj._id.day + '-' + obj._id.year);
+                date.setHours(0,0,0,0);
+                if(date >= d){  
                      return (total + obj.count);
+                }else{
+                  return total;
+                }
             }, 0);
           }
       }
       console.log("Country Result", result);
-      return result;
-    // this.setState({countrySeries: result})
+      // return result;
+      this.setState({countrySeries: result});
   }
 
   handlePageStats = (data) => {
+      var d = new Date();
+      d.setDate(d.getDate()-this.state.filterDays);
+      d.setHours(0,0,0,0);
       var groupedData = groupBy(data, function(d){return d._id.currentpage});
-    //   console.log(groupedData);
       var result = {};
       for(var key in groupedData){
           if (groupedData.hasOwnProperty(key)) {
-            result[key] = groupedData[key].reduce((total, obj) => total + obj.count, 0);
+            result[key] = groupedData[key].reduce((total, obj) => {
+               var date = new Date(obj._id.month + '-' + obj._id.day + '-' + obj._id.year);
+                date.setHours(0,0,0,0);
+                if(date >= d){  
+                    return total + obj.count;
+                }else{
+                  return total;
+                }
+        }, 0);
           }
       }
     //   console.log(result);
     //   return result;
-    // this.setState({pageSeries: result});
-    return result;
+    this.setState({pageSeries: result});
+    // return result;
   }
 
   handleTeamStats = (data) => {
+      var d = new Date();
+      d.setDate(d.getDate()-this.state.filterDays);
+      d.setHours(0,0,0,0);
       console.log("Handle teams", data);
       var groupedData = groupBy(data.gotDeptCalls, function(d){return d._id.departmentid});
-    //   console.log(groupedData);
+      console.log("Handle Teams After being grouped", groupedData);
       var result = {};
       for(var key in groupedData){
           if (groupedData.hasOwnProperty(key)) {
             // result[key] = groupedData[key].reduce((total, obj) => total + obj.count, 0);
             data.deptNames.map((obj) => {
                 if(obj._id == key){
-                    result[obj.deptname] =  groupedData[key].reduce((total, object) => total + object.count, 0);
+                result[obj.deptname] =  groupedData[key].reduce((total, object) => {
+               var date = new Date(object._id.month + '-' + object._id.day + '-' + object._id.year);
+                date.setHours(0,0,0,0);
+                if(date >= d){  
+                    return total + object.count;
+                }else{
+                  return total;
+                }
+        }, 0);
                 }
             });
           }
       }
     //   console.log("Handle team stats", result);
-      // this.setState({teamSeries: result})
-      return result;
+      this.setState({teamSeries: result})
   }
 
   handleAgentStats = (data) => {
+      var d = new Date();
+      d.setDate(d.getDate()-this.state.filterDays);
+      d.setHours(0,0,0,0);
       var groupedData = groupBy(data, function(d){return d._id.agent_ids.type});
       console.log("Agent series stats", groupedData);
       var result = {};
       for(var key in groupedData){
           if (groupedData.hasOwnProperty(key)) {
-            result[key] = groupedData[key].reduce((total, obj) => total + obj.count, 0);
+            result[key] = groupedData[key].reduce((total, obj) => {
+               var date = new Date(obj._id.month + '-' + obj._id.day + '-' + obj._id.year);
+                date.setHours(0,0,0,0);
+                if(date >= d){  
+                    return total + obj.count;
+                }else{
+                  return total;
+                }
+        }, 0);
           }
       }
       console.log("Agent result", result);
-      //this.setState({agentSeries: result})
-      return result;
+      this.setState({agentSeries: result})
   }
 
   handleNotificationStats = (data) => {
+      var d = new Date();
+      d.setDate(d.getDate()-this.state.filterDays);
+      d.setHours(0,0,0,0);
       var groupedData = groupBy(data.notficationsCount, function(d){return d._id.agent_id});
       console.log("Notification series stats", groupedData);
       var result = {};
@@ -145,40 +197,52 @@ class Reports extends Component {
           if (groupedData.hasOwnProperty(key)) {
              data.agentData.map((obj) => {
                 if(obj._id == key){
-                    result[obj.firstname + ' ' +obj.lastname] =  groupedData[key].reduce((total, object) => total + object.count, 0);
+                    result[obj.firstname + ' ' +obj.lastname] =  groupedData[key].reduce((total, object) => {
+                   return  total + object.count;
+               
+        }, 0);
                 }
             });
           }
       }
       console.log("Notification result", result);
-      // this.setState({notificationSeries: result});
-      return result;
+      this.setState({notificationSeries: result});
+  }
+
+  setFilterDays(x){
+    this.setState({filterDays: x});
+    this.handleCountryStats(this.props.country);
+    this.handlePageStats(this.props.page);
+    this.handleTeamStats(this.props.team);
+    this.handleAgentStats(this.props.agent);
+    this.handleNotificationStats(this.props.notification);
   }
 
   render() {
-    
-    countrySeries = this.handleCountryStats(this.props.country);
-    pageSeries = this.handleCountryStats(this.props.page);
-    teamSeries = this.handleTeamStats(this.props.team);
-    agentSeries = this.handleAgentStats(this.props.agent);
-    notificationSeries = this.handleNotificationStats(this.props.notification);
+    // this.setState({countrySeries: result});
+    // this.state.countrySeries = this.handleCountryStats(this.props.country);
+    // pageSeries = this.handlePageStats(this.props.page);
+    // teamSeries = this.handleTeamStats(this.props.team);
+    // agentSeries = this.handleAgentStats(this.props.agent);
+    // notificationSeries = this.handleNotificationStats(this.props.notification);
     var Highcharts='Highcharts';
     
     return (
       <View style={[AppStyles.container]}>
     <Spacer size={50} />
     <View>
-    <Button title="Today" style={{padding:30}}></Button>
-    <Button title="Last 7 days" style={{margin:3}}></Button>
-    <Button title="Last 30 days" style={{margin:3}}></Button>
-    <Button title="This year" style={{margin:3}}></Button>
+    <Button title="Today" color={this.state.filterDays==1 ? '#ff5c5c' : '#2e8dfe'} onPress={() => {this.setFilterDays(1);} }></Button>
+    <Button title="Last 7 days" color={this.state.filterDays==7 ? '#ff5c5c' : '#2e8dfe'} onPress={() => {this.setFilterDays(7);} }></Button>
+    <Button title="Last 30 days" color={this.state.filterDays==30 ? '#ff5c5c' : '#2e8dfe'} onPress={() => {this.setFilterDays(30);} }></Button>
+    <Button title="This year" color={this.state.filterDays==365 ? '#ff5c5c' : '#2e8dfe'} onPress={() => {this.setFilterDays(365);} }></Button>
     </View>
     <ScrollView>
-      <Platformwise  data={countrySeries}></Platformwise>
-      <Teamwise  data={teamSeries}></Teamwise>
-      <Pagewise  data={pageSeries}></Pagewise>
-      <Agentwise  data={agentSeries}></Agentwise>
-      <Notificationwise  data={notificationSeries}></Notificationwise>
+    <Channelwise  filterDays={this.state.filterDays}></Channelwise>
+      <Platformwise  data={this.state.countrySeries}></Platformwise>
+      <Teamwise  data={this.state.teamSeries}></Teamwise>
+      <Pagewise  data={this.state.pageSeries}></Pagewise>
+      <Agentwise  data={this.state.agentSeries}></Agentwise>
+      <Notificationwise  data={this.state.notificationSeries}></Notificationwise>
       </ScrollView>
   </View>
     );
@@ -191,7 +255,6 @@ Reports.componentName = 'Reports';
 
 /* Export Component ==================================================================== */
 const mapDispatchToProps = {
-  fetchChannelStats: reportActions.fetchChannelStats,
   fetchCountryStats: reportActions.fetchCountryStats,
   fetchTeamStats: reportActions.fetchTeamStats,
   fetchAgentStats: reportActions.fetchAgentStats,

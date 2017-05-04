@@ -48,21 +48,35 @@ export function updateNotificationStats(data) {
   };
 }
 
+export function updateChannelStats(data) {
+  return {
+    type: ActionTypes.FETCH_CHANNEL_STATS,
+    payload : data,
 
-export const fetchChannelStats =  (token) => {
+  };
+}
+
+
+export const fetchChannelStats =  (token, data) => {
 
    var config = {
       rejectUnauthorized : false,
       headers: {
           'Authorization': token,
-           'Content-Type': 'application/json',
+          'content-type' : 'application/x-www-form-urlencoded'
             },
       
           };
-    console.log("Fetch Channel", config);
+      var body = {
+        'departmentid': data,
+      }
+    console.log("Fetching Channel", config , body);
   return (dispatch) => {
-    axios.get(`${baseURLKiboEngage}/api/getsubgroupwisecalls`,config)
-    .then((res) => res).then(res => console.log("Channel Stats", res.data.info))
+    axios.post(`${baseURLKiboEngage}/api/getsubgroupwisecalls`,querystring.stringify(body), config)
+    .then((res) => res).then(res => {
+      console.log("Channel Stats", res.data.body);
+      dispatch(updateChannelStats(res.data.body));
+})
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -208,7 +222,7 @@ export const fetchNotificationStats =  (token) => {
     axios.get(`${baseURLKiboEngage}/api/getagentnotifications`,config)
     .then((res) => res).then(res =>{ 
        console.log("Notification Stats", res.data.info);
-      dispatch(updateNotificationStats(res.data.info))
+      dispatch(updateNotificationStats(res.data.info));
   })
     .catch(function (error) {
         console.log('Error occured');

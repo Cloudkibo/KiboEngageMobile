@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   agent: [],
   team: [],
   notification: [],
+  channel: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -22,6 +23,8 @@ export default (state = INITIAL_STATE, action) => {
       return {...state,team:action.payload};
   case ActionTypes.FETCH_NOTIFICATION_STATS:
       return {...state,notification:action.payload};
+  case ActionTypes.FETCH_CHANNEL_STATS:
+      return {...state,channel:action.payload};
    
     default:
       return state;
