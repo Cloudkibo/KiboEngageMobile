@@ -61,15 +61,15 @@ componentWillReceiveProps(nextProps) {
     if(nextProps.groups != this.props.groups){
       this.renderPicker(nextProps.groups);
   }if(nextProps.channel != this.props.channel && this.props.subgroups){
-      this.handleStats(nextProps.channel);
+      this.handleStats(nextProps);
   }
   if(nextProps.filterDays != this.props.filterDays && this.props.subgroups && (nextProps.channel || this.props.channel)){
-      this.handleStats(this.props.channel);
+      this.handleStats(nextProps);
   }
 }
 
 fetchData = async(data) => {
-    console.log('Fetching subgroupwise data');
+    console.log('Fetching subgroupwise data id: ', data);
     var token =  await auth.getToken();
     console.log('token is Launchview is: ' + token);
     if(token != ''){
@@ -79,9 +79,10 @@ fetchData = async(data) => {
     
 }
 
-handleStats = (data) => {
+handleStats = (nextProps) => {
+      var data = nextProps.channel;
       var d = new Date();
-      d.setDate(d.getDate()-this.props.filterDays);
+      d.setDate(d.getDate()-nextProps.filterDays);
       d.setHours(0,0,0,0);
       var groupedData = groupBy(data, function(d){return d._id.messagechannel;});
       console.log("In report channel handle data", groupedData);
@@ -90,7 +91,7 @@ handleStats = (data) => {
           if (groupedData.hasOwnProperty(key)) {
               var subName = key;
               var proceed = false;
-              this.props.subgroups.map((obj) => {
+              nextProps.subgroups.map((obj) => {
                   if(obj._id == key){
                       subName = obj.msg_channel_name;
                       proceed = true;
@@ -129,10 +130,12 @@ renderPicker(groups){
         ids.push(obj._id);
     });
 
-    if(ids[0]){ 
-        this.fetchData(ids[0]);
-        // this.setState({language: ids[0]});
-    }
+    tempItems.unshift(<Picker.Item label="Select a channel"  value="test" />)
+
+    // if(ids[0]){ 
+    //     this.fetchData(ids[0]);
+    //     // this.setState({language: ids[0]});
+    // }
     this.setState({items: tempItems});
     
 }
@@ -178,7 +181,7 @@ renderPicker(groups){
                 enabled: false
             },
             series: [{
-                name: 'Platformwise Data',
+                name: 'Channelwise Data',
                 data: Object.values(this.state.series),
             }]
         };
@@ -190,7 +193,7 @@ renderPicker(groups){
       <Picker
         style={{margin: 20, backgroundColor: "#DDDDDD"}}
         selectedValue={this.state.language}
-        onValueChange={(lang) => {this.setState({language: lang}); this.fetchData(this.state.language)}}>
+        onValueChange={(lang) => {this.setState({language: lang}); this.fetchData(lang)}}>
         {this.state.items}
         </Picker>
       <ChartView style={{height:300}} config={conf}></ChartView>

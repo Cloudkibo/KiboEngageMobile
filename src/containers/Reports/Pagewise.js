@@ -78,7 +78,7 @@ export class Pagewise extends Component {
                 enabled: false
             },
             series: [{
-                name: 'Platformwise Data',
+                name: 'Pagewise Data',
                 data: Object.values(this.props.data),
             }]
         };

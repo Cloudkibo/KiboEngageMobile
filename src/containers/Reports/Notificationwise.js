@@ -78,7 +78,7 @@ export class Notificationwise extends Component {
                 enabled: false
             },
             series: [{
-                name: 'Platformwise Data',
+                name: 'Notificationwise Data',
                 data: Object.values(this.props.data),
             }]
         };
