@@ -499,13 +499,16 @@ class FbChat extends Component {
     }else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'location'){
         console.log("Location", prop.currentMessage.attachments[0].payload.coordinates);   
         return (
-            // <Text>{prop.currentMessage.attachments[0].payload.title + "Heloo World its siraj"}</Text>
+            <Card>
+            <Text>{prop.currentMessage.attachments[0].title}</Text>
             <GoogleStaticMap 
             latitude={prop.currentMessage.attachments[0].payload.coordinates.lat}
             longitude={prop.currentMessage.attachments[0].payload.coordinates.long}
             zoom={13}
             size={{ width: 200, height: 200 }}
+
         />
+        </Card>
         );
     }
     else{
