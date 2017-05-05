@@ -32,6 +32,8 @@ import CustomActions from './CustomActions';
 import CustomView from './CustomView';
 import AudioPlayer from './AudioPlayer';
 
+import GoogleStaticMap from 'react-native-google-static-map';
+
 
 var handleDate = function(d){
 
@@ -219,6 +221,31 @@ class FbChat extends Component {
                     {
                     _id: i,
                     text: "Audio File",
+                    createdAt: handleDate(item.timestamp),
+                    timestamp:item.timestamp,
+                    senderid:item.senderid,
+                    recipientid:item.recipientid,
+                    mid:item.message.mid,
+                    attachments:item.message.attachments,
+                    seen:false,
+                    user: {
+                      _id: this.props.senderid == item.senderid?2:1,
+                     // name:  item.senderid,
+                      name: 'React Native',
+                      avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
+                    },
+
+                    // image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',                   
+                  }
+                 );
+                  
+            }else if(item.message.attachments && item.message.attachments.length >0 && item.message.attachments[0].type == "location"){
+                 console.log(item.message.attachments);
+                 var url = item.message.attachments[0].payload.url;
+                 temparray.push(
+                    {
+                    _id: i,
+                    text: item.message.attachments[0].payload.title,
                     createdAt: handleDate(item.timestamp),
                     timestamp:item.timestamp,
                     senderid:item.senderid,
@@ -468,6 +495,17 @@ class FbChat extends Component {
         console.log("Audio", prop.currentMessage.attachments[0].payload.url);   
         return (
             <AudioPlayer url={prop.currentMessage.attachments[0].payload.url}/>
+        );
+    }else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'location'){
+        console.log("Location", prop.currentMessage.attachments[0].payload.coordinates);   
+        return (
+            // <Text>{prop.currentMessage.attachments[0].payload.title + "Heloo World its siraj"}</Text>
+            <GoogleStaticMap 
+            latitude={prop.currentMessage.attachments[0].payload.coordinates.lat}
+            longitude={prop.currentMessage.attachments[0].payload.coordinates.long}
+            zoom={13}
+            size={{ width: 200, height: 200 }}
+        />
         );
     }
     else{
