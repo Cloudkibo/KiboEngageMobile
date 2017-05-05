@@ -103,7 +103,7 @@ class FbSettings extends Component {
         pageid : this.props.currentSession.pageid._id, //_id field of page object
         user_id: this.props.currentSession.user_id._id, //_id field of user object //Ask if this is small or capital?
         agentAssignment : {
-            assignedto : this.props.currentSession.user_id._id,
+            assignedto : id_emails[0],
             assignedby : this.props.userdetails._id,
             companyid : this.props.currentSession.pageid.companyid,
             datetime : Date.now(),
