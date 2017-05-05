@@ -20,6 +20,7 @@ import auth from '../../services/auth';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import * as AgentActions from '@redux/agents/agentActions';
+import * as TeamActions from '@redux/team/TeamActions';
 import * as GroupActions from '@redux/group/groupActions';
 import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import * as chatActions from '@redux/chat/chatActions';
@@ -50,46 +51,42 @@ class FbSettings extends Component {
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
-        //this.props.agentFetch(token); //No need to call this endpoint here again, I have added it in ChatSession [Zarmeen]
-       // this.props.teamFetch(token);
+        this.props.agentFetch(token); //No need to call this endpoint here again, I have added it in ChatSession [Zarmeen]
+       this.props.teamFetch(token);
        // this.props.channelFetch(token);
-       // this.props.agentTeamFetch(token);
+      //  this.props.agentTeamFetch(token);
        }
   }
 
-  componentDidMount() {
+  componentWillReceiveProps(nextProps) {
     // nextProps are the next set of props that this component
     // will be rendered with
     // this.props is still the old set of props
     // console.log(nextProps);
-    if(this.props.agents && this.props.teams && this.props.subgroups && this.props.singleChat && this.props.teamagents){
-       this.createPickerItems();
+    if(nextProps.agents && nextProps.teams){
+       this.createPickerItems(nextProps);
      }
   }
 
-  createPickerItems(){
+  createPickerItems(nextProps){
      console.log('called');
-    this.state.items = [];
-    this.state.teamsList = [];
-    this.state.channelList = [];
-    this.props.agents.map((item, index) => {
-       return this.state.items.push(
+    itemsTemp = [];
+    teamsListTemp = [];
+    nextProps.agents.map((item, index) => {
+       return itemsTemp.push(
            <Picker.Item label={item.firstname + ' ' + item.lastname} key={'key-'+item._id } value={item._id+','+item.email} />
        );
      });
-      this.props.teams.map((item, index) => {
-       return this.state.teamsList.push(
+      nextProps.teams.map((item, index) => {
+       return teamsListTemp.push(
            <Picker.Item label={item.groupname} key={'key-'+item._id } value={item._id} />
        );
      });
-     this.props.subgroups.filter((c)=>c.groupid == this.props.singleChat.departmentid).map((item, index) => {
-       return this.state.channelList.push(
-           <Picker.Item label={item.msg_channel_name} key={'key-'+item._id } value={item._id} />
-       );
-     });
-
-     console.log(this.state.teamsList);
-     this.forceUpdate();
+     itemsTemp.unshift(<Picker.Item label='Select an agent' value={'123'+','+'test'} />)
+     console.log("Teams in fb settings", nextProps.teams);
+     console.log("Agents in fb settings", nextProps.agents);
+     this.setState({items: itemsTemp});
+     this.setState({teamsList: teamsListTemp});
   }
 
   assignToAgents = async () => {
@@ -98,19 +95,20 @@ class FbSettings extends Component {
       console.log('token is Launchview is: ' + token);
       if(token != ''){
         //preparing data
+        console.log("Emails", this.state.assignedAgent);
         id_emails = this.state.assignedAgent.split(",");
         data = {
         companyid : this.props.currentSession.pageid.companyid,
         pageid : this.props.currentSession.pageid._id, //_id field of page object
         user_id: this.props.currentSession.user_id._id, //_id field of user object //Ask if this is small or capital?
         agentAssignment : {
-            assignedto : this.props.userdetails._id,
+            assignedto : this.props.currentSession.user_id._id,
             assignedby : this.props.userdetails._id,
             companyid : this.props.currentSession.pageid.companyid,
             datetime : Date.now(),
             type : 'agent',
             pageid : this.props.currentSession.pageid._id, //fb page id, this is the ‘_id’ field of pageid object inside fbsession object
-            userid: this.props.userdetails._id, //fb user id, this is the ‘_id’ field of user_id object inside fbsession object
+            userid: this.props.currentSession.user_id._id, //fb user id, this is the ‘_id’ field of user_id object inside fbsession object
         },
           type : 'agent',
           agentemail : [id_emails[1]]
@@ -198,6 +196,8 @@ class FbSettings extends Component {
   }
 
   render() {
+
+    console.log("Agents in fb settings render", this.props.agents);
     return (
 
     <ScrollView>
@@ -207,7 +207,7 @@ class FbSettings extends Component {
     <Card>
     <Text>{this.state.platform}</Text>
          <Alerts
-            status={ this.props.invite_agent_status }
+            status={ this.props.agent_assign_status }
             success=''
             error=''
       />
@@ -250,25 +250,8 @@ class FbSettings extends Component {
      <Button
         title="Assign"
         color="#841584"
-        accessibilityLabel="Assign To Group"
+        accessibilityLabel="Assign To Team"
         onPress={this.assignToGroups}
-      />
-    </Card>
-
-     <Card>
-    <Text>Move To Other Channel {this.state.assignedChannel}</Text>
-    <Spacer size={10} />
-      <Picker
-   selectedValue={this.state.assignedChannel}
-        onValueChange={(toChannelId) => this.setState({assignedChannel: toChannelId})}>
-  {this.state.channelList}
-</Picker>
-     <Spacer size={10} />
-     <Button
-        title="Move"
-        color="#841584"
-        accessibilityLabel="Move To Other Channel"
-        onPress={this.assignToChannels}
       />
     </Card>
 
@@ -290,13 +273,13 @@ class FbSettings extends Component {
 /* Export Component ==================================================================== */
 const mapDispatchToProps = {
   agentFetch: AgentActions.agentFetch,
-  //teamFetch: TeamActions.teamFetch,
-  channelFetch: SubgroupActions.channelFetch,
+  teamFetch: TeamActions.teamFetch,
+  // channelFetch: SubgroupActions.channelFetch,
   moveAgent: chatActions.assignAgent,
   markResolve: chatActions.resolveChatSession,
   moveChannel: SubgroupActions.assignChannel,
-  resolveChatSessions: FbActions.resolveChatSessions,
- // agentTeamFetch : TeamActions.agentTeamFetch,
+  agentTeamFetch : TeamActions.agentTeamFetch,
+  assignChatSession: FbActions.assignChatSession,
 };
 function mapStateToProps(state) {
    const { agents } = state.agents;
@@ -304,8 +287,8 @@ function mapStateToProps(state) {
    const { subgroups} = state.subgroups;
    const { userdetails } = state.user;
    const { singleChat,invite_agent_status } = state.chat;
-   const { currentSession } = state.fbpages;
-   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, currentSession };
+   const { currentSession, agent_assign_status } = state.fbpages;
+   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, currentSession, agent_assign_status };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FbSettings);
 
