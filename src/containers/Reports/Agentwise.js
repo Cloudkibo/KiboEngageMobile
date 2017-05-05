@@ -78,7 +78,7 @@ export class Agentwise extends Component {
                 enabled: false
             },
             series: [{
-                name: 'Platformwise Data',
+                name: 'Agentwise Data',
                 data: Object.values(this.props.data),
             }]
         };
