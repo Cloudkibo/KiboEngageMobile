@@ -480,9 +480,7 @@ export const assignChatSession=(token, data) => {
             },
 
           };
-      var data = {
-
-      };
+      
 
 
   return (dispatch) => {
