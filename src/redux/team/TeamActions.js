@@ -158,7 +158,7 @@ export const agentTeamFetch = (token) => {
           };
 
   return (dispatch) => {
-    axios.get(`${baseURL}/api/teamagents`,config)
+    axios.get(`${baseURL}/api/groupagents`,config)
     .then((res) => res).then(res => dispatch(writeTeamAgents(res.data)))
      .catch(function (error) {
         console.log('Error occured');

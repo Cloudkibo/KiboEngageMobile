@@ -6,6 +6,8 @@ var baseURLKiboEngage = Config.baseURLKiboEngage;
 var querystring = require('querystring');
 import RNFetchBlob from 'react-native-fetch-blob';
 var ReactNative = require('react-native');
+import SqliteCalls from '../../services/SqliteCalls';
+var SQLite = require('react-native-sqlite-storage')
 
 export function showChats(data) {
   // console.log('show chat messages data');
@@ -44,6 +46,24 @@ export const sessionsFetch =  (token) => {
   };
 };
 
+
+
+/* return (dispatch) => {
+    axios.get(`${baseURL}/api/visitorcalls/kiboengagesessions`,config)
+    .then((res) => res).then(res => dispatch(writeSessions(res.data.filter((s) => s.platform == "mobile"))))
+    .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        if(error = 'Network Error')
+        {
+          //Alert.alert('You are not connected with Internet');
+          dispatch(readSessions());
+        }
+       }); 
+      
+  };
+};
+*/
 export const chatsFetch =  (token) => {
 
    var config = {
@@ -287,3 +307,178 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
       console.log("Printing the err", err)});   
   };
 };
+
+
+
+
+
+/******* SQLite actions for Chat Sessions and chat message*/
+export function callbacksessions(results) {
+ var fsessions = []
+ console.log('inside callbacksessions')
+ var len = results.rows.length;
+  for (let i = 0; i < len; i++) {
+    let row = results.rows.item(i);
+    console.log('row.customerid');
+    console.log(JSON.parse(row.customerid));
+    console.log('request_id is ------ ***');
+    console.log(row.requestid);
+    var obj = {
+          _id: row._id,
+          companyid:row.companyid,
+          customerid: JSON.parse(row.customerid),
+          customerID:row.customerIDmod,
+          departmentid: row.departmentid,
+          picktime: row.picktime,
+          requesttime:row.requesttime,
+          deleteStatus:row.deleteStatus,
+          platform:row.platform,
+          is_rescheduled:row.is_rescheduled,
+          agent_ids: [],//row.agent_ids && row.agent_ids != ''?JSON.parse(row.agent_ids):''],
+          messagechannel: [row.messagechannel],
+          request_id:row.requestid,
+
+
+      }
+    
+    console.log('row');
+    fsessions.push(obj);
+  }
+  console.log('callbacksessions');
+  console.log(fsessions);
+ 
+  return {
+    type: ActionTypes.FETCH_SESSIONS,
+    payload : fsessions,
+  };
+}
+
+export  function writeSessions(sessions){
+  var db = SqliteCalls.getConnection();
+   var res = [];
+  var CREATE_Sessions_TABLE = "CREATE TABLE CHATSESSIONS ("
+                + "_id TEXT PRIMARY KEY,"
+                + "companyid TEXT,"
+                + "customerIDmod TEXT,"
+                + "customerid TEXT,"
+                + "departmentid TEXT,"
+                + "picktime DATETIME,"
+                + "requesttime DATETIME,"
+                + "deleteStatus TEXT,"
+                + "platform TEXT,"
+                + "is_rescheduled TEXT,"
+                + "status TEXT,"
+                + "agent_ids TEXT,"
+                + "messagechannel TEXT,"
+                + "requestid TEXT" + ")";
+
+ var rows = []
+ console.log('inside writeSessions');
+ for(var i=0;i<sessions.length;i++){
+  var record = []
+  record.push(sessions[i]._id)
+  record.push(sessions[i].companyid);
+  record.push(sessions[i].customerID);
+  record.push(JSON.stringify(sessions[i].customerid));
+  record.push(sessions[i].departmentid);
+  record.push(sessions[i].picktime?sessions[i].picktime:"null");
+  record.push(sessions[i].requesttime);
+  record.push(sessions[i].deleteStatus);
+  record.push(sessions[i].platform);
+  record.push(sessions[i].is_rescheduled);
+  record.push(sessions[i].agent_ids.length>0?JSON.stringify(sessions[i].agent_ids[sessions[i].agent_ids.length-1]):'');
+  record.push(sessions[i].messagechannel[sessions[i].messagechannel.length-1]);
+  console.log('Request_id is ------ ')
+  console.log(sessions[i].request_id)
+  record.push(sessions[i].request_id);
+  rows.push(record);
+  // addItem(db,record);
+
+  
+ }
+ 
+
+return (dispatch) => {
+    
+    db.transaction(function(tx) {
+    tx.executeSql('DROP TABLE IF EXISTS CHATSESSIONS');
+    tx.executeSql(CREATE_Sessions_TABLE);
+
+    for(var j=0;j<rows.length;j++){
+       tx.executeSql('INSERT INTO CHATSESSIONS VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',rows[j]);
+   
+    }
+    tx.executeSql('SELECT * FROM CHATSESSIONS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log("convert query result into desired format");
+          console.log(results);
+    
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+          console.log('res is:')
+          console.log(res);
+          dispatch(callbacksessions(res));
+  }
+  );
+  
+  }
+
+}
+
+export function readSessions(){
+   var db = SqliteCalls.getConnection();
+   return (dispatch) => {
+    
+    db.transaction(function(tx) {
+   
+    tx.executeSql('SELECT * FROM CHATSESSIONS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+
+           var newrow = []
+          //convert query result into desired format
+          for(var j=0;j<results.length;j++){
+
+            var obj = {
+                _id: results[i]._id,
+                companyid:result[i].companyid,
+                customerid:result[i].customeridmod,
+                customerID:JSON.parse(result[i].customerid),
+                departmentid: result[i].departmentid,
+                picktime: result[i].picktime,
+                requesttime:result[i].requesttime,
+                deleteStatus:result[i].deleteStatus,
+                platform:result[i].platform,
+                is_rescheduled:result[i].is_rescheduled,
+                agent_ids: [result[i].agent_ids != ''?JSON.parse(result[i].agent_ids):''],
+                messagechannel: [result[i].messagechannel],
+                request_id:result[i].request_id,
+
+
+            }
+            newrow.push(obj);
+
+          }
+
+          res = newrow;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbacksessions(res));
+  }
+  );
+  
+  }
+
+}
+
