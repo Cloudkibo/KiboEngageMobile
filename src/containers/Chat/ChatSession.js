@@ -110,7 +110,7 @@ class ChatSession extends Component {
 
 
   gotoChatBox = (nextProps, request_id, companyid, _id, departmentid, status, team_name, channel_name, item) => {
-    var mychats = nextProps.chat.data.filter((c)=> c.request_id == request_id);
+    var mychats = nextProps.chat.filter((c)=> c.request_id == request_id);
     var sessiondata = {};
     sessiondata.request_id = request_id;
     sessiondata.companyid = companyid;
@@ -134,7 +134,7 @@ class ChatSession extends Component {
     data.map((item, index) => {
       var name =  item.customerID;
       //console.log(nextProps.chat);
-      var mychats = nextProps.chat.data.filter((c)=> c.request_id == item.request_id);
+      var mychats = nextProps.chat.filter((c)=> c.request_id == item.request_id);
        if(mychats.length <=  0){
          return;
        } 

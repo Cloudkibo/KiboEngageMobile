@@ -72,11 +72,27 @@ export const chatsFetch =  (token) => {
       },
     };
       
-  return (dispatch) => {
+/*  return (dispatch) => {
     axios.get(`${baseURL}/api/userchats/`,config)
     .then(res => dispatch(showChats(res)));   
   };
+};*/
+ return (dispatch) => {
+    axios.get(`${baseURL}/api/userchats/`,config)
+    .then((res) => res).then(res => dispatch(writeChats(res.data)))
+    .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        if(error = 'Network Error')
+        {
+          //Alert.alert('You are not connected with Internet');
+          dispatch(readChats());
+        }
+       }); 
+      
+  };
 };
+
 
 export function singleChats(data) {
   // console.log('show single chat messages data');
@@ -440,33 +456,7 @@ export function readSessions(){
     tx.executeSql('SELECT * FROM CHATSESSIONS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
-
-           var newrow = []
-          //convert query result into desired format
-          for(var j=0;j<results.length;j++){
-
-            var obj = {
-                _id: results[i]._id,
-                companyid:result[i].companyid,
-                customerid:result[i].customeridmod,
-                customerID:JSON.parse(result[i].customerid),
-                departmentid: result[i].departmentid,
-                picktime: result[i].picktime,
-                requesttime:result[i].requesttime,
-                deleteStatus:result[i].deleteStatus,
-                platform:result[i].platform,
-                is_rescheduled:result[i].is_rescheduled,
-                agent_ids: [result[i].agent_ids != ''?JSON.parse(result[i].agent_ids):''],
-                messagechannel: [result[i].messagechannel],
-                request_id:result[i].request_id,
-
-
-            }
-            newrow.push(obj);
-
-          }
-
-          res = newrow;
+          res = results;
           
         });
   }
@@ -475,6 +465,155 @@ export function readSessions(){
   }, function() {
           console.log('Populated database OK');
            dispatch(callbacksessions(res));
+  }
+  );
+  
+  }
+
+}
+
+
+// Chat Messages
+
+
+export function callbackchats(results) {
+ var fsessions = []
+ console.log('inside callbackchats')
+ var len = results.rows.length;
+  for (let i = 0; i < len; i++) {
+    let row = results.rows.item(i);
+    console.log('row.request_id');
+    console.log(row.request_id);
+    var obj = {
+          _id: row._id,
+          to:row.receiver,
+          from:row.sender,
+          visitoremail:row.visitoremail,
+          status:row.status,
+          datetime:row.datetime,
+          type:row.type,
+          uniqueid:row.uniqueid,
+          msg:row.msg,
+          request_id: row.request_id,
+          messagechannel:row.messagechannel,
+          companyid:row.companyid,
+          is_seen:row.is_seen,
+          agentid:JSON.parse(row.agentid),
+          agentemail:JSON.parse(row.agentemail)
+
+      }
+    
+    console.log('row');
+    fsessions.push(obj);
+  }
+  console.log('callbackchats');
+  console.log(fsessions);
+ 
+  return {
+    type: ActionTypes.FETCH_CHATS,
+    payload : fsessions,
+  };
+}
+
+export  function writeChats(chats){
+  var db = SqliteCalls.getConnection();
+   var res = [];
+  var CREATE_Chats_TABLE = "CREATE TABLE CHATS ("
+                + "_id TEXT PRIMARY KEY,"
+                + "receiver TEXT,"
+                + "sender TEXT,"
+                + "visitoremail TEXT,"
+                + "status TEXT,"
+                + "datetime DATETIME,"
+                + "type TEXT,"
+                + "uniqueid TEXT,"
+                + "msg TEXT,"
+                + "request_id TEXT,"
+                + "messagechannel TEXT,"
+                + "companyid TEXT,"
+                + "is_seen TEXT,"
+                + "agentid TEXT,"
+                + "agentemail TEXT" + ")";
+
+ var rows = []
+ console.log('inside writeChats');
+ for(var i=0;i<chats.length;i++){
+  var record = []
+  record.push(chats[i]._id)
+  record.push(chats[i].to);
+  record.push(chats[i].from);
+  record.push(chats[i].visitoremail);
+  record.push(chats[i].status);
+  record.push(chats[i].datetime);
+  record.push(chats[i].type);
+  record.push(chats[i].uniqueid);
+  record.push(chats[i].msg);
+  record.push(chats[i].request_id);
+  record.push(chats[i].messagechannel);
+  record.push(chats[i].companyid);
+  record.push(chats[i].is_seen);
+  record.push(JSON.stringify(chats[i].agentid));
+  record.push(JSON.stringify(chats[i].agentemail));
+  rows.push(record);
+  // addItem(db,record);
+
+  
+ }
+ 
+
+return (dispatch) => {
+    
+    db.transaction(function(tx) {
+    tx.executeSql('DROP TABLE IF EXISTS CHATS');
+    tx.executeSql(CREATE_Chats_TABLE);
+
+    for(var j=0;j<rows.length;j++){
+       tx.executeSql('INSERT INTO CHATS VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',rows[j]);
+   
+    }
+    tx.executeSql('SELECT * FROM CHATS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log("convert query result into desired format");
+          console.log(results);
+    
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+          console.log('res is:')
+          console.log(res);
+          dispatch(callbackchats(res));
+  }
+  );
+  
+  }
+
+}
+
+export function readChats(){
+   var db = SqliteCalls.getConnection();
+   return (dispatch) => {
+    
+    db.transaction(function(tx) {
+   
+    tx.executeSql('SELECT * FROM CHATS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log("convert query result into desired format");
+          console.log(results);
+    
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackchats(res));
   }
   );
   
