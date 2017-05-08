@@ -475,7 +475,7 @@ class FbChat extends Component {
         
         return (
           <WebView
-        source={{uri: 'https://video.xx.fbcdn.net/v/t42.3356-2/16439442_221586971582204_6441453596759293952_n.mp4/video-1493362419.mp4?vabr=334260&amp;oh=9f6fb0b644db4174a9863ed48bac38df&amp;oe=59049B23'}}
+        source={{uri: prop.currentMessage.attachments[0].payload.url}}
         style={{width:250,height:200,flexDirection: 'row'}}
         javaScriptEnabled={true}
         
