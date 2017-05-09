@@ -158,7 +158,7 @@ export const getfbChats=(token) => {
 
           };
 
-  return (dispatch) => {
+/*  return (dispatch) => {
     console.log('calling api');
     axios.get(`${baseURL}/api/fbmessages/`,config).then(res => dispatch(showfbchats(res.data)))
       .catch(function (error) {
@@ -167,6 +167,23 @@ export const getfbChats=(token) => {
 
       });
 
+  };
+};*/
+
+
+ return (dispatch) => {
+    axios.get(`${baseURL}/api/fbmessages/`,config)
+    .then((res) => res).then(res => dispatch(writeFBChats(res.data)))
+    .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        if(error = 'Network Error')
+        {
+          //Alert.alert('You are not connected with Internet');
+          dispatch(readFBChats());
+        }
+       }); 
+      
   };
 };
 
@@ -430,7 +447,7 @@ export const fetchChatSessions=(token) => {
 
           };
 
-  return (dispatch) => {
+  /*return (dispatch) => {
     axios.get(`${baseURL}/api/fbsessions/`,config).then(res => {
       console.log("Chat session from facebook", res);
       dispatch(updateFbSessions(res.data));
@@ -443,6 +460,25 @@ export const fetchChatSessions=(token) => {
 
   };
 };
+*/
+
+
+return (dispatch) => {
+    axios.get(`${baseURL}/api/fbsessions/`,config)
+    .then((res) => res).then(res => dispatch(writeFBSessions(res.data)))
+    .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        if(error = 'Network Error')
+        {
+          //Alert.alert('You are not connected with Internet');
+          dispatch(readFBSessions());
+        }
+       }); 
+      
+  };
+};
+
 
 
 export const resolveChatSessions=(token, data) => {
@@ -692,3 +728,251 @@ export function setCurrentSession(val){
 
   };
 };
+
+
+
+/******* sqlite tables for Facebook ****/
+
+export function callbackfbsessions(results) {
+ var fsessions = []
+ console.log('inside callbackfbsessions')
+ var len = results.rows.length;
+  for (let i = 0; i < len; i++) {
+    let row = results.rows.item(i);
+  
+    var obj = {
+          _id: row._id,
+          companyid:row.companyid,
+          pageid: JSON.parse(row.pageid),
+          picktime:row.picktime,
+          requesttime:row.requesttime,
+          user_id:JSON.parse(row.user_id),
+          deleteStatus: row.deleteStatus,
+          status:row.status,
+          agent_ids: [row.agent_ids && row.agent_ids != ''?JSON.parse(row.agent_ids):''],
+          
+      }
+    
+    console.log('row');
+    fsessions.push(obj);
+  }
+  console.log('callbacksessions');
+  console.log(fsessions);
+ 
+  return{
+    type: ActionTypes.FB_SESSIONS,
+    payload: fsessions,
+  };
+}
+
+export  function writeFBSessions(sessions){
+  var db = SqliteCalls.getConnection();
+   var res = [];
+  var CREATE_Sessions_TABLE = "CREATE TABLE FBCHATSESSIONS ("
+                + "_id TEXT PRIMARY KEY,"
+                + "companyid TEXT,"
+                + "pageid TEXT,"
+                + "user_id TEXT,"
+                + "picktime DATETIME,"
+                + "requesttime DATETIME,"
+                + "deleteStatus TEXT,"
+                + "status TEXT,"
+                + "agent_ids TEXT"
+                + ")";
+
+ var rows = []
+ console.log('inside fbwriteSessions');
+ for(var i=0;i<sessions.length;i++){
+  var record = []
+  record.push(sessions[i]._id)
+  record.push(sessions[i].companyid);
+  record.push(JSON.stringify(sessions[i].pageid));
+  record.push(JSON.stringify(sessions[i].user_id));
+  record.push(sessions[i].picktime?sessions[i].picktime:"null");
+  record.push(sessions[i].requesttime);
+  record.push(sessions[i].deleteStatus);
+  record.push(sessions[i].status);
+  record.push(sessions[i].agent_ids.length>0?JSON.stringify(sessions[i].agent_ids[sessions[i].agent_ids.length-1]):'');
+  
+  rows.push(record);
+  // addItem(db,record);
+
+  
+ }
+ 
+
+return (dispatch) => {
+    
+    db.transaction(function(tx) {
+    tx.executeSql('DROP TABLE IF EXISTS FBCHATSESSIONS');
+    tx.executeSql(CREATE_Sessions_TABLE);
+
+    for(var j=0;j<rows.length;j++){
+       tx.executeSql('INSERT INTO FBCHATSESSIONS VALUES (?,?,?,?,?,?,?,?,?)',rows[j]);
+   
+    }
+    tx.executeSql('SELECT * FROM FBCHATSESSIONS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log("convert query result into desired format");
+          console.log(results);
+    
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+          console.log('res is:')
+          console.log(res);
+          dispatch(callbackfbsessions(res));
+  }
+  );
+  
+  }
+
+}
+
+export function readFBSessions(){
+   var db = SqliteCalls.getConnection();
+   return (dispatch) => {
+    
+    db.transaction(function(tx) {
+   
+    tx.executeSql('SELECT * FROM FBCHATSESSIONS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackfbsessions(res));
+  }
+  );
+  
+  }
+
+}
+
+
+// Chat Messages
+
+
+export function callbackfbchats(results) {
+ var fchats = []
+ console.log('inside callbackfbchats')
+ var len = results.rows.length;
+  for (let i = 0; i < len; i++) {
+    let row = results.rows.item(i);
+    
+    var obj = {
+          _id: row._id,
+          senderid:row.senderid,
+          recipientid:row.recipientid,
+          timestamp:row.timestamp,
+          message:JSON.parse(row.message),
+          companyid:row.companyid,
+      }
+    
+    console.log('row');
+    fchats.push(obj);
+  }
+ return{
+    type: ActionTypes.SHOW_FB_CHATS,
+    payload: fchats,
+  };
+}
+
+export  function writeFBChats(chats){
+  var db = SqliteCalls.getConnection();
+   var res = [];
+  var CREATE_FBChats_TABLE = "CREATE TABLE FBCHATS ("
+                + "_id TEXT PRIMARY KEY,"
+                + "senderid TEXT,"
+                + "recipientid TEXT,"
+                + "timestamp TEXT,"
+                + "message TEXT,"
+                + "companyid TEXT" + ")";
+
+ var rows = []
+ console.log('inside writeFBChats');
+ for(var i=0;i<chats.length;i++){
+  var record = []
+  record.push(chats[i]._id)
+  record.push(chats[i].senderid);
+  record.push(chats[i].recipientid);
+  record.push(chats[i].timestamp);
+  record.push(JSON.stringify(chats[i].message));
+  record.push(chats[i].companyid);
+  rows.push(record);
+  // addItem(db,record);
+
+  
+ }
+ 
+
+return (dispatch) => {
+    
+    db.transaction(function(tx) {
+    tx.executeSql('DROP TABLE IF EXISTS FBCHATS');
+    tx.executeSql(CREATE_FBChats_TABLE);
+
+    for(var j=0;j<rows.length;j++){
+       tx.executeSql('INSERT INTO FBCHATS VALUES (?,?,?,?,?,?)',rows[j]);
+   
+    }
+    tx.executeSql('SELECT * FROM FBCHATS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log("convert query result into desired format");
+          console.log(results);
+    
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+          console.log('res is:')
+          console.log(res);
+          dispatch(callbackfbchats(res));
+  }
+  );
+  
+  }
+
+}
+
+export function readFBChats(){
+   var db = SqliteCalls.getConnection();
+   return (dispatch) => {
+    
+    db.transaction(function(tx) {
+   
+    tx.executeSql('SELECT * FROM FBCHATS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log("convert query result into desired format");
+          console.log(results);
+    
+          res = results;
+          
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackfbchats(res));
+  }
+  );
+  
+  }
+
+}
+

@@ -40,15 +40,15 @@ export const sessionsFetch =  (token) => {
       },
     };
       
-  return (dispatch) => {
+ /* return (dispatch) => {
     axios.get(`${baseURL}/api/visitorcalls/kiboengagesessions`,config)
     .then(res => dispatch(showSessions(res)));   
   };
 };
+*/
 
 
-
-/* return (dispatch) => {
+ return (dispatch) => {
     axios.get(`${baseURL}/api/visitorcalls/kiboengagesessions`,config)
     .then((res) => res).then(res => dispatch(writeSessions(res.data.filter((s) => s.platform == "mobile"))))
     .catch(function (error) {
@@ -63,7 +63,7 @@ export const sessionsFetch =  (token) => {
       
   };
 };
-*/
+
 export const chatsFetch =  (token) => {
 
    var config = {
@@ -338,7 +338,7 @@ export function callbacksessions(results) {
     console.log('row.customerid');
     console.log(JSON.parse(row.customerid));
     console.log('request_id is ------ ***');
-    console.log(row.requestid);
+    console.log(row.request_id);
     var obj = {
           _id: row._id,
           companyid:row.companyid,
@@ -348,11 +348,12 @@ export function callbacksessions(results) {
           picktime: row.picktime,
           requesttime:row.requesttime,
           deleteStatus:row.deleteStatus,
+          status:row.status,
           platform:row.platform,
           is_rescheduled:row.is_rescheduled,
-          agent_ids: [],//row.agent_ids && row.agent_ids != ''?JSON.parse(row.agent_ids):''],
+          agent_ids: [row.agent_ids && row.agent_ids != ''?JSON.parse(row.agent_ids):''],
           messagechannel: [row.messagechannel],
-          request_id:row.requestid,
+          request_id:row.request_id,
 
 
       }
@@ -375,18 +376,19 @@ export  function writeSessions(sessions){
   var CREATE_Sessions_TABLE = "CREATE TABLE CHATSESSIONS ("
                 + "_id TEXT PRIMARY KEY,"
                 + "companyid TEXT,"
-                + "customerIDmod TEXT,"
                 + "customerid TEXT,"
                 + "departmentid TEXT,"
                 + "picktime DATETIME,"
                 + "requesttime DATETIME,"
                 + "deleteStatus TEXT,"
                 + "platform TEXT,"
-                + "is_rescheduled TEXT,"
                 + "status TEXT,"
                 + "agent_ids TEXT,"
+                + "request_id TEXT,"
                 + "messagechannel TEXT,"
-                + "requestid TEXT" + ")";
+                + "customerIDmod TEXT,"
+                + "is_rescheduled TEXT"
+                + ")";
 
  var rows = []
  console.log('inside writeSessions');
@@ -394,19 +396,21 @@ export  function writeSessions(sessions){
   var record = []
   record.push(sessions[i]._id)
   record.push(sessions[i].companyid);
-  record.push(sessions[i].customerID);
   record.push(JSON.stringify(sessions[i].customerid));
   record.push(sessions[i].departmentid);
   record.push(sessions[i].picktime?sessions[i].picktime:"null");
   record.push(sessions[i].requesttime);
   record.push(sessions[i].deleteStatus);
   record.push(sessions[i].platform);
-  record.push(sessions[i].is_rescheduled);
+  record.push(sessions[i].status);
   record.push(sessions[i].agent_ids.length>0?JSON.stringify(sessions[i].agent_ids[sessions[i].agent_ids.length-1]):'');
-  record.push(sessions[i].messagechannel[sessions[i].messagechannel.length-1]);
   console.log('Request_id is ------ ')
   console.log(sessions[i].request_id)
   record.push(sessions[i].request_id);
+  record.push(sessions[i].messagechannel[sessions[i].messagechannel.length-1]);
+  record.push(sessions[i].customerID);
+  record.push(sessions[i].is_rescheduled);
+  
   rows.push(record);
   // addItem(db,record);
 

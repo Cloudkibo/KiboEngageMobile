@@ -89,7 +89,7 @@ class FbCustomers extends Component {
      var token =  await auth.getToken();
       // console.log('token is Launchview is: ' + token);
       if(token != ''){
-        this.props.fetchfbcustomers(token);
+       // this.props.fetchfbcustomers(token);
         this.props.getfbChats(token);
         this.props.fetchSession(token);
        }
