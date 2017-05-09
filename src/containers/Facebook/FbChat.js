@@ -477,20 +477,17 @@ class FbChat extends Component {
         );
     }
   else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'video'){
-    console.log(prop.currentMessage.attachments[0].payload.url);
-      return (
-                  <WebView
-                    source={{uri:prop.currentMessage.attachments[0].payload.url}}
-                    style={{width:250,height:200,flexDirection: 'row'}}
-                    startInLoadingState={true}
-                    scalesPageToFit={true}
-                   
-                    allowsInlineMediaPlayback={true}
-                  />
-      );
-      
-      
-       
+        console.log("Video", prop.currentMessage.attachments[0].payload.url);
+        
+        return (
+          <WebView
+        source={{uri: prop.currentMessage.attachments[0].payload.url}}
+        style={{width:250,height:200,flexDirection: 'row'}}
+        javaScriptEnabled={true}
+        
+      />
+          // <Text>{prop.currentMessage.text}</Text>
+        );
     }else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'audio'){
         console.log("Audio", prop.currentMessage.attachments[0].payload.url);   
         return (
