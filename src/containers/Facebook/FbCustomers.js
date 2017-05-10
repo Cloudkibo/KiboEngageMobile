@@ -128,6 +128,7 @@ class FbCustomers extends Component {
 
   renderCard = (nextProps) => {
       var data = nextProps.fbSessions;
+      console.log("Facebook Sessions", nextProps.fbSessions);
       this.state.menuItems = [];
       // Build the actual Menu Items
     data.map((item, index) => {

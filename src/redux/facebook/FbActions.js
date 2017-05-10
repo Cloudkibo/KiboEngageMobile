@@ -87,6 +87,15 @@ const updateFbSessions = (data) => {
 
 };
 
+const updateFbSessionsStatus = (data) => {
+  return{
+    type: ActionTypes.FB_SESSIONS_STATUS,
+    payload: data,
+  };
+
+
+};
+
 
 const fbpageEditFail = () => {
   return{ type: ActionTypes.FBPAGE_FAIL };
@@ -282,6 +291,14 @@ export function updateAssignAgentStatus(data){
   };
 }
 
+export function updateStateResolve(data){
+      return {
+    type: ActionTypes.UPDATE_STATE_RESOLVE,
+    payload : data,
+
+  };
+}
+
 export const getfbpages = (token) => {
   const config = {
     rejectUnauthorized: false,
@@ -445,7 +462,7 @@ export const fetchChatSessions=(token) => {
 };
 
 
-export const resolveChatSessions=(token, data) => {
+export const resolveChatSessions=(token, data, id) => {
     var token = token;
     var config = {
       headers: {
@@ -460,6 +477,8 @@ export const resolveChatSessions=(token, data) => {
     axios.post(`${baseURLKiboEngage}/api/resolvechatsessionfb`,data, config).then(res => {
       console.log("Facebook chat session was marked resolved", res);
       dispatch(updateAssignAgentStatus({status: "Marked Resolved"}));
+      dispatch(updateStateResolve("resolved"));
+      dispatch(updateFbSessionsStatus({_id: id, status: 'resolved'}));
     })
       .catch(function (error) {
         console.log('Error occured, cannot mark chat session resolved');
@@ -472,7 +491,7 @@ export const resolveChatSessions=(token, data) => {
 };
 
 
-export const assignChatSession=(token, data) => {
+export const assignChatSession=(token, data, id) => {
     var token = token;
     var config = {
       headers: {
@@ -490,6 +509,8 @@ export const assignChatSession=(token, data) => {
       }else{
         dispatch(updateAssignAgentStatus({status: 'Team Assigned'}));
       }
+      dispatch(updateStateResolve("assigned"));
+      dispatch(updateFbSessionsStatus({_id: id, status: 'assigned'}));
     })
       .catch(function (error) {
         console.log('Error occured, cannot assign chat session');

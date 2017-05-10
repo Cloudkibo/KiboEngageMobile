@@ -62,6 +62,15 @@ export default (state = INITIAL_STATE, action) => {
       return {...state,currentSession:action.payload};
     case ActionTypes.AGENT_ASSIGN_STATUS:
       return {...state,agent_assign_status:action.payload};
+    case ActionTypes.UPDATE_STATE_RESOLVE:
+      return {...state,currentSession:{...state.currentSession, status: action.payload}};
+    case ActionTypes.FB_SESSIONS_STATUS:
+      return {...state,fbSessions:state.fbSessions.map((obj) => {
+        if(obj._id == action.payload._id){
+          obj.status = action.payload.status;
+        }
+        return obj;
+      })};
     default:
       return state;
   }
