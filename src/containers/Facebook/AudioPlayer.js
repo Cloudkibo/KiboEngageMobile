@@ -13,9 +13,9 @@ import axios from 'axios';
 import { AppStyles } from '@theme/';
 
 // Components
-import { Text, Card, Spacer, Alerts, } from '@ui/';
+import { Text, Spacer, Alerts, } from '@ui/';
 import { TextInput, Button } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, Card } from 'react-native-elements';
 import auth from '../../services/auth';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -45,8 +45,11 @@ class AudioPlayer extends Component {
         error: '',
         length: 0,
         myValue:0,
+        isPlaying: false,
+        icon: 'play-circle-o'
     };
     this._interval;
+    this.whoosh;
   }
 
 
@@ -151,77 +154,120 @@ class AudioPlayer extends Component {
   }
 
   playSound(){
-        this.setState({myValue: 0});
-        if(this._interval){
-            clearInterval(this._interval);
-        }
+        
+        // else if(this.whoosh){
+        //   this.whoosh.play();
+        // }
+        // this.setState({myValue: 0});
+        // if(this._interval){
+        //     clearInterval(this._interval);
+        // }
         console.log(this.props.url);
-        var whoosh = new Sound(this.props.url, Sound.MAIN_BUNDLE, (error) => {
+        if(this.whoosh){
+          console.log("IS Playing:", this.state.isPlaying);
+            if(this.state.isPlaying){
+              this.setState({isPlaying: false, icon: 'play-circle-o'});
+              this.whoosh.pause();
+              return;
+            }else{
+              this.setState({isPlaying: true, icon: 'pause-circle'});
+            this.whoosh.play((success) => {
+            if (success) {
+                console.log('successfully finished playing');
+            } else {
+                console.log('playback failed due to audio decoding errors');
+            }
+            this.setState({isPlaying: false, icon: 'play-circle-o', myValue: 0});
+            this.whoosh.stop();
+            this.whoosh.setCurrentTime(0);
+            });
+              return;
+            }
+        }
+        this.whoosh = new Sound(this.props.url, Sound.MAIN_BUNDLE, (error) => {
 
         if (error) {
             console.log('failed to load the sound', error);
             return;
         } 
             // loaded successfully 
-            console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
-            this.setState({length: whoosh.getDuration()});
-            whoosh.play();
+            console.log('duration in seconds: ' + this.whoosh.getDuration() + 'number of channels: ' + this.whoosh.getNumberOfChannels());
+            this.setState({length: this.whoosh.getDuration()});
+            this.setState({isPlaying: true, icon: 'pause-circle'});
+            this.whoosh.play((success) => {
+            if (success) {
+                console.log('successfully finished playing');
+            } else {
+                console.log('playback failed due to audio decoding errors');
+            }
+            this.setState({isPlaying: false, icon: 'play-circle-o', myValue: 0});
+            this.whoosh.stop();
+            this.whoosh.setCurrentTime(0);
+            }); 
             this._interval =  this.setInterval(
-                () => { whoosh.getCurrentTime((seconds) => {this.setState({myValue: seconds}); console.log("Current Seconds", seconds)}); },
+                () => { this.whoosh.getCurrentTime((seconds) => {this.setState({myValue: seconds}); console.log("Current Seconds", seconds)}); },
                 500
                 );
             
         });
-        whoosh.play((success) => {
-        if (success) {
-            console.log('successfully finished playing');
-        } else {
-            console.log('playback failed due to audio decoding errors');
-        }
-        }); 
+
+        // this.whoosh.play();
+
   }
 
 
   render() {
     if(ReactNative.Platform.OS == 'ios'){
         return (
-                <View style={{width:250,padding:5, backgroundColor: "#2E8DFE"}}>
-                      <View>
-                         <Icon
-                            name='play'
-                            type='font-awesome'
-                            color='#444d56'
-                            size={26}
-                            onPress={()=>{this.playSoundIOS()}}
-                          />
-                            <Slider
-                            value={this.state.myValue}
-                            maximumValue={this.state.length}
-                            minimumValue={0}
-                            onValueChange={(value) => this.setState({value: this.state.myValue})} />
-                            </View>
-                </View>
+                   <Card style={{borderRadius: 10}}>
+      <Icon
+          name={this.state.icon}
+          type='font-awesome'
+          color='#444d56'
+          size={26}
+          onPress={()=>{this.playSoundIOS()}}
+        />
+    <View style={ {width: 180,
+    height: 25,
+    backgroundColor: "#2E8DFE",
+    borderRadius: 10,
+    marginTop:5}}>
+          <Slider
+          style={{marginTop:5}}
+          value={this.state.myValue}
+          maximumValue={this.state.length}
+          minimumValue={0}
+          onValueChange={(value) => this.setState({value: this.state.myValue})} />
+    </View>
+    </Card>
+
     );
     }
 
     else{
-        return (
-                <View style={{width:250,padding:5, backgroundColor: "#2E8DFE"}}>
-                      <View>
-                         <Icon
-                            name='play'
-                            type='font-awesome'
-                            color='#444d56'
-                            size={26}
-                            onPress={()=>{this.playSound()}}
-                          />
-                            <Slider
-                            value={this.state.myValue}
-                            maximumValue={this.state.length}
-                            minimumValue={0}
-                            onValueChange={(value) => this.setState({value: this.state.myValue})} />
-                            </View>
-                </View>
+          return (
+                   <Card style={{borderRadius: 10}}>
+      <Icon
+          name={this.state.icon}
+          type='font-awesome'
+          color='#444d56'
+          size={26}
+          onPress={()=>{this.playSound()}}
+        />
+    <View style={ {width: 180,
+    height: 25,
+    backgroundColor: "#2E8DFE",
+    borderRadius: 10,
+    marginTop:5}}>
+          <Slider
+          style={{marginTop:5}}
+          value={this.state.myValue}
+          maximumValue={this.state.length}
+          minimumValue={0}
+          onValueChange={(value) => this.setState({value: this.state.myValue})} />
+    </View>
+    </Card>
+
     );
     }
     
