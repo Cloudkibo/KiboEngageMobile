@@ -52,12 +52,18 @@ class Agents extends Component {
 }
   componentWillMount = async () => {
     //this.props.agentFetch();
+     if(this.props.userdetails.isAgent == "Yes"){
+       Actions.refresh({rightTitle: "",onRight:()=> {console.log('do nothing')}});
+   
+    }
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
         this.props.agentFetch(token);
        }
   }
+
+
 
   componentWillReceiveProps(nextProps) {
     // nextProps are the next set of props that this component
@@ -116,8 +122,8 @@ const mapDispatchToProps = {
 };
 function mapStateToProps(state) {
    const { agents } = state.agents;
-
-  return { agents };
+   const {userdetails} = state.user;
+  return { agents,userdetails };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Agents);

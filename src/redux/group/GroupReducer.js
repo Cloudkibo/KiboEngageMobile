@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
       return {...state,groups:state.groups,groupagents : action.payload,grouperror: '',groupsuccess:'',  groupediterror : '',
   groupeditsuccess:''};
     case ActionTypes.ADD_MY_GROUPS:
-         return {...state,mygroups:action.payload.createdDept,groupagents : state.groupagents,grouperror: '',groupsuccess:'',  groupediterror : '',
+         return {...state,mygroups:action.payload.createdDept?action.payload.createdDept:[],groupagents : state.groupagents,grouperror: '',groupsuccess:'',  groupediterror : '',
   groupeditsuccess:''};
    
  

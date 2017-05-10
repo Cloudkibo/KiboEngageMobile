@@ -70,6 +70,7 @@ class GroupsMain extends Component {
     
     return(
         <Tabs>
+                {this.props.userdetails.isAdmin == "Yes" &&
                 <Tab
                   titleStyle={{fontWeight: 'bold', fontSize: 10}}
                   selectedTitleStyle={{marginTop: -1, marginBottom: 6}}
@@ -80,6 +81,7 @@ class GroupsMain extends Component {
                   onPress={() => this.changeTab('myGroups')}>
                   <MyGroups />
                 </Tab>
+              }
                 <Tab
                   titleStyle={{fontWeight: 'bold', fontSize: 10}}
                   selectedTitleStyle={{marginTop: -1, marginBottom: 6}}
@@ -90,6 +92,7 @@ class GroupsMain extends Component {
                   onPress={() => this.changeTab('searchGroups')}>
                   <Groups />
                 </Tab>
+                {this.props.userdetails.isAdmin == "Yes" &&
                 <Tab
                   titleStyle={{fontWeight: 'bold', fontSize: 10}}
                   selectedTitleStyle={{marginTop: -1, marginBottom: 6}}
@@ -100,7 +103,7 @@ class GroupsMain extends Component {
                   onPress={() => this.changeTab('addGroups')}>
                   <CreateGroup />
                 </Tab>
-
+              }
               </Tabs>
  
   );
@@ -108,6 +111,14 @@ class GroupsMain extends Component {
 }
 
 
+function mapStateToProps(state) {
+ const { userdetails } = state.user;
 
-export default GroupsMain;
+  return { userdetails };
+
+}
+export default connect(mapStateToProps, {})(GroupsMain);
+
+
+//export default GroupsMain;
 

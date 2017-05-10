@@ -173,7 +173,8 @@ class EditSubgroup extends Component {
 
           
           <Spacer size={55} />
-
+         {this.props.userdetails.isAgent == "No" &&
+          <View>
           <Button
             title={'Save Changes'}
             onPress={this.editSubgroup}
@@ -183,6 +184,8 @@ class EditSubgroup extends Component {
             title={'Delete Subgroup'}
             onPress={this.deleteSubgroup}
           />
+          </View>
+        }
           <Spacer size={10} />
 
          

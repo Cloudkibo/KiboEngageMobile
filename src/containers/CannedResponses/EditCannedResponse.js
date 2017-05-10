@@ -203,6 +203,8 @@ class EditCannedResponse extends Component {
             options={this.state.options}
           />
 
+          {this.props.userdetails.isAgent == "No" &&
+          <View>
           <Button
             title={'Save Changes'}
             onPress={this.editCannedResponse}
@@ -214,7 +216,8 @@ class EditCannedResponse extends Component {
             title={'Delete Response'}
             onPress={this.deleteCanned}
           />
-
+          </View>
+        }
           <Spacer size={10} />
 
          

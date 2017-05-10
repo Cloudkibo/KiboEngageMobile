@@ -54,6 +54,13 @@ class Cannedresponse extends Component {
     this.createDataSource(props);
   }
 
+ componentWillMount(){
+    if(this.props.userdetails.isAgent == "Yes"){
+       Actions.refresh({rightTitle: "",onRight:()=> {console.log('do nothing')}});
+   
+    }
+  }
+    
    componentDidMount = async() => {
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
@@ -148,8 +155,8 @@ const mapDispatchToProps = {
  };
 function mapStateToProps(state) {
    const { cannedresponses} = state.cannedresponses;
-  
-  return {cannedresponses};
+   const { userdetails } = state.user;
+  return {cannedresponses,userdetails};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Cannedresponse);

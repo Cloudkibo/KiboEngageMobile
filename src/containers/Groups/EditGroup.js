@@ -289,7 +289,7 @@ class EditGroup extends Component {
             options={this.state.options}
           />
 
-
+          {this.props.userdetails.isAdmin == "Yes" &&
           <View>
             <Text h3> All Agents </Text>
             <ListView
@@ -297,6 +297,7 @@ class EditGroup extends Component {
                  renderRow={this.renderRow}
             />
           </View>
+        }
 
           <View>
             <Text h3> Fellow Agents </Text>
@@ -310,7 +311,9 @@ class EditGroup extends Component {
          
 
            <Spacer size={20} />
-          
+          {
+            this.props.userdetails.isAdmin == "Yes" &&
+          <View>
           <Button
             title={'Save Changes'}
             onPress={this.editGroup}
@@ -321,6 +324,8 @@ class EditGroup extends Component {
             title={'Delete Group'}
             onPress={this.deleteGroup}
           />
+          </View>
+        }
 
           <Spacer size={10} />
 
@@ -334,8 +339,9 @@ class EditGroup extends Component {
 
 function mapStateToProps(state) {
    const {groups,groupediterror,groupeditsuccess} =  state.groups;
-  
-  return {groups,groupediterror,groupeditsuccess };
+    const { userdetails } = state.user;
+
+  return {groups,groupediterror,groupeditsuccess,userdetails };
 }
 
 

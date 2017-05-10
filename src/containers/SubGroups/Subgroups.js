@@ -56,6 +56,13 @@ class SubGroups extends Component {
     this.state = {loading : true};
     this.createDataSource(props);
   }
+  componentWillMount(){
+    if(this.props.userdetails.isAgent == "Yes"){
+       Actions.refresh({rightTitle: "",onRight:()=> {console.log('do nothing')}});
+   
+    }
+    
+  }
 
    componentDidMount = async() => {
      var token =  await auth.getToken();
@@ -161,9 +168,9 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
    const { subgroups} = state.subgroups;
    const { groups} = state.groups;
-    
+  const { userdetails } = state.user;
 
-  return {subgroups,groups};
+  return {subgroups,groups,userdetails};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SubGroups);

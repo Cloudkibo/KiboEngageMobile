@@ -154,7 +154,7 @@ export default Actions.create(
 
       <Scene
         key={'channelCreate'}
-        title={'CreateSubGroup'}
+        title={'Create SubGroup'}
         component={CreateSubGroup}
         analyticsDesc={'CreateSubGroup: Create Channel'}
       />

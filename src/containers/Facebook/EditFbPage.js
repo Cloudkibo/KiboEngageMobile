@@ -157,10 +157,12 @@ class EditFbPage extends Component {
             options={this.state.options}
           />
 
+          {this.props.userdetails.isAgent=="No" &&
           <Button
             title={'Save'}
             onPress={this.addFbPage}
           />
+        }
 
           <Spacer size={10} />
 

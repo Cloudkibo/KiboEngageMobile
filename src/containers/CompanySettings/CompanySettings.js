@@ -255,10 +255,14 @@ class CompanySettings extends Component {
                   options={this.state.options}
                   
                 />
-             <Button
+          {this.props.userdetails.isAdmin=="Yes" &&
+         
+        
+            <Button
             title={'Save'}
             onPress = {this.valChanged}
               />
+            }
               </Card>
             </ScrollView>
            
@@ -274,8 +278,9 @@ const mapDispatchToProps = {
 };
 function mapStateToProps(state) {
    var { data, updateSettings } = state.company;
+   const { userdetails } = state.user;
    data = data[0];
-  return { data, updateSettings };
+  return { data, updateSettings,userdetails };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CompanySettings);

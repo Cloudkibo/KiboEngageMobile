@@ -110,6 +110,11 @@ class Menu extends Component {
         //   onPress: () => { this.props.closeSideMenu(); Actions.comingSoon(); },
         //   icon:'dashboard',
         // },
+        {
+          title: 'Dashboard',
+          onPress: () => { this.props.closeSideMenu(); Actions.app(); },
+          icon:'dashboard',
+        },
 
          {
           title: 'Groups',

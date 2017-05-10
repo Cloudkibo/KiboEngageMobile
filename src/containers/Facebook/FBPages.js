@@ -56,6 +56,14 @@ class FBPages extends Component {
     this.createDataSource(props);
   }
 
+ componentWillMount(){
+    if(this.props.userdetails.isAgent == "Yes"){
+       Actions.refresh({rightTitle: "",onRight:()=> {console.log('do nothing')}});
+   
+    }
+    
+  }
+
   componentDidMount = async () => {
     const token = await auth.getToken();
     console.log(`token is Launchview is ${token}`);
@@ -148,7 +156,7 @@ const mapDispatchToProps = {
 
 function mapStateToProps(state) {
   const { fbpages } = state.fbpages;
-
-  return { fbpages };
+  const {userdetails} = state.user;
+  return { fbpages,userdetails };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FBPages);
