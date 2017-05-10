@@ -121,7 +121,8 @@ class ChatSession extends Component {
     sessiondata.team_name = team_name;
     sessiondata.chats = mychats;
     this.props.singleChats(sessiondata);
-    Actions.chat({chat: mychats, sessioninfo: item});
+    this.props.updateChat(mychats);
+    Actions.chat({sessioninfo: item});
   }
 
 
@@ -266,7 +267,8 @@ const mapDispatchToProps = {
   channelFetch: SubgroupActions.channelFetch,
   teamFetch: TeamActions.teamFetch,
   agentTeamFetch : TeamActions.agentTeamFetch,
-  agentFetch:AgentActions.agentFetch
+  agentFetch:AgentActions.agentFetch,
+  updateChat: chatActions.updateChat
 };
 function mapStateToProps(state) {
    const { data, loading, chat } = state.chat;

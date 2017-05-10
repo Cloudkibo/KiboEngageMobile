@@ -215,7 +215,9 @@ renderLoadingView(){
           var token =  await auth.getToken();
           // console.log('token is Launchview is: ' + token);
           if(token != ''){
-            this.props.fetchChat(token, notif.data);
+            if(notif.data.request_id == this.props.singleChat.request_id){
+              this.props.fetchChat(token, notif.data);
+            }
             
            }
       
@@ -240,7 +242,8 @@ function mapStateToProps(state) {
    const { userdetails,fetchedR} = state.user;
    const {fbchatSelected} = state.fbpages;
    var {chat} = state.chat;
-  return {userdetails,fetchedR,fbchatSelected, chat};
+   var {singleChat} = state.chat;
+  return {userdetails,fetchedR,fbchatSelected, chat, singleChat};
 
 }
 

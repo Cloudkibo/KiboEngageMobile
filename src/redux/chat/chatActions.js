@@ -135,6 +135,20 @@ export function update_upload_progress(data) {
   };
 }
 
+export function updateChat(chat) {
+  return {
+    type: ActionTypes.UPDATE_CHAT,
+    payload : chat,
+  };
+}
+
+export function addChat(chat) {
+  return {
+    type: ActionTypes.ADD_CHAT,
+    payload : chat,
+  };
+}
+
 // Send Chat to server
 export const sendChat  = (token, input) => {
     console.log("In send chat");
@@ -281,7 +295,9 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
   return (dispatch) => {
     axios.post(`${baseURL}/api/userchats/fetchChat`,data,config)
     .then(res => {
-      console.log("Response of fetchChat api", res.data);
+      console.log("Response of fetchChat api", res.data[0]);
+      dispatch(addChat(res.data[0]));
+      console.log("Chat Updated");
     }).catch((err) => {
       
       console.log("Printing the err", err)});   
