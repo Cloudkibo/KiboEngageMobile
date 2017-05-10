@@ -5,10 +5,10 @@ const INITIAL_STATE = {
   data: '',
   loading: true,
   chat: [],
-  singleChat: '',
+  singleChat: {},
   invite_agent_status: '',
   upload: [],
-  
+  currentChats: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -26,6 +26,10 @@ export default (state = INITIAL_STATE, action) => {
       return {...state,invite_agent_status:action.payload};
   case ActionTypes.UPLOAD_PROGRESS:
       return {...state,upload: [...state.upload, action.payload]};
+  case ActionTypes.UPDATE_CHAT:
+      return {...state,currentChats: action.payload};
+  case ActionTypes.ADD_CHAT:
+      return {...state,currentChats: [...state.currentChats, action.payload] };
     
    
     default:

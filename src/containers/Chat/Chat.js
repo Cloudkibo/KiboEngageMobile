@@ -28,7 +28,12 @@ import { AppColors, AppStyles } from '@theme/';
 // Components
 import { Alerts, Spacer, Text } from '@components/ui/';
 
+var handleDate = function(d){
 
+var c = new Date(d);
+return c;
+
+}
 class Chat extends Component {
   constructor(props) {
     super(props);
@@ -38,26 +43,40 @@ class Chat extends Component {
     this.renderActions = this.renderActions.bind(this);
     this.selectFileTapped = this.selectFileTapped.bind(this);
     this.renderBubble = this.renderBubble.bind(this);
-    this.renderChat(this.props.chat);
+    // this.renderChat(this.props.currentChats);
   }
 
    componentWillReceiveProps(nextProps) {
     console.log('componentWillReceiveProps is called with chat session data');
+    if(nextProps.currentChats){
+      console.log("Next Props Current Chat:", nextProps.currentChats);
+      this.renderChat(nextProps.currentChats);
+    }
+  }
+
+    componentDidMount(){
+    console.log('component did. mount called');
+    if(this.props.currentChats){
+      this.renderChat(this.props.currentChats);
+      this.forceUpdate(); 
+    }
   }
 
 
-  renderChat = (whatever) => {
-      // var temp = [];
+  renderChat = (newchats) => {
+      var temp = [];
       console.log("Single Chat", this.props.singleChat);
-     this.props.chat.map((item, index) => {
-
-      this.state.messages.push(
+      // console.log("In renderChat", newchats);
+     newchats.map((item, index) => {
+      
+      temp.push(
            {
           _id: index,
           text: item.msg,
-          createdAt: item.datetime,
+          createdAt:  handleDate(item.datetime),
+          timestamp:item.datetime,
           user: {
-            _id: index + '2',
+            _id: 2,
             name:  item.from,
             avatar: 'https://facebook.github.io/react/img/logo_og.png',
           },
@@ -65,8 +84,8 @@ class Chat extends Component {
         );
 
     }, this);
-
-    // this.setState({messages: temp});
+    temp.reverse();
+    this.setState({messages: temp});
   }
 
   async onSend(messages = []) {
@@ -319,7 +338,7 @@ class Chat extends Component {
 
   render() {
     return (
-      <GiftedChat
+      <GChat.GiftedChat
         messages={this.state.messages}
         onSend={this.onSend}
         renderActions={this.renderActions}
@@ -348,8 +367,8 @@ function mapStateToProps(state) {
    const { agents } = state.agents;
    const { teams, teamagents } = state.teams;
    const { subgroups} = state.subgroups;
-   const { singleChat,invite_agent_status, upload } = state.chat;
-   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, upload };
+   const { singleChat,invite_agent_status, upload, currentChats } = state.chat;
+   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, upload, currentChats };
  
 
 
