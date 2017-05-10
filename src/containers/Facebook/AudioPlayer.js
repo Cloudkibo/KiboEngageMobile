@@ -68,7 +68,57 @@ class AudioPlayer extends Component {
         .then((exist) => {
             console.log(`file ${exist ? '' : 'not'} exists`)
             if(exist == true){
-                               var whoosh = new Sound(Sound.DOCUMENT + '/' + (name_file),'', error => {
+                          if(this.whoosh){
+                            console.log("IS Playing:", this.state.isPlaying);
+                              if(this.state.isPlaying){
+                                this.setState({isPlaying: false, icon: 'play-circle-o'});
+                                this.whoosh.pause();
+                                return;
+                              }else{
+                                this.setState({isPlaying: true, icon: 'pause-circle'});
+                              this.whoosh.play((success) => {
+                              if (success) {
+                                  console.log('successfully finished playing');
+                              } else {
+                                  console.log('playback failed due to audio decoding errors');
+                              }
+                              this.setState({isPlaying: false, icon: 'play-circle-o', myValue: 0});
+                              this.whoosh.stop();
+                              this.whoosh.setCurrentTime(0);
+                              });
+                                return;
+                              }
+                          }
+                          this.whoosh = new Sound(Sound.DOCUMENT + '/' + (name_file),'', error => {
+
+                          if (error) {
+                              console.log('failed to load the sound', error);
+                              return;
+                          } 
+                              // loaded successfully 
+                              console.log('duration in seconds: ' + this.whoosh.getDuration() + 'number of channels: ' + this.whoosh.getNumberOfChannels());
+                              this.setState({length: this.whoosh.getDuration()});
+                              this.setState({isPlaying: true, icon: 'pause-circle'});
+                              this.whoosh.play((success) => {
+                              if (success) {
+                                  console.log('successfully finished playing');
+                              } else {
+                                  console.log('playback failed due to audio decoding errors');
+                              }
+                              this.setState({isPlaying: false, icon: 'play-circle-o', myValue: 0});
+                              this.whoosh.stop();
+                              this.whoosh.setCurrentTime(0);
+                              }); 
+                              this._interval =  this.setInterval(
+                                  () => { this.whoosh.getCurrentTime((seconds) => {this.setState({myValue: seconds}); console.log("Current Seconds", seconds)}); },
+                                  500
+                                  );
+                              
+                          });
+
+
+
+                         /*      var whoosh = new Sound(Sound.DOCUMENT + '/' + (name_file),'', error => {
                                                   if (error) {
                                                     console.log('failed to load the sound', error);
                                                   } else { // loaded successfully
@@ -86,7 +136,7 @@ class AudioPlayer extends Component {
                                                             console.log(err)
                                                         })
                                                       }
-                                                    });
+                                                    }); */
             
                        
             }
@@ -118,7 +168,7 @@ class AudioPlayer extends Component {
                               if(ReactNative.Platform.OS == 'ios'){
                                   console.log(Sound.DOCUMENT);
 
-                                   var whoosh = new Sound(res.path(),'',error => {
+                                   /*var whoosh = new Sound(res.path(),'',error => {
                                                   if (error) {
                                                     console.log('failed to load the sound', error);
                                                   } else { // loaded successfully
@@ -136,6 +186,57 @@ class AudioPlayer extends Component {
                                                             console.log(err)
                                                         })
                                                       }
+                                                    });*/
+
+
+
+
+                                                  if(this.whoosh){
+                                                      console.log("IS Playing:", this.state.isPlaying);
+                                                        if(this.state.isPlaying){
+                                                          this.setState({isPlaying: false, icon: 'play-circle-o'});
+                                                          this.whoosh.pause();
+                                                          return;
+                                                        }else{
+                                                          this.setState({isPlaying: true, icon: 'pause-circle'});
+                                                        this.whoosh.play((success) => {
+                                                        if (success) {
+                                                            console.log('successfully finished playing');
+                                                        } else {
+                                                            console.log('playback failed due to audio decoding errors');
+                                                        }
+                                                        this.setState({isPlaying: false, icon: 'play-circle-o', myValue: 0});
+                                                        this.whoosh.stop();
+                                                        this.whoosh.setCurrentTime(0);
+                                                        });
+                                                          return;
+                                                        }
+                                                    }
+                                                    this.whoosh = new Sound(Sound.DOCUMENT + '/' + (name_file),'', error => {
+
+                                                    if (error) {
+                                                        console.log('failed to load the sound', error);
+                                                        return;
+                                                    } 
+                                                        // loaded successfully 
+                                                        console.log('duration in seconds: ' + this.whoosh.getDuration() + 'number of channels: ' + this.whoosh.getNumberOfChannels());
+                                                        this.setState({length: this.whoosh.getDuration()});
+                                                        this.setState({isPlaying: true, icon: 'pause-circle'});
+                                                        this.whoosh.play((success) => {
+                                                        if (success) {
+                                                            console.log('successfully finished playing');
+                                                        } else {
+                                                            console.log('playback failed due to audio decoding errors');
+                                                        }
+                                                        this.setState({isPlaying: false, icon: 'play-circle-o', myValue: 0});
+                                                        this.whoosh.stop();
+                                                        this.whoosh.setCurrentTime(0);
+                                                        }); 
+                                                        this._interval =  this.setInterval(
+                                                            () => { this.whoosh.getCurrentTime((seconds) => {this.setState({myValue: seconds}); console.log("Current Seconds", seconds)}); },
+                                                            500
+                                                            );
+                                                        
                                                     });
                       
                               }
@@ -232,12 +333,7 @@ class AudioPlayer extends Component {
     backgroundColor: "#2E8DFE",
     borderRadius: 10,
     marginTop:5}}>
-          <Slider
-          style={{marginTop:5}}
-          value={this.state.myValue}
-          maximumValue={this.state.length}
-          minimumValue={0}
-          onValueChange={(value) => this.setState({value: this.state.myValue})} />
+       
     </View>
     </Card>
 
