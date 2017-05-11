@@ -207,7 +207,7 @@ const showfbchats = (fbchats) => {
 
 };
 
-const updateFbSessionsAssignedStatus = (sessions) => {
+export const updateFbSessionsAssignedStatus = (sessions) => {
 
   return{
     type: ActionTypes.UPDATE_FB_CHAT_ASSIGNED_STATUS,
@@ -246,9 +246,9 @@ export const getfbChatsUpdate=(token,selectedChat) => {
   };
 };
 const showfbchatsupdated = (fbchats,selectedChat) => {
-  
-  if(selectedChat.length > 0){
-     var currently_selectedId = selectedChat[selectedChat.length-1].senderid;
+  console.log('get fbchats selected');
+  if(selectedChat){
+     var currently_selectedId = selectedChat.user_id.user_id;
      var selected = fbchats.filter((c)=>c.senderid == currently_selectedId || c.recipientid == currently_selectedId).reverse();
      console.log("Found a selected chat");
      return{ type: ActionTypes.SHOW_FB_CHATS_UPDATED,

@@ -206,7 +206,7 @@ renderLoadingView(){
           // console.log('token is Launchview is: ' + token);
           if(token != ''){
             this.props.fetchfbcustomers(token);
-            this.props.getfbChatsUpdate(token,this.props.fbchatSelected);
+            this.props.getfbChatsUpdate(token,this.props.currentSession);
 
             //this.forceUpdate();
             
@@ -233,7 +233,21 @@ renderLoadingView(){
               return obj;
             });
             this.props.updateFbSessionsAssignedStatus(newSessions);
+            //this.forceUpdate();
     }
+
+
+    if(notif.data.type == "fbchat_resolved"){
+            console.log("Updating FbSession Status to resolved");
+            var newSessions = this.props.fbSessions.map((obj) => {
+              if(obj.pageid._id == notif.data.pageid){
+                obj.status = 'resolved';
+              }
+              return obj;
+            });
+            this.props.updateFbSessionsAssignedStatus(newSessions);
+            //this.forceUpdate();
+    
   }
 
 
@@ -253,10 +267,10 @@ const mapDispatchToProps = {
 
 function mapStateToProps(state) {
    const { userdetails,fetchedR} = state.user;
-   const {fbchatSelected, fbSessions} = state.fbpages;
+   const {fbchatSelected, fbSessions,currentSession} = state.fbpages;
    var {chat} = state.chat;
    var {singleChat} = state.chat;
-  return {userdetails,fetchedR,fbchatSelected, chat, singleChat, fbSessions};
+  return {userdetails,fetchedR,fbchatSelected, chat, singleChat, fbSessions,currentSession};
 
 }
 Dashboard = codePush(codePushOptions)(Dashboard);

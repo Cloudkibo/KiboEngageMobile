@@ -24,6 +24,7 @@ import { AppStyles } from '@theme/';
 import { connect } from 'react-redux';
 import * as UserActions from '@redux/user/actions';
 import * as FbActions from '@redux/facebook/FbActions';
+import * as chatActions from '@redux/chat/chatActions';
 import Loading from '@components/general/Loading';
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
@@ -277,6 +278,7 @@ renderLoadingView(){
   async _onRemoteNotification(notification) {
     console.log('notification');
     console.log(notification);
+    var notif = notification._data;
     Alert.alert(
       'Push Notification Received',
       'Alert message: ' + notification._data.data.status,
@@ -291,13 +293,54 @@ renderLoadingView(){
           // console.log('token is Launchview is: ' + token);
           if(token != ''){
             this.props.fetchfbcustomers(token);
-            this.props.getfbChatsUpdate(token,this.props.fbchatSelected);
+            this.props.getfbChatsUpdate(token,this.props.currentSession);
 
             //this.forceUpdate();
             
            }
     }
+
+
+
+    if(notif.data.request_id && notif.data.uniqueid){
+      console.log("Fetching the receieved chat");
+          var token =  await auth.getToken();
+          // console.log('token is Launchview is: ' + token);
+          if(token != ''){
+            if(notif.data.request_id == this.props.singleChat.request_id){
+              this.props.fetchChat(token, notif.data);
+            }
+            
+           }
+      
+    }
+    if(notif.data.type == "fb_chat_assigned"){
+            console.log("Updating FbSession Status to assigned");
+            var newSessions = this.props.fbSessions.map((obj) => {
+              if(obj.pageid._id == notif.data.pageid){
+                obj.status = 'assigned';
+              }
+              return obj;
+            });
+            this.props.updateFbSessionsAssignedStatus(newSessions);
+           // this.forceUpdate();
+    }
+
+
+    if(notif.data.type == "fbchat_resolved"){
+            console.log("Updating FbSession Status to resolved");
+            var newSessions = this.props.fbSessions.map((obj) => {
+              if(obj.pageid._id == notif.data.pageid){
+                obj.status = 'resolved';
+              }
+              return obj;
+            });
+            this.props.updateFbSessionsAssignedStatus(newSessions);
+           // this.forceUpdate();
+    
   }
+}
+  
 
   _onAzureNotificationHubRegistered(registrationInfo) {
     console.log('registered');
@@ -340,16 +383,19 @@ renderLoadingView(){
 const mapDispatchToProps = {
   getuser: UserActions.getuser,
   getsqlData:UserActions.getsqlData,
-
+  fetchChat: chatActions.fetchChat,
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
+  updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
  };
 
 function mapStateToProps(state) {
    const { userdetails,fetchedR} = state.user;
-   const {fbchatSelected} = state.fbpages;
-  return {userdetails,fetchedR,fbchatSelected};
+   const {fbchatSelected, fbSessions,currentSession} = state.fbpages;
+   var {chat} = state.chat;
+   var {singleChat} = state.chat;
+  return {userdetails,fetchedR,fbchatSelected, chat, singleChat, fbSessions,currentSession};
 
 }
 Dashboard = codePush(codePushOptions)(Dashboard);
