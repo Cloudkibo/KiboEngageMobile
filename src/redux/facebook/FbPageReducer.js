@@ -71,6 +71,8 @@ export default (state = INITIAL_STATE, action) => {
         }
         return obj;
       })};
+    case ActionTypes.UPDATE_FB_CHAT_ASSIGNED_STATUS:
+      return {...state,fbSessions:action.payload};
     default:
       return state;
   }

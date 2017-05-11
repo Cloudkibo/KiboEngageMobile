@@ -207,6 +207,16 @@ const showfbchats = (fbchats) => {
 
 };
 
+const updateFbSessionsAssignedStatus = (sessions) => {
+
+  return{
+    type: ActionTypes.UPDATE_FB_CHAT_ASSIGNED_STATUS,
+    payload: sessions,
+  };
+
+
+};
+
 export const getfbChatsUpdate=(token,selectedChat) => {
     var token = token;
     var config = {
