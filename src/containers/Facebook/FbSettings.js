@@ -167,7 +167,7 @@ class FbSettings extends Component {
           agentemail : unique
         }
         console.log("Assign team data stanza", data);
-        this.props.assignChatSession(token, data);
+        this.props.assignChatSession(token, data, this.props.currentSession._id);
         
         // input = {
         //   agentidTo: this.state.assignedTeam,
@@ -212,7 +212,7 @@ class FbSettings extends Component {
         user_id:this.props.currentSession.user_id._id, //_id field
 
       };
-      this.props.resolveChatSessions(token, data);
+      this.props.resolveChatSessions(token, data, this.props.currentSession._id);
     }
   }
 
@@ -234,7 +234,7 @@ class FbSettings extends Component {
       />
       <Text>Status</Text>
       <Text style={styles.cardDescription}>
-        Current Status - {this.props.singleChat.status}
+        Current Status - {this.props.currentSession.status}
       </Text>
       <Text style={styles.cardDescription}>
         {this.props.singleChat.team_name} - {this.props.singleChat.channel_name}
