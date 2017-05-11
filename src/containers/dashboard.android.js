@@ -222,6 +222,16 @@ renderLoadingView(){
            }
       
     }
+    if(notif.data.type == "fb_chat_assigned"){
+            console.log("Updating FbSession Status to assigned");
+            var newSessions = this.props.fbSessions.map((obj) => {
+              if(obj.pageid._id == notif.data.pageid){
+                obj.status = 'assigned';
+              }
+              return obj;
+            });
+            this.props.updateFbSessionsAssignedStatus(newSessions);
+    }
   }
 
 
@@ -236,14 +246,15 @@ const mapDispatchToProps = {
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
+  updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
  };
 
 function mapStateToProps(state) {
    const { userdetails,fetchedR} = state.user;
-   const {fbchatSelected} = state.fbpages;
+   const {fbchatSelected, fbSessions} = state.fbpages;
    var {chat} = state.chat;
    var {singleChat} = state.chat;
-  return {userdetails,fetchedR,fbchatSelected, chat, singleChat};
+  return {userdetails,fetchedR,fbchatSelected, chat, singleChat, fbSessions};
 
 }
 
