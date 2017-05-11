@@ -84,12 +84,19 @@ class Agents extends Component {
     this.dataSource = ds.cloneWithRows(agents);
   }
 
+  goToView2(agent)
+  {
+        console.log('navigate group is called');
+        Actions.editAgent({agent:agent})
+  }
+
   /**
     * Each List Item
     */
   renderRow = (agent) => (
     <ListItem
       key={`list-row-${agent._id}`}
+      onPress={this.goToView2.bind(this,agent)}
       title={agent.firstname + ' ' + agent.lastname}
     />
 

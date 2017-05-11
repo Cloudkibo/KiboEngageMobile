@@ -73,6 +73,33 @@ export const agentInvite =  (token, inviteEmail) => {
   };
 };
 
+
+export const editAgent = (agentbody,token) => {
+var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/json',
+            },
+
+          };
+       var data =  {
+         personid : agentbody._id,
+         role : agentbody.role,
+      }
+
+      
+  // console.log("THis is the token in action " + token);
+  return (dispatch) => {
+    axios.post(`${baseURL}/api/users/updaterole/`, data,config)
+      .then((res) => dispatch(agentRoleUpdate(res)))
+      .catch(function (error) {
+         console.log('Error occured');
+         console.log(error);
+        dispatch(agentRoleUpdate(error));
+      });
+  };
+};
 export function confirmInvite(invite) {
   // console.log('Success');
   // console.log(invite);
@@ -89,6 +116,68 @@ export function confirmInvite(invite) {
   };
 }
 
+export function agentRoleUpdate(res) {
+   console.log(res);
+  // console.log(invite);
+  var status = '';
+  if(res.data.status == "success"){
+    status = 200
+  }
+  
+  else{
+    status = 422
+  }
+  return {
+    type: ActionTypes.AGENT_ROLE_UPDATE,
+    payload : status,
+
+
+  };
+}
+
+export function deleteAGENT(res,agent){
+  console.log(res);
+  if(res.data && res.data.status == "success"){
+  return {
+    type: ActionTypes.AGENT_DELETE,
+    payload : 200,
+    agent:agent,
+
+
+  };
+}
+  else{
+      return {
+          type: ActionTypes.AGENT_DELETE,
+          payload : 422,
+
+        };
+  }
+  
+}
+export function deleteAgent(agent,token){
+
+  var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/json',
+            },
+
+          };
+   // console.log("THis is the token in action " + token);
+  return (dispatch) => {
+    axios.post(`${baseURL}/api/users/deleteagent/${agent._id}`,{},config)
+      .then((res) => dispatch(deleteAGENT(res,agent)))
+      .catch(function (error) {
+         console.log('Error occured');
+         console.log(error);
+        dispatch(deleteAGENT(error,agent));
+      });
+  };
+};
+
+ 
 
 /**** SQLite***/
 
@@ -121,6 +210,9 @@ export  function writeAgents(agents){
                 + "firstname TEXT,"
                 + "lastname TEXT,"
                 + "uniqueid TEXT,"
+                + "isAgent TEXT,"
+                + "isAdmin TEXT,"
+                + "isSupervisor TEXT,"
                 + "role TEXT" + ")";
 
  var rows = []
@@ -131,6 +223,9 @@ export  function writeAgents(agents){
   record.push(agents[i].firstname);
   record.push(agents[i].lastname);
   record.push(agents[i].uniqueid);
+  record.push(agents[i].isAgent);
+  record.push(agents[i].isAdmin);
+  record.push(agents[i].isSupervisor);
   record.push(agents[i].role);
   rows.push(record);
  // addItem(db,record);
@@ -147,7 +242,7 @@ return (dispatch) => {
     tx.executeSql(CREATE_Agents_TABLE);
 
     for(var j=0;j<rows.length;j++){
-       tx.executeSql('INSERT INTO AGENTS VALUES (?,?,?,?,?,?)',rows[j]);
+       tx.executeSql('INSERT INTO AGENTS VALUES (?,?,?,?,?,?,?,?,?)',rows[j]);
    
     }
     tx.executeSql('SELECT * FROM AGENTS', [], (tx,results) => {

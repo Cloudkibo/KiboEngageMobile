@@ -23,6 +23,7 @@ import ChatSettings from '@containers/Chat/ChatSettings';
 
 import TeamsMain from '@containers/Teams/TeamsMain';
 import Agents from '@containers/Agents/Agents';
+import EditAgent from '@containers/Agents/EditAgent';
 import InviteAgent from '@containers/Agents/InviteAgent';
 import GroupsMain from '@containers/Groups/GroupsMain';
 import CreateGroup from '@containers/Groups/CreateGroup';
@@ -208,6 +209,13 @@ export default Actions.create(
         title={'Edit Team'}
         component={EditTeam}
         analyticsDesc={'EditTeam: Edit Team'}
+      />
+
+      <Scene
+        key={'editAgent'}
+        title={'Edit Agent'}
+        component={EditAgent}
+        analyticsDesc={'EditAgent: Edit Agent'}
       />
 
       <Scene
