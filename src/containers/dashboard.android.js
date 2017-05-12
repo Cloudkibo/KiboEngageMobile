@@ -250,7 +250,7 @@ renderLoadingView(){
     
   }
 
-
+}
 }
 
 

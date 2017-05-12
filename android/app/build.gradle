@@ -97,6 +97,16 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+
+    signingConfigs {
+        release {
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword MYAPP_RELEASE_STORE_PASSWORD
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+        }
+    }
+
     splits {
         abi {
             reset()
@@ -109,6 +119,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -127,14 +138,14 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-photo-view')
-    compile project(':react-native-share')
-    compile project(':react-native-linear-gradient')
-    compile project(':react-native-vector-icons')
+    //compile project(':react-native-photo-view')
+    //compile project(':react-native-share')
+    //compile project(':react-native-linear-gradient')
+    //compile project(':react-native-vector-icons')
     compile project(':react-native-video')
     compile project(':react-native-code-push')
     compile project(':react-native-sound')
-    compile project(':react-native-android-video-player')
+   // compile project(':react-native-android-video-player')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-image-picker')
      compile project(':react-native-document-picker')
@@ -162,12 +173,12 @@ dependencies {
     
     compile project(':react-native-sqlite-storage')
 
-    compile project(':react-native-get-real-path')
+    //compile project(':react-native-get-real-path')
 
     compile project(':react-native-file-picker')
 
 
-    compile project(':react-native-audio-streaming')
+    //compile project(':react-native-audio-streaming')
    
 }
 

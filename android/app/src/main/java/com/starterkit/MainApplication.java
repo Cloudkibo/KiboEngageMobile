@@ -4,17 +4,29 @@ import android.app.Application;
 
 import com.azure.reactnative.notificationhub.ReactNativeNotificationHubPackage;
 import com.facebook.react.ReactApplication;
-import com.reactnative.photoview.PhotoViewPackage;
-import cl.json.RNSharePackage;
-import com.BV.LinearGradient.LinearGradientPackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.brentvatne.react.ReactVideoPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.zmxv.RNSound.RNSoundPackage;
-import com.reactnativeandroidmediaplayer.mediaplayer.MediaPlayerPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
 import com.imagepicker.ImagePickerPackage;
+//import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+import com.filepicker.FilePickerPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
+//import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import com.microsoft.codepush.react.CodePush;
+//import cl.json.RNSharePackage;
+//import com.BV.LinearGradient.LinearGradientPackage;
+//import com.oblador.vectoricons.VectorIconsPackage;
+//import com.reactnative.photoview.PhotoViewPackage;
+//import cl.json.RNSharePackage;
+//import com.BV.LinearGradient.LinearGradientPackage;
+//import com.oblador.vectoricons.VectorIconsPackage;
+import com.brentvatne.react.ReactVideoPackage;
+//import com.microsoft.codepush.react.CodePush;
+//import com.zmxv.RNSound.RNSoundPackage;
+//import com.reactnativeandroidmediaplayer.mediaplayer.MediaPlayerPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
+//import com.imagepicker.ImagePickerPackage;
+//import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
 //import com.oblador.vectoricons.VectorIconsPackage;
 //import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 //import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -28,9 +40,9 @@ import java.util.List;
 
 import org.pgsqlite.SQLitePluginPackage;
 
-import com.rngrp.RNGRPPackage; // <------- add package
+//import com.rngrp.RNGRPPackage; // <------- add package
 import com.filepicker.FilePickerPackage; // import package
-import com.audioStreaming.ReactNativeAudioStreamingPackage;
+///import com.audioStreaming.ReactNativeAudioStreamingPackage;
 
 //import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 
@@ -52,23 +64,36 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new PhotoViewPackage(),
-            new RNSharePackage(),
-            new LinearGradientPackage(),
-            new VectorIconsPackage(),
-            new ReactVideoPackage(),
-            new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
+           // new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
             new RNSoundPackage(),
-            new MediaPlayerPackage(),
-            new RNFetchBlobPackage(),
             new ImagePickerPackage(),
-            new ReactNativeDocumentPicker(),
-            new ReactNativeNotificationHubPackage(),
-            new SQLitePluginPackage(),
-
-            new RNGRPPackage() ,
+            //new GoogleAnalyticsBridgePackage(),
             new FilePickerPackage(),
-            new ReactNativeAudioStreamingPackage()
+            new RNFetchBlobPackage(),
+            new ReactNativeDocumentPicker(),
+            //new RNDeviceInfo(),
+           // new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
+           // new RNSharePackage(),
+           // new LinearGradientPackage(),
+           // new VectorIconsPackage(),
+           // new PhotoViewPackage(),
+           // new RNSharePackage(),
+           // new LinearGradientPackage(),
+           // new VectorIconsPackage(),
+            new ReactVideoPackage(),
+            new CodePush("wjqmL8L7u3UrsmpIQPYm--N74H5I4klroPZkQ", MainApplication.this, BuildConfig.DEBUG),
+          //  new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
+           // new RNSoundPackage(),
+           // new MediaPlayerPackage(),
+            //new RNFetchBlobPackage(),
+            //new ImagePickerPackage(),
+            //new ReactNativeDocumentPicker(),
+            new ReactNativeNotificationHubPackage(),
+            new SQLitePluginPackage()//,
+
+            //new RNGRPPackage() //,
+           // new FilePickerPackage(),
+           // new ReactNativeAudioStreamingPackage()
   
           
         
