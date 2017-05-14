@@ -8,7 +8,6 @@ import com.microsoft.codepush.react.CodePush;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.imagepicker.ImagePickerPackage;
 //import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
-import com.filepicker.FilePickerPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.reactnativedocumentpicker.ReactNativeDocumentPicker;
 //import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -41,7 +40,7 @@ import java.util.List;
 import org.pgsqlite.SQLitePluginPackage;
 
 //import com.rngrp.RNGRPPackage; // <------- add package
-import com.filepicker.FilePickerPackage; // import package
+//import com.filepicker.FilePickerPackage; // import package
 ///import com.audioStreaming.ReactNativeAudioStreamingPackage;
 
 //import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
@@ -68,7 +67,6 @@ public class MainApplication extends Application implements ReactApplication {
             new RNSoundPackage(),
             new ImagePickerPackage(),
             //new GoogleAnalyticsBridgePackage(),
-            new FilePickerPackage(),
             new RNFetchBlobPackage(),
             new ReactNativeDocumentPicker(),
             //new RNDeviceInfo(),

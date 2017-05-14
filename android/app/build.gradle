@@ -175,7 +175,6 @@ dependencies {
 
     //compile project(':react-native-get-real-path')
 
-    compile project(':react-native-file-picker')
 
 
     //compile project(':react-native-audio-streaming')
