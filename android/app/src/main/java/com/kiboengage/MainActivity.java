@@ -1,4 +1,4 @@
-package com.starterkit;
+package com.kiboengage;
 
 import com.facebook.react.ReactActivity;
 //import com.oblador.vectoricons.VectorIconsPackage;

@@ -200,8 +200,7 @@ renderLoadingView(){
       <Spacer size={55} />
         <Card>
           <Text> Hello {this.props.userdetails.firstname}</Text>
-          <Text> App updated</Text>
-          <Text> This is an updated version of app testing CodePush</Text>
+         
         </Card>
 
         <TouchableOpacity onPress={this.register.bind(this)}>

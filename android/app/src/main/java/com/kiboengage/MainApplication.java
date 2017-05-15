@@ -1,4 +1,4 @@
-package com.starterkit;
+package com.kiboengage;
 
 import android.app.Application;
 

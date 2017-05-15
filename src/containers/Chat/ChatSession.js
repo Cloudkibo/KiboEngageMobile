@@ -152,7 +152,7 @@ class ChatSession extends Component {
         channelname = item.messagechannel[item.messagechannel.length-1];
       }
         var group_agents_name = 'Not assigned yet';
-     if(item.agent_ids.length > 0){
+     if(item.agent_ids.length > 0 && item.status == "assigned"){
       if(item.agent_ids[item.agent_ids.length-1].type == 'agent'){
         var agentassigned = this.props.agents.filter((a)=> a._id == item.agent_ids[item.agent_ids.length-1].id)[0];
         if(agentassigned){
@@ -163,7 +163,7 @@ class ChatSession extends Component {
         // add condition to show group name
         var teamname = nextProps.teams.filter((g)=>g._id == item.agent_ids[item.agent_ids.length-1].id)[0];
       
-        group_agents_name = teamname.groupname;
+        group_agents_name = teamname? teamname.groupname:'Team deleted';
 
       }
      }
