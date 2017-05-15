@@ -203,13 +203,7 @@ renderLoadingView(){
          
         </Card>
 
-        <TouchableOpacity onPress={this.register.bind(this)}>
-         <View style={styles.button}>
-           <Text style={styles.buttonText}>
-             Register
-           </Text> 
-         </View>
-       </TouchableOpacity>
+       
       </View>
       );
     
