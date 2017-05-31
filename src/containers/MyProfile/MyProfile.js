@@ -129,6 +129,7 @@ class MyProfile extends Component {
             error: 'Please enter valid email',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
+            editable: false,
           },
           Role: {
             error: 'Please enter valid role',
@@ -156,15 +157,17 @@ class MyProfile extends Component {
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
           },
-          Domain: {
+          DomainName: {
             error: 'Please enter valid domain name',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
+            editable : false,
           },
           CompanyName: {
             error: 'Please enter valid company name',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
+            editable : false,
           },
         },
       },
