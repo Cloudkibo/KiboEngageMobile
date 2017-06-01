@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
-
+import { connect } from 'react-redux';
 // Consts and Libs
 import AppAPI from '@lib/api';
 import { AppStyles } from '@theme/';
@@ -113,6 +113,11 @@ class Login extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.login_status){
+      this.setState({ resultMsg: { status: nextProps.login_status } });
+    }
+  }
   /**
     * Login
     */
@@ -123,7 +128,7 @@ class Login extends Component {
     // Form is valid
     if (credentials) {
       this.setState({ form_values: credentials }, () => {
-        this.setState({ resultMsg: { status: 'One moment...' } });
+        this.setState({ resultMsg: { status: 'One Moment...' } });
 
         // Scroll to top, to show message
         if (this.scrollView) {
@@ -204,4 +209,13 @@ class Login extends Component {
 }
 
 /* Export Component ==================================================================== */
-export default Login;
+const mapDispatchToProps = {
+  
+};
+function mapStateToProps(state) {
+   const {login_status} = state.auth;
+  return { login_status };
+
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
