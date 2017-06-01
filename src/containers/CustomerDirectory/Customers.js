@@ -151,7 +151,7 @@ class Customers extends Component {
               ref={(b) => { this.search = b; }}
               onChangeText={this.filteredData}
               value={this.state.text}
-              placeholder="Search by CustomerID"
+              placeholder="Search by Customer Name"
             />
             <ListView
               dataSource={this.dataSource}
