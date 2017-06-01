@@ -15,7 +15,7 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.SEND_EMAIL:
       return { ...state, sendEmailError: '', sendEmailSuccess: '' };
     case ActionTypes.SEND_EMAIL_SUCCESS:
-      return { ...state, ...INITIAL_STATE, sendEmailSuccess: 'Email has been sent successfully.' };
+      return { ...state, sendEmailSuccess: 'Email has been sent successfully.' };
     case ActionTypes.SEND_EMAIL_FAIL:
       return { ...state, sendEmailError: 'Email sending failed.' };
 
