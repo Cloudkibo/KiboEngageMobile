@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import FormValidation from 'tcomb-form-native';
 import * as UserActions from '@redux/user/actions';
 import auth from '../../services/auth';
+import { Actions } from 'react-native-router-flux';
 
 class MyProfile extends Component {
   static componentName = 'MyProfile';
@@ -229,6 +230,7 @@ class MyProfile extends Component {
 
             <Button
               title={'Cancel'}
+              onPress={() => {console.log("Caneclling");Actions.dashboard(); console.log("Caneclled");}}
             />
 
             <Spacer size={10} />

@@ -93,7 +93,12 @@ export default Actions.create(
         component={Placeholder}
         analyticsDesc={'Placeholder: Coming Soon'}
       />
-
+      <Scene
+        key={'dashboard'}
+        title={'Dashboard'}
+        component={Dashboard}
+        analyticsDesc={'Placeholder: Coming Soon'}
+      />
       <Scene
         key={'ChatSettings'}
         title={'Chat Settings'}
