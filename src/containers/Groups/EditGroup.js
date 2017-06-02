@@ -109,7 +109,7 @@ class EditGroup extends Component {
 
 
 
-    
+  this.renderRow = this.renderRow.bind(this);    
 
   }
 
@@ -117,8 +117,21 @@ class EditGroup extends Component {
     // Get user data from AsyncStorage to populate fields
   
       this.newFellowAgents  = this.props.groupagents.filter((c) => c.deptid == this.props.group._id)
-      
-      let ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
+      remainingAgents = this.props.agents.filter((agent)=>{
+        var isPresent =false;
+        for(var i = 0; i < this.newFellowAgents.length; i++){
+          console.log("Heatens", this.newFellowAgents[i].agentid);
+          console.log("Heaten", agent._id);
+        if(agent._id == this.newFellowAgents[i].agentid){
+          isPresent = true;
+        }
+        }
+          return !isPresent;
+        
+      });
+      console.log("fellowAgents", this.newFellowAgents);
+      console.log("remainingAgents", remainingAgents);
+      let ds = this.state.dataSourceAllAgents.cloneWithRows(remainingAgents);
       let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents);
 
       this.setState({
@@ -221,13 +234,16 @@ class EditGroup extends Component {
   }
   addAgent = (c) =>{
     console.log('addAgent is called');
+    console.log("Remaining Agents", this.state.dataSourceAllAgents);
     console.log(this.props.groupagents.length);
     this.newFellowAgents.push({'deptid': this.props.group._id,'agentid':c._id})
+    remainingAgents = this.state.dataSourceAllAgents._dataBlob.s1.filter((agent) => agent._id != c._id);
     // update the DataSource in the component state
    this.setState({
           
             dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
         });
+    this.setState({dataSourceAllAgents: this.state.dataSourceAllAgents.cloneWithRows(remainingAgents)});
   }
 
 
@@ -291,7 +307,7 @@ class EditGroup extends Component {
 
           {this.props.userdetails.isAdmin == "Yes" &&
           <View>
-            <Text h3> All Agents </Text>
+            <Text h3> Remaining Agents </Text>
             <ListView
                  dataSource={this.state.dataSourceAllAgents}
                  renderRow={this.renderRow}
