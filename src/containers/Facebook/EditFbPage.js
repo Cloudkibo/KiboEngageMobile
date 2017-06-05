@@ -60,7 +60,8 @@ class EditFbPage extends Component {
             error: 'Please enter the page id',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
-            placeholder: 'Enter Page ID'
+            placeholder: 'Enter Page ID',
+            editable: false,
            
           },
           pageTitle: {
@@ -138,11 +139,13 @@ class EditFbPage extends Component {
   render = () => {
     const Form = FormValidation.form.Form;
     return (
+       <View style={[AppStyles.container]}>
       <ScrollView
         style={[AppStyles.container]}
-        contentContainerStyle={[AppStyles.container]}
       >
+
         <Spacer size={55} />
+
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
@@ -168,6 +171,7 @@ class EditFbPage extends Component {
 
         </Card>
       </ScrollView>
+      </View>
     );
   }
 }
