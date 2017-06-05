@@ -113,62 +113,62 @@ class Menu extends Component {
         {
           title: 'Dashboard',
           onPress: () => { this.props.closeSideMenu(); Actions.app(); },
-          icon:'dashboard',
+          icon:'tachometer',
         },
 
          {
           title: 'Groups',
           onPress: () => { this.props.closeSideMenu(); Actions.groupsmain(); },
-          icon:'people',
+          icon:'users',
         },
 
         {
           title: 'Agents',
           onPress: () => { this.props.closeSideMenu(); Actions.agents(); },
-          icon:'account-circle',
+          icon:'user-secret',
         },
         {
           title: 'Sub Groups',
           onPress: () => { this.props.closeSideMenu(); Actions.subgroups(); },
-          icon:'message',
+          icon:'comments-o',
         },
 
         {
           title: 'Customer Directory',
           onPress: () => { this.props.closeSideMenu(); Actions.customers(); },
-          icon:'book',
+          icon:'address-book-o',
         },
 
         {
           title: 'Canned Responses',
           onPress: () => { this.props.closeSideMenu(); Actions.cannedresponse(); },
-          icon:'timer',
+          icon:'clock-o',
         },
 
         {
           title: 'Notifications',
           onPress: () => { this.props.closeSideMenu(); Actions.notifications(); },
-          icon:'notifications',
+          icon:'bell-o',
         },
         {
           title: 'Teams',
           onPress: () => { this.props.closeSideMenu(); Actions.teamsmain(); },
-          icon:'group-add',
+          icon:'handshake-o',
         },
         {
           title: 'Company Settings',
           onPress: () => { this.props.closeSideMenu(); Actions.companySettings(); },
-          icon:'settings',
+          icon:'cog',
         },
         {
           title: 'My Profile',
           onPress: () => { this.props.closeSideMenu(); Actions.myProfile(); },
-          icon: 'face',
+          icon: 'address-card',
         },
         {
           title: 'Chat Session',
           onPress: () => { this.props.closeSideMenu(); Actions.ChatSession(); },
-          icon: 'face',
+          icon: 'commenting-o',
         },
         {
           title: 'Facebook Pages',
@@ -185,7 +185,7 @@ class Menu extends Component {
         {
           title: 'Reports',
           onPress: () => { this.props.closeSideMenu(); Actions.reports(); },
-          icon: 'report',
+          icon: 'line-chart',
 
         },
 
@@ -221,7 +221,9 @@ class Menu extends Component {
             <View style={[styles.menuItem]}>
           <View style={styles.iconContainer}>
              <Icon
-              name={ icon } color='#5555577' />
+              name={ icon }
+              type='font-awesome'
+              color='#5555577' />
           </View>
            <View>
             <Text style={[styles.menuItem_text]}>
