@@ -70,11 +70,21 @@ class ChatSettings extends Component {
     this.state.items = [];
     this.state.teamsList = [];
     this.state.channelList = [];
+    this.state.items.push(
+           <Picker.Item label="Select an agent" key={'key-'+-1 } value={-1} />
+       );
+          this.state.teamsList.push(
+           <Picker.Item label="Select a team" key={'key-'+-1 } value={-1} />
+       );
+          this.state.channelList.push(
+           <Picker.Item label="Select an subgroup" key={'key-'+-1 } value={-1} />
+       );
     this.props.agents.map((item, index) => {
        return this.state.items.push(
            <Picker.Item label={item.firstname + ' ' + item.lastname} key={'key-'+item._id } value={item._id+','+item.email} />
        );
      });
+     
       this.props.teams.map((item, index) => {
        return this.state.teamsList.push(
            <Picker.Item label={item.groupname} key={'key-'+item._id } value={item._id} />
