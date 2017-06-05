@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
-import { List, ListItem, SocialIcon } from 'react-native-elements';
+import { List, ListItem, SocialIcon, SearchBar } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as GroupActions from '@redux/group/groupActions';
@@ -52,8 +52,9 @@ class Groups extends Component {
 
    constructor(props) {
     super(props);
-    this.state = {loading : true};
-    this.createDataSource(props);
+    this.state = {loading : true, text: ''};
+    this.filteredData = this.filteredData.bind(this);
+    this.createDataSource(props.groups);
   }
 
    componentDidMount = async() => {
@@ -79,18 +80,36 @@ class Groups extends Component {
     console.log(nextProps);
     if(nextProps.groups && nextProps.groupagents && nextProps.agents){
       this.setState({loading:false});
-       this.createDataSource(nextProps);
+       this.createDataSource(nextProps.groups);
      }
   }
 
-  createDataSource({ groups 
-  }) {
+  createDataSource(groups) {
     const ds = new ListView.DataSource({
   
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
     this.dataSource = ds.cloneWithRows(groups);
+  }
+
+
+    filteredData(text) {
+    this.setState({
+      text,
+    });
+    const searchText = text.toLowerCase();
+    let filtered = [];
+    let index = 0;
+    for (let i = 0; i < this.props.groups.length; i++) {
+      if (this.props.groups[i].deptname.toLowerCase().search(searchText) > -1) {
+        filtered[index] = this.props.groups[i];
+        index++;
+      }
+      console.log("Group", this.props.groups[i])
+    }
+    console.log(filtered);
+    this.createDataSource(filtered);
   }
 
   /**
@@ -141,6 +160,14 @@ class Groups extends Component {
               style={[AppStyles.container]}
             >
              <Spacer size={50} />
+             <SearchBar
+              lightTheme
+              round
+              ref={(b) => { this.search = b; }}
+              onChangeText={this.filteredData}
+              value={this.state.text}
+              placeholder="Search by Group Name"
+            />
               <List>
                 <ListView
                  dataSource={this.dataSource}
