@@ -67,7 +67,10 @@ export const createcanned = (canned) => {
   return (dispatch) => {
     dispatch(cannedCreateInAction());
     console.log('calling api');
-    axios.post(`${baseURL}/api/shortcuts/`,querystring.stringify(data),config).then(res => dispatch(cannedCreateSuccess(res)))
+    axios.post(`${baseURL}/api/shortcuts/`,querystring.stringify(data),config).then(res => {
+      dispatch(cannedCreateSuccess(res))
+      dispatch(cannedFetch(token))
+    })
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -179,7 +182,10 @@ export const deletecanned = (canned) => {
           };
   return (dispatch) => {
    console.log('calling api');
-    axios.delete(`${baseURL}/api/shortcuts/${id}`,config).then(res => dispatch(cannedDeleteSuccess(res)))
+    axios.delete(`${baseURL}/api/shortcuts/${id}`,config).then(res => {
+      dispatch(cannedDeleteSuccess(res));
+      dispatch(cannedFetch(token));
+      })
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
