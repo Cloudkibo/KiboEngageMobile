@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
-import { List, ListItem, SocialIcon } from 'react-native-elements';
+import { List, ListItem, SocialIcon, SearchBar } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
@@ -53,8 +53,9 @@ class SubGroups extends Component {
 
    constructor(props) {
     super(props);
-    this.state = {loading : true};
-    this.createDataSource(props);
+    this.state = {loading : true, text: ''};
+    this.filteredData = this.filteredData.bind(this);
+    this.createDataSource(props.subgroups);
   }
   componentWillMount(){
     if(this.props.userdetails.isAgent == "Yes"){
@@ -85,12 +86,11 @@ class SubGroups extends Component {
     console.log(nextProps);
     if(nextProps.subgroups && nextProps.groups){
       this.setState({loading:false});
-       this.createDataSource(nextProps);
+       this.createDataSource(nextProps.subgroups);
      }
   }
 
-  createDataSource({ subgroups 
-  }) {
+  createDataSource(subgroups) {
     const ds = new ListView.DataSource({
   
       rowHasChanged: (r1, r2) => r1 !== r2
@@ -120,6 +120,23 @@ class SubGroups extends Component {
  
   )
 
+    filteredData(text) {
+    this.setState({
+      text,
+    });
+    const searchText = text.toLowerCase();
+    let filtered = [];
+    let index = 0;
+    for (let i = 0; i < this.props.subgroups.length; i++) {
+      if (this.props.subgroups[i].msg_channel_name.toLowerCase().search(searchText) > -1) {
+        filtered[index] = this.props.subgroups[i];
+        index++;
+      }
+      console.log("Subgroup", this.props.subgroups[i])
+    }
+    console.log(filtered);
+    this.createDataSource(filtered);
+  }
 
   /**
     * Header Component
@@ -146,6 +163,14 @@ class SubGroups extends Component {
               style={[AppStyles.container]}
             >
              <Spacer size={50} />
+             <SearchBar
+              lightTheme
+              round
+              ref={(b) => { this.search = b; }}
+              onChangeText={this.filteredData}
+              value={this.state.text}
+              placeholder="Search by Subgroup Name"
+            />
               <List>
                 <ListView
                  dataSource={this.dataSource}
