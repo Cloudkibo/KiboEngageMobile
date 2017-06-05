@@ -126,7 +126,8 @@ class CreateCannedResponse extends Component {
               message: credentials.message,
               companyid:this.props.userdetails.uniqueid,
               token:token,
-            })
+            });
+            this.props.cannedFetch(token);
           }
             
         }
@@ -187,6 +188,7 @@ function mapStateToProps(state) {
 // Any actions to map to the component?
 const mapDispatchToProps = {
   createcanned: CannedActions.createcanned,
+  cannedFetch: CannedActions.cannedFetch,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateCannedResponse);

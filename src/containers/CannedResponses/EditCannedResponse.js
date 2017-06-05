@@ -130,7 +130,7 @@ class EditCannedResponse extends Component {
               companyid:this.props.userdetails.uniqueid,
               _id : this.props.cannedresponse._id,
               token:token,
-            })
+            });
           }
             
         }
@@ -156,7 +156,8 @@ class EditCannedResponse extends Component {
             this.props.deletecanned({
               id:this.props.cannedresponse._id,
               token:token,
-            })
+            });
+            this.props.cannedFetch(token);
         }
      
   }
@@ -239,6 +240,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   editcanned: CannedActions.editcanned,
   deletecanned: CannedActions.deletecanned,
+  cannedFetch: CannedActions.cannedFetch,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditCannedResponse);
