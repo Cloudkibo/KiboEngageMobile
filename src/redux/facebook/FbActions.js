@@ -207,6 +207,15 @@ const showfbchats = (fbchats) => {
 
 };
 
+export const resetFbStatus = () => {
+  console.log("Reseting facebook chat status");
+  return{
+    type: ActionTypes.RESET_FB_CHATS,
+  };
+
+
+};
+
 export const updateFbSessionsAssignedStatus = (sessions) => {
 
   return{
