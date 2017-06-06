@@ -263,7 +263,10 @@ export const deleteteam = (team) => {
           };
   return (dispatch) => {
    console.log('calling api');
-    axios.delete(`${baseURL}/api/groups/${id}`,config).then(res => dispatch(teamDeleteSuccess(res)))
+    axios.delete(`${baseURL}/api/groups/${id}`,config).then(res => {
+      dispatch(teamDeleteSuccess(res));
+      dispatch(teamFetch(token));
+  })
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
