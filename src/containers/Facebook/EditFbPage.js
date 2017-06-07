@@ -97,7 +97,16 @@ class EditFbPage extends Component {
     };
   }
 
-
+  componentDidMount = async () => {
+    console.log("Component Did Mount in FB EDIT PAGES called");
+    this.props.resetFbStatus();
+    console.log("Component Did Mount in FB EDIT PAGES Status was reset");
+    const token = await auth.getToken();
+    console.log(`token is Launchview is ${token}`);
+    if (token !== '') {
+      this.props.getfbpages(token);
+    }
+  }
  
   addFbPage = async () => {
     // Get new credentials and update
@@ -186,6 +195,7 @@ function mapStateToProps(state) {
 // Any actions to map to the component?
 const mapDispatchToProps = {
   editPage: FbActions.editPage,
+  resetFbStatus: FbActions.resetFbStatus,
 
 };
 

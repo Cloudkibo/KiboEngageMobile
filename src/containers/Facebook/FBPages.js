@@ -65,6 +65,7 @@ class FBPages extends Component {
   }
 
   componentDidMount = async () => {
+    console.log("Component Did Mount in FB PAGES called");
     const token = await auth.getToken();
     console.log(`token is Launchview is ${token}`);
     if (token !== '') {

@@ -22,6 +22,9 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
 
+    case ActionTypes.RESET_FB_CHATS:
+      return { ...state,fbpageerror: '', fbpagesuccess: '' };
+
     case ActionTypes.FBPAGE_SUCCESS:
       return { ...state,fbpageerror: '', fbpagesuccess: action.payload };
     case ActionTypes.FBPAGE_FAIL:
