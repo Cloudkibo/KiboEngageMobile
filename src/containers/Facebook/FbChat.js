@@ -44,7 +44,7 @@ return c;
 class FbChat extends Component {
   constructor(props) {
     super(props);
-    this.state = {messages: [], text: 'Useless Placeholder', gifItems:[], stickerItems:[], chatProp: {}, stickgif: false, 
+    this.state = {messages: [], text: '', gifItems:[], stickerItems:[], chatProp: {}, stickgif: false, 
                  
     };
     this.onSend = this.onSend.bind(this);
@@ -561,6 +561,7 @@ class FbChat extends Component {
     return(
       <View style={{flex: 1, flexDirection: 'row'}}>
         <TextInput placeholderTextColor="rgba(67,88,101,0.4)" 
+        placeholder="Type a message.."
          value={this.state.text} multiline={true} 
          style={{maxHeight:100,height:Math.max(40,props.composerHeight),color: 'rgb(67,88,101)' ,fontSize: 15, flex: 4, padding:5}}
           onChangeText={(e) => {
