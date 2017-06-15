@@ -147,6 +147,7 @@ class CreateGroup extends Component {
         contentContainerStyle={[AppStyles.container]}
       >
       <Spacer size={55} />
+      <ScrollView>
         <Card>
           <Alerts
              status={this.state.resultMsg.status}
@@ -169,6 +170,7 @@ class CreateGroup extends Component {
 
           
         </Card>
+        </ScrollView>
       </View>
     );
   }
