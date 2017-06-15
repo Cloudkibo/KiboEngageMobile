@@ -43,7 +43,7 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.EDIT_GROUP:
       return { ...state, groups:state.groups,groupagents : state.groupagents,loading: true, grouperror: '',groupsuccess:'' ,groupediterror : '',groupeditsuccess:''};
     case ActionTypes.EDIT_GROUP_SUCCESS:
-      return { ...state, ...INITIAL_STATE, groups:state.groups,groupagents : state.groupagents,groupeditsuccess: 'Group edited successfully' };
+      return { ...state, groups:state.groups,groupagents : state.groupagents,groupeditsuccess: 'Group edited successfully' };
     case ActionTypes.EDIT_GROUP_FAIL:
       return { ...state, groupediterror: 'Group update failed', groups:state.groups,groupagents : state.groupagents,loading: false };
 
