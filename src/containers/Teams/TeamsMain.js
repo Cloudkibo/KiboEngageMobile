@@ -75,7 +75,7 @@ class TeamsMain extends Component {
                   selected={selectedTab === 'myTeam'}
                   title={'My Teams'}
                   renderIcon={() => <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 12}} color={'#5e6977'} name='group' size={33} />}
-                  renderSelectedIcon={() => <Icon color={'#6296f9'} name='team-add' size={30} />}
+                  renderSelectedIcon={() => <Icon color={'#6296f9'} name='group' size={30} />}
                   onPress={() => this.changeTab('myTeam')}>
                   <MyTeams />
                 </Tab>
@@ -95,7 +95,7 @@ class TeamsMain extends Component {
                   selected={selectedTab === 'createTeam'}
                   title={'Create Team'}
                   renderIcon={() => <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 12}} color={'#5e6977'} name='group-add' size={33} />}
-                  renderSelectedIcon={() => <Icon color={'#6296f9'} name='team-add' size={30} />}
+                  renderSelectedIcon={() => <Icon color={'#6296f9'} name='group-add' size={30} />}
                   onPress={() => this.changeTab('createTeam')}>
                   <CreateTeam />
                 </Tab>
