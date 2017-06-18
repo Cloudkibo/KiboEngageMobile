@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import ModalDropdown from 'react-native-modal-dropdown';
 import FormValidation from 'tcomb-form-native';
 import auth from '../../services/auth';
-import { Keyboard , TouchableWithoutFeedback} from 'react-native'
+import { Keyboard , TouchableWithoutFeedback, ScrollView} from 'react-native'
 var _ = require('lodash');
 
 class EditSubgroup extends Component {
@@ -158,6 +158,7 @@ class EditSubgroup extends Component {
        <TouchableWithoutFeedback onPress={ () => { Keyboard.dismiss() } }>
         <View>
         <Spacer size={55} />
+        <ScrollView>
         <Card title = {'Team : ' + this.props.groupName}>
           <Alerts
             status={this.state.resultMsg.status}
@@ -191,6 +192,7 @@ class EditSubgroup extends Component {
          
 
         </Card>
+        </ScrollView>
                 </View>
       </TouchableWithoutFeedback>
       </View>
