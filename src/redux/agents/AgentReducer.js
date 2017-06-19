@@ -23,6 +23,6 @@ export default (state = INITIAL_STATE, action) => {
   case ActionTypes.AGENT_DELETE:
       return {...state,agents:action.payload == 200?state.agents.filter((c)=>c._id != action.agent._id):state.agents,statuscode: action.payload,status:action.payload == 200?"Agent deleted successfully":"Something went wrong while deleting agent."};
     default:
-      return state;
+      return {...state,status:''};
   }
 };

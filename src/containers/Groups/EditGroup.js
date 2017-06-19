@@ -292,9 +292,9 @@ class EditGroup extends Component {
       <Spacer size={55} />
         <Card>
           <Alerts
-            status={this.state.resultMsg.status}
-            success={this.props.groupeditsuccess}
-            error={this.props.groupediterror}
+             status={this.state.resultMsg.status}
+            success={this.props.statuscode == 200?this.props.status:''}
+            error={this.props.statuscode == 422?this.props.status:''}
           />
 
   
