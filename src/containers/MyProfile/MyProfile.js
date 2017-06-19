@@ -1,4 +1,5 @@
 import { AppStyles } from '@theme/';
+import { Actions } from 'react-native-router-flux';
 import { Alerts, Card, Spacer, Button } from '@ui/';
 import React, { Component, PropTypes } from 'react';
 import { View, ScrollView } from 'react-native';
@@ -6,7 +7,6 @@ import { connect } from 'react-redux';
 import FormValidation from 'tcomb-form-native';
 import * as UserActions from '@redux/user/actions';
 import auth from '../../services/auth';
-import { Actions } from 'react-native-router-flux';
 
 class MyProfile extends Component {
   static componentName = 'MyProfile';
@@ -136,7 +136,7 @@ class MyProfile extends Component {
             error: 'Please enter valid role',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
-            editable : false,
+            editable: false,
           },
           Phone: {
             error: 'Please enter valid phone number',
@@ -162,13 +162,13 @@ class MyProfile extends Component {
             error: 'Please enter valid domain name',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
-            editable : false,
+            editable: false,
           },
           CompanyName: {
             error: 'Please enter valid company name',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
-            editable : false,
+            editable: false,
           },
         },
       },
@@ -180,6 +180,36 @@ class MyProfile extends Component {
 
     if (token !== '') {
       this.props.getuser(token);
+    }
+  }
+
+  updateProfile = async () => {
+    // Get new credentials and update
+    const credentials = this.form.getValue();
+
+    // Form is valid
+    if (credentials) {
+      this.setState({ resultMsg: { status: 'One moment...' } });
+
+        // Scroll to top, to show message
+      if (this.scrollView) {
+        this.scrollView.scrollTo({ y: 0 });
+      }
+
+      if (auth.loggedIn() === true) {
+        const token = await auth.getToken();
+
+        const user = {
+          'firstname': credentials.FirstName,
+          'lastname': credentials.LastName,
+          'phone': credentials.Phone,
+          'city': credentials.City,
+          'state': credentials.State,
+          'country': credentials.Country,
+        };
+
+        this.props.updateprofile(user, token);
+      }
     }
   }
 
@@ -206,13 +236,14 @@ class MyProfile extends Component {
         <ScrollView
           automaticallyAdjustContentInsets={false}
           style={[AppStyles.container]}
+          ref={(b) => { this.scrollView = b; }}
         >
           <Spacer size={55} />
           <Card>
             <Alerts
               status={this.state.resultMsg.status}
-              success={this.state.resultMsg.success}
-              error={this.state.resultMsg.error}
+              success={this.props.profileSuccess}
+              error={this.props.profileError}
             />
 
             <Form
@@ -224,6 +255,7 @@ class MyProfile extends Component {
 
             <Button
               title={'Save'}
+              onPress={this.updateProfile}
             />
 
             <Spacer size={10} />
@@ -248,12 +280,13 @@ MyProfile.propTypes = {
 
 const mapDispatchToProps = {
   getuser: UserActions.getuser,
+  updateprofile: UserActions.updateprofile,
 };
 
 function mapStateToProps(state) {
-  const { userdetails } = state.user;
+  const { userdetails, profileSuccess, profileError } = state.user;
 
-  return { userdetails };
+  return { userdetails, profileError, profileSuccess };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MyProfile);

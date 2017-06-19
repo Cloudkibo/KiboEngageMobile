@@ -16,9 +16,9 @@ var baseURL = Config.baseURLKiboSupport;
 var baseURLKiboEngage = Config.baseURLKiboEngage;
 
 import {
- 
+
   Alert,
- 
+
 } from 'react-native';
 import {
   AsyncStorage,
@@ -26,19 +26,19 @@ import {
 
 var STORAGE_KEY = 'id_token';
 export function callbackme(results) {
- 
+
   console.log(results);
   return {
     type: ActionTypes.ADD_FETCHED_RESULT,
     payload : results,
- 
+
   };
 }
 export function getsqlData(){
   var db = SqliteCalls.getConnection();
   var res = [];
    return (dispatch) => {
-    
+
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS DemoTable');
     tx.executeSql('CREATE TABLE DemoTable (name, score)');
@@ -48,7 +48,7 @@ export function getsqlData(){
           console.log("Query completed");
           console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -58,16 +58,16 @@ export function getsqlData(){
            dispatch(callbackme(res));
   }
   );
-  
+
   }
 }
 export function showUsername(user) {
- 
+
   console.log(user);
   return {
     type: ActionTypes.ADD_USER_DETAILS,
     payload : user.data,
- 
+
   };
 }
 export const getuser = (token) => {
@@ -77,9 +77,9 @@ export const getuser = (token) => {
            'Authorization': `Bearer ${token}`,
            'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
-      
+
   return (dispatch) => {
     axios.get(`${baseURL}/api/users/me`,config)
     .then((res) => res).then(res => dispatch(showUsername(res)))
@@ -89,10 +89,10 @@ export const getuser = (token) => {
         if(error = 'Network Error')
           Alert.alert('You are not connected with Internet');
         if(error.response && error.response.status == 401){ Actions.login()}
-        
+
       });
 
-      
+
   };
 };
 
@@ -103,6 +103,46 @@ export const logout = ()=>{
   Actions.splash();
    return {
     type: ActionTypes.LOGOUT,
-    
+
   };
-}
+};
+
+export const updateprofile = (user, token) => {
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/json'
+            },
+          };
+      var form =  {
+        'firstname': user.firstname,
+        'lastname': user.lastname,
+        'phone': user.phone,
+        'country': user.country,
+        'state': user.state,
+        'city': user.city,
+          };
+
+  return (dispatch) => {
+    console.log('calling api');
+    axios.post(`${baseURL}/api/users/updateprofile`, form, config).then(res => dispatch(updateProfileSuccess(res)))
+      .catch(function (error) {
+        console.log(error.response)
+        console.log('Error occured');
+        console.log(error);
+        dispatch(updateProfileFailure());
+      });
+  };
+};
+
+const updateProfileFailure = () => {
+  return { type: ActionTypes.UPDATE_PROFILE_FAIL };
+};
+
+const updateProfileSuccess = (res) => {
+  return {
+    type: ActionTypes.UPDATE_PROFILE_SUCCESS,
+    payload: res,
+  };
+};
