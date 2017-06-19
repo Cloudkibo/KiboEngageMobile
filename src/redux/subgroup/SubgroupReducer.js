@@ -16,7 +16,7 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.CREATE_CHANNEL:
       return { ...state, loading: true, channelerror: '', subgroupsuccess: '' };
     case ActionTypes.CREATE_CHANNEL_SUCCESS:
-      return { ...state, ...INITIAL_STATE, subgroupsuccess: 'Subgroup created successfully' };
+      return { ...state, subgroupsuccess: 'Subgroup created successfully' };
     case ActionTypes.CREATE_TEAM_FAIL:
       return { ...state, channelerror: 'Subgroup creation failed', loading: false };
 
