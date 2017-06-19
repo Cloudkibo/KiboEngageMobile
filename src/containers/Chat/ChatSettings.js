@@ -84,7 +84,7 @@ class ChatSettings extends Component {
            <Picker.Item label={item.firstname + ' ' + item.lastname} key={'key-'+item._id } value={item._id+','+item.email} />
        );
      });
-     
+
       this.props.teams.map((item, index) => {
        return this.state.teamsList.push(
            <Picker.Item label={item.groupname} key={'key-'+item._id } value={item._id} />
@@ -104,6 +104,13 @@ class ChatSettings extends Component {
     //this.props.agentFetch();
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
+      // Scroll to top, to show message
+      console.log(this.scrollView);
+    if (this.scrollView) {
+      console.log('scrolltotop');
+      this.scrollView.scrollTo({ y: 0 });
+    }
+
       if(token != ''){
         //preparing data
         id_emails = this.state.assignedAgent.split(",");
@@ -113,7 +120,7 @@ class ChatSettings extends Component {
           request_id : this.props.singleChat.request_id,
           status : 'assigned',
         }
-        
+
         input = {
           agentidTo: id_emails[0],
           agentidBy: this.props.userdetails._id,
@@ -134,14 +141,21 @@ class ChatSettings extends Component {
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
+
+        // Scroll to top, to show message
+      if (this.scrollView) {
+        this.scrollView.scrollTo({ y: 0 });
+      }
+
+
          //update session status on server
         var session = {
           request_id : this.props.singleChat.request_id,
           status : 'assigned',
         }
-        
+
         //preparing data
-         var emails = []; 
+         var emails = [];
          this.props.teams.map((item, index) => {
           var agents = this.props.teamagents.filter((g)=> g.groupid == item._id);
           console.log("Filtered Objects");
@@ -177,6 +191,13 @@ class ChatSettings extends Component {
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
+
+        // Scroll to top, to show message
+      if (this.scrollView) {
+        this.scrollView.scrollTo({ y: 0 });
+      }
+
+
         //preparing data
         input = {
           channel_to: this.state.assignedChannel,
@@ -195,6 +216,12 @@ class ChatSettings extends Component {
   markChatResolved = async () => {
     var token =  await auth.getToken();
     if(token != ''){
+
+      // Scroll to top, to show message
+    if (this.scrollView) {
+      this.scrollView.scrollTo({ y: 0 });
+    }
+
       this.props.markResolve(token, this.props.singleChat.request_id);
     }
   }
@@ -202,10 +229,12 @@ class ChatSettings extends Component {
   render() {
     return (
 
-    <ScrollView>
+    <ScrollView
+      ref={(b) => { this.scrollView = b; }}
+    >
       <View style={[AppStyles.container]}>
     <Spacer size={50} />
-    
+
     <Card>
     <Text>{this.state.platform}</Text>
          <Alerts
@@ -220,7 +249,7 @@ class ChatSettings extends Component {
       <Text style={styles.cardDescription}>
         {this.props.singleChat.team_name} - {this.props.singleChat.channel_name}
       </Text>
-      
+
     </Card>
     <Card>
     <Text>Assign To Agent {this.state.assignedAgent}</Text>
@@ -308,4 +337,3 @@ function mapStateToProps(state) {
    return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSettings);
-
