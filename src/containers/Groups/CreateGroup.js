@@ -120,7 +120,7 @@ class CreateGroup extends Component {
         if (this.scrollView) {
           this.scrollView.scrollTo({ y: 0 });
         }
-
+        
         if(auth.loggedIn() == true){
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
@@ -142,7 +142,7 @@ class CreateGroup extends Component {
 
     return (
       <View
-        
+        renderBackButton={()=>(null)}
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
