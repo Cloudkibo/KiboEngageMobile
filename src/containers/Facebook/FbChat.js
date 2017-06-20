@@ -44,8 +44,8 @@ return c;
 class FbChat extends Component {
   constructor(props) {
     super(props);
-    this.state = {messages: [], text: '', gifItems:[], stickerItems:[], chatProp: {}, stickgif: false, 
-                 
+    this.state = {messages: [], text: '', gifItems:[], stickerItems:[], chatProp: {}, stickgif: false,
+
     };
     this.onSend = this.onSend.bind(this);
     this.renderChat = this.renderChat.bind(this);
@@ -66,10 +66,10 @@ class FbChat extends Component {
 
   componentDidMount(){
     console.log('component did. mount called');
-    
+
     if(this.props.fbchatSelected){
       this.renderChat(this.props);
-      this.forceUpdate(); 
+      this.forceUpdate();
     }
   }
 
@@ -82,7 +82,7 @@ class FbChat extends Component {
     // console.log(nextProps.groups);
     if(nextProps.fbchatSelected){
       this.renderChat(nextProps);
-      this.forceUpdate(); 
+      this.forceUpdate();
       this.renderGif(nextProps);
       this.renderSticker(nextProps);
      }
@@ -92,7 +92,7 @@ class FbChat extends Component {
      }
   }
 
-   
+
 
   renderChat = (nextProps) => {
       // var temp = [];
@@ -110,7 +110,7 @@ class FbChat extends Component {
         mid:temp[i].message.mid,
         attachments:temp[i].message.attachments,
         seen:false
-*/  
+*/
      var temparray = [];
      console.log("In render chat", nextProps.fbchatSelected);
       for(var i=0;i<nextProps.fbchatSelected.length;i++){
@@ -135,7 +135,7 @@ class FbChat extends Component {
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
                     },
-                   
+
                   }
                  );
              }
@@ -160,10 +160,10 @@ class FbChat extends Component {
                     },
                     image:item.message.attachments[0].payload.url,
                     //image: 'https://scontent.xx.fbcdn.net/v/t34.0-12/16933685_1261326827270353_187253959_n.png',
-                   
+
                   }
                  );
-                  
+
             }else if(item.message.attachments && item.message.attachments.length >0 && item.message.attachments[0].type == "file"){
                  console.log(item.message.attachments);
                  var url = item.message.attachments[0].payload.url;
@@ -185,10 +185,10 @@ class FbChat extends Component {
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
                     },
 
-                    // image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',                   
+                    // image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',
                   }
                  );
-                  
+
             }else if(item.message.attachments && item.message.attachments.length >0 && item.message.attachments[0].type == "video"){
                  console.log(item.message.attachments);
                  var url = item.message.attachments[0].payload.url;
@@ -210,10 +210,10 @@ class FbChat extends Component {
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
                     },
 
-                    // image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',                   
+                    // image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',
                   }
                  );
-                  
+
             }else if(item.message.attachments && item.message.attachments.length >0 && item.message.attachments[0].type == "audio"){
                  console.log(item.message.attachments);
                  var url = item.message.attachments[0].payload.url;
@@ -235,10 +235,10 @@ class FbChat extends Component {
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
                     },
 
-                    // image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',                   
+                    // image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',
                   }
                  );
-                  
+
             }else if(item.message.attachments && item.message.attachments.length >0 && item.message.attachments[0].type == "location"){
                  console.log(item.message.attachments);
                  var url = item.message.attachments[0].payload.url;
@@ -260,21 +260,21 @@ class FbChat extends Component {
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
                     },
 
-                    // image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',                   
+                    // image:'https://cdn3.iconfinder.com/data/icons/web-icons-1/64/Cloud_Download-512.png',
                   }
                  );
-                  
+
             }
-           
-  
+
+
               }
             }
-    
+
               this.setState({messages:temparray});
     }
 
   async onSend(messages = [],filesize =0 ) {
-  //   var data = { 
+  //   var data = {
   //     _id:"9be49b8a-d930-4b0b-8962-af54fa0cd86b",
   //     createdAt: Date.now(),
   //     text:this.state.text,
@@ -284,7 +284,7 @@ class FbChat extends Component {
   // };
   // messages[0] = data;
     console.log("On Send", messages);
-  //  messages[0].text = this.state.text; 
+  //  messages[0].text = this.state.text;
   if(messages[0].text == ''){
     messages[0].image = 'http://1.bp.blogspot.com/-qns_lZPjg0I/VWY2dO1HN-I/AAAAAAAACVA/akLTMY7RJSk/s1600/Thumbs-up-facebook-icon-small.png'; 
   }
@@ -295,7 +295,7 @@ class FbChat extends Component {
    var msgObj = messages[0];
    console.log('msgObj');
    console.log(msgObj);
-   var today = new Date();  
+   var today = new Date();
    var uid = Math.random().toString(36).substring(7);
    var unique_id = 'f' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
 
@@ -322,7 +322,7 @@ class FbChat extends Component {
                         },
 
                        pageid:pageid
-                        
+
               }
 
 
@@ -332,14 +332,14 @@ class FbChat extends Component {
             }
 
 
-    
+
     else if(msgObj.image){
       /*** for image file ******/
     var filename = msgObj.image.split('/');
     var fileext = filename[filename.length-1].split('.');
 
     console.log(filename[filename.length-1]);
-    
+
       if (auth.loggedIn() === true) {
           console.log('auth.loggedIn() return true');
           const token = await auth.getToken();
@@ -369,10 +369,10 @@ class FbChat extends Component {
                                   },
 
                                  pageid:pageid
-                  
+
                             }
-           
-                
+
+
                   this.props.uploadFbChatfile(photo,saveMsg);
 
             }
@@ -428,7 +428,7 @@ class FbChat extends Component {
                                   },
 
                                  pageid:pageid
-                  
+
                             }
                   messages[0].text = filename;
                   this.props.uploadFbChatDocfile(fileobj,saveMsg);
@@ -478,27 +478,27 @@ class FbChat extends Component {
     }
   else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'video'){
         console.log("Video", prop.currentMessage.attachments[0].payload.url);
-        
+
         return (
           <WebView
         source={{uri: prop.currentMessage.attachments[0].payload.url}}
         style={{width:250,height:200,flexDirection: 'row'}}
         javaScriptEnabled={true}
-        
+
       />
           // <Text>{prop.currentMessage.text}</Text>
         );
     }else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'audio'){
-        console.log("Audio", prop.currentMessage.attachments[0].payload.url);   
+        console.log("Audio", prop.currentMessage.attachments[0].payload.url);
         return (
             <AudioPlayer url={prop.currentMessage.attachments[0].payload.url}/>
         );
     }else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'location'){
-        console.log("Location", prop.currentMessage.attachments[0].payload.coordinates);   
+        console.log("Location", prop.currentMessage.attachments[0].payload.coordinates);
         return (
             <Card>
             <Text>{prop.currentMessage.attachments[0].title}</Text>
-            <GoogleStaticMap 
+            <GoogleStaticMap
             latitude={prop.currentMessage.attachments[0].payload.coordinates.lat}
             longitude={prop.currentMessage.attachments[0].payload.coordinates.long}
             zoom={13}
@@ -512,7 +512,7 @@ class FbChat extends Component {
     return (
       <GChat.Bubble
         onLongPress = {() => {
-          
+
           if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'file'){
     console.log("In Props: ", prop.currentMessage.text);
           console.log(prop.currentMessage.attachments[0].payload.url)
@@ -533,7 +533,7 @@ class FbChat extends Component {
       />
     );
     }
-    // this.props.downloadFile(); 
+    // this.props.downloadFile();
   }
 
   renderCustomView(props) {
@@ -550,19 +550,19 @@ class FbChat extends Component {
         />
     );
   }
-   
 
-   
+
+
 
   renderComposer(props){
      console.log('renderComposer props',props);
-     
+
 
     return(
       <View style={{flex: 1, flexDirection: 'row'}}>
-        <TextInput placeholderTextColor="rgba(67,88,101,0.4)" 
+        <TextInput placeholderTextColor="rgba(67,88,101,0.4)"
         placeholder="Type a message.."
-         value={this.state.text} multiline={true} 
+         value={this.state.text} multiline={true}
          style={{maxHeight:100,height:Math.max(40,props.composerHeight),color: 'rgb(67,88,101)' ,fontSize: 15, flex: 4, padding:5}}
           onChangeText={(e) => {
             this.setState({text:e});
@@ -583,7 +583,7 @@ class FbChat extends Component {
     var button = 'paper-plane';
     if(this.state.text == ''){
       button = 'thumbs-o-up';
-      
+
     }
     return (
     <Icon
@@ -591,7 +591,7 @@ class FbChat extends Component {
   name={button}
   type='font-awesome'
   color='#517fa4'
-  size={15} 
+  size={15}
   onPress={() => props.onSend({text:this.state.text.trim()}, true)}
 />
 );
@@ -602,7 +602,7 @@ class FbChat extends Component {
       this.state.gifItems.push(<TouchableOpacity identifier={i} key={i}  onPress = {this.sendStickerGif.bind(this, nextProps.gifs[i])}><Image
           style={{width: 100, height:100 }}
           source={{uri: nextProps.gifs[i]}}
-          indicator={Progress.CircleSnail } 
+          indicator={Progress.CircleSnail }
         /></TouchableOpacity>);
     }
     console.log("In render gif");
@@ -616,7 +616,7 @@ class FbChat extends Component {
       this.state.stickerItems.push(<TouchableOpacity identifier={i} key={i}  onPress = {this.sendStickerGif.bind(this, nextProps.stickers[i])}><Image
           style={{width: 100, height:100 }}
           source={{uri: nextProps.stickers[i]}}
-          indicator={Progress.CircleSnail} 
+          indicator={Progress.CircleSnail}
         /></TouchableOpacity>);
     }
     console.log("In render sticker");
@@ -639,7 +639,7 @@ class FbChat extends Component {
     this.onSend(images,0);
     this.props.toggleSticker(false);
     this.props.toggleGif(false);
-    
+
   }
 
   renderFooter(propy) {
@@ -711,4 +711,3 @@ function mapStateToProps(state) {
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FbChat);
-
