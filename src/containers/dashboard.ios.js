@@ -209,6 +209,8 @@ renderLoadingView(){
     
     
   }
+
+  
    async _onRegistered(deviceToken) {
     remoteNotificationsDeviceToken = deviceToken;
     //this.register();
