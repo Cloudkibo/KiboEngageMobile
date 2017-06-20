@@ -1,7 +1,7 @@
 import { AppStyles } from '@theme/';
 import { Alerts, Card, Spacer, Button } from '@ui/';
 import React, { Component } from 'react';
-import { View,ListView,ScrollView } from 'react-native';
+import { View,ListView,ScrollView,Text } from 'react-native';
 import { List, ListItem, SocialIcon } from 'react-native-elements';
 import FormValidation from 'tcomb-form-native';
 import auth from '../../services/auth';
@@ -20,7 +20,9 @@ class ResendNotification extends Component {
         success: '',
         error: '',
       }};
-    this.createDataSource(props.notifications);
+      console.log("show notification details");
+      console.log(this.props.notification);
+    this.createDataSource(this.props.notification);
 }
 
 /*componentWillReceiveProps(nextProps) {
@@ -47,7 +49,7 @@ class ResendNotification extends Component {
   }
 
 
-
+/*
 componentWillReceiveProps(nextProps) {
     // nextProps are the next set of props that this component
     // will be rendered with
@@ -55,11 +57,11 @@ componentWillReceiveProps(nextProps) {
     console.log('componentWillReceiveProps is called');
     console.log(nextProps);
     if(nextProps.notifications){
-      this.setState({loading:false});
+      ////this.setState({loading:false});
        this.createDataSource(nextProps.notifications);
      }
   }
-
+*/
 
 
     /*const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
@@ -124,24 +126,23 @@ componentWillReceiveProps(nextProps) {
   }
 */
 
- renderRow = (notification) => (
+  renderRow = (notification) => (
     <ListItem
       key={`list-row-${notification._id}`}
       //onPress={this.goToView2.bind(this,notification)}
       title={notification.title}
       subtitle={notification.description || null}
-
-      
     />
     );
- 
+
    resendNotification = async () => {
     // Get new credentials and update
-    const credentials = this.form.getValue();
+    //const credentials = this.form.getValue();
 
     // Form is valid
-    if (credentials) {
-      this.setState({ form_values: credentials }, async () => {
+    //if (credentials) {
+    //  this.setState({ form_values: credentials }, async () => {
+
         this.setState({ resultMsg: { status: 'One moment...' } });
 
         // Scroll to top, to show message
@@ -158,11 +159,12 @@ componentWillReceiveProps(nextProps) {
             console.log(notification);
             this.props.resendNotification({notification,token});
      
-        }
-      });
-    }
+        }}
 
-  }
+     // });
+   // }
+
+  //}
   render = () => {
     const Form = FormValidation.form.Form;
    
@@ -179,19 +181,17 @@ componentWillReceiveProps(nextProps) {
             error={this.props.notificationerror}
           />
 
-<ScrollView
-              automaticallyAdjustContentInsets={false}
-              style={[AppStyles.container]}
-            >
-             <Spacer size={50} />
-              <List>
-                <ListView
-                 dataSource={this.dataSource}
-                 renderRow={this.renderRow}
-                />
-              </List>
-              
-            </ScrollView>
+  <ScrollView style={[AppStyles.container]}>
+      
+             <Spacer size={10} />
+             <View>
+              <Text style={{fontWeight: 'bold'}}>Title :</Text>
+              <Text>{this.props.notification.title}</Text>
+              <Spacer size={10} />
+               <Text style={{fontWeight: 'bold'}}>Description :</Text>
+              <Text>{this.props.notification.description}</Text>
+              </View>
+            
 
 
        
@@ -200,7 +200,7 @@ componentWillReceiveProps(nextProps) {
             title={'Resend Notification'}
             onPress={this.resendNotification}
           />
-
+</ScrollView>
           <Spacer size={10} />
 
         </Card>
