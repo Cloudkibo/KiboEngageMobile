@@ -169,20 +169,21 @@ componentWillReceiveProps(nextProps) {
     const Form = FormValidation.form.Form;
    
     return (
+     <ScrollView style={[AppStyles.container]}>
       <View
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
         <Spacer size={55} />
         <Card>
+       
           <Alerts
             status={this.state.resultMsg.status}
             success={this.props.notificationsuccess}
             error={this.props.notificationerror}
           />
 
-  <ScrollView style={[AppStyles.container]}>
-      
+
              <Spacer size={10} />
              <View>
               <Text style={{fontWeight: 'bold'}}>Title :</Text>
@@ -200,11 +201,12 @@ componentWillReceiveProps(nextProps) {
             title={'Resend Notification'}
             onPress={this.resendNotification}
           />
-</ScrollView>
+
           <Spacer size={10} />
 
         </Card>
       </View>
+      </ScrollView>
     );
   }
 }
