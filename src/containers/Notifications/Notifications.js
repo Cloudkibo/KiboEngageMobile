@@ -96,7 +96,8 @@ class Notifications extends Component {
   goToView2(notification)
   {
         console.log('navigate notification is called');
-        Actions.resendNotification({notification});
+        console.log(notification)
+        Actions.resendNotification({notification:notification});
   }
   renderRow = (notification) => (
     <ListItem
