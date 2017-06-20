@@ -279,7 +279,13 @@ export const deletegroup = (group) => {
           };
   return (dispatch) => {
   //  console.log('calling api');
-    axios.delete(`${baseURL}/api/departments/kiboengage/${id}`,config).then(res => dispatch(groupDeleteSuccess(res)))
+    axios.delete(`${baseURL}/api/departments/kiboengage/${id}`,config).then(res =>
+    {
+      dispatch(groupDeleteSuccess(res));
+      dispatch(myGroupFetch(token));
+      dispatch(agentGroupFetch(token));
+      
+    })
       .catch(function (error) {
         // console.log('Error occured');
         // console.log(error);
