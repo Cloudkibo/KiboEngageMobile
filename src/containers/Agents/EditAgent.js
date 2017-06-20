@@ -3,7 +3,7 @@ import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 import * as UserActions from '@redux/user/actions';
 import * as AgentActions from '@redux/agents/agentActions';
 import React, { Component, PropTypes } from 'react';
-import { View , Alert} from 'react-native';
+import { View , Alert, ScrollView} from 'react-native';
 import { connect } from 'react-redux';
 import ModalDropdown from 'react-native-modal-dropdown';
 import FormValidation from 'tcomb-form-native';
@@ -134,6 +134,7 @@ class EditAgent extends Component {
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
+        <ScrollView>
        <TouchableWithoutFeedback onPress={ () => { Keyboard.dismiss() } }>
         <View>
         <Spacer size={55} />
@@ -161,7 +162,7 @@ class EditAgent extends Component {
             title={'Save Changes'}
             onPress={this.editAgent}
           />
-
+          <Spacer size={15} />
           <Button
             title={'Delete Agent'}
             onPress={this.deleteAgent}
@@ -175,6 +176,7 @@ class EditAgent extends Component {
         </Card>
                 </View>
       </TouchableWithoutFeedback>
+        </ScrollView>
       </View>
     );
   }
