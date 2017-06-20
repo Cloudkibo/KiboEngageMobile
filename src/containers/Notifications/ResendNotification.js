@@ -1,17 +1,71 @@
 import { AppStyles } from '@theme/';
 import { Alerts, Card, Spacer, Button } from '@ui/';
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View,ListView,ScrollView } from 'react-native';
+import { List, ListItem, SocialIcon } from 'react-native-elements';
 import FormValidation from 'tcomb-form-native';
 import auth from '../../services/auth';
 import * as NotificationActions from '@redux/notification/NotificationActions';
 import { connect } from 'react-redux';
+var _ = require('lodash');
 
 class ResendNotification extends Component {
   static componentName = 'ResendNotification';
 
   constructor(props) {
     super(props);
+    this.state = {
+      resultMsg: {
+        status: '',
+        success: '',
+        error: '',
+      }};
+    this.createDataSource(props.notifications);
+}
+
+/*componentWillReceiveProps(nextProps) {
+    // nextProps are the next set of props that this component
+    // will be rendered with
+    // this.props is still the old set of props
+    console.log('componentWillReceiveProps is called');
+    console.log(nextProps);
+    this.createDataSource(this.props.notification);
+   
+   /* if(nextProps.notifications){
+      this.setState({loading:false});
+       this.createDataSource(nextProps);
+     }*/
+  
+
+   createDataSource(notifications) {
+    const ds = new ListView.DataSource({
+
+      rowHasChanged: (r1, r2) => r1 !== r2
+    });
+
+    this.dataSource = ds.cloneWithRows(notifications);
+  }
+
+
+
+componentWillReceiveProps(nextProps) {
+    // nextProps are the next set of props that this component
+    // will be rendered with
+    // this.props is still the old set of props
+    console.log('componentWillReceiveProps is called');
+    console.log(nextProps);
+    if(nextProps.notifications){
+      this.setState({loading:false});
+       this.createDataSource(nextProps.notifications);
+     }
+  }
+
+
+
+    /*const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
+    stylesheet.textbox.normal.height = 80;
+    stylesheet.textbox.error.height = 80;
+
     const validName = FormValidation.refinement(
       FormValidation.String, (notificationtitle) => {
         if (notificationtitle.length < 1) return false;
@@ -25,8 +79,10 @@ class ResendNotification extends Component {
         return true;
       },
     );
+*/
+    
 
-    this.state = {
+    /*this.state = {
       resultMsg: {
         status: '',
         success: '',
@@ -59,14 +115,25 @@ class ResendNotification extends Component {
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
             editable : false,
+            multiline: true,
+            sstylesheet: stylesheet
           },
         },
       },
     };
   }
+*/
 
+ renderRow = (notification) => (
+    <ListItem
+      key={`list-row-${notification._id}`}
+      //onPress={this.goToView2.bind(this,notification)}
+      title={notification.title}
+      subtitle={notification.description || null}
 
- 
+      
+    />
+    );
  
    resendNotification = async () => {
     // Get new credentials and update
@@ -112,12 +179,22 @@ class ResendNotification extends Component {
             error={this.props.notificationerror}
           />
 
-          <Form
-            ref={(b) => { this.form = b; }}
-            type={this.state.form_fields}
-            value={this.state.form_values}
-            options={this.state.options}
-          />
+<ScrollView
+              automaticallyAdjustContentInsets={false}
+              style={[AppStyles.container]}
+            >
+             <Spacer size={50} />
+              <List>
+                <ListView
+                 dataSource={this.dataSource}
+                 renderRow={this.renderRow}
+                />
+              </List>
+              
+            </ScrollView>
+
+
+       
 
           <Button
             title={'Resend Notification'}
