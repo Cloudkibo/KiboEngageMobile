@@ -53,7 +53,11 @@ export const editPage=(fbpage,token) => {
 
   return (dispatch) => {
     console.log('calling api');
-    axios.put(`${baseURL}/api/fbpages/${id}`,querystring.stringify(fbpage),config).then(res => dispatch(fbpageEditSuccess(res)))
+    axios.put(`${baseURL}/api/fbpages/${id}`,querystring.stringify(fbpage),config).then(res =>
+    {
+      dispatch(fbpageEditSuccess(res));
+      dispatch(getfbpages(token));
+    })
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
