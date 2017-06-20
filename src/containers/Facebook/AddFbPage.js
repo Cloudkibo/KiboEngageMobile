@@ -132,11 +132,11 @@ class AddFbPage extends Component {
   render = () => {
     const Form = FormValidation.form.Form;
     return (
-      <ScrollView
-        style={[AppStyles.container]}
-        contentContainerStyle={[AppStyles.container]}
-      >
+      <View
+      style={[AppStyles.container]}
+        contentContainerStyle={[AppStyles.container]}>
         <Spacer size={55} />
+      <ScrollView>
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
@@ -160,6 +160,7 @@ class AddFbPage extends Component {
 
         </Card>
       </ScrollView>
+      </View>
     );
   }
 }
