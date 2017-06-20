@@ -60,7 +60,9 @@ class GroupsMain extends Component {
   }
 
   changeTab (selectedTab) {
-  this.setState({selectedTab})
+  this.setState({selectedTab}
+
+    )
 }
 
  render = () => {
@@ -103,7 +105,7 @@ class GroupsMain extends Component {
                   renderSelectedIcon={() => <Icon color={'#6296f9'} name='group-add' size={30} />}
                   onPress={() => this.changeTab('addGroups')}>
 
-                  <CreateGroup />
+                  <CreateGroup /> 
                 </Tab>
               }
               </Tabs>
