@@ -26,7 +26,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state,fbpageerror: '', fbpagesuccess: '' };
 
     case ActionTypes.FBPAGE_SUCCESS:
-      return { ...state,fbpageerror: '', fbpagesuccess: action.payload };
+      return { ...state,fbpageerror: '', fbpagesuccess: action.payload, fbpages: state.fbpages };
     case ActionTypes.FBPAGE_FAIL:
       return { ...state,fbpageerror: 'There is an error occurred. Please try later', fbpagesuccess:'' ,loading: false };
 
@@ -52,7 +52,7 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.GIF_VISIBLE:
       return { ...state, gifVisible: action.payload,};
     case ActionTypes.STICKER_VISIBLE:
-      return { ...state, stickerVisible: action.payload,};      
+      return { ...state, stickerVisible: action.payload,};
     case ActionTypes.GIF_UPDATE:
       return { ...state, gifs: action.payload,};
     case ActionTypes.STICKER_UPDATE:
@@ -76,6 +76,12 @@ export default (state = INITIAL_STATE, action) => {
       })};
     case ActionTypes.UPDATE_FB_CHAT_ASSIGNED_STATUS:
       return {...state,fbSessions:action.payload};
+
+    case ActionTypes.DELETE_FBPAGE_SUCCESS:
+      return { ...state, fbpageerror: '', fbpagesuccess: 'Page deleted successfully!', fbpages: state.fbpages };
+    case ActionTypes.DELETE_FBPAGE_FAIL:
+      return { ...state, fbpageerror: 'There is an error occurred. Please try later', fbpagesuccess: '' };
+
     default:
       return state;
   }

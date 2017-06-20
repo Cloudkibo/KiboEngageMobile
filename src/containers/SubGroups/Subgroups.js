@@ -60,22 +60,22 @@ class SubGroups extends Component {
   componentWillMount(){
     if(this.props.userdetails.isAgent == "Yes"){
        Actions.refresh({rightTitle: "",onRight:()=> {console.log('do nothing')}});
-   
+
     }
-    
+
   }
 
    componentDidMount = async() => {
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
-     
+
             this.props.groupFetch(token);
             this.props.channelFetch(token);
-            
-            
+
+
           }
-  
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -92,7 +92,7 @@ class SubGroups extends Component {
 
   createDataSource(subgroups) {
     const ds = new ListView.DataSource({
-  
+
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
@@ -113,11 +113,11 @@ class SubGroups extends Component {
       key={`list-row-${subgroup._id}`}
       onPress={this.goToView2.bind(this,subgroup,this.props.groups.filter((c) => c._id == subgroup.groupid)[0].deptname)}
       title={subgroup.msg_channel_name}
-      subtitle={this.props.groups.filter((c) => c._id == subgroup.groupid)[0].deptname + '\n' + subgroup.msg_channel_description || null}
-     
+      subtitle={this.props.groups.filter((c) => c && c._id == subgroup.groupid)[0].deptname + '\n' + subgroup.msg_channel_description || null}
+
     />
 
- 
+
   )
 
     filteredData(text) {
@@ -154,7 +154,7 @@ class SubGroups extends Component {
 
   render = () => {
     if (this.state.loading) return <Loading />;
-    
+
     return(
           <View style={[AppStyles.container]}>
           <Spacer size={15} />
@@ -177,10 +177,10 @@ class SubGroups extends Component {
                  renderRow={this.renderRow}
                 />
               </List>
-              
+
             </ScrollView>
             </View>
- 
+
   );
 }
 }
@@ -188,7 +188,7 @@ class SubGroups extends Component {
 const mapDispatchToProps = {
   channelFetch: SubgroupActions.channelFetch,
   groupFetch: GroupActions.groupFetch,
- 
+
 };
 function mapStateToProps(state) {
    const { subgroups} = state.subgroups;
@@ -199,4 +199,3 @@ function mapStateToProps(state) {
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SubGroups);
-

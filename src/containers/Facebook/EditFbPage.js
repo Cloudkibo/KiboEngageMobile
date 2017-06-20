@@ -3,7 +3,7 @@ import { Alerts, Card, Spacer, Button } from '@ui/';
 import * as FbActions from '@redux/facebook/FbActions';
 import Loading from '@components/general/Loading';
 import React, { Component } from 'react';
-import { View,ScrollView } from 'react-native';
+import { View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import FormValidation from 'tcomb-form-native';
 var _ = require('lodash');
@@ -62,14 +62,14 @@ class EditFbPage extends Component {
             clearButtonMode: 'while-editing',
             placeholder: 'Enter Page ID',
             editable: false,
-           
+
           },
           pageTitle: {
             error: 'Please enter page title',
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
             placeholder: 'Enter Page Title'
-           
+
           },
            pageDescription: {
             error: 'Please enter short page description',
@@ -107,7 +107,39 @@ class EditFbPage extends Component {
       this.props.getfbpages(token);
     }
   }
- 
+
+  deletePage = () => {
+
+    Alert.alert(
+            'Delete Page',
+            'Are you sure you want to delete this page?',
+      [
+          { text: 'No', onPress: () => console.log('Cancel Pressed!') },
+          { text: 'Yes', onPress: () => this.deletePageConfirm() },
+      ],
+    );
+  };
+
+  deletePageConfirm = async () => {
+    // Form is valid
+    this.setState({ resultMsg: { status: 'One moment...' } });
+
+    // Scroll to top, to show message
+    if (this.scrollView) {
+      this.scrollView.scrollTo({ y: 0 });
+    }
+
+    if (auth.loggedIn() === true) {
+      console.log('auth.loggedIn() return true');
+      const token = await auth.getToken();
+      console.log(this.props.fbpage);
+      this.props.deletefbpage({
+        id: this.props.fbpage.pageid,
+        token,
+      });
+    }
+  };
+
   addFbPage = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();
@@ -136,21 +168,19 @@ class EditFbPage extends Component {
           if (pageToken && pageid)
            {
              this.props.editPage({pageid,appid,pageToken,pageTitle,pageDescription,companyid},token);
-           
+
           }
-          
+
         }
       });
     }
-
-
   }
+
   render = () => {
     const Form = FormValidation.form.Form;
     return (
-       <View style={[AppStyles.container]}>
-      <ScrollView
-        style={[AppStyles.container]}
+      <ScrollView style={[AppStyles.container]}
+        ref={(b) => { this.scrollView = b; }}
       >
 
         <Spacer size={55} />
@@ -170,17 +200,26 @@ class EditFbPage extends Component {
           />
 
           {this.props.userdetails.isAgent=="No" &&
+          <View>
           <Button
             title={'Save'}
             onPress={this.addFbPage}
           />
+
+
+          <Spacer size={10} />
+
+          <Button
+            title={'Delete Page'}
+            onPress={this.deletePage}
+          />
+          </View>
         }
 
           <Spacer size={10} />
 
         </Card>
       </ScrollView>
-      </View>
     );
   }
 }
@@ -196,7 +235,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   editPage: FbActions.editPage,
   resetFbStatus: FbActions.resetFbStatus,
-
+  getfbpages: FbActions.getfbpages,
+  deletefbpage: FbActions.deletefbpage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditFbPage);
