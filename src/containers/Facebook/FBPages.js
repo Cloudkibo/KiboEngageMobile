@@ -59,9 +59,9 @@ class FBPages extends Component {
  componentWillMount(){
     if(this.props.userdetails.isAgent == "Yes"){
        Actions.refresh({rightTitle: "",onRight:()=> {console.log('do nothing')}});
-   
+
     }
-    
+
   }
 
   componentDidMount = async () => {
@@ -83,6 +83,11 @@ class FBPages extends Component {
       this.setState({ loading: false });
       this.createDataSource(nextProps);
     }
+  }
+
+  componentDidUpdate(prevProps){
+    this.setState({ loading: false });
+    this.createDataSource(this.props);
   }
 
   createDataSource({ fbpages

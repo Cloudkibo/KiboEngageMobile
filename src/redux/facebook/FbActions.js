@@ -191,8 +191,8 @@ export const getfbChats=(token) => {
           //Alert.alert('You are not connected with Internet');
           dispatch(readFBChats());
         }
-       }); 
-      
+       });
+
   };
 };
 
@@ -240,11 +240,11 @@ export const getfbChatsUpdate=(token,selectedChat) => {
   return (dispatch) => {
     console.log('calling api');
     axios.get(`${baseURL}/api/fbmessages/`,config).then((res) =>{
-     
+
      console.log("THis is the chat received");
      console.log(res.data);
      dispatch(showfbchatsupdated(res.data,selectedChat));
-     
+
     })
       .catch(function (error) {
         console.log('Error occured');
@@ -357,20 +357,20 @@ export const getfbpages = (token) => {
 
 export const uploadFbChatfile =(filedata,chatmsg)=>{
      return (dispatch) => {
-               
+
                 RNFetchBlob.fetch('POST', `${baseURLKiboEngage}/api/uploadchatfilefb/`, {
-                               
+
                                 'Content-Type' : 'multipart/form-data',
                               }, [
                                 // element with property `filename` will be transformed into `file` in form data
                                 { name : 'file', type: filedata.type,filename : filedata.name, data: filedata.data},
                                 { name : 'chatmsg', data : JSON.stringify(chatmsg)},
-                                
+
                               ])// listen to upload progress event
                                 .uploadProgress((written, total) => {
                                     console.warn('uploaded', written / total)
                                 })
-                               
+
                                 .then((resp) => {
                                    if(resp.statusCode == 200){
                                       console.log('File uploaded')
@@ -391,42 +391,42 @@ export const uploadFbChatDocfile = (filedata,chatmsg)=>{
      return (dispatch) => {
                 dispatch (update_upload_progress({
                                     message_id: filedata._id,
-                                    progress: 1, 
+                                    progress: 1,
                                   }));
                 RNFetchBlob.fetch('POST', `${baseURLKiboEngage}/api/uploadchatfilefb/`, {
-                               
+
                                 'Content-Type' : 'multipart/form-data',
                               }, [
                                 // element with property `filename` will be transformed into `file` in form data
                                 { name : 'file', type: filedata.type,filename : filedata.name, data: RNFetchBlob.wrap(filedata.uri.replace("file://", ""))},
                                 { name : 'chatmsg', data : JSON.stringify(chatmsg)},
-                                
+
                               ])// listen to upload progress event
                                 .uploadProgress((written, total) => {
                                     console.log('uploaded', written / total)
                                     if(written / total == 1){
-                                      console.warn('uploaded');  
+                                      console.warn('uploaded');
                                       dispatch (update_upload_progress({
                                     message_id: filedata._id,
-                                    progress: 100, 
+                                    progress: 100,
                                   }));
                                     }
 
                                   dispatch (update_upload_progress({
                                     message_id: filedata._id,
-                                    progress: Math.round(written/total * 100), 
+                                    progress: Math.round(written/total * 100),
                                   }));
-                                    
+
                                 })
-                               
+
                                 .then((resp) => {
                                   console.log("File Uploaded", resp);
                                      dispatch (update_upload_progress({
                                     message_id: filedata._id,
-                                    progress: 100, 
+                                    progress: 100,
                                   }));
                                   if(resp.statusCode == 200){
-                                   
+
                                       console.log('File uploaded')
                                   }
 
@@ -434,7 +434,7 @@ export const uploadFbChatDocfile = (filedata,chatmsg)=>{
                                 .catch((err) => {
                                   dispatch (update_upload_progress({
                                     message_id: filedata._id,
-                                    progress: -1, 
+                                    progress: -1,
                                   }));
                                   console.warn(err);
                                 })
@@ -491,7 +491,7 @@ export const fetchChatSessions=(token) => {
       .catch(function (error) {
         console.log('Error occured, cannot fetch fb chat sessions');
         console.log(error);
-        
+
       });
 
   };
@@ -510,8 +510,8 @@ return (dispatch) => {
           //Alert.alert('You are not connected with Internet');
           dispatch(readFBSessions());
         }
-       }); 
-      
+       });
+
   };
 };
 
@@ -539,7 +539,7 @@ export const resolveChatSessions=(token, data, id) => {
         console.log('Error occured, cannot mark chat session resolved');
         console.log(error);
         dispatch(updateAssignAgentStatus({status: "Failed to marked resolved"}));
-        
+
       });
 
   };
@@ -575,7 +575,7 @@ export const assignChatSession=(token, data, id) => {
         }else{
           dispatch(updateAssignAgentStatus({status: 'Failed cannot assign team'}));
         }
-        
+
       });
 
   };
@@ -702,7 +702,7 @@ export function downloadFile(url_file, name_file){
       console.log(`file ${exist ? '' : 'not'} exists`)
       if(exist == true){
             RNFetchBlob.ios.openDocument(dirs.DocumentDir + '/' + name); // results in path/to/file.jpg
-                 
+
       }
       else{
         RNFetchBlob
@@ -721,7 +721,7 @@ export function downloadFile(url_file, name_file){
                  path : dirs.DocumentDir + '/' + name
             })
           .fetch('GET', url_file, {
-            //some headers 
+            //some headers
           })
           // listen to download progress event
             .progress((received, total) => {
@@ -733,17 +733,17 @@ export function downloadFile(url_file, name_file){
                              RNFetchBlob.ios.openDocument(res.path()); // results in path/to/file.jpg
                             //dispatch(filecomplete());
                         }
-                     
-                      
+
+
           })
       }
   })
-  
+
  return{
     type: ActionTypes.DOWNLOAD_FILE,
     payload: 'File Downloaded Successfully'
   };
-  
+
 }
 
 export function filecomplete(){
@@ -779,7 +779,7 @@ export function callbackfbsessions(results) {
  var len = results.rows.length;
   for (let i = 0; i < len; i++) {
     let row = results.rows.item(i);
-  
+
     var obj = {
           _id: row._id,
           companyid:row.companyid,
@@ -790,15 +790,15 @@ export function callbackfbsessions(results) {
           deleteStatus: row.deleteStatus,
           status:row.status,
           agent_ids: [row.agent_ids && row.agent_ids != ''?JSON.parse(row.agent_ids):''],
-          
+
       }
-    
+
     console.log('row');
     fsessions.push(obj);
   }
   console.log('callbacksessions');
   console.log(fsessions);
- 
+
   return{
     type: ActionTypes.FB_SESSIONS,
     payload: fsessions,
@@ -833,31 +833,31 @@ export  function writeFBSessions(sessions){
   record.push(sessions[i].deleteStatus);
   record.push(sessions[i].status);
   record.push(sessions[i].agent_ids.length>0?JSON.stringify(sessions[i].agent_ids[sessions[i].agent_ids.length-1]):'');
-  
+
   rows.push(record);
   // addItem(db,record);
 
-  
+
  }
- 
+
 
 return (dispatch) => {
-    
+
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS FBCHATSESSIONS');
     tx.executeSql(CREATE_Sessions_TABLE);
 
     for(var j=0;j<rows.length;j++){
        tx.executeSql('INSERT INTO FBCHATSESSIONS VALUES (?,?,?,?,?,?,?,?,?)',rows[j]);
-   
+
     }
     tx.executeSql('SELECT * FROM FBCHATSESSIONS', [], (tx,results) => {
           console.log("Query completed");
           console.log("convert query result into desired format");
           console.log(results);
-    
+
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -869,22 +869,73 @@ return (dispatch) => {
           dispatch(callbackfbsessions(res));
   }
   );
-  
+
   }
 
 }
 
+const fbpageDeleteSuccess = (res) => {
+  // console.log('group deleted');
+  //Actions.main();
+  return{
+    type: ActionTypes.DELETE_FBPAGE_SUCCESS,
+    payload: res
+  };
+
+
+};
+
+const fbpageDeleteFail = (res) => {
+  // console.log('group deleted fail');
+  //Actions.main();
+  return{
+    type: ActionTypes.DELETE_FBPAGE_FAIL,
+    payload: res
+  };
+
+
+};
+
+// delete group
+export const deletefbpage = (page) => {
+    var token = page.token;
+    var id =  page.id;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/x-www-form-urlencoded'
+            },
+
+          };
+  return (dispatch) => {
+  //  console.log('calling api');
+    axios.delete(`${baseURL}/api/fbpages/${id}`,config).then(res =>
+    {
+      dispatch(fbpageDeleteSuccess(res));
+      dispatch(getfbpages(token));
+
+    })
+      .catch(function (error) {
+        // console.log('Error occured');
+        // console.log(error);
+        dispatch(fbpageDeleteFail());
+      });
+
+  };
+};
+
 export function readFBSessions(){
    var db = SqliteCalls.getConnection();
    return (dispatch) => {
-    
+
     db.transaction(function(tx) {
-   
+
     tx.executeSql('SELECT * FROM FBCHATSESSIONS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -894,7 +945,7 @@ export function readFBSessions(){
            dispatch(callbackfbsessions(res));
   }
   );
-  
+
   }
 
 }
@@ -909,7 +960,7 @@ export function callbackfbchats(results) {
  var len = results.rows.length;
   for (let i = 0; i < len; i++) {
     let row = results.rows.item(i);
-    
+
     var obj = {
           _id: row._id,
           senderid:row.senderid,
@@ -918,7 +969,7 @@ export function callbackfbchats(results) {
           message:JSON.parse(row.message),
           companyid:row.companyid,
       }
-    
+
     console.log('row');
     fchats.push(obj);
   }
@@ -952,27 +1003,27 @@ export  function writeFBChats(chats){
   rows.push(record);
   // addItem(db,record);
 
-  
+
  }
- 
+
 
 return (dispatch) => {
-    
+
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS FBCHATS');
     tx.executeSql(CREATE_FBChats_TABLE);
 
     for(var j=0;j<rows.length;j++){
        tx.executeSql('INSERT INTO FBCHATS VALUES (?,?,?,?,?,?)',rows[j]);
-   
+
     }
     tx.executeSql('SELECT * FROM FBCHATS', [], (tx,results) => {
           console.log("Query completed");
           console.log("convert query result into desired format");
           console.log(results);
-    
+
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -984,7 +1035,7 @@ return (dispatch) => {
           dispatch(callbackfbchats(res));
   }
   );
-  
+
   }
 
 }
@@ -992,16 +1043,16 @@ return (dispatch) => {
 export function readFBChats(){
    var db = SqliteCalls.getConnection();
    return (dispatch) => {
-    
+
     db.transaction(function(tx) {
-   
+
     tx.executeSql('SELECT * FROM FBCHATS', [], (tx,results) => {
           console.log("Query completed");
           console.log("convert query result into desired format");
           console.log(results);
-    
+
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -1011,8 +1062,7 @@ export function readFBChats(){
            dispatch(callbackfbchats(res));
   }
   );
-  
+
   }
 
 }
-
