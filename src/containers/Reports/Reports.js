@@ -51,9 +51,21 @@ class Reports extends Component {
         pageSeries: {web: 30, mobile:50},
         notificationSeries: {web: 30, mobile:50},
     };
-    this.fetchData();
+    
   }
 
+  componentDidMount = async() => {
+    console.log('reports component did mount called');
+     var token =  await auth.getToken();
+    if(token != ''){
+        this.props.fetchCountryStats(token);
+        this.props.fetchAgentStats(token);
+        this.props.fetchPageStats(token);
+        this.props.fetchTeamStats(token);
+        this.props.fetchNotificationStats(token);
+    }
+  
+  }
 
 
   fetchData = async () => {
@@ -72,13 +84,13 @@ class Reports extends Component {
     // will be rendered with
     // this.props is still the old set of props
        // console.log(nextProps.groups);
-    if(nextProps.country && nextProps.page){
+    // if(nextProps.country && nextProps.page){
       this.handleCountryStats(nextProps.country);
       this.handlePageStats(nextProps.page);
       this.handleTeamStats(nextProps.team);
       this.handleAgentStats(nextProps.agent);
       this.handleNotificationStats(nextProps.notification);
-  }
+  // }
   }
 
 
@@ -231,7 +243,7 @@ class Reports extends Component {
       <View style={[AppStyles.container]}>
     <Spacer size={50} />
     <View>
-    <Button title="Today" color={this.state.filterDays==1 ? '#ff5c5c' : '#2e8dfe'} onPress={() => {this.setFilterDays(1);} }></Button>
+    <Button title="Todays" color={this.state.filterDays==1 ? '#ff5c5c' : '#2e8dfe'} onPress={() => {this.setFilterDays(1);} }></Button>
     <Button title="Last 7 days" color={this.state.filterDays==7 ? '#ff5c5c' : '#2e8dfe'} onPress={() => {this.setFilterDays(7);} }></Button>
     <Button title="Last 30 days" color={this.state.filterDays==30 ? '#ff5c5c' : '#2e8dfe'} onPress={() => {this.setFilterDays(30);} }></Button>
     <Button title="This year" color={this.state.filterDays==365 ? '#ff5c5c' : '#2e8dfe'} onPress={() => {this.setFilterDays(365);} }></Button>

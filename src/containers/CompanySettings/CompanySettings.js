@@ -171,7 +171,7 @@ class CompanySettings extends Component {
    
         newVals = {
           maxNumberOfTeams: nextProps.data.maxnumberofdepartment,
-          maxNumberOfChannelsPerTeam: nextProps.data.maxnumberofsubgroups,
+          maxNumberOfChannelsPerTeam: nextProps.data.maxnumberofchannels,
           notificationemailaddress: nextProps.data.notificationemailaddress,
           smsPhoneNumber: nextProps.data.smsphonenumber,
           companyDomainEmails: nextProps.data.isdomainemail,
