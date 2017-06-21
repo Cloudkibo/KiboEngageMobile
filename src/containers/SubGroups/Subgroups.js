@@ -10,10 +10,9 @@ import {
   ListView,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
 } from 'react-native';
-import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
-import { List, ListItem, SocialIcon, SearchBar } from 'react-native-elements';
+import { TabBarTop } from 'react-native-tab-view';
+import { List, ListItem, SearchBar } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
@@ -27,7 +26,7 @@ import auth from '../../services/auth';
 import { AppColors, AppStyles } from '@theme/';
 
 // Components
-import { Alerts, Button, Card, Spacer, Text } from '@components/ui/';
+import { Spacer, Text } from '@components/ui/';
 
 // Example Data
 /* Styles ==================================================================== */
@@ -51,31 +50,25 @@ const styles = StyleSheet.create({
 class SubGroups extends Component {
   static componentName = 'Message Subgroup';
 
-   constructor(props) {
+  constructor(props) {
     super(props);
-    this.state = {loading : true, text: ''};
+    this.state = { loading: true, text: '' };
     this.filteredData = this.filteredData.bind(this);
     this.createDataSource(props.subgroups);
   }
-  componentWillMount(){
-    if(this.props.userdetails.isAgent == "Yes"){
-       Actions.refresh({rightTitle: "",onRight:()=> {console.log('do nothing')}});
-
+  componentWillMount() {
+    if (this.props.userdetails.isAgent === 'Yes') {
+      Actions.refresh({ rightTitle: '', onRight: () => { console.log('do nothing'); } });
     }
-
   }
 
-   componentDidMount = async() => {
-     var token =  await auth.getToken();
-      console.log('token is Launchview is: ' + token);
-      if(token != ''){
-
-            this.props.groupFetch(token);
-            this.props.channelFetch(token);
-
-
-          }
-
+  componentDidMount = async () => {
+    const token = await auth.getToken();
+    console.log('token is Launchview is: ' + token);
+    if (token !== '') {
+      this.props.groupFetch(token);
+      this.props.channelFetch(token);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
