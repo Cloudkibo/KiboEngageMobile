@@ -59,7 +59,7 @@ class Agents extends Component {
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
-        this.props.agentFetch(token);
+        this.props.agentFetch(token,this.props.userdetails._id);
        }
   }
 

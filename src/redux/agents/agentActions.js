@@ -19,7 +19,7 @@ export function showAgents(agents) {
 }
 
 
-export const agentFetch =  (token) => {
+export const agentFetch =  (token,userid) => {
 
    var config = {
       rejectUnauthorized : false,
@@ -32,13 +32,18 @@ export const agentFetch =  (token) => {
       
   return (dispatch) => {
     axios.get(`${baseURL}/api/users/allagents`,config)
-    .then((res) => res).then(res => dispatch(writeAgents(res.data.agents)))
+
+
+
+.then((res) => res).then(res => dispatch(writeAgents(res.data.agents.filter((s) => s._id != userid))))
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
         if(error = 'Network Error')
         {
           //Alert.alert('You are not connected with Internet');
+          console.log('myID ...')
+          console.log(userid)
           dispatch(readAgents());
         }
        }); 
@@ -202,6 +207,8 @@ export function callbackagents(results) {
 
 
 export  function writeAgents(agents){
+  console.log(agents._id)
+  console.log(agents.firstname)
   var db = SqliteCalls.getConnection();
    var res = [];
   var CREATE_Agents_TABLE = "CREATE TABLE AGENTS ("
