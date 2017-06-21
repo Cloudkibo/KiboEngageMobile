@@ -69,6 +69,7 @@ class SubGroups extends Component {
       this.props.groupFetch(token);
       this.props.channelFetch(token);
     }
+    this.createDataSource(this.props.subgroups);
   }
 
   componentWillReceiveProps(nextProps) {
