@@ -328,7 +328,7 @@ export const assignChannel = (token, input) => {
         // dispatch(confirmInvite(res))
         console.log("Channel Successfully Assigned");
         console.log(res);
-        dispatch(assign_agent_status('Successfully Assigned'));
+        dispatch(assign_agent_status('Successfully Moved'));
       })
       .catch(function (error) {
         console.log('Error occured in assigning subgroup');

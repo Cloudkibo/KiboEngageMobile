@@ -60,7 +60,9 @@ class GroupsMain extends Component {
   }
 
   changeTab (selectedTab) {
-  this.setState({selectedTab})
+  this.setState({selectedTab}
+
+    )
 }
 
  render = () => {
@@ -98,10 +100,12 @@ class GroupsMain extends Component {
                   selectedTitleStyle={{marginTop: -1, marginBottom: 6}}
                   selected={selectedTab === 'addGroups'}
                   title={'Add Groups'}
+                  renderBackButton={()=>(null)}
                   renderIcon={() => <Icon containerStyle={{justifyContent: 'center', alignItems: 'center', marginTop: 12}} color={'#5e6977'} name='group-add' size={33} />}
                   renderSelectedIcon={() => <Icon color={'#6296f9'} name='group-add' size={30} />}
                   onPress={() => this.changeTab('addGroups')}>
-                  <CreateGroup />
+
+                  <CreateGroup /> 
                 </Tab>
               }
               </Tabs>
