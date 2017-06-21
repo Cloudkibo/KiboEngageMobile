@@ -119,6 +119,12 @@ class CompanySettings extends Component {
       },
       options:{
         fields:{
+          maxNumberOfTeams:{
+            label: 'Max number of groups',
+          },
+          maxNumberOfChannelsPerTeam:{
+            label: 'Max number of subgroups'
+          },
         emailTemplate1 :{
           label: 'Email Template 1 (Reschedule Resolved Session)',
           autoCapitalize: 'none',
@@ -246,8 +252,6 @@ class CompanySettings extends Component {
             success=''
             error=''
           />
-            <Text>{ this.state.test }</Text>
-             <Text>Company Settings</Text>
               <Form
                   ref={(b) => { this.form = b; }}
                   type={this.state.form_fields}
