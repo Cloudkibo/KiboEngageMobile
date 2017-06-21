@@ -176,46 +176,44 @@ export const agentTeamFetch = (token) => {
 
 
 export const editteam = (team) => {
-    var token = team.token;
-    console.log('without remove_dups');
-    console.log(team.teamagents);
-    var remove_dups = utils.removeDuplicates(team.teamagents, '_id');
-    console.log('removeDuplicates');
-    console.log(remove_dups);
-    var config = {
-      rejectUnauthorized : false,
-      headers: {
-            'Authorization': `Bearer ${token}`,
-            'content-type' : 'application/json'
-            },
-
-          };
-    var d = {
-          _id:team.id,
-          groupname: team.name,
-          groupdescription: team.desc,
-          status : team.status,
-        }
-    var data = {
-      'group' : d,
-      'groupagents': remove_dups,
-
-      }
-
-
+  const token = team.token;
+  console.log('without remove_dups');
+  console.log(team.teamagents);
+  const remove_dups = utils.removeDuplicates(team.teamagents, '_id');
+  console.log('removeDuplicates');
+  console.log(remove_dups);
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'content-type' : 'application/json'
+    },
+  };
+  const d = {
+    _id: team.id,
+    groupname: team.name,
+    groupdescription: team.desc,
+    status: team.status,
+  };
+  const data = {
+    'group': d,
+    'groupagents': remove_dups,
+  };
   console.log('data of edit team');
   console.log(data);
   return (dispatch) => {
-
     console.log('calling api');
-    axios.post(`${baseURL}/api/groups/update/`,data,config).then(res => dispatch(teamEditSuccess(res)))
+    axios.post(`${baseURL}/api/groups/update/`, data, config).then( res => {
+      dispatch(teamEditSuccess(res));
+      dispatch(teamFetch(token));
+      dispatch(myteamFetch(token));
+    })
       .catch(function (error) {
         console.log(error.response)
         console.log('Error occured');
         console.log(error);
         dispatch(teamEditFail());
       });
-
   };
 };
 
@@ -263,6 +261,7 @@ export const deleteteam = (team) => {
     axios.delete(`${baseURL}/api/groups/${id}`, config).then(res => {
       dispatch(teamDeleteSuccess(res));
       dispatch(teamFetch(token));
+      dispatch(myteamFetch(token));
   })
       .catch(function (error) {
         console.log('Error occured');
