@@ -143,7 +143,12 @@ export const deleteSubgroup = (subgroup,token) => {
   return (dispatch) => {
     console.log('calling api');
     console.log(config.headers.authorization);
-    axios.delete(`${baseURLKiboEngage}/api/deleteSubgroup?id=${subgroup._id}`,config).then(res => dispatch(channelDeleteSuccess(res)))
+    axios.delete(`${baseURLKiboEngage}/api/deleteSubgroup?id=${subgroup._id}`,config).then(res => 
+
+      {dispatch(channelDeleteSuccess(res));
+      dispatch(channelFetch(token));
+
+    })
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);

@@ -260,7 +260,7 @@ class ChatSettings extends Component {
         >
   {this.state.items}
 </Picker>
-     <Spacer size={10} />
+     
      <Button
         title="Assign"
         color="#841584"
