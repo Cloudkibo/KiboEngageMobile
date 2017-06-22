@@ -145,8 +145,6 @@ export const assignAgent = (token, input,session) => {
     })
       .then((res) => {
         dispatch(assign_agent_status('Successfully Assigned'));
-        dispatch(fetchchat());
-
         console.log("Agent Successfully Assigned");
       })
       .catch(function (error) {
