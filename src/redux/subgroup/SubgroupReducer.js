@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, subgroupsuccess: '', channelerror : 'Subgroup details updation failed', loading: false };
 
     case ActionTypes.DELETE_CHANNEL_SUCCESS:
-      return { ...state, subgroupsuccess: 'Subgroup deleted successfully', channelerror : '', loading: false };
+      return { ...state, subgroups: action.payload, subgroupsuccess: 'Subgroup deleted successfully', channelerror : '', loading: false };
 
     case ActionTypes.DELETE_CHANNEL_FAIL:
       return { ...state, subgroupsuccess: '', channelerror : 'Subgroup deletion failed', loading: false };

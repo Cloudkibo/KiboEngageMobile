@@ -277,7 +277,7 @@ class ChatSettings extends Component {
         onValueChange={(toGroupId) => this.setState({assignedTeam: toGroupId})}>
   {this.state.teamsList}
 </Picker>
-     <Spacer size={10} />
+     
      <Button
         title="Assign"
         color="#841584"
