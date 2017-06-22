@@ -34,7 +34,7 @@ class EditAgent extends Component {
         error: '',
       },
       form_fields: FormValidation.struct({
-        agentRole: role,
+        changeRole: role,
 
       }),
       empty_form_values: {
@@ -42,21 +42,18 @@ class EditAgent extends Component {
         subgroupDescription: '',
       },
       form_values: {
-        agentRole : this.props.agent.role,
+        changeRole : 'Choose from here....',
       },
       options: {
         fields: {
-          agentRole:{
-            nullOption:false,
+          changeRole: {
+            label: 'Change Role:',
+            nullOption: { value: '', text: 'Choose from here...'},
           }
         },
       },
     };
   }
-
-
-
-
 
   editAgent = async () => {
     // Get new credentials and update
@@ -78,7 +75,7 @@ class EditAgent extends Component {
           console.log(token);
           const agentbody = {
             '_id' : this.props.agent._id,
-            'role': credentials.agentRole[0].toUpperCase() + credentials.agentRole.slice(1),
+            'role': credentials.changeRole[0].toUpperCase() + credentials.changeRole.slice(1),
 
 
           };
@@ -121,9 +118,6 @@ class EditAgent extends Component {
               {text: 'Yes', onPress: () => this.deleteAgentConfirm()},
             ]
           )
-
-
-
   }
   render = () => {
     const Form = FormValidation.form.Form;
@@ -155,7 +149,7 @@ class EditAgent extends Component {
           />
 
 
-          <Spacer size={55} />
+          <Spacer size={10} />
          {this.props.userdetails.isAdmin == "Yes" &&
           <View>
           <Button
@@ -170,8 +164,6 @@ class EditAgent extends Component {
           </View>
         }
           <Spacer size={10} />
-
-
 
         </Card>
                 </View>
