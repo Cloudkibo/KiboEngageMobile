@@ -24,6 +24,7 @@ import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import * as AgentActions from '@redux/agents/agentActions';
 var querystring = require('querystring');
 import { groupBy } from 'underscore';
+var moment = require('moment');
 /* Component ==================================================================== */
 styles = {
   cardDescription: {
@@ -81,9 +82,7 @@ fetchData = async(data) => {
 
 handleStats = (nextProps) => {
       var data = nextProps.channel;
-      var d = new Date();
-      d.setDate(d.getDate()-nextProps.filterDays);
-      d.setHours(0,0,0,0);
+      var d = moment().subtract(nextProps.filterDays, 'days');
       var groupedData = groupBy(data, function(d){return d._id.messagechannel;});
       console.log("In report channel handle data", groupedData);
       var result = {};
@@ -99,9 +98,8 @@ handleStats = (nextProps) => {
               });
             // if(proceed){
             result[subName] = groupedData[key].reduce((total, obj) => {
-               var date = new Date(obj._id.month + '-' + obj._id.day + '-' + obj._id.year);
-                date.setHours(0,0,0,0);
-                if(date >= d){  
+                var date = moment(obj._id.month + '-' + obj._id.day + '-' + obj._id.year, "MM-DD-YYYY");
+                if(date.isSameOrAfter(d)){  
                     return total + obj.count;
                 }else{
                   return total;
