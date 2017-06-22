@@ -4,13 +4,13 @@ import * as GroupActions from '@redux/group/groupActions';
 import * as UserActions from '@redux/user/actions';
 import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import React, { Component, PropTypes } from 'react';
-import { View } from 'react-native';
 import { connect } from 'react-redux';
+import { Keyboard, View, TouchableWithoutFeedback } from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import FormValidation from 'tcomb-form-native';
 import auth from '../../services/auth';
-import { Keyboard , TouchableWithoutFeedback} from 'react-native'
-var _ = require('lodash');
+
+const _ = require('lodash');
 
 class CreateSubGroup extends Component {
   static componentName = 'CreateSubGroup';
@@ -126,18 +126,18 @@ class CreateSubGroup extends Component {
 
   dropDownOnSelect(idx, value) {
     for (var i = 0; i< this.props.groups.length; i++) {
-       if (this.props.groups[i].deptname === value) {
-         this.setState({
-           groupid: this.props.groups[i]._id,
-         });
-         break;
-       }
+      if (this.props.groups[i].deptname === value) {
+        this.setState({
+          groupid: this.props.groups[i]._id,
+        });
+        break;
+      }
     }
   }
 
   render = () => {
     const Form = FormValidation.form.Form;
-    var optionList = [];
+    const optionList = [];
 
     for (var i = 0; i < this.props.groups.length; i++){
       optionList[i] = this.props.groups[i].deptname;
@@ -148,45 +148,45 @@ class CreateSubGroup extends Component {
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
-      <TouchableWithoutFeedback onPress={ () => { Keyboard.dismiss() } }>
-        <View>
-        <Spacer size={55} />
-        <Card>
-          <Alerts
-            status={this.state.resultMsg.status}
-            success={this.props.subgroupsuccess}
-            error={this.props.channelerror}
-          />
+        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
+          <View>
+            <Spacer size={55} />
+            <Card>
+              <Alerts
+                status={this.state.resultMsg.status}
+                success={this.props.subgroupsuccess}
+                error={this.props.channelerror}
+              />
 
-          <Form
-            ref={(b) => { this.form = b; }}
-            type={this.state.form_fields}
-            value={this.state.form_values}
-            options={this.state.options}
-          />
+              <Form
+                ref={(b) => { this.form = b; }}
+                type={this.state.form_fields}
+                value={this.state.form_values}
+                options={this.state.options}
+              />
 
-          <ModalDropdown
-            style={{ alignSelf: 'center', width: 150, top: 16, right: 8, borderWidth: 1, borderRadius: 2, borderColor: 'black' }}
-            textStyle={{ marginVertical: 10, marginHorizontal: 6, fontSize: 18, color: 'black', textAlign: 'center', textAlignVertical: 'center' }}
-            dropdownStyle={{ width: 150, height: 150, borderColor: 'black', borderWidth: 1, borderRadius: 2 }}
-            defaultValue="Choose Team"
-            options={optionList}
-            onSelect={(idx, value) => this.dropDownOnSelect(idx, value)}
-            renderRow={this.dropdownRenderRow}
-          />
+              <ModalDropdown
+                style={{ alignSelf: 'center', width: 150, top: 16, right: 8, borderWidth: 1, borderRadius: 2, borderColor: 'black' }}
+                textStyle={{ marginVertical: 10, marginHorizontal: 6, fontSize: 18, color: 'black', textAlign: 'center', textAlignVertical: 'center' }}
+                dropdownStyle={{ width: 150, height: 150, borderColor: 'black', borderWidth: 1, borderRadius: 2 }}
+                defaultValue="Choose Team"
+                options={optionList}
+                onSelect={(idx, value) => this.dropDownOnSelect(idx, value)}
+                renderRow={this.dropdownRenderRow}
+              />
 
-          <Spacer size={55} />
+              <Spacer size={55} />
 
-          <Button
-            title={'Create Subgroup'}
-            onPress={this.createChannel}
-          />
+              <Button
+                title={'Create Subgroup'}
+                onPress={this.createChannel}
+              />
 
-          <Spacer size={10} />
+              <Spacer size={10} />
 
-        </Card>
-        </View>
-      </TouchableWithoutFeedback>
+            </Card>
+          </View>
+        </TouchableWithoutFeedback>
       </View>
     );
   }
