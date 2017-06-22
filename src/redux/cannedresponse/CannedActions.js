@@ -105,11 +105,10 @@ export const editcanned = (canned) => {
   return (dispatch) => {
     dispatch(cannedEditInAction());
     console.log('calling api');
-    axios.put(`${baseURL}/api/shortcuts/${id}`,data,config).then(res => {dispatch(
+    axios.put(`${baseURL}/api/shortcuts/${id}`,data,config).then(res => {
 
-      cannedEditSuccess(res));
-    dispatch(cannedFetch(token));
-
+      dispatch(cannedEditSuccess(res));
+      dispatch(cannedFetch(token));
     })
       .catch(function (error) {
         console.log('Error occured');
