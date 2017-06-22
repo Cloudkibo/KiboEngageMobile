@@ -85,7 +85,7 @@ class EditAgent extends Component {
 
           console.log(agentbody);
     
-          this.props.editAgent(agentbody, token);
+          this.props.editAgent(agentbody, token, this.props.userdetails._id);
         }
       });
     }
