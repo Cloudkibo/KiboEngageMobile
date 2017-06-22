@@ -19,8 +19,8 @@ class EditAgent extends Component {
     const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
     stylesheet.textbox.normal.height = 80;
     stylesheet.textbox.error.height = 80;
-   
-   
+
+
     var role = FormValidation.enums({
               agent: 'Agent',
               supervisor: 'Supervisor',
@@ -35,7 +35,7 @@ class EditAgent extends Component {
       },
       form_fields: FormValidation.struct({
         agentRole: role,
-        
+
       }),
       empty_form_values: {
         subgroupName: '',
@@ -54,9 +54,9 @@ class EditAgent extends Component {
     };
   }
 
-  
 
- 
+
+
 
   editAgent = async () => {
     // Get new credentials and update
@@ -80,12 +80,12 @@ class EditAgent extends Component {
             '_id' : this.props.agent._id,
             'role': credentials.agentRole[0].toUpperCase() + credentials.agentRole.slice(1),
 
-          
+
           };
 
           console.log(agentbody);
-    
-          this.props.editAgent(agentbody, token, this.props.userdetails._id);
+
+          this.props.editAgent(agentbody, this.props.userdetails._id, token);
         }
       });
     }
@@ -104,12 +104,12 @@ class EditAgent extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-   
+
             this.props.deleteAgent(this.props.agent,token);
         }
-     
+
   }
- 
+
 
   deleteAgent = () => {
 
@@ -122,12 +122,12 @@ class EditAgent extends Component {
             ]
           )
 
-    
-     
+
+
   }
   render = () => {
     const Form = FormValidation.form.Form;
-    
+
 
     return (
       <View
@@ -145,7 +145,7 @@ class EditAgent extends Component {
             error={this.props.statuscode == 422?this.props.status:''}
           />
           <Text>Current Role : {this.props.agent.isAgent == "Yes"?"Agent":this.props.agent.isAdmin == "Yes"?"Admin":"Supervisor"}</Text>
-          
+
           <Spacer size={20} />
           <Form
             ref={(b) => { this.form = b; }}
@@ -154,7 +154,7 @@ class EditAgent extends Component {
             options={this.state.options}
           />
 
-          
+
           <Spacer size={55} />
          {this.props.userdetails.isAdmin == "Yes" &&
           <View>
@@ -171,7 +171,7 @@ class EditAgent extends Component {
         }
           <Spacer size={10} />
 
-         
+
 
         </Card>
                 </View>
@@ -185,13 +185,13 @@ class EditAgent extends Component {
 
 
 const mapDispatchToProps = {
- 
+
   editAgent: AgentActions.editAgent,
   deleteAgent : AgentActions.deleteAgent,
 };
 
 function mapStateToProps(state) {
-  
+
   const { userdetails } = state.user;
   const {status,statuscode} = state.agents;
   return { userdetails,status,statuscode};
