@@ -3,10 +3,9 @@ import axios from 'axios';
 import * as ActionTypes from '../types';
 import utils from '../../services/utils';
 import SqliteCalls from '../../services/SqliteCalls';
+var SQLite = require('react-native-sqlite-storage')
 
-const SQLite = require('react-native-sqlite-storage')
-
-const querystring = require('querystring');
+var querystring = require('querystring');
 
 import * as Config from '../config';
 var baseURL = Config.baseURLKiboSupport;
@@ -68,7 +67,7 @@ export const teamFetch = (token) => {
           //Alert.alert('You are not connected with Internet');
           dispatch(readTeams());
         }
-       });
+       }); 
 
   };
 };
@@ -169,51 +168,53 @@ export const agentTeamFetch = (token) => {
           //Alert.alert('You are not connected with Internet');
           dispatch(readTeamAgents());
         }
-       });
+       }); 
 
   };
 };
 
 
 export const editteam = (team) => {
-  const token = team.token;
-  console.log('without remove_dups');
-  console.log(team.teamagents);
-  const remove_dups = utils.removeDuplicates(team.teamagents, '_id');
-  console.log('removeDuplicates');
-  console.log(remove_dups);
-  const config = {
-    rejectUnauthorized: false,
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'content-type' : 'application/json'
-    },
-  };
-  const d = {
-    _id: team.id,
-    groupname: team.name,
-    groupdescription: team.desc,
-    status: team.status,
-  };
-  const data = {
-    'group': d,
-    'groupagents': remove_dups,
-  };
+    var token = team.token;
+    console.log('without remove_dups');
+    console.log(team.teamagents);
+    var remove_dups = utils.removeDuplicates(team.teamagents, '_id');
+    console.log('removeDuplicates');
+    console.log(remove_dups);
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/json'
+            },
+
+          };
+    var d = {
+          _id:team.id,
+          groupname: team.name,
+          groupdescription: team.desc,
+          status : team.status,
+        }
+    var data = {
+      'group' : d,
+      'groupagents': remove_dups,
+
+      }
+
+
   console.log('data of edit team');
   console.log(data);
   return (dispatch) => {
+
     console.log('calling api');
-    axios.post(`${baseURL}/api/groups/update/`, data, config).then( res => {
-      dispatch(teamEditSuccess(res));
-      dispatch(teamFetch(token));
-      dispatch(myteamFetch(token));
-    })
+    axios.post(`${baseURL}/api/groups/update/`,data,config).then(res => dispatch(teamEditSuccess(res)))
       .catch(function (error) {
         console.log(error.response)
         console.log('Error occured');
         console.log(error);
         dispatch(teamEditFail());
       });
+
   };
 };
 
@@ -234,42 +235,48 @@ const teamEditSuccess = (res) => {
 };
 
 const teamDeleteFail = () => {
-  return { type: ActionTypes.DELETE_TEAM_FAIL };
+  return{ type: ActionTypes.DELETE_TEAM_FAIL };
 };
 
 const teamDeleteSuccess = (res) => {
   console.log('team deleted');
-  return {
+  //Actions.main();
+  return{
     type: ActionTypes.DELETE_TEAM_SUCCESS,
-    payload: res,
+    payload: res
   };
+
+
 };
 
 // delete team
 export const deleteteam = (team) => {
-  const token = team.token;
-  const id = team.id;
-  const config = {
-    rejectUnauthorized: false,
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'content-type': 'application/x-www-form-urlencoded'
-    },
-  };
+    var token = team.token;
+    var id =  team.id;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            'content-type' : 'application/x-www-form-urlencoded'
+            },
+
+          };
   return (dispatch) => {
-    console.log('calling api');
-    axios.delete(`${baseURL}/api/groups/${id}`, config).then(res => {
+   console.log('calling api');
+    axios.delete(`${baseURL}/api/groups/${id}`,config).then(res => {
       dispatch(teamDeleteSuccess(res));
       dispatch(teamFetch(token));
-      dispatch(myteamFetch(token));
   })
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
         dispatch(teamDeleteFail());
       });
+
   };
 };
+
+
 
 // join team
 const teamJoinFail = () => {
@@ -326,11 +333,11 @@ export function callbackteams(results) {
     fteams.push(row);
   }
   console.log(fteams);
-
+ 
   return {
     type: ActionTypes.ADD_TEAMS,
     payload : fteams,
-
+ 
   };
 }
 export function callbackteamAgents(results) {
@@ -342,11 +349,11 @@ export function callbackteamAgents(results) {
     fteams.push(row);
   }
   console.log(fteams);
-
+ 
   return {
     type: ActionTypes.ADD_TEAM_AGENTS,
     payload : fteams,
-
+ 
   };
 }
 
@@ -378,26 +385,26 @@ export  function writeTeams(teams){
   rows.push(record);
  // addItem(db,record);
 
-
+  
  }
  console.log(rows);
 
 
 return (dispatch) => {
-
+    
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS TEAMS');
     tx.executeSql(CREATE_Teams_TABLE);
 
     for(var j=0;j<rows.length;j++){
        tx.executeSql('INSERT INTO TEAMS VALUES (?,?,?,?,?,?,?,?)',rows[j]);
-
+   
     }
     tx.executeSql('SELECT * FROM TEAMS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-
+          
         });
   }
     , function(error) {
@@ -407,7 +414,7 @@ return (dispatch) => {
            dispatch(callbackteams(res));
   }
   );
-
+  
   }
 
 }
@@ -438,26 +445,26 @@ export  function writeTeamAgents(teamAgents){
   rows.push(record);
  // addItem(db,record);
 
-
+  
  }
  console.log(rows);
 
 
 return (dispatch) => {
-
+    
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS TEAMAGENTS');
     tx.executeSql(CREATE_TeamAgents_TABLE);
 
     for(var j=0;j<rows.length;j++){
        tx.executeSql('INSERT INTO TEAMAGENTS VALUES (?,?,?,?,?,?)',rows[j]);
-
+   
     }
     tx.executeSql('SELECT * FROM TEAMAGENTS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-
+          
         });
   }
     , function(error) {
@@ -467,7 +474,7 @@ return (dispatch) => {
            dispatch(callbackteamAgents(res));
   }
   );
-
+  
   }
 
 }
@@ -475,13 +482,13 @@ return (dispatch) => {
 export function readTeams(){
    var db = SqliteCalls.getConnection();
    return (dispatch) => {
-
+    
     db.transaction(function(tx) {
-
+   
     tx.executeSql('SELECT * FROM TEAMS', [], (tx,results) => {
           console.log("Query completed");
           res = results;
-
+          
         });
   }
     , function(error) {
@@ -491,7 +498,7 @@ export function readTeams(){
            dispatch(callbackteams(res));
   }
   );
-
+  
   }
 
 }
@@ -500,13 +507,13 @@ export function readTeams(){
 export function readTeamAgents(){
    var db = SqliteCalls.getConnection();
    return (dispatch) => {
-
+    
     db.transaction(function(tx) {
-
+   
     tx.executeSql('SELECT * FROM TEAMAGENTS', [], (tx,results) => {
           console.log("Query completed");
           res = results;
-
+          
         });
   }
     , function(error) {
@@ -516,7 +523,7 @@ export function readTeamAgents(){
            dispatch(callbackteamAgents(res));
   }
   );
-
+  
   }
 
 }
