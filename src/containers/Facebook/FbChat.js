@@ -333,7 +333,7 @@ class FbChat extends Component {
 
 
 
-    else if(msgObj.image){
+    else if(msgObj.image && msgObj.type != 'gif'){
       /*** for image file ******/
     var filename = msgObj.image.split('/');
     var fileext = filename[filename.length-1].split('.');
@@ -632,6 +632,7 @@ class FbChat extends Component {
          images.push({
               createdAt: Date.now(),
               image: image_uri,
+              type: 'gif',
               user:{
                 _id: 1,
               }
