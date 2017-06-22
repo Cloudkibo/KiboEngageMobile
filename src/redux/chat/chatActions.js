@@ -145,6 +145,8 @@ export const assignAgent = (token, input,session) => {
     })
       .then((res) => {
         dispatch(assign_agent_status('Successfully Assigned'));
+        dispatch(chatsFetch(token));
+
         console.log("Agent Successfully Assigned");
       })
       .catch(function (error) {
@@ -249,6 +251,7 @@ export const resolveChatSession =  (token, sessionid) => {
       console.log("Chat marked as resolved");
       // dispatch(showSessions(res))
         dispatch(assign_agent_status('Chat Marked As Resolved'));
+        dispatch(chatsFetch(token));
       }).catch(function (error) {
         console.log('Unable to mark chat as resolved');
         // dispatch(assign_agent_status('Error Occurred'));
