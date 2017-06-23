@@ -103,6 +103,7 @@ class SubGroups extends Component {
         console.log('navigate subgroup is called');
         Actions.channelEdit({subgroup:subgroup,groupName:groupName});
   }
+
   returnGroupName(subgroup){
    var deptname = ''
    if(this.props.groups.filter((c) => c && c._id == subgroup.groupid).length >0){
@@ -114,6 +115,7 @@ class SubGroups extends Component {
    }
    return deptname;
   }
+  
   renderRow = (subgroup) => (
     <ListItem
       key={`list-row-${subgroup._id}`}
