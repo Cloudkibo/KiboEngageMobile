@@ -27,6 +27,7 @@ import { Notificationwise } from './Notificationwise';
 import * as reportActions from '@redux/reports/reportActions';
 import { groupBy } from 'underscore';
 var querystring = require('querystring');
+var moment = require('moment');
 /* Component ==================================================================== */
 styles = {
   cardDescription: {
@@ -95,18 +96,15 @@ class Reports extends Component {
 
 
   handleCountryStats = (data) => {
-      var d = new Date();
-      d.setDate(d.getDate()-this.state.filterDays);
-      d.setHours(0,0,0,0);
+      var d = moment().subtract(this.state.filterDays, 'days');
       var groupedData = groupBy(data, function(d){return d._id.platform});
       console.log("Country Series Stat", groupedData);
       var result = {};
       for(var key in groupedData){
           if (groupedData.hasOwnProperty(key)) {
             result[key] = groupedData[key].reduce((total, obj) => {  
-                var date = new Date(obj._id.month + '-' + obj._id.day + '-' + obj._id.year);
-                date.setHours(0,0,0,0);
-                if(date >= d){  
+               var date = moment(obj._id.month + '-' + obj._id.day + '-' + obj._id.year, "MM-DD-YYYY");
+                if(date.isSameOrAfter(d)){  
                      return (total + obj.count);
                 }else{
                   return total;
@@ -120,17 +118,14 @@ class Reports extends Component {
   }
 
   handlePageStats = (data) => {
-      var d = new Date();
-      d.setDate(d.getDate()-this.state.filterDays);
-      d.setHours(0,0,0,0);
+      var d = moment().subtract(this.state.filterDays, 'days');
       var groupedData = groupBy(data, function(d){return d._id.currentpage});
       var result = {};
       for(var key in groupedData){
           if (groupedData.hasOwnProperty(key)) {
             result[key] = groupedData[key].reduce((total, obj) => {
-               var date = new Date(obj._id.month + '-' + obj._id.day + '-' + obj._id.year);
-                date.setHours(0,0,0,0);
-                if(date >= d){  
+              var date = moment(obj._id.month + '-' + obj._id.day + '-' + obj._id.year, "MM-DD-YYYY");
+                if(date.isSameOrAfter(d)){  
                     return total + obj.count;
                 }else{
                   return total;
@@ -145,9 +140,7 @@ class Reports extends Component {
   }
 
   handleTeamStats = (data) => {
-      var d = new Date();
-      d.setDate(d.getDate()-this.state.filterDays);
-      d.setHours(0,0,0,0);
+      var d = moment().subtract(this.state.filterDays, 'days');
       console.log("Handle teams", data);
       var groupedData = groupBy(data.gotDeptCalls, function(d){return d._id.departmentid});
       console.log("Handle Teams After being grouped", groupedData);
@@ -158,50 +151,25 @@ class Reports extends Component {
             data.deptNames.map((obj) => {
                 if(obj._id == key){
                 result[obj.deptname] =  groupedData[key].reduce((total, object) => {
-               var date = new Date(object._id.month + '-' + object._id.day + '-' + object._id.year);
-                date.setHours(0,0,0,0);
-                if(date >= d){  
+              //  var date = moment(obj._id.month + '-' + obj._id.day + '-' + obj._id.year, "MM-DD-YYYY");
+              //   if(date.isSameOrAfter(d)){  
                     return total + object.count;
-                }else{
-                  return total;
-                }
+                // }else{
+                //   return total;
+                // }
         }, 0);
                 }
             });
           }
       }
-    //   console.log("Handle team stats", result);
+      console.log("Handle team stats", result);
       this.setState({teamSeries: result})
   }
 
-  handleAgentStats = (data) => {
-      var d = new Date();
-      d.setDate(d.getDate()-this.state.filterDays);
-      d.setHours(0,0,0,0);
-      var groupedData = groupBy(data, function(d){return d._id.agent_ids.type});
-      console.log("Agent series stats", groupedData);
-      var result = {};
-      for(var key in groupedData){
-          if (groupedData.hasOwnProperty(key)) {
-            result[key] = groupedData[key].reduce((total, obj) => {
-               var date = new Date(obj._id.month + '-' + obj._id.day + '-' + obj._id.year);
-                date.setHours(0,0,0,0);
-                if(date >= d){  
-                    return total + obj.count;
-                }else{
-                  return total;
-                }
-        }, 0);
-          }
-      }
-      console.log("Agent result", result);
-      this.setState({agentSeries: result})
-  }
+
 
   handleNotificationStats = (data) => {
-      var d = new Date();
-      d.setDate(d.getDate()-this.state.filterDays);
-      d.setHours(0,0,0,0);
+      var d = moment().subtract(this.state.filterDays, 'days');
       var groupedData = groupBy(data.notficationsCount, function(d){return d._id.agent_id});
       console.log("Notification series stats", groupedData);
       var result = {};
@@ -228,6 +196,27 @@ class Reports extends Component {
     this.handleTeamStats(this.props.team);
     this.handleAgentStats(this.props.agent);
     this.handleNotificationStats(this.props.notification);
+  }
+
+  handleAgentStats = (data) => {
+      var d = moment().subtract(this.state.filterDays, 'days');
+      var groupedData = groupBy(data, function(d){return d._id.agent_ids.type});
+      console.log("Agent series stats", groupedData);
+      var result = {};
+      for(var key in groupedData){
+          if (groupedData.hasOwnProperty(key)) {
+            result[key] = groupedData[key].reduce((total, obj) => {
+               var date = moment(obj._id.month + '-' + obj._id.day + '-' + obj._id.year, "MM-DD-YYYY");
+                if(date.isSameOrAfter(d)){  
+                    return total + obj.count;
+                }else{
+                  return total;
+                }
+        }, 0);
+          }
+      }
+      console.log("Agent result", result);
+      this.setState({agentSeries: result})
   }
 
   render() {
