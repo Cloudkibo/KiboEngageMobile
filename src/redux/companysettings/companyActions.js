@@ -90,6 +90,12 @@ export function confirmSave(res) {
   };
 }
 
+export function resetStatus() {
+  return {
+    type: ActionTypes.RESET_STATUS,
+  };
+}
+
 
 
 /***** sqlite table for company settings *****/
