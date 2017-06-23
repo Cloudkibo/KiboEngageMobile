@@ -80,6 +80,7 @@ export const agentInvite =  (token, inviteEmail) => {
 
 
 export const editAgent = (agentbody, userid, token) => {
+
 var config = {
       rejectUnauthorized : false,
       headers: {
@@ -97,16 +98,16 @@ var config = {
   // console.log("THis is the token in action " + token);
   return (dispatch) => {
     axios.post(`${baseURL}/api/users/updaterole/`, data,config)
-      .then((res) =>
+      .then((res) => 
 
-    {
-      dispatch(agentRoleUpdate(res))
-      dispatch(agentFetch(token, userid));
+    {dispatch(agentRoleUpdate(res));
+      dispatch(agentFetch(token,userid));
   })
       .catch(function (error) {
          console.log('Error occured');
          console.log(error);
         dispatch(agentRoleUpdate(error));
+        
       });
   };
 };

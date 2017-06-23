@@ -55,6 +55,7 @@ class SubGroups extends Component {
     this.state = { loading: true, text: '' };
     this.filteredData = this.filteredData.bind(this);
     this.createDataSource(props.subgroups);
+    this.returnGroupName = this.returnGroupName.bind(this);
   }
   componentWillMount() {
     if (this.props.userdetails.isAgent === 'Yes') {
@@ -104,12 +105,26 @@ class SubGroups extends Component {
         Actions.channelEdit({subgroup:subgroup,groupName:groupName});
   }
 
+  returnGroupName(subgroup){
+   var deptname = ''
+   if(this.props.groups.filter((c) => c && c._id == subgroup.groupid).length >0){
+      deptname = this.props.groups.filter((c) => c && c._id == subgroup.groupid)[0].deptname;
+   }
+   else{
+    deptname = 'GRoup -deleted';
+    console.log('group deleted');
+   }
+   return deptname;
+  }
+  
+
+
   renderRow = (subgroup) => (
     <ListItem
       key={`list-row-${subgroup._id}`}
-      onPress={this.goToView2.bind(this,subgroup,this.props.groups.filter((c) => c._id == subgroup.groupid)[0].deptname)}
+      onPress={this.goToView2.bind(this,subgroup,this.returnGroupName(subgroup))}
       title={subgroup.msg_channel_name}
-      subtitle={this.props.groups.filter((c) => c && c._id == subgroup.groupid)[0].deptname + '\n' + subgroup.msg_channel_description || null}
+      subtitle={this.returnGroupName(subgroup) + '\n' + subgroup.msg_channel_description || null}
 
     />
 

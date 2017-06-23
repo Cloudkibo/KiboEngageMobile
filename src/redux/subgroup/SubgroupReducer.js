@@ -36,6 +36,6 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, subgroupsuccess: '', channelerror : '', loading: false };
 
     default:
-      return state;
+      return {...state,channelerror:'',subgroupsuccess:''};
   }
 };

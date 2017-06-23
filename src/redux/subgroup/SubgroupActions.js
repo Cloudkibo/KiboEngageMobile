@@ -30,6 +30,7 @@ export const channelFetch = (token) => {
           };
 
   return (dispatch) => {
+    dispatch(readChannels());
     axios.get(`${baseURL}/api/messagechannels`,config)
     .then((res) => res).then(res => dispatch(writeChannels(res.data)))
     .catch(function (error) {

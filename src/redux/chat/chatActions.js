@@ -65,7 +65,7 @@ export const sessionsFetch =  (token) => {
 };
 
 export const chatsFetch =  (token) => {
-
+console.log('chats fetch called');
    var config = {
       headers: {
           'Authorization': `Bearer ${token}`,
@@ -106,6 +106,7 @@ export function singleChats(data) {
 
 // Assign Agent
 export const assignAgent = (token, input,session) => {
+  console.log('assign agent in chat actions called');
     var config = {
       rejectUnauthorized : false,
       headers: {
@@ -145,6 +146,8 @@ export const assignAgent = (token, input,session) => {
     })
       .then((res) => {
         dispatch(assign_agent_status('Successfully Assigned'));
+        dispatch(chatsFetch(token));
+
         console.log("Agent Successfully Assigned");
       })
       .catch(function (error) {
@@ -229,7 +232,7 @@ export const sendChat  = (token, input) => {
 
 
 export const resolveChatSession =  (token, sessionid) => {
-
+console('resolve chat session called');
    var config = {
            headers:{
           'Content-Type': 'application/json',
@@ -245,10 +248,11 @@ export const resolveChatSession =  (token, sessionid) => {
 
     axios.post(`${baseURLKiboEngage}/api/resolvechatsession`, data, config)
     .then(res => {
-      console.log(res);
+    //  console.log(res);
       console.log("Chat marked as resolved");
       // dispatch(showSessions(res))
         dispatch(assign_agent_status('Chat Marked As Resolved'));
+        dispatch(chatsFetch(token));
       }).catch(function (error) {
         console.log('Unable to mark chat as resolved');
         // dispatch(assign_agent_status('Error Occurred'));
@@ -317,7 +321,7 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
 
 
   export const fetchChat =  (token, data) => {
-
+console.log('fetch chat called');
    var config = {
       headers: {
           'Authorization': `Bearer ${token}`,      
@@ -346,6 +350,7 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
 
 /******* SQLite actions for Chat Sessions and chat message*/
 export function callbacksessions(results) {
+  console.log('callback chat sessions called');
  var fsessions = []
  console.log('inside callbacksessions')
  var len = results.rows.length;
@@ -447,7 +452,7 @@ return (dispatch) => {
     tx.executeSql('SELECT * FROM CHATSESSIONS', [], (tx,results) => {
           console.log("Query completed");
           console.log("convert query result into desired format");
-          console.log(results);
+         // console.log(results);
     
           res = results;
           
@@ -457,8 +462,8 @@ return (dispatch) => {
              console.log('Transaction ERROR: ' + error.message);
   }, function() {
           console.log('Populated database OK');
-          console.log('res is:')
-          console.log(res);
+         // console.log('res is:')
+         // console.log(res);
           dispatch(callbacksessions(res));
   }
   );
@@ -475,7 +480,7 @@ export function readSessions(){
    
     tx.executeSql('SELECT * FROM CHATSESSIONS', [], (tx,results) => {
           console.log("Query completed");
-          console.log(results);
+        //  console.log(results);
           res = results;
           
         });
@@ -594,7 +599,7 @@ return (dispatch) => {
     tx.executeSql('SELECT * FROM CHATS', [], (tx,results) => {
           console.log("Query completed");
           console.log("convert query result into desired format");
-          console.log(results);
+         // console.log(results);
     
           res = results;
           
@@ -604,8 +609,8 @@ return (dispatch) => {
              console.log('Transaction ERROR: ' + error.message);
   }, function() {
           console.log('Populated database OK');
-          console.log('res is:')
-          console.log(res);
+       //   console.log('res is:')
+        //  console.log(res);
           dispatch(callbackchats(res));
   }
   );
@@ -623,7 +628,7 @@ export function readChats(){
     tx.executeSql('SELECT * FROM CHATS', [], (tx,results) => {
           console.log("Query completed");
           console.log("convert query result into desired format");
-          console.log(results);
+         // console.log(results);
     
           res = results;
           

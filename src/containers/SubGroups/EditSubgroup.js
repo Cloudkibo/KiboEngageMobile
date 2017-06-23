@@ -71,6 +71,7 @@ class EditSubgroup extends Component {
     };
   }
 
+
   editSubgroup = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();
@@ -116,14 +117,17 @@ class EditSubgroup extends Component {
       this.scrollView.scrollTo({ y: 0 });
     }
 
-    if (auth.loggedIn() === true) {
-      console.log('auth.loggedIn() return true');
-      const token = await auth.getToken();
-      console.log(token);
+        if(auth.loggedIn() == true){
+            console.log('auth.loggedIn() return true');
+            var token = await auth.getToken();
+            console.log(token);
 
-      this.props.deleteSubgroup(this.props.subgroup, token);
-    }
+            this.props.deleteSubgroup(this.props.subgroup,token);
+        }
+
   }
+
+
 
   deleteSubgroup = () => {
     Alert.alert(
@@ -134,6 +138,7 @@ class EditSubgroup extends Component {
         { text: 'Yes', onPress: () => this.deleteSubgroupConfirm() },
       ],
     );
+
   }
   render = () => {
     const Form = FormValidation.form.Form;
@@ -144,40 +149,44 @@ class EditSubgroup extends Component {
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
-        <TouchableWithoutFeedback onPress={ () => { Keyboard.dismiss() } }>
+
+       <TouchableWithoutFeedback onPress={ () => { Keyboard.dismiss() } }>
+        <View>
+        <Spacer size={55} />
+        <ScrollView>
+        <Card title = {'Team : ' + this.props.groupName}>
+          <Alerts
+            status={this.state.resultMsg.status}
+            success={this.props.subgroupsuccess}
+            error={this.props.channelerror}
+          />
+          <Form
+            ref={(b) => { this.form = b; }}
+            type={this.state.form_fields}
+            value={this.state.form_values}
+            options={this.state.options}
+          />
+
+         {this.props.userdetails.isAgent == "No" &&
           <View>
-            <Spacer size={55} />
-            <ScrollView>
-              <Card title={'Team : ' + this.props.groupName}>
-                <Alerts
-                  status={this.state.resultMsg.status}
-                  success={this.props.subgroupsuccess}
-                  error={this.props.channelerror}
-                />
-                <Form
-                  ref={(b) => { this.form = b; }}
-                  type={this.state.form_fields}
-                  value={this.state.form_values}
-                  options={this.state.options}
-                />
+          <Button
+            title={'Save Changes'}
+            onPress={this.editSubgroup}
+          />
+          <Spacer size={15} />
+          <Button
+            title={'Delete Subgroup'}
+            onPress={this.deleteSubgroup}
+          />
+          </View>
+        }
+          <Spacer size={10} />
 
-                {this.props.userdetails.isAgent === 'No' &&
-                <View>
-                  <Button
-                    title={'Save Changes'}
-                    onPress={this.editSubgroup}
-                  />
-                  <Spacer size={15} />
-                  <Button
-                    title={'Delete Subgroup'}
-                    onPress={this.deleteSubgroup}
-                  />
-                </View>
-              }
-                <Spacer size={10} />
 
-              </Card>
-            </ScrollView>
+
+        </Card>
+        </ScrollView>
+
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -192,6 +201,7 @@ const mapDispatchToProps = {
 };
 
 function mapStateToProps(state) {
+
   const { userdetails } = state.user;
   const { subgroups, channelerror, subgroupsuccess } = state.subgroups;
 
