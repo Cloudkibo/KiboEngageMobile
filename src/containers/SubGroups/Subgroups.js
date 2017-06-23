@@ -100,8 +100,10 @@ class SubGroups extends Component {
   goToView2(subgroup,groupName)
   {
         console.log('navigate subgroup is called');
+        this.props.resetStatus();
         Actions.channelEdit({subgroup:subgroup,groupName:groupName});
   }
+
   renderRow = (subgroup) => (
     <ListItem
       key={`list-row-${subgroup._id}`}
@@ -181,6 +183,7 @@ class SubGroups extends Component {
 
 const mapDispatchToProps = {
   channelFetch: SubgroupActions.channelFetch,
+  resetStatus: SubgroupActions.resetStatus,
   groupFetch: GroupActions.groupFetch,
 
 };

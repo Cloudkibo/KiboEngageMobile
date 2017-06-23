@@ -88,6 +88,11 @@ export const createChannel = (subgroup, token) => {
 };
 
 
+export const resetStatus = () => {
+  return {
+    type: ActionTypes.RESET_STATUS,
+  };
+}
 
 export const editSubgroup = (subgroup,token) => {
     console.log('editchannel is called');
