@@ -99,14 +99,15 @@ var config = {
     axios.post(`${baseURL}/api/users/updaterole/`, data,config)
       .then((res) => 
 
-    {dispatch(agentRoleUpdate(res))
+    {dispatch(agentRoleUpdate(res));
+      dispatch(agentFetch(token,userid));
 
   })
       .catch(function (error) {
          console.log('Error occured');
          console.log(error);
         dispatch(agentRoleUpdate(error));
-        dispatch(agentFetch(token,userid));
+        
       });
   };
 };
