@@ -27,9 +27,9 @@ export const agentFetch =  (token,userid) => {
           'Authorization': `Bearer ${token}`,
            'content-type' : 'application/x-www-form-urlencoded'
             },
-      
+
           };
-      
+
   return (dispatch) => {
     axios.get(`${baseURL}/api/users/allagents`,config)
 
@@ -46,8 +46,8 @@ export const agentFetch =  (token,userid) => {
           console.log(userid)
           dispatch(readAgents());
         }
-       }); 
-      
+       });
+
   };
 };
 
@@ -65,7 +65,7 @@ export const agentInvite =  (token, inviteEmail) => {
           email: inviteEmail
       }
 
-      
+
   // console.log("THis is the token in action " + token);
   return (dispatch) => {
     axios.post(`${baseURL}/api/tempaccounts/kiboengage`, data,config)
@@ -79,7 +79,8 @@ export const agentInvite =  (token, inviteEmail) => {
 };
 
 
-export const editAgent = (agentbody,userid,token) => {
+export const editAgent = (agentbody, userid, token) => {
+
 var config = {
       rejectUnauthorized : false,
       headers: {
@@ -93,7 +94,7 @@ var config = {
          role : agentbody.role,
       }
 
-      
+
   // console.log("THis is the token in action " + token);
   return (dispatch) => {
     axios.post(`${baseURL}/api/users/updaterole/`, data,config)
@@ -101,7 +102,6 @@ var config = {
 
     {dispatch(agentRoleUpdate(res));
       dispatch(agentFetch(token,userid));
-
   })
       .catch(function (error) {
          console.log('Error occured');
@@ -134,7 +134,7 @@ export function agentRoleUpdate(res) {
   if(res.data.status == "success"){
     status = 200
   }
-  
+
   else{
     status = 422
   }
@@ -164,7 +164,7 @@ export function deleteAGENT(res,agent){
 
         };
   }
-  
+
 }
 export function deleteAgent(agent,token){
 
@@ -188,7 +188,7 @@ export function deleteAgent(agent,token){
   };
 };
 
- 
+
 
 /**** SQLite***/
 
@@ -202,11 +202,11 @@ export function callbackagents(results) {
     fteams.push(row);
   }
   console.log(fteams);
- 
+
   return {
     type: ActionTypes.ADD_AGENTS,
     payload : fteams,
- 
+
   };
 }
 
@@ -243,26 +243,26 @@ export  function writeAgents(agents){
   rows.push(record);
  // addItem(db,record);
 
-  
+
  }
  console.log(rows);
 
 
 return (dispatch) => {
-    
+
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS AGENTS');
     tx.executeSql(CREATE_Agents_TABLE);
 
     for(var j=0;j<rows.length;j++){
        tx.executeSql('INSERT INTO AGENTS VALUES (?,?,?,?,?,?,?,?,?)',rows[j]);
-   
+
     }
     tx.executeSql('SELECT * FROM AGENTS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -272,7 +272,7 @@ return (dispatch) => {
            dispatch(callbackagents(res));
   }
   );
-  
+
   }
 
 }
@@ -280,14 +280,14 @@ return (dispatch) => {
 export function readAgents(){
    var db = SqliteCalls.getConnection();
    return (dispatch) => {
-    
+
     db.transaction(function(tx) {
-   
+
     tx.executeSql('SELECT * FROM AGENTS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -297,7 +297,7 @@ export function readAgents(){
            dispatch(callbackagents(res));
   }
   );
-  
+
   }
 
 }

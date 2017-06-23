@@ -156,6 +156,7 @@ class CompanySettings extends Component {
 
    componentWillMount = async () => {
     //this.props.agentFetch();
+     this.props.resetStatus();
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
@@ -210,6 +211,7 @@ class CompanySettings extends Component {
   }
 
   valChanged = () => {
+    this.refs._scrollView.scrollTo(0);
     const credentials = this.form.getValue();
     if(credentials){
     this.setState({ form_values: credentials });
@@ -243,7 +245,7 @@ class CompanySettings extends Component {
       
      return (
 
-          <ScrollView style={[AppStyles.container]}>
+          <ScrollView style={[AppStyles.container]} ref='_scrollView'>
           <Spacer size={55} />
 
           <Card>
@@ -279,6 +281,7 @@ class CompanySettings extends Component {
 const mapDispatchToProps = {
   settingsFetch: companyActions.settingsFetch,
   save: companyActions.settingsSave,
+  resetStatus: companyActions.resetStatus,
 };
 function mapStateToProps(state) {
    var { data, updateSettings } = state.company;

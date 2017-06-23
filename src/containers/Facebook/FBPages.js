@@ -10,23 +10,16 @@ import {
   ListView,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
 } from 'react-native';
-import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
-import { List, ListItem, SocialIcon } from 'react-native-elements';
+import { TabBarTop } from 'react-native-tab-view';
+import { AppColors, AppStyles } from '@theme/';
+import { Spacer, Text } from '@components/ui/';
+import { List, ListItem } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as FbActions from '@redux/facebook/FbActions';
-
 import Loading from '@components/general/Loading';
-
 import auth from '../../services/auth';
-
-// Consts and Libs
-import { AppColors, AppStyles } from '@theme/';
-
-// Components
-import { Alerts, Button, Card, Spacer, Text } from '@components/ui/';
 
 // Example Data
 /* Styles ==================================================================== */
@@ -56,16 +49,14 @@ class FBPages extends Component {
     this.createDataSource(props);
   }
 
- componentWillMount(){
-    if(this.props.userdetails.isAgent == "Yes"){
-       Actions.refresh({rightTitle: "",onRight:()=> {console.log('do nothing')}});
-
+  componentWillMount() {
+    if (this.props.userdetails.isAgent == "Yes"){
+      Actions.refresh({ rightTitle: '', onRight: () => { console.log('do nothing'); } });
     }
-
   }
 
   componentDidMount = async () => {
-    console.log("Component Did Mount in FB PAGES called");
+    console.log('Component Did Mount in FB PAGES called');
     const token = await auth.getToken();
     console.log(`token is Launchview is ${token}`);
     if (token !== '') {
@@ -90,12 +81,10 @@ class FBPages extends Component {
     this.createDataSource(this.props);
   }
 
-  createDataSource({ fbpages
-  }) {
+  createDataSource({ fbpages }) {
     const ds = new ListView.DataSource({
 
-      rowHasChanged: (r1, r2) => r1 !== r2
-    });
+      rowHasChanged: (r1, r2) => r1 !== r2 });
 
     this.dataSource = ds.cloneWithRows(fbpages);
   }
@@ -162,7 +151,7 @@ const mapDispatchToProps = {
 
 function mapStateToProps(state) {
   const { fbpages } = state.fbpages;
-  const {userdetails} = state.user;
-  return { fbpages,userdetails };
+  const { userdetails } = state.user;
+  return { fbpages, userdetails };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FBPages);

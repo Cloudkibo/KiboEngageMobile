@@ -19,8 +19,8 @@ class EditAgent extends Component {
     const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
     stylesheet.textbox.normal.height = 80;
     stylesheet.textbox.error.height = 80;
-   
-   
+
+
     var role = FormValidation.enums({
               agent: 'Agent',
               supervisor: 'Supervisor',
@@ -34,29 +34,26 @@ class EditAgent extends Component {
         error: '',
       },
       form_fields: FormValidation.struct({
-        agentRole: role,
-        
+        changeRole: role,
+
       }),
       empty_form_values: {
         subgroupName: '',
         subgroupDescription: '',
       },
       form_values: {
-        agentRole : this.props.agent.role,
+        changeRole : 'Choose from here....',
       },
       options: {
         fields: {
-          agentRole:{
-            nullOption:false,
+          changeRole: {
+            label: 'Change Role:',
+            nullOption: { value: '', text: 'Choose from here...'},
           }
         },
       },
     };
   }
-
-  
-
- 
 
   editAgent = async () => {
     // Get new credentials and update
@@ -78,14 +75,15 @@ class EditAgent extends Component {
           console.log(token);
           const agentbody = {
             '_id' : this.props.agent._id,
-            'role': credentials.agentRole[0].toUpperCase() + credentials.agentRole.slice(1),
+            'role': credentials.changeRole[0].toUpperCase() + credentials.changeRole.slice(1),
 
-          
+
           };
 
           console.log(agentbody);
     
           this.props.editAgent(agentbody,this.props.userdetails._id,token);
+
         }
       });
     }
@@ -104,12 +102,12 @@ class EditAgent extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-   
+
             this.props.deleteAgent(this.props.agent,token);
         }
-     
+
   }
- 
+
 
   deleteAgent = () => {
 
@@ -121,13 +119,10 @@ class EditAgent extends Component {
               {text: 'Yes', onPress: () => this.deleteAgentConfirm()},
             ]
           )
-
-    
-     
   }
   render = () => {
     const Form = FormValidation.form.Form;
-    
+
 
     return (
       <View
@@ -145,7 +140,7 @@ class EditAgent extends Component {
             error={this.props.statuscode == 422?this.props.status:''}
           />
           <Text>Current Role : {this.props.agent.isAgent == "Yes"?"Agent":this.props.agent.isAdmin == "Yes"?"Admin":"Supervisor"}</Text>
-          
+
           <Spacer size={20} />
           <Form
             ref={(b) => { this.form = b; }}
@@ -154,8 +149,8 @@ class EditAgent extends Component {
             options={this.state.options}
           />
 
-          
-          <Spacer size={55} />
+
+          <Spacer size={10} />
          {this.props.userdetails.isAdmin == "Yes" &&
           <View>
           <Button
@@ -171,8 +166,6 @@ class EditAgent extends Component {
         }
           <Spacer size={10} />
 
-         
-
         </Card>
                 </View>
       </TouchableWithoutFeedback>
@@ -185,13 +178,13 @@ class EditAgent extends Component {
 
 
 const mapDispatchToProps = {
- 
+
   editAgent: AgentActions.editAgent,
   deleteAgent : AgentActions.deleteAgent,
 };
 
 function mapStateToProps(state) {
-  
+
   const { userdetails } = state.user;
   const {status,statuscode} = state.agents;
   return { userdetails,status,statuscode};

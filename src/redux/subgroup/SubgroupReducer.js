@@ -31,6 +31,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case ActionTypes.DELETE_CHANNEL_FAIL:
       return { ...state, subgroupsuccess: '', channelerror : 'Subgroup deletion failed', loading: false };
+    
+    case ActionTypes.RESET_STATUS:
+      return { ...state, subgroupsuccess: '', channelerror : '', loading: false };
 
     default:
       return {...state,channelerror:'',subgroupsuccess:''};
