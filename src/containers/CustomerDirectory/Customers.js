@@ -7,18 +7,14 @@
 import React, { Component } from 'react';
 import { View, ListView, ScrollView, StyleSheet } from 'react-native';
 import { TabBarTop } from 'react-native-tab-view';
+import { AppColors, AppStyles } from '@theme/';
+import { Spacer, Text } from '@components/ui/';
 import { List, ListItem, SearchBar } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import * as CustomerActions from '@redux/Customers/CustomerActions';
 import Loading from '@components/general/Loading';
 import auth from '../../services/auth';
-
-// Consts and Libs
-import { AppColors, AppStyles } from '@theme/';
-
-// Components
-import { Spacer, Text } from '@components/ui/';
 
 // Example Data
 /* Styles ==================================================================== */
@@ -89,7 +85,7 @@ class Customers extends Component {
       text,
     });
     const searchText = text.toLowerCase();
-    let filtered = [];
+    var filtered = [];
     let index = 0;
     for (let i = 0; i < this.props.customers.length; i++) {
       if (this.props.customers[i].customerID.search(searchText) > -1) {
@@ -116,7 +112,7 @@ class Customers extends Component {
       key={`list-row-${customer._id}`}
       onPress={this.goToView2.bind(this, customer)}
       title={customer.name?customer.name:customer.customerID}
-   />
+    />
   )
 
   /**
@@ -151,7 +147,7 @@ class Customers extends Component {
               ref={(b) => { this.search = b; }}
               onChangeText={this.filteredData}
               value={this.state.text}
-              placeholder="Search by Customer Name"
+              placeholder="Search by Customer Name/Email "
             />
             <ListView
               dataSource={this.dataSource}
