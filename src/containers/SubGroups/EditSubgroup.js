@@ -20,7 +20,7 @@ class EditSubgroup extends Component {
     const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
     stylesheet.textbox.normal.height = 80;
     stylesheet.textbox.error.height = 80;
-   
+
     const validName = FormValidation.refinement(
       FormValidation.String, (channelname) => {
         if (channelname.length < 1) return false;
@@ -72,9 +72,9 @@ class EditSubgroup extends Component {
     };
   }
 
-  
 
- 
+
+
 
   editSubgroup = async () => {
     // Get new credentials and update
@@ -105,7 +105,7 @@ class EditSubgroup extends Component {
           };
 
           console.log(subgroup);
-    
+
           this.props.editSubgroup(subgroup, token);
         }
       });
@@ -125,12 +125,12 @@ class EditSubgroup extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-   
+
             this.props.deleteSubgroup(this.props.subgroup,token);
         }
-     
+
   }
- 
+
 
   deleteSubgroup = () => {
 
@@ -143,12 +143,12 @@ class EditSubgroup extends Component {
             ]
           )
 
-    
-     
+
+
   }
   render = () => {
     const Form = FormValidation.form.Form;
-    
+
 
     return (
       <View
@@ -172,15 +172,13 @@ class EditSubgroup extends Component {
             options={this.state.options}
           />
 
-          
-          <Spacer size={55} />
          {this.props.userdetails.isAgent == "No" &&
           <View>
           <Button
             title={'Save Changes'}
             onPress={this.editSubgroup}
           />
-
+          <Spacer size={15} />
           <Button
             title={'Delete Subgroup'}
             onPress={this.deleteSubgroup}
@@ -189,7 +187,7 @@ class EditSubgroup extends Component {
         }
           <Spacer size={10} />
 
-         
+
 
         </Card>
         </ScrollView>
@@ -203,16 +201,16 @@ class EditSubgroup extends Component {
 
 
 const mapDispatchToProps = {
- 
+
   editSubgroup: SubgroupActions.editSubgroup,
   deleteSubgroup : SubgroupActions.deleteSubgroup,
 };
 
 function mapStateToProps(state) {
-  
+
   const { userdetails } = state.user;
   const { subgroups, channelerror, subgroupsuccess } = state.subgroups;
- 
+
   return { userdetails, subgroups, channelerror, subgroupsuccess };
 }
 

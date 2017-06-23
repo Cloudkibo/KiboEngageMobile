@@ -30,6 +30,7 @@ export const channelFetch = (token) => {
           };
 
   return (dispatch) => {
+    dispatch(readChannels());
     axios.get(`${baseURL}/api/messagechannels`,config)
     .then((res) => res).then(res => dispatch(writeChannels(res.data)))
     .catch(function (error) {
@@ -40,7 +41,7 @@ export const channelFetch = (token) => {
           //Alert.alert('You are not connected with Internet');
           dispatch(readChannels());
         }
-       }); 
+       });
 
   };
 };
@@ -97,24 +98,27 @@ export const editSubgroup = (subgroup,token) => {
             'Authorization': token,
             'content-type' : 'application/json'
             },
-      
+
           };
       var data =  {
        'subgroup' : subgroup,
-      
+
       }
   console.log(data);
-  
+
   return (dispatch) => {
     console.log('calling api');
     console.log(config.headers.authorization);
-    axios.post(`${baseURLKiboEngage}/api/editSubgroup`,data,config).then(res => dispatch(channelEditSuccess(res)))
+    axios.post(`${baseURLKiboEngage}/api/editSubgroup`,data,config).then(res => {
+      dispatch(channelEditSuccess(res));
+      dispatch(channelFetch(token));
+    })
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
         dispatch(channelEditFail());
       });
-    
+
   };
 };
 
@@ -123,7 +127,7 @@ export const editSubgroup = (subgroup,token) => {
 export const deleteSubgroup = (subgroup,token) => {
     console.log('deleteSubgroup is called');
     var config = {
-     
+
       rejectUnauthorized : false,
       headers: {
             'Authorization': token,
@@ -131,22 +135,27 @@ export const deleteSubgroup = (subgroup,token) => {
             },
       data : {
        'subgroup' : subgroup,
-      
+
       }
           };
-    
-  
-  
+
+
+
   return (dispatch) => {
     console.log('calling api');
     console.log(config.headers.authorization);
-    axios.delete(`${baseURLKiboEngage}/api/deleteSubgroup?id=${subgroup._id}`,config).then(res => dispatch(channelDeleteSuccess(res)))
+    axios.delete(`${baseURLKiboEngage}/api/deleteSubgroup?id=${subgroup._id}`,config).then(res => 
+
+      {dispatch(channelDeleteSuccess(res));
+      dispatch(channelFetch(token));
+
+    })
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
         dispatch(channelDeleteFail());
       });
-    
+
   };
 };
 
@@ -161,7 +170,7 @@ const channelEditSuccess = (res) => {
     payload: res
   };
 
-  
+
 };
 
 
@@ -177,7 +186,7 @@ const channelDeleteSuccess = (res) => {
     payload: res
   };
 
-  
+
 };
 
 /***** SQLite related *****/
@@ -194,11 +203,11 @@ export function callbacksubgroups(results) {
     fteams.push(row);
   }
   console.log(fteams);
- 
+
   return {
     type: ActionTypes.ADD_CHANNELS,
     payload : fteams,
- 
+
   };
 }
 
@@ -218,7 +227,7 @@ export  function writeChannels(subgroups){
                 + "creationdate TEXT,"
                 + "activeStatus TEXT,"
                 + "deleteStatus TEXT" + ")";
-  
+
 
  var rows = []
  for(var i=0;i<subgroups.length;i++){
@@ -235,26 +244,26 @@ export  function writeChannels(subgroups){
   rows.push(record);
  // addItem(db,record);
 
-  
+
  }
  console.log(rows);
 
 
 return (dispatch) => {
-    
+
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS MESSAGECHANNELS');
     tx.executeSql(CREATE_MESSAGE_CHANNEL_TABLE);
 
     for(var j=0;j<rows.length;j++){
        tx.executeSql('INSERT INTO MESSAGECHANNELS VALUES (?,?,?,?,?,?,?,?,?)',rows[j]);
-   
+
     }
     tx.executeSql('SELECT * FROM MESSAGECHANNELS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -264,7 +273,7 @@ return (dispatch) => {
            dispatch(callbacksubgroups(res));
   }
   );
-  
+
   }
 
 }
@@ -272,14 +281,14 @@ return (dispatch) => {
 export function readChannels(){
    var db = SqliteCalls.getConnection();
    return (dispatch) => {
-    
+
     db.transaction(function(tx) {
-   
+
     tx.executeSql('SELECT * FROM MESSAGECHANNELS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -289,7 +298,7 @@ export function readChannels(){
            dispatch(callbacksubgroups(res));
   }
   );
-  
+
   }
 
 }

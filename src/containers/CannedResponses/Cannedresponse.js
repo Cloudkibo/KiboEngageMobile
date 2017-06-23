@@ -55,13 +55,16 @@ class Cannedresponse extends Component {
   }
 
  componentWillMount(){
+  //console.log("cannedresponse componentWillMount")
     if(this.props.userdetails.isAgent == "Yes"){
        Actions.refresh({rightTitle: "",onRight:()=> {console.log('do nothing')}});
+
    
     }
   }
     
    componentDidMount = async() => {
+    console.log("cannedresponse componentDidMount")
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){

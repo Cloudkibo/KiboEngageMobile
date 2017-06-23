@@ -267,7 +267,7 @@ function mapStateToProps(state) {
   return {userdetails,fetchedR,fbchatSelected, chat, singleChat, fbSessions,currentSession};
 
 }
-Dashboard = codePush(codePushOptions)(Dashboard);
+// Dashboard = codePush(codePushOptions)(Dashboard);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

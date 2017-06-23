@@ -12,7 +12,7 @@ import {
   View,
   ListView,
   Alert,
-  
+
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
@@ -46,7 +46,7 @@ class EditTeam extends Component {
               public: 'Public',
               private: 'Private'
             });
-   
+
     const validName= FormValidation.refinement(
       FormValidation.String, (teamname) => {
         if (teamname.length < 1) return false;
@@ -76,7 +76,7 @@ class EditTeam extends Component {
             rowHasChanged : (row1, row2) => true
         }),
 
-      
+
       form_fields: FormValidation.struct({
         teamName:validName,
         teamDescription: validDesc,
@@ -85,13 +85,13 @@ class EditTeam extends Component {
       empty_form_values: {
         teamName:'',
         teamDescription: '',
-      
+
       },
       form_values: {
         teamName:this.props.team.groupname,
         teamDescription: this.props.team.groupdescription,
         status:this.props.team.status,
-      
+
       },
       options: {
         fields: {
@@ -105,28 +105,28 @@ class EditTeam extends Component {
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
             multiline: true,
-            stylesheet: stylesheet 
+            stylesheet: stylesheet
           },
           status:{
             nullOption:false,
           }
-          
+
         },
       },
     };
 
 
 
-    
+
 
   }
 
   componentDidMount =  () => {
     // Get user data from AsyncStorage to populate fields
-  
-      
+
+
       this.newFellowAgents  = this.props.teamagents.filter((c) => c.teamid == this.props.team._id)
-      
+
       let ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
       let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents);
 
@@ -149,9 +149,8 @@ class EditTeam extends Component {
       key={`list-row-${agent._id}`}
       onPress={this.addAgent.bind(this,agent)}
       title={agent.firstname + ' '+ agent.lastname}
-  
-      
-    />  
+      leftIcon={{ name: 'add-circle' }}
+    />
     )
   editTeam = async () => {
     // Get new credentials and update
@@ -171,14 +170,14 @@ class EditTeam extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-    
+
             var agentid =[];
             console.log('this.newFellowAgents');
             console.log(this.newFellowAgents);
             for(var j=0;j<this.newFellowAgents.length;j++){
                agentid.push({"_id" :this.newFellowAgents[j].agentid})
             }
-            
+
             this.props.editteam({
               name :credentials.teamName,
               desc:credentials.teamDescription,
@@ -187,26 +186,26 @@ class EditTeam extends Component {
               token:token,
               teamagents: agentid
             });
-    
+
         }
       });
     }
   }
-  
- 
+
+
 
   addAgent = (c) =>{
     console.log('addAgent is called');
     this.newFellowAgents.push({'teamid': this.props.team._id,'agentid': c._id})
     // update the DataSource in the component state
 
-     
+
    this.setState({
             form_values : {
                 teamName:this.form.getValue().teamName,
                 teamDescription: this.form.getValue().teamDescription,
                 status:this.form.getValue().status,
-             
+
             },
             dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
         });
@@ -223,7 +222,7 @@ class EditTeam extends Component {
                 teamName:this.form.getValue().teamName,
                 teamDescription: this.form.getValue().teamDescription,
                 status: this.form.getValue().status,
-             
+
             },
             dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
         });
@@ -238,19 +237,20 @@ class EditTeam extends Component {
                 return  (<ListItem
                           key={`list-row-${this.props.agents[j]._id}`}
                           title={this.props.agents[j].firstname + ' '+ this.props.agents[j].lastname}
-                           onPress={this.removeAgent.bind(this,fellowAgent)}
+                          leftIcon={{ name: 'remove-circle' }}
+                          onPress={this.removeAgent.bind(this,fellowAgent)}
                           /> )
         flag = 1;
         break;
         }
 
-     
+
        }
        if(flag == 0){
         return null;
        }
 
-    
+
   }
 
   confirmDelete = async() => {
@@ -266,7 +266,7 @@ class EditTeam extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-   
+
             this.props.deleteteam({
               id:this.props.team._id,
               token:token,
@@ -285,10 +285,10 @@ class EditTeam extends Component {
             ]
           )
 
-    
-     
+
+
   }
-  
+
 
   render = () => {
     const Form = FormValidation.form.Form;
@@ -303,7 +303,7 @@ class EditTeam extends Component {
             error={this.props.teamerror}
           />
 
-  
+
           <Form
             ref={(b) => { this.form = b; }}
             type={this.state.form_fields}
@@ -318,7 +318,7 @@ class EditTeam extends Component {
              <ListView dataSource={this.state.dataSourceFellowAgents}
               renderRow={this.renderFellowAgents}
             />
-           
+
           </View>
 
          <View>
@@ -329,14 +329,14 @@ class EditTeam extends Component {
             />
           </View>
 
-         
+
            <Spacer size={20} />
           <Button
             title={'Save Changes'}
             onPress={this.editTeam}
           />
            <Spacer size={20} />
-          
+
           <Button
             title={'Delete Team'}
             onPress={this.deleteTeam}
@@ -344,7 +344,7 @@ class EditTeam extends Component {
 
           <Spacer size={10} />
 
-         
+
         </Card>
        </ScrollView>
     );
@@ -354,7 +354,7 @@ class EditTeam extends Component {
 
 function mapStateToProps(state) {
    const {teams,teamerror,teamsuccess} =  state.teams;
-  
+
   return {teams,teamerror,teamsuccess};
 }
 
@@ -366,4 +366,3 @@ const mapDispatchToProps = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditTeam);
-

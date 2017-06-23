@@ -79,7 +79,7 @@ export const agentInvite =  (token, inviteEmail) => {
 };
 
 
-export const editAgent = (agentbody,token) => {
+export const editAgent = (agentbody,userid,token) => {
 var config = {
       rejectUnauthorized : false,
       headers: {
@@ -97,11 +97,16 @@ var config = {
   // console.log("THis is the token in action " + token);
   return (dispatch) => {
     axios.post(`${baseURL}/api/users/updaterole/`, data,config)
-      .then((res) => dispatch(agentRoleUpdate(res)))
+      .then((res) => 
+
+    {dispatch(agentRoleUpdate(res))
+
+  })
       .catch(function (error) {
          console.log('Error occured');
          console.log(error);
         dispatch(agentRoleUpdate(error));
+        dispatch(agentFetch(token,userid));
       });
   };
 };
@@ -295,4 +300,3 @@ export function readAgents(){
   }
 
 }
-
