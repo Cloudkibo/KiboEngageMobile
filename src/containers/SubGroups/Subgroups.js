@@ -113,6 +113,7 @@ class SubGroups extends Component {
    else{
     deptname = 'GRoup -deleted';
     console.log('group deleted');
+    console.log(subgroup.groupid);
    }
    return deptname;
   }

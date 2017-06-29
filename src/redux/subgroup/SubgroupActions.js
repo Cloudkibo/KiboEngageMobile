@@ -152,7 +152,7 @@ export const deleteSubgroup = (subgroup,token) => {
     axios.delete(`${baseURLKiboEngage}/api/deleteSubgroup?id=${subgroup._id}`,config).then(res => 
 
       {dispatch(channelDeleteSuccess(res));
-      dispatch(channelFetch(token));
+      //dispatch(channelFetch(token));
 
     })
       .catch(function (error) {
@@ -181,11 +181,12 @@ const channelEditSuccess = (res) => {
 
 
 const channelDeleteFail = () => {
-  return{ type: ActionTypes.DELETE_CHANNEL_FAIL };
+ console.log('channel deletion failed');
+ return{ type: ActionTypes.DELETE_CHANNEL_FAIL };
 };
 
 const channelDeleteSuccess = (res) => {
-  //Actions.main();
+  console.log('channel deletion success');
   return{
     type: ActionTypes.DELETE_CHANNEL_SUCCESS,
     payload: res
