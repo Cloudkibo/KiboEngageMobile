@@ -131,7 +131,7 @@ class ChatSettings extends Component {
           email: [id_emails[1]]
         };
         console.log(this.props.data);
-        this.props.moveAgent(token, input,session,this.props.data);
+        this.props.moveAgent(token, input,session,this.props.data,'assigned');
        }
   }
 
@@ -334,6 +334,6 @@ function mapStateToProps(state) {
    const { subgroups} = state.subgroups;
    const { userdetails } = state.user;
    const { singleChat,invite_agent_status,data } = state.chat;
-   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents };
+   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, data };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSettings);

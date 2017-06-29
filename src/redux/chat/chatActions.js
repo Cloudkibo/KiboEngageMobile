@@ -146,7 +146,13 @@ export const assignAgent = (token, input,session,allsessions,stringvaluestatus) 
       axios.post(`${baseURL}/api/visitorcalls/pickSession`, session,configKS)
     })
       .then((res) => {
-        dispatch(assign_agent_update_states(session.request_id,stringvaluestatus,allsessions,input.agentidTo));
+        console.log('assign_agent_update_states called');
+        console.log(session.request_id);
+        console.log(stringvaluestatus);
+        console.log(allsessions);
+        console.log(input.agentidTo);
+        dispatch(sessionsFetch(token));
+       // dispatch(assign_agent_update_states(session.request_id,stringvaluestatus,allsessions,input.agentidTo));
         dispatch(assign_agent_status('Successfully Assigned', ));
       
 
@@ -168,12 +174,19 @@ if(updatedsessions[i].request_id==reqid)
 {
   updatedsessions[i].status=stringvaluestatus
   if(agentids){
-  updatedsessions[i].agent_ids.push({id:agentids,type:'agent'})
+    console.log('found agent ids');
+  updatedsessions[i].agent_ids.push({id:agentids,type:stringvaluestatus})
 }
-  break;
-
-}
+else{
+  console.log('NOT found agent ids');
   }
+  break;
+}
+
+
+  }
+  console.log('updatedsessions');
+  console.log(updatedsessions);
   return {
     type: ActionTypes.ASSIGN_AGENT_UPDATE_STATUS,
     payload : updatedsessions,
