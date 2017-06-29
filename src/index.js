@@ -24,6 +24,7 @@ import rootReducer from '@redux/index';
 // Connect RNRF with Redux
 const RouterWithRedux = connect()(Router);
 
+
 // Load middleware
 let middleware = [
   Analytics,
