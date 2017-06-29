@@ -76,7 +76,7 @@ class Chat extends Component {
           createdAt:  handleDate(item.datetime),
           timestamp:item.datetime,
           user: {
-            _id: 2,
+            _id: (this.props.userdetails.firstname == item.from) ? 1:2,
             name:  item.from,
             avatar: 'https://facebook.github.io/react/img/logo_og.png',
           },
@@ -271,7 +271,7 @@ class Chat extends Component {
   }
 
     renderBubble(prop) {
-    console.log("IN render bubble", prop.currentMessage);
+    // console.log("IN render bubble", prop.currentMessage);
     var isFile = false;
     var fileUpload = {};
     if(this.props.upload){
