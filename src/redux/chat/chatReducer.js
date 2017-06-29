@@ -30,7 +30,8 @@ export default (state = INITIAL_STATE, action) => {
       return {...state,currentChats: action.payload};
   case ActionTypes.ADD_CHAT:
       return {...state,currentChats: [...state.currentChats, action.payload] };
-    
+  case ActionTypes.ASSIGN_AGENT_UPDATE_STATUS:
+      return {...state,data:action.payload};
    
     default:
       return {...state,invite_agent_status:''};
