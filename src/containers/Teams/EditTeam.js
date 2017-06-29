@@ -266,7 +266,7 @@ class EditTeam extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-            this.setState({ resultMsg: { status: 'Team Deletied successfully' } });
+            this.setState({ resultMsg: { status: 'Team Deleted successfully' } });
             this.props.deleteteam({
               id:this.props.team._id,
               token:token,

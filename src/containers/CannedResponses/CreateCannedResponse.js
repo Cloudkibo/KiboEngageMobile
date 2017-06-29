@@ -145,6 +145,7 @@ class CreateCannedResponse extends Component {
         contentContainerStyle={[AppStyles.container]}
       >
       <Spacer size={55} />
+      <ScrollView style={[AppStyles.container]}>
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
@@ -172,6 +173,7 @@ class CreateCannedResponse extends Component {
             error={this.props.cannederror}
           />
         </Card>
+        </ScrollView>
       </View>
     );
   }
