@@ -224,7 +224,7 @@ class EditCannedResponse extends Component {
 
          
         </Card>
-        <ScrollView style={[AppStyles.container]}>
+        </ScrollView>
       </View>
     );
   }

@@ -151,6 +151,7 @@ class CreateSubGroup extends Component {
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
           <View>
             <Spacer size={55} />
+            <ScrollView>
             <Card>
               <Alerts
                 status={this.state.resultMsg.status}
@@ -185,6 +186,7 @@ class CreateSubGroup extends Component {
               <Spacer size={10} />
 
             </Card>
+            </ScrollView>
           </View>
         </TouchableWithoutFeedback>
       </View>
