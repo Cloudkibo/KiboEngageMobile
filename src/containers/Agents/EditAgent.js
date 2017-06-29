@@ -46,6 +46,7 @@ class EditAgent extends Component {
       },
       options: {
         fields: {
+
           changeRole: {
             label: 'Change Role:',
             nullOption: false,
@@ -81,7 +82,7 @@ class EditAgent extends Component {
           };
 
           console.log(agentbody);
-    
+
           this.props.editAgent(agentbody,this.props.userdetails._id,token);
 
         }
