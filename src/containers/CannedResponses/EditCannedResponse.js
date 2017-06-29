@@ -189,6 +189,7 @@ class EditCannedResponse extends Component {
         contentContainerStyle={[AppStyles.container]}
       >
       <Spacer size={55} />
+      <ScrollView style={[AppStyles.container]}>
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
@@ -223,6 +224,7 @@ class EditCannedResponse extends Component {
 
          
         </Card>
+        <ScrollView style={[AppStyles.container]}>
       </View>
     );
   }
