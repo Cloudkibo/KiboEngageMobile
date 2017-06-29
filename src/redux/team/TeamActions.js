@@ -67,7 +67,7 @@ export const teamFetch = (token) => {
           //Alert.alert('You are not connected with Internet');
           dispatch(readTeams());
         }
-       }); 
+       });
 
   };
 };
@@ -168,7 +168,7 @@ export const agentTeamFetch = (token) => {
           //Alert.alert('You are not connected with Internet');
           dispatch(readTeamAgents());
         }
-       }); 
+       });
 
   };
 };
@@ -207,7 +207,11 @@ export const editteam = (team) => {
   return (dispatch) => {
 
     console.log('calling api');
-    axios.post(`${baseURL}/api/groups/update/`,data,config).then(res => dispatch(teamEditSuccess(res)))
+    axios.post(`${baseURL}/api/groups/update/`,data,config).then(res => {
+      dispatch(teamEditSuccess(res));
+      dispatch(teamFetch(token));
+      dispatch(myteamFetch(token));
+    })
       .catch(function (error) {
         console.log(error.response)
         console.log('Error occured');
@@ -333,11 +337,11 @@ export function callbackteams(results) {
     fteams.push(row);
   }
   console.log(fteams);
- 
+
   return {
     type: ActionTypes.ADD_TEAMS,
     payload : fteams,
- 
+
   };
 }
 export function callbackteamAgents(results) {
@@ -349,11 +353,11 @@ export function callbackteamAgents(results) {
     fteams.push(row);
   }
   console.log(fteams);
- 
+
   return {
     type: ActionTypes.ADD_TEAM_AGENTS,
     payload : fteams,
- 
+
   };
 }
 
@@ -385,26 +389,26 @@ export  function writeTeams(teams){
   rows.push(record);
  // addItem(db,record);
 
-  
+
  }
  console.log(rows);
 
 
 return (dispatch) => {
-    
+
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS TEAMS');
     tx.executeSql(CREATE_Teams_TABLE);
 
     for(var j=0;j<rows.length;j++){
        tx.executeSql('INSERT INTO TEAMS VALUES (?,?,?,?,?,?,?,?)',rows[j]);
-   
+
     }
     tx.executeSql('SELECT * FROM TEAMS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -414,7 +418,7 @@ return (dispatch) => {
            dispatch(callbackteams(res));
   }
   );
-  
+
   }
 
 }
@@ -445,26 +449,26 @@ export  function writeTeamAgents(teamAgents){
   rows.push(record);
  // addItem(db,record);
 
-  
+
  }
  console.log(rows);
 
 
 return (dispatch) => {
-    
+
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS TEAMAGENTS');
     tx.executeSql(CREATE_TeamAgents_TABLE);
 
     for(var j=0;j<rows.length;j++){
        tx.executeSql('INSERT INTO TEAMAGENTS VALUES (?,?,?,?,?,?)',rows[j]);
-   
+
     }
     tx.executeSql('SELECT * FROM TEAMAGENTS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -474,7 +478,7 @@ return (dispatch) => {
            dispatch(callbackteamAgents(res));
   }
   );
-  
+
   }
 
 }
@@ -482,13 +486,13 @@ return (dispatch) => {
 export function readTeams(){
    var db = SqliteCalls.getConnection();
    return (dispatch) => {
-    
+
     db.transaction(function(tx) {
-   
+
     tx.executeSql('SELECT * FROM TEAMS', [], (tx,results) => {
           console.log("Query completed");
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -498,7 +502,7 @@ export function readTeams(){
            dispatch(callbackteams(res));
   }
   );
-  
+
   }
 
 }
@@ -507,13 +511,13 @@ export function readTeams(){
 export function readTeamAgents(){
    var db = SqliteCalls.getConnection();
    return (dispatch) => {
-    
+
     db.transaction(function(tx) {
-   
+
     tx.executeSql('SELECT * FROM TEAMAGENTS', [], (tx,results) => {
           console.log("Query completed");
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -523,7 +527,7 @@ export function readTeamAgents(){
            dispatch(callbackteamAgents(res));
   }
   );
-  
+
   }
 
 }

@@ -86,7 +86,7 @@ export const getuser = (token) => {
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
-        if(error = 'Network Error')
+        if(error === 'Network Error')
           Alert.alert('You are not connected with Internet');
         if(error.response && error.response.status == 401){ Actions.login()}
 
