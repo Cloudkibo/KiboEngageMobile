@@ -294,7 +294,10 @@ class EditTeam extends Component {
     const Form = FormValidation.form.Form;
 
     return (
-      <ScrollView style={[AppStyles.container]}>
+      <ScrollView
+        style={[AppStyles.container]}
+        ref={(b) => { this.scrollView = b; }}
+      >
       <Spacer size={55} />
         <Card>
           <Alerts
