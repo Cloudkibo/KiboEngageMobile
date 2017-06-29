@@ -9,6 +9,7 @@ import {
   TextInput,
   Alert,
   WebView,
+  Image,
   Slider,
 } from 'react-native';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
@@ -16,7 +17,7 @@ import { List, ListItem, SocialIcon, Card, Button, Icon } from 'react-native-ele
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import Loading from '@components/general/Loading';
-import Image from 'react-native-image-progress';
+//import Image from 'react-native-image-progress';
 import * as Progress from 'react-native-progress';
 import auth from '../../services/auth';
 import * as FbActions from '@redux/facebook/FbActions';
@@ -286,7 +287,7 @@ class FbChat extends Component {
     console.log("On Send", messages);
   //  messages[0].text = this.state.text;
   if(messages[0].text == ''){
-    messages[0].image = 'http://1.bp.blogspot.com/-qns_lZPjg0I/VWY2dO1HN-I/AAAAAAAACVA/akLTMY7RJSk/s1600/Thumbs-up-facebook-icon-small.png';
+    messages[0].image = 'https://scontent.xx.fbcdn.net/v/t39.1997-6/851557_369239266556155_759568595_n.png?_nc_ad=z-m&oh=d79f2abf6978bb1e61fea8054ca1db8b&oe=59D7E9DC';
     messages[0].isThumbs = true;
   }else{
     messages[0].isThumbs = false;
@@ -391,7 +392,7 @@ class FbChat extends Component {
                                      attachments:[{
                                        type:'image',
                                        payload:{
-                                         url:'http://1.bp.blogspot.com/-qns_lZPjg0I/VWY2dO1HN-I/AAAAAAAACVA/akLTMY7RJSk/s1600/Thumbs-up-facebook-icon-small.png',
+                                         url:'https://scontent.xx.fbcdn.net/v/t39.1997-6/851557_369239266556155_759568595_n.png?_nc_ad=z-m&oh=d79f2abf6978bb1e61fea8054ca1db8b&oe=59D7E9DC',
                                        }
 
                                      }]
@@ -534,11 +535,26 @@ class FbChat extends Component {
         </Card>
         );
     }
-    else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'image'){
-      <Text>ThumbsUp</Text>
+    else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'image' && prop.currentMessage.attachments[0].payload.url == 'https://scontent.xx.fbcdn.net/v/t39.1997-6/851557_369239266556155_759568595_n.png?_nc_ad=z-m&oh=d79f2abf6978bb1e61fea8054ca1db8b&oe=59D7E9DC'){
+      console.log('thumbs up');
+      return (
+        <Image
+          style={{ width: 35, height: 35 }}
+          source={{ uri: prop.currentMessage.attachments[0].payload.url }}
+        />
+      );
     }
     else{
-    return (
+      if (prop.currentMessage.isThumbs) {
+        return (
+          <Image
+            style={{ width: 35, height: 35 }}
+            source={{ uri: prop.currentMessage.image }}
+          />
+        );
+      }
+      else {
+        return (
       <GChat.Bubble
         onLongPress = {() => {
 
@@ -562,6 +578,7 @@ class FbChat extends Component {
       />
     );
     }
+  }
     // this.props.downloadFile();
   }
 
