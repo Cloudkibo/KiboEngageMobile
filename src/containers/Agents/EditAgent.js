@@ -48,7 +48,7 @@ class EditAgent extends Component {
         fields: {
           changeRole: {
             label: 'Change Role:',
-            nullOption: { value: '', text: 'Choose from here...'},
+            nullOption: false,
           }
         },
       },

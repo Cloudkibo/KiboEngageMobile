@@ -6,7 +6,7 @@
  */
 import React from 'react';
 import { Actions, Scene, ActionConst } from 'react-native-router-flux';
-
+import { StyleSheet } from 'react-native'
 // Consts and Libs
 import { AppConfig } from '@constants/';
 
@@ -65,7 +65,16 @@ import FbCustomers from '@containers/Facebook/FbCustomers';
 import FbChat from '@containers/Facebook/FbChat';
 import FbSettings from '@containers/Facebook/FbSettings';
 import Reports from '@containers/Reports/Reports';
+
+////rightButtonTextStyle={{ tintColor: 'white' }}
 /* Routes ==================================================================== */
+
+const styles = StyleSheet.create({
+    rightbarbuttonstyle: {
+        color: 'white' 
+    },
+    });
+
 export default Actions.create(
   <Scene key={'root'} {...AppConfig.navbarProps}>
     <Scene
@@ -118,6 +127,7 @@ export default Actions.create(
         title={'Chat'}
         onRight={() => Actions.ChatSettings()}
         rightTitle="Settings"
+        rightButtonTextStyle={styles.rightbarbuttonstyle}
         component={Chat}
         analyticsDesc={'Placeholder: Coming Soon'}
       />
@@ -172,6 +182,8 @@ export default Actions.create(
         title={'Sub Groups'}
         onRight={() => Actions.channelCreate()}
         rightTitle="Add"
+        rightButtonTextStyle={{ color: 'white' }}
+        barButtonTextStyle={{ color: '#FFFFFF' }}
         component={Subgroups}
         analyticsDesc={'Subgroup: Subgroup'}
       />
@@ -200,6 +212,7 @@ export default Actions.create(
         title={'Teams'}
         onRight={() => Actions.teamCreate()}
         rightTitle="Add"
+
         component={Teams}
         analyticsDesc={'Teams: Teams'}
       />
@@ -249,6 +262,7 @@ export default Actions.create(
         title={'Notifications'}
         onRight={() => Actions.addNotification()}
         rightTitle="Add"
+        rightButtonTextStyle={styles.rightbarbuttonstyle}
         component={Notifications}
         analyticsDesc={'Notifications: Notifications'}
       />
@@ -272,6 +286,7 @@ export default Actions.create(
         component={Cannedresponse}
         onRight={() => Actions.cannedCreate()}
         rightTitle="Add"
+        rightButtonTextStyle={styles.rightbarbuttonstyle}
         analyticsDesc={'Cannedresponse: Cannedresponse'}
       />
 
@@ -294,6 +309,7 @@ export default Actions.create(
         title={'Agents'}
         onRight={() => Actions.inviteAgent()}
         rightTitle="Invite"
+        rightButtonTextStyle={styles.rightbarbuttonstyle}
         component={Agents}
         analyticsDesc={'Agents:Agents'}
       />
@@ -338,6 +354,7 @@ export default Actions.create(
         title={'Facebook Pages'}
         onRight={() => Actions.AddFbPage()}
         rightTitle="Add"
+        rightButtonTextStyle={styles.rightbarbuttonstyle}
         component={FBPages}
         analyticsDesc={'FBPages: FBPages'}
       />
@@ -362,9 +379,12 @@ export default Actions.create(
         component={FbChat}
         onRight={() => Actions.FbSettings()}
         rightTitle="Settings"
+        rightButtonTextStyle={styles.rightbarbuttonstyle}
         analyticsDesc={'FbChat: FbChat'}
       />
 
     </Scene>
   </Scene>,
 );
+
+
