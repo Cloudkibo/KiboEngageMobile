@@ -162,11 +162,12 @@ class Login extends Component {
     return (
       <View
         automaticallyAdjustContentInsets={false}
-        ref={(a) => { this.scrollView = a; }}
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
-      <ScrollView>
+      <ScrollView
+        ref={(a) => { this.scrollView = a; }}
+      >
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
