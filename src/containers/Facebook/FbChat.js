@@ -286,7 +286,10 @@ class FbChat extends Component {
     console.log("On Send", messages);
   //  messages[0].text = this.state.text;
   if(messages[0].text == ''){
-    messages[0].image = 'http://1.bp.blogspot.com/-qns_lZPjg0I/VWY2dO1HN-I/AAAAAAAACVA/akLTMY7RJSk/s1600/Thumbs-up-facebook-icon-small.png'; 
+    messages[0].image = 'http://1.bp.blogspot.com/-qns_lZPjg0I/VWY2dO1HN-I/AAAAAAAACVA/akLTMY7RJSk/s1600/Thumbs-up-facebook-icon-small.png';
+    messages[0].isThumbs = true;
+  }else{
+    messages[0].isThumbs = false;
   }
   // if(this.state.stickgif){
   //   message[0].image =  message[0].text;
@@ -340,7 +343,7 @@ class FbChat extends Component {
 
     console.log(filename[filename.length-1]);
 
-      if (auth.loggedIn() === true) {
+      if (auth.loggedIn() === true && !msgObj.isThumbs) {
           console.log('auth.loggedIn() return true');
           const token = await auth.getToken();
             var photo = {
@@ -375,6 +378,29 @@ class FbChat extends Component {
 
                   this.props.uploadFbChatfile(photo,saveMsg);
 
+            }
+            else {
+                var saveMsg = {
+                                   senderid: this.props.userdetails._id,
+                                   recipientid:this.props.senderid,
+                                   companyid:this.props.userdetails.uniqueid,
+                                   timestamp:Date.now(),
+                                   message:{
+                                     mid:unique_id,
+                                     seq:1,
+                                     attachments:[{
+                                       type:'image',
+                                       payload:{
+                                         url:'http://1.bp.blogspot.com/-qns_lZPjg0I/VWY2dO1HN-I/AAAAAAAACVA/akLTMY7RJSk/s1600/Thumbs-up-facebook-icon-small.png',
+                                       }
+
+                                     }]
+                                   },
+
+                                  pageid:pageid
+
+                             }
+              this.props.getfbchatfromAgent(saveMsg);
             }
   }
 
@@ -507,6 +533,9 @@ class FbChat extends Component {
         />
         </Card>
         );
+    }
+    else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'image'){
+      <Text>ThumbsUp</Text>
     }
     else{
     return (
