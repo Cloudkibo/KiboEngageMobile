@@ -9,6 +9,7 @@ import {
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
+  View
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
@@ -159,12 +160,13 @@ class Login extends Component {
     const Form = FormValidation.form.Form;
 
     return (
-      <ScrollView
+      <View
         automaticallyAdjustContentInsets={false}
         ref={(a) => { this.scrollView = a; }}
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
+      <ScrollView>
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
@@ -203,7 +205,8 @@ class Login extends Component {
             onPress={Actions.signUp}
           />
         </Card>
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }
