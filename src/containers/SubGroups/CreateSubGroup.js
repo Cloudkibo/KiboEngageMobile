@@ -77,6 +77,7 @@ class CreateSubGroup extends Component {
     if (token !== '') {
       this.props.groupFetch(token);
       this.props.getuser(token);
+      this.setState({groupid: this.props.groups[0]._id});
     }
   }
 
@@ -138,7 +139,7 @@ class CreateSubGroup extends Component {
   render = () => {
     const Form = FormValidation.form.Form;
     const optionList = [];
-
+    //this.setState({groupid: this.props.groups[0]._id});}
     for (var i = 0; i < this.props.groups.length; i++){
       optionList[i] = this.props.groups[i].deptname;
     }
@@ -170,7 +171,7 @@ class CreateSubGroup extends Component {
                 style={{ alignSelf: 'center', width: 150, top: 16, right: 8, borderWidth: 1, borderRadius: 2, borderColor: 'black' }}
                 textStyle={{ marginVertical: 10, marginHorizontal: 6, fontSize: 18, color: 'black', textAlign: 'center', textAlignVertical: 'center' }}
                 dropdownStyle={{ width: 150, height: 150, borderColor: 'black', borderWidth: 1, borderRadius: 2 }}
-                defaultValue="Choose Team"
+                defaultValue={this.props.groups[0].deptname} 
                 options={optionList}
                 onSelect={(idx, value) => this.dropDownOnSelect(idx, value)}
                 renderRow={this.dropdownRenderRow}
