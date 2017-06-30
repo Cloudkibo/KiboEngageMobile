@@ -133,6 +133,7 @@ class FbCustomers extends Component {
       // Build the actual Menu Items
     data.map((item, index) => {
       var name =  item.user_id.first_name + ' ' + item.user_id.last_name;
+      console.log("Item facebook", item);
       return this.state.menuItems.push(
            <ListItem
                   roundAvatar
@@ -140,7 +141,7 @@ class FbCustomers extends Component {
                   key={index}
                   title={name}
                   onPress={this.gotoChatBox.bind(this,item)}
-                  subtitle={"Group Name, " + item.status}
+                  subtitle={item.pageid.pageTitle + ", " + item.status}
             />
         
        
