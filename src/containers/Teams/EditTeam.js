@@ -266,7 +266,7 @@ class EditTeam extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-
+            this.setState({ resultMsg: { status: 'Team Deleted successfully' } });
             this.props.deleteteam({
               id:this.props.team._id,
               token:token,
@@ -294,7 +294,10 @@ class EditTeam extends Component {
     const Form = FormValidation.form.Form;
 
     return (
-      <ScrollView style={[AppStyles.container]}>
+      <ScrollView
+        style={[AppStyles.container]}
+        ref={(b) => { this.scrollView = b; }}
+      >
       <Spacer size={55} />
         <Card>
           <Alerts

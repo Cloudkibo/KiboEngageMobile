@@ -79,7 +79,11 @@ export const createChannel = (subgroup, token) => {
   return (dispatch) => {
     dispatch(channelCreateInAction());
     console.log('calling api');
-    axios.post(`${baseURL}/api/messagechannels`, querystring.stringify(subgroup), config).then(res => dispatch(channelCreateSuccess(res)))
+    axios.post(`${baseURL}/api/messagechannels`, querystring.stringify(subgroup), config).then
+
+    (res => dispatch(channelCreateSuccess(res))
+
+      )
       .catch((error) => {
         console.log('Error occured');
         console.log(error);

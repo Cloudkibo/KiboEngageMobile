@@ -5,7 +5,7 @@ import * as UserActions from '@redux/user/actions';
 import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Keyboard, View, TouchableWithoutFeedback } from 'react-native';
+import { Keyboard, View, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import ModalDropdown from 'react-native-modal-dropdown';
 import FormValidation from 'tcomb-form-native';
 import auth from '../../services/auth';
@@ -151,6 +151,7 @@ class CreateSubGroup extends Component {
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
           <View>
             <Spacer size={55} />
+            <ScrollView>
             <Card>
               <Alerts
                 status={this.state.resultMsg.status}
@@ -185,6 +186,7 @@ class CreateSubGroup extends Component {
               <Spacer size={10} />
 
             </Card>
+            </ScrollView>
           </View>
         </TouchableWithoutFeedback>
       </View>

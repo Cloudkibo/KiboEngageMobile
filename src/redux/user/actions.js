@@ -86,7 +86,7 @@ export const getuser = (token) => {
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
-        if(error = 'Network Error')
+        if(error === 'Network Error')
           Alert.alert('You are not connected with Internet');
         if(error.response && error.response.status == 401){ Actions.login()}
 
@@ -126,7 +126,10 @@ export const updateprofile = (user, token) => {
 
   return (dispatch) => {
     console.log('calling api');
-    axios.post(`${baseURL}/api/users/updateprofile`, form, config).then(res => dispatch(updateProfileSuccess(res)))
+    axios.post(`${baseURL}/api/users/updateprofile`, form, config).then(res => {
+      dispatch(updateProfileSuccess(res));
+      dispatch(getuser(token));
+    })
       .catch(function (error) {
         console.log(error.response)
         console.log('Error occured');

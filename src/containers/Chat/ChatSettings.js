@@ -132,7 +132,8 @@ class ChatSettings extends Component {
         };
         console.log(this.props.data);
         this.props.moveAgent(token, input,session,this.props.data,'assigned');
-       }
+        this.props.agentFetch(token);
+      }
   }
 
 
