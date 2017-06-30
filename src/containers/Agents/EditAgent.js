@@ -37,20 +37,18 @@ class EditAgent extends Component {
         changeRole: role,
 
       }),
+      form_values:{
+        changeRole:props.agent.isAgent == "Yes"?'agent':props.agent.isAdmin == "Yes"?'admin':'supervisor',
+      },
       empty_form_values: {
         subgroupName: '',
         subgroupDescription: '',
       },
-      form_values: {
-        changeRole : 'Choose from here....',
-      },
+
       options: {
         fields: {
+           nullOption: false,
 
-          changeRole: {
-            label: 'Change Role:',
-            nullOption: false,
-          }
         },
       },
     };
