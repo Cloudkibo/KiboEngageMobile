@@ -4,7 +4,7 @@ import * as NotificationActions from '@redux/notification/NotificationActions';
 import * as CustomerActions from '@redux/customer/CustomerActions';
 import Loading from '@components/general/Loading';
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View,ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import FormValidation from 'tcomb-form-native';
 var _ = require('lodash');
@@ -117,6 +117,7 @@ class AddNotification extends Component {
         contentContainerStyle={[AppStyles.container]}
       >
         <Spacer size={55} />
+        <ScrollView>
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
@@ -139,6 +140,7 @@ class AddNotification extends Component {
           <Spacer size={10} />
 
         </Card>
+        </ScrollView>
       </View>
     );
   }
