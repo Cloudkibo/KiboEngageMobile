@@ -1,6 +1,7 @@
 //import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import * as ActionTypes from '../types';
+import * as SideMenuActionTypes from '../sidemenu/actions';
 var querystring = require('querystring');
 import { Actions } from 'react-native-router-flux';
 import {
@@ -54,7 +55,12 @@ export const loginUser = (creds) => {
   return (dispatch) => {
     dispatch(loginInAction());
     console.log('calling api');
-    axios.post(`${baseURL}/auth/local`,querystring.stringify(data),config).then(user => dispatch(loginUserSuccess(user)))
+    axios.post(`${baseURL}/auth/local`,querystring.stringify(data),config).then(user => 
+
+      {dispatch(loginUserSuccess(user));
+        dispatch(SideMenuActionTypes.close());
+      }
+      )
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
