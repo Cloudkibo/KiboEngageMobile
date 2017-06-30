@@ -113,6 +113,9 @@ class EditGroup extends Component {
 
   }
 
+  componentWillMount = () => {
+    this.props.resetEditStatus();
+  }
   componentDidMount =  () => {
     // Get user data from AsyncStorage to populate fields
   
@@ -296,6 +299,11 @@ class EditGroup extends Component {
             success={this.props.statuscode == 200?this.props.status:''}
             error={this.props.statuscode == 422?this.props.status:''}
           />
+             <Alerts
+             status=''
+            success={this.props.groupeditsuccess}
+            error={this.props.groupediterror}
+          />
 
   
           <Form
@@ -365,6 +373,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   editgroup: GroupActions.editgroup,
   deletegroup: GroupActions.deletegroup,
+  resetEditStatus: GroupActions.resetGroupEdit,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditGroup);
