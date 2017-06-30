@@ -254,6 +254,16 @@ const groupDeleteSuccess = (res) => {
 
 };
 
+export const resetGroupEdit = () => {
+  // console.log('group deleted');
+  //Actions.main();
+  return{
+    type: ActionTypes.RESET_GROUP_EDIT,
+  };
+
+
+};
+
 const groupDeleteFail = (res) => {
   // console.log('group deleted fail');
   //Actions.main();

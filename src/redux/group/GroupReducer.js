@@ -24,11 +24,9 @@ export default (state = INITIAL_STATE, action) => {
       return {...state,groups:action.payload,groupagents : state.groupagents,grouperror: '',groupsuccess:'',  groupediterror : '',
   groupeditsuccess:''};
     case ActionTypes.ADD_GROUP_AGENTS:
-      return {...state,groups:state.groups,groupagents : action.payload,grouperror: '',groupsuccess:'',  groupediterror : '',
-  groupeditsuccess:''};
+      return {...state,groups:state.groups,groupagents : action.payload,grouperror: '',groupsuccess:''};
     case ActionTypes.ADD_MY_GROUPS:
-         return {...state,mygroups:action.payload.createdDept?action.payload.createdDept:[],groupagents : state.groupagents,grouperror: '',groupsuccess:'',  groupediterror : '',
-  groupeditsuccess:''};
+         return {...state,mygroups:action.payload.createdDept?action.payload.createdDept:[],groupagents : state.groupagents,grouperror: '',groupsuccess:''};
    
  
    case ActionTypes.CREATE_GROUP:
@@ -52,6 +50,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, groupeditsuccess: 'Group deleted successfully',groups:state.groups,groupagents : state.groupagents, loading: false };
     case ActionTypes.DELETE_GROUP_FAIL:
       return { ...state, groupediterror: 'Group deletion failed', groups:state.groups,groupagents : state.groupagents,loading: false };
+    case ActionTypes.RESET_GROUP_EDIT:
+      return { ...state, groupediterror: '', groupeditsuccess: ''};
    
     default:
       return state;
