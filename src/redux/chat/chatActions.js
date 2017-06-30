@@ -105,7 +105,8 @@ export function singleChats(data) {
 
 
 // Assign Agent
-export const assignAgent = (token, input,session) => {
+//updated,sessionid,data
+export const assignAgent = (token, input,session,allsessions,stringvaluestatus) => {
   console.log('assign agent in chat actions called');
     var config = {
       rejectUnauthorized : false,
@@ -145,8 +146,15 @@ export const assignAgent = (token, input,session) => {
       axios.post(`${baseURL}/api/visitorcalls/pickSession`, session,configKS)
     })
       .then((res) => {
-        dispatch(assign_agent_status('Successfully Assigned'));
-        dispatch(chatsFetch(token));
+        console.log('assign_agent_update_states called');
+        console.log(session.request_id);
+        console.log(stringvaluestatus);
+        console.log(allsessions);
+        console.log(input.agentidTo);
+        dispatch(sessionsFetch(token));
+       // dispatch(assign_agent_update_states(session.request_id,stringvaluestatus,allsessions,input.agentidTo));
+        dispatch(assign_agent_status('Successfully Assigned', ));
+      
 
         console.log("Agent Successfully Assigned");
       })
@@ -159,11 +167,40 @@ export const assignAgent = (token, input,session) => {
   };
 };
 
+export function assign_agent_update_states(reqid,stringvaluestatus, updatedsessions, agentids) {
+  for(var i=0;i<updatedsessions.length;i++)
+  {
+if(updatedsessions[i].request_id==reqid)
+{
+  updatedsessions[i].status=stringvaluestatus
+  if(agentids){
+    console.log('found agent ids');
+  updatedsessions[i].agent_ids.push({id:agentids,type:stringvaluestatus})
+}
+else{
+  console.log('NOT found agent ids');
+  }
+  break;
+}
 
-export function assign_agent_status(data) {
+
+  }
+  console.log('updatedsessions');
+  console.log(updatedsessions);
+  return {
+    type: ActionTypes.ASSIGN_AGENT_UPDATE_STATUS,
+    payload : updatedsessions,
+   
+
+  };
+}
+
+
+export function assign_agent_status(data,chats,requestid) {
   return {
     type: ActionTypes.ASSIGN_AGENT,
     payload : data,
+
   };
 }
 
