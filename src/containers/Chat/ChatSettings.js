@@ -237,7 +237,6 @@ class ChatSettings extends Component {
     <Spacer size={50} />
 
     <Card>
-    <Text>{this.state.platform}</Text>
          <Alerts
             status={ this.props.invite_agent_status }
             success=''
@@ -253,7 +252,7 @@ class ChatSettings extends Component {
 
     </Card>
     <Card>
-    <Text>Assign To Agent {this.state.assignedAgent}</Text>
+    <Text>Assign To Agent</Text>
     <Spacer size={10} />
        <Picker
         selectedValue={this.state.assignedAgent}
@@ -288,7 +287,7 @@ class ChatSettings extends Component {
     </Card>
 
      <Card>
-    <Text>Move To Other Channel {this.state.assignedChannel}</Text>
+    <Text>Move To Other Channel</Text>
     <Spacer size={10} />
       <Picker
    selectedValue={this.state.assignedChannel}
