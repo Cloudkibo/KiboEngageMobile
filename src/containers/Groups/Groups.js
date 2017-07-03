@@ -62,14 +62,14 @@ class Groups extends Component {
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
-     
+
             this.props.groupFetch(token);
             this.props.agentGroupFetch(token);
             this.props.agentFetch(token);
+            this.props.getDeptTeams(token);
 
-            
           }
-  
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -86,7 +86,7 @@ class Groups extends Component {
 
   createDataSource(groups) {
     const ds = new ListView.DataSource({
-  
+
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
@@ -128,10 +128,10 @@ class Groups extends Component {
       title={group.deptname}
       subtitle={group.deptdescription || null}
 
-      
+
     />
 
- 
+
   )
 
 
@@ -151,7 +151,7 @@ class Groups extends Component {
 
   render = () => {
     if (this.state.loading) return <Loading />;
-    
+
     return(
           <View style={[AppStyles.container]}>
           <Spacer size={15} />
@@ -174,10 +174,10 @@ class Groups extends Component {
                  renderRow={this.renderRow}
                 />
               </List>
-              
+
             </ScrollView>
             </View>
- 
+
   );
 }
 }
@@ -186,6 +186,7 @@ const mapDispatchToProps = {
   groupFetch: GroupActions.groupFetch,
   agentGroupFetch : GroupActions.agentGroupFetch,
   agentFetch: AgentActions.agentFetch,
+  getDeptTeams: GroupActions.getDeptTeams,
 };
 function mapStateToProps(state) {
    const { groups ,groupagents} = state.groups;
@@ -195,4 +196,3 @@ function mapStateToProps(state) {
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Groups);
-

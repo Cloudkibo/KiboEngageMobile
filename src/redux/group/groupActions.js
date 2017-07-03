@@ -10,9 +10,9 @@ import * as Config from '../config';
 var baseURL = Config.baseURLKiboSupport;
 var baseURLKiboEngage = Config.baseURLKiboEngage;
 import {
- 
+
   Alert,
- 
+
 } from 'react-native';
 export function showGroups(groups) {
   // console.log('show groups');
@@ -67,7 +67,7 @@ export const groupFetch = (token) => {
           //Alert.alert('You are not connected with Internet');
           dispatch(readGroups());
         }
-       }); 
+       });
   };
 };
 
@@ -111,7 +111,7 @@ export const agentGroupFetch = (token) => {
           //Alert.alert('You are not connected with Internet');
           dispatch(readGroupAgents());
         }
-       }); 
+       });
   };
 };
 
@@ -129,9 +129,9 @@ export const creategroup = (group) => {
 
           };
        var data =  {
-        deptname : group.groupname,
-        deptdescription : group.description,
-      
+        deptname: group.groupname,
+        deptdescription: group.description,
+        teamagents: group.newteams,
       }
   // console.log(data);
   return (dispatch) => {
@@ -147,6 +147,31 @@ export const creategroup = (group) => {
   };
 };
 
+export function showDeptTeams(teams) {
+  return {
+    type: ActionTypes.ADD_DEPTTEAMS,
+    payload: teams,
+  };
+}
+
+export const getDeptTeams = (token) => {
+  const config = {
+    rejectUnauthorized : false,
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'content-type' : 'application/json'
+    },
+  };
+
+  return (dispatch) => {
+    axios.get(`${baseURL}/api/deptteams`, config)
+    .then((res) => res).then(res => dispatch(showDeptTeams(res)))
+    .catch(function (error) {
+        console.log('Error occured');
+        console.log(error)
+       });
+  };
+};
 
 export const editgroup = (group) => {
     var token = group.token;
@@ -161,7 +186,7 @@ export const editgroup = (group) => {
             'Authorization': `Bearer ${token}`,
             'content-type' : 'application/json'
             },
-      
+
           };
     var d = {
           _id:group.id,
@@ -171,7 +196,7 @@ export const editgroup = (group) => {
     var data = {
       'dept' : d,
       'deptagents': remove_dups,
-      
+
       }
 
 
@@ -187,7 +212,7 @@ export const editgroup = (group) => {
         // console.log(error);
         dispatch(groupEditFail());
       });
-    
+
   };
 };
 
@@ -222,11 +247,9 @@ const groupCreateSuccess = (res) => {
 const groupEditInAction = () => {
   return {
     type: ActionTypes.EDIT_GROUP,
-   
+
   };
 };
-
-
 
 const groupEditFail = () => {
   return{ type: ActionTypes.EDIT_GROUP_FAIL };
@@ -240,7 +263,7 @@ const groupEditSuccess = (res) => {
     payload: res
   };
 
-  
+
 };
 
 const groupDeleteSuccess = (res) => {
@@ -294,7 +317,7 @@ export const deletegroup = (group) => {
       dispatch(groupDeleteSuccess(res));
       dispatch(myGroupFetch(token));
       dispatch(agentGroupFetch(token));
-      
+
     })
       .catch(function (error) {
         // console.log('Error occured');
@@ -319,11 +342,11 @@ export function callbackgroups(results) {
   }
   console.log('fgroups');
   console.log(fgroups);
- 
+
   return {
     type: ActionTypes.ADD_GROUPS,
     payload : fgroups,
- 
+
   };
 }
 
@@ -338,11 +361,11 @@ export function callbackgroupAgents(results) {
     fgroups.push(row);
   }
   console.log(fgroups);
- 
+
   return {
     type: ActionTypes.ADD_GROUP_AGENTS,
     payload : fgroups,
- 
+
   };
 }
 
@@ -376,26 +399,26 @@ export  function writeGroups(groups){
   rows.push(record);
  // addItem(db,record);
 
-  
+
  }
  console.log(rows);
 
 
 return (dispatch) => {
-    
+
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS GROUPS');
     tx.executeSql(CREATE_Groups_TABLE);
 
     for(var j=0;j<rows.length;j++){
        tx.executeSql('INSERT INTO GROUPS VALUES (?,?,?,?,?,?,?,?,?)',rows[j]);
-   
+
     }
     tx.executeSql('SELECT * FROM GROUPS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -405,7 +428,7 @@ return (dispatch) => {
            dispatch(callbackgroups(res));
   }
   );
-  
+
   }
 
 }
@@ -436,26 +459,26 @@ export  function writeGroupAgents(groupAgents){
   rows.push(record);
  // addItem(db,record);
 
-  
+
  }
  console.log(rows);
 
 
 return (dispatch) => {
-    
+
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS GROUPAGENTS');
     tx.executeSql(CREATE_GroupAgents_TABLE);
 
     for(var j=0;j<rows.length;j++){
        tx.executeSql('INSERT INTO GROUPAGENTS VALUES (?,?,?,?,?,?)',rows[j]);
-   
+
     }
     tx.executeSql('SELECT * FROM GROUPAGENTS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -465,7 +488,7 @@ return (dispatch) => {
            dispatch(callbackgroupAgents(res));
   }
   );
-  
+
   }
 
 }
@@ -473,14 +496,14 @@ return (dispatch) => {
 export function readGroups(){
    var db = SqliteCalls.getConnection();
    return (dispatch) => {
-    
+
     db.transaction(function(tx) {
-   
+
     tx.executeSql('SELECT * FROM GROUPS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -490,7 +513,7 @@ export function readGroups(){
            dispatch(callbackgroups(res));
   }
   );
-  
+
   }
 
 }
@@ -499,14 +522,14 @@ export function readGroups(){
 export function readGroupAgents(){
    var db = SqliteCalls.getConnection();
    return (dispatch) => {
-    
+
     db.transaction(function(tx) {
-   
+
     tx.executeSql('SELECT * FROM GROUPAGENTS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -516,8 +539,7 @@ export function readGroupAgents(){
            dispatch(callbackgroupAgents(res));
   }
   );
-  
+
   }
 
 }
-
