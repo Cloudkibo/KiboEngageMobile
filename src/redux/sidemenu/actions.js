@@ -12,12 +12,14 @@ export function toggle() {
 }
 
 export function open() {
+	console.log('sidebar opened');
   return {
     type: 'SIDEMENU_OPEN',
   };
 }
 
 export function close() {
+	console.log('sidebar closed');
   return {
     type: 'SIDEMENU_CLOSE',
   };

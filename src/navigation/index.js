@@ -12,9 +12,7 @@ import { AppConfig } from '@constants/';
 
 // Components
 import Drawer from '@containers/ui/DrawerContainer';
-import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButtonContainer';
 
-import { AppStyles, AppSizes } from '@theme/';
 // Scenes
 import AppLaunch from '@containers/Launch/LaunchContainer';
 import Groups from '@containers/Groups/Groups';
@@ -76,15 +74,6 @@ const styles = StyleSheet.create({
         color: 'white' 
     },
     });
-
-const navbarPropsTabs = {
-  ...AppConfig.navbarProps,
-  renderLeftButton: () => <NavbarMenuButton />,
-  sceneStyle: {
-    ...AppConfig.navbarProps.sceneStyle,
-    paddingBottom: AppSizes.tabbarHeight,
-  },
-};
 
 export default Actions.create(
   <Scene key={'root'} {...AppConfig.navbarProps}>
@@ -317,15 +306,13 @@ export default Actions.create(
 
       <Scene
         key={'agents'}
-        
         title={'Agents'}
-        onLeft={navbarPropsTabs}
+        onLeft={() => Actions.dashboard()}
         onRight={() => Actions.inviteAgent()}
         rightTitle="Invite"
         rightButtonTextStyle={styles.rightbarbuttonstyle}
         component={Agents}
         analyticsDesc={'Agents:Agents'}
-      
       />
 
       <Scene
