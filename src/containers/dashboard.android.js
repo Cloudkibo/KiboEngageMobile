@@ -25,6 +25,8 @@ import * as UserActions from '@redux/user/actions';
 import Loading from '@components/general/Loading';
 import * as FbActions from '@redux/facebook/FbActions';
 import * as chatActions from '@redux/chat/chatActions';
+
+import * as menuActions from '@redux/sidemenu/actions';
 import codePush from "react-native-code-push";
 let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 
@@ -112,6 +114,7 @@ class Dashboard extends Component {
     }
   }
   componentDidMount = async() => {
+    this.props.closemenu();
     this.register();
     var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
@@ -257,6 +260,7 @@ const mapDispatchToProps = {
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
   updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
+    closemenu: menuActions.close,
  };
 
 function mapStateToProps(state) {
