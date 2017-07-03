@@ -103,6 +103,7 @@ class Cannedresponse extends Component {
 
   goToView2(cannedresponse)
   {
+    this.props.resetcannedFetch();
         Actions.cannedEdit({cannedresponse:cannedresponse})
   }
   renderRow = (cannedresponse) => (
@@ -155,6 +156,7 @@ class Cannedresponse extends Component {
 
 const mapDispatchToProps = {
   cannedFetch: CannedActions.cannedFetch,
+   resetcannedFetch: CannedActions.reset,
  };
 function mapStateToProps(state) {
    const { cannedresponses} = state.cannedresponses;

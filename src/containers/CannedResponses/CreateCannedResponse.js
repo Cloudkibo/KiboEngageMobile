@@ -148,11 +148,17 @@ class CreateCannedResponse extends Component {
       <ScrollView style={[AppStyles.container]}>
         <Card>
           <Alerts
+           
+            success={this.props.cannedsuccess}
+            error={this.props.cannederror}
+          />
+
+          <Alerts
             status={this.state.resultMsg.status}
             success={this.state.resultMsg.success}
             error={this.state.resultMsg.error}
           />
-
+               
           <Form
             ref={(b) => { this.form = b; }}
             type={this.state.form_fields}
@@ -167,11 +173,7 @@ class CreateCannedResponse extends Component {
 
           <Spacer size={10} />
 
-           <Alerts
-           
-            success={this.props.cannedsuccess}
-            error={this.props.cannederror}
-          />
+          
         </Card>
         </ScrollView>
       </View>
@@ -191,6 +193,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   createcanned: CannedActions.createcanned,
   cannedFetch: CannedActions.cannedFetch,
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateCannedResponse);

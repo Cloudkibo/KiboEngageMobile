@@ -35,6 +35,9 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.DELETE_CANNED_FAIL:
       return { ...state, cannedresponses : state.cannedresponses,cannederror: 'Canned Response deletion failed', cannedsuccess:'' ,loading: false };
     
+    case ActionTypes.RESET_STATUS:
+      return { ...state, cannederror: '', cannedsuccess : '', loading: false };
+
     default:
       return state;
   }
