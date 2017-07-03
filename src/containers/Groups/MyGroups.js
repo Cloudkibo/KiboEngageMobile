@@ -61,14 +61,14 @@ class MyGroups extends Component {
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
-     
+
             this.props.myGroupFetch(token);
             this.props.agentGroupFetch(token);
             this.props.agentFetch(token);
+            this.props.getDeptTeams(token);
 
-            
           }
-  
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -83,10 +83,10 @@ class MyGroups extends Component {
      }
   }
 
-  createDataSource({ mygroups 
+  createDataSource({ mygroups
   }) {
     const ds = new ListView.DataSource({
-  
+
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
@@ -109,10 +109,10 @@ class MyGroups extends Component {
       title={mygroups.deptname}
       subtitle={mygroups.deptdescription || null}
 
-      
+
     />
 
- 
+
   )
 
 
@@ -132,7 +132,7 @@ class MyGroups extends Component {
 
   render = () => {
     if (this.state.loading) return <Loading />;
-    
+
     return(
           <View style={[AppStyles.container]}>
           <Spacer size={15} />
@@ -147,10 +147,10 @@ class MyGroups extends Component {
                  renderRow={this.renderRow}
                 />
               </List>
-              
+
             </ScrollView>
             </View>
- 
+
   );
 }
 }
@@ -159,13 +159,13 @@ const mapDispatchToProps = {
   myGroupFetch: GroupActions.myGroupFetch,
   agentGroupFetch : GroupActions.agentGroupFetch,
   agentFetch: AgentActions.agentFetch,
+  getDeptTeams: GroupActions.getDeptTeams,
 };
 function mapStateToProps(state) {
-   const { mygroups ,groupagents} = state.groups;
-   const { agents } = state.agents;
+  const { mygroups, groupagents, deptteams } = state.groups;
+  const { agents } = state.agents;
 
-  return {mygroups ,groupagents,agents};
+  return { mygroups, groupagents, agents, deptteams };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MyGroups);
-

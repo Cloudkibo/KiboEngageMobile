@@ -12,7 +12,7 @@ import {
   View,
   ListView,
   Alert,
-  
+
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
@@ -23,6 +23,7 @@ import { List, ListItem, SocialIcon } from 'react-native-elements';
 import AppAPI from '@lib/api';
 import { AppStyles, AppSizes} from '@theme/';
 import * as GroupActions from '@redux/group/groupActions';
+import * as TeamActions from '@redux/team/TeamActions';
 import { connect } from 'react-redux';
 var _ = require('lodash');
 
@@ -43,7 +44,7 @@ class EditGroup extends Component {
     stylesheet.textbox.normal.height = 80;
     stylesheet.textbox.error.height = 80;
 
-   
+
     const validName= FormValidation.refinement(
       FormValidation.String, (groupname) => {
         if (groupname.length < 1) return false;
@@ -66,14 +67,14 @@ class EditGroup extends Component {
         error: '',
 
       },
-      dataSourceAllAgents  : new ListView.DataSource({
-            rowHasChanged : (row1, row2) => true
-        }),
-      dataSourceFellowAgents  : new ListView.DataSource({
-            rowHasChanged : (row1, row2) => true
-        }),
+      newteams: [],
+      dataSourceAllTeams: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => true
+      }),
+      dataSourceFellowTeams: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => true
+      }),
 
-      
       form_fields: FormValidation.struct({
         groupName:validName,
         groupDescription: validDesc,
@@ -81,12 +82,12 @@ class EditGroup extends Component {
       empty_form_values: {
         groupName:'',
         groupDescription: '',
-      
+
       },
       form_values: {
         groupName:this.props.group.deptname,
         groupDescription: this.props.group.deptdescription,
-      
+
       },
       options: {
         fields: {
@@ -100,71 +101,75 @@ class EditGroup extends Component {
             autoCapitalize: 'none',
             clearButtonMode: 'while-editing',
             multiline: true,
-            stylesheet: stylesheet 
+            stylesheet: stylesheet
           },
-          
+
         },
       },
     };
 
 
 
-  this.renderRow = this.renderRow.bind(this);    
+  this.renderRow = this.renderRow.bind(this);
 
   }
 
   componentWillMount = () => {
     this.props.resetEditStatus();
   }
-  componentDidMount =  () => {
+  componentDidMount = async () => {
     // Get user data from AsyncStorage to populate fields
-  
-      this.newFellowAgents  = this.props.groupagents.filter((c) => c.deptid == this.props.group._id)
-      remainingAgents = this.props.agents.filter((agent)=>{
-        var isPresent =false;
-        for(var i = 0; i < this.newFellowAgents.length; i++){
-          console.log("Heatens", this.newFellowAgents[i].agentid);
-          console.log("Heaten", agent._id);
-        if(agent._id == this.newFellowAgents[i].agentid){
-          isPresent = true;
-        }
-        }
-          return !isPresent;
-        
-      });
-      console.log("fellowAgents", this.newFellowAgents);
-      console.log("remainingAgents", remainingAgents);
-      let ds = this.state.dataSourceAllAgents.cloneWithRows(remainingAgents);
-      let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents);
+    const token = await auth.getToken();
+    console.log(this.props.deptteams);
+    console.log(this.props.group);
+    const groupTeams = this.props.deptteams.filter((c) => c.deptid._id == this.props.group._id);
+    console.log(groupTeams);
+    for (let i=0; i<groupTeams.length; i++) {
+      if (groupTeams[i].teamid) {
+        console.log('pushed');
+        this.state.newteams.push(groupTeams[i].teamid);
+      }
+    }
 
+    console.log(this.state.newteams);
+
+    if (token !== '') {
+      this.props.teamFetch(token);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // nextProps are the next set of props that this component
+    // will be rendered with
+    // this.props is still the old set of props
+    if (nextProps.teams) {
+      console.log('new teams');
+      console.log(this.state.newteams);
+      const ds = this.state.dataSourceAllTeams.cloneWithRows(nextProps.teams);
+      const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
       this.setState({
-          dataSourceAllAgents  : ds,
-          dataSourceFellowAgents  : ds2,
-
+        dataSourceAllTeams: ds,
+        dataSourceFellowTeams: ds2,
       });
-
-      console.log('dataSourceAllAgents');
-      console.log(this.state.dataSourceAllAgents);
+    }
   }
 
   /**
     * Create Team
     */
-   renderRow = (agent) => (
-    <ListItem
-      key={`list-row-${agent._id}`}
-      onPress={this.addAgent.bind(this,agent)}
-      title={agent.firstname + ' '+ agent.lastname}
-  
-      
-    />  
-    )
   editGroup = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();
 
-    // Form is valid
-    if (credentials) {
+    if (this.state.newteams.length < 1) {
+      Alert.alert(
+        'Warning!',
+        'Group cannot be edited. Please add atleast one team in the group',
+        [
+          { text: 'Ok', onPress: () => console.log('Ok Pressed!') },
+        ],
+      );
+    } else if (credentials) {
       this.setState({ form_values: credentials }, async () => {
         this.setState({ resultMsg: { status: 'One moment...' } });
 
@@ -176,28 +181,19 @@ class EditGroup extends Component {
         if(auth.loggedIn() == true){
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
-            console.log(token);
-    
-            var agentid =[];
-            console.log('this.newFellowAgents');
-            console.log(this.newFellowAgents);
-            for(var j=0;j<this.newFellowAgents.length;j++){
-               agentid.push({"_id" :this.newFellowAgents[j].agentid})
-            }
-            console.log('groupDescription');
-            console.log(credentials.groupDescription);
+
             this.props.editgroup({
               name: credentials.groupName,
               desc: credentials.groupDescription,
-              id : this.props.group._id,
-              deptagents : agentid,
-              token:token,
+              id: this.props.group._id,
+              teamagents: this.state.newteams,
+              token: token,
             })
         }
       });
     }
   }
-  
+
   deleteGroupConfirm = async () => {
     // Form is valid
         this.setState({ resultMsg: { status: 'One moment...' } });
@@ -211,15 +207,15 @@ class EditGroup extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-   
+
             this.props.deletegroup({
               id:this.props.group._id,
               token:token,
             })
         }
-     
+
   }
-  
+
 
   deleteGroup = () => {
 
@@ -232,80 +228,99 @@ class EditGroup extends Component {
             ]
           )
 
-    
-     
-  }
-  addAgent = (c) =>{
-    console.log('addAgent is called');
-    console.log("Remaining Agents", this.state.dataSourceAllAgents);
-    console.log(this.props.groupagents.length);
-    this.newFellowAgents.push({'deptid': this.props.group._id,'agentid':c._id})
-    remainingAgents = this.state.dataSourceAllAgents._dataBlob.s1.filter((agent) => agent._id != c._id);
-    // update the DataSource in the component state
-   this.setState({
-          
-            dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
-        });
-    this.setState({dataSourceAllAgents: this.state.dataSourceAllAgents.cloneWithRows(remainingAgents)});
   }
 
-
-  removeAgent = (c) =>{
-    console.log('removeAgent is called');
-    var indexOfItem = this.newFellowAgents.findIndex((item) => item.deptid === c.deptid && item.agentid === c.agentid);
-    this.newFellowAgents.splice(indexOfItem, 1);
-    // update the DataSource in the component state
-   this.setState({
-          
-            dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
-        });
+  appendTeam(team) {
+    let flag = 0;
+    for (let i = 0; i < this.state.newteams.length; i++) {
+      if (this.state.newteams[i]._id == team._id) {
+          flag = 1;
+          break;
+      }
+    }
+    if (flag == 0) {
+      this.state.newteams.push(team);
+      const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
+      this.setState({
+        form_values: {
+          groupName: this.form.getValue().groupName,
+          groupDescription: this.form.getValue().groupDescription,
+        },
+        dataSourceFellowTeams: ds2,
+      });
+    }
+    else {
+      Alert.alert(
+        'Add Team',
+        'Team already added in the group',
+        [
+          { text: 'Ok', onPress: () => console.log('Ok Pressed!') },
+        ],
+      );
+    }
   }
-  renderFellowAgents = (fellowAgent) =>{
-   console.log('fellowAgent');
-   console.log(fellowAgent);
-   var flag = 0;
-   for(var j=0;j<this.props.agents.length;j++){
-        if(this.props.agents[j]._id == fellowAgent.agentid){
-          console.log('fellowAgent matched');
-                return  (<ListItem
-                          key={`list-row-${this.props.agents[j]._id}`}
-                          title={this.props.agents[j].firstname + ' '+ this.props.agents[j].lastname}
-                           onPress={this.removeAgent.bind(this,fellowAgent)}
-                          /> )
-        flag = 1;
+
+  removeTeam(team) {
+    let index;
+    console.log(this.state.newteams);
+    console.log(team);
+
+    for (let i = 0; i < this.state.newteams.length; i++) {
+      if (this.state.newteams[i]._id == team._id) {
+        index = i;
         break;
-        }
-
-     
-       }
-       if(flag == 0){
-        return null;
-       }
-
-    
+      }
+    }
+    this.state.newteams.splice(index, 1);
+    const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
+    this.setState({
+      form_values: {
+        groupName: this.form.getValue().groupName,
+        groupDescription: this.form.getValue().groupDescription,
+      },
+      dataSourceFellowTeams: ds2,
+    });
   }
 
- 
+  renderRow = team => (
+    <ListItem
+      key={`list-row-${team._id}`}
+      onPress={this.appendTeam.bind(this, team)}
+      title={team.groupname}
+      leftIcon={{ name: 'add-circle' }}
+    />
+  )
+
+  renderRowFellowTeams = team => (
+    <ListItem
+      key={`list-row-${team._id}`}
+      title={team.groupname}
+      leftIcon={{ name: 'remove-circle' }}
+      onPress={this.removeTeam.bind(this, team)}
+    />
+  )
 
   render = () => {
     const Form = FormValidation.form.Form;
 
     return (
-      <ScrollView style={[AppStyles.container]}>
-      <Spacer size={55} />
+      <ScrollView
+        style={[AppStyles.container]}
+        ref={(b) => { this.scrollView = b; }}
+      >
+        <Spacer size={55} />
         <Card>
           <Alerts
-             status={this.state.resultMsg.status}
+            status={this.state.resultMsg.status}
             success={this.props.statuscode == 200?this.props.status:''}
             error={this.props.statuscode == 422?this.props.status:''}
           />
-             <Alerts
-             status=''
+          <Alerts
+            status=''
             success={this.props.groupeditsuccess}
             error={this.props.groupediterror}
           />
 
-  
           <Form
             ref={(b) => { this.form = b; }}
             type={this.state.form_fields}
@@ -315,57 +330,56 @@ class EditGroup extends Component {
 
           {this.props.userdetails.isAdmin == "Yes" &&
           <View>
-            <Text h3> Remaining Agents </Text>
+            <Text h3> Fellow Teams </Text>
             <ListView
-                 dataSource={this.state.dataSourceAllAgents}
-                 renderRow={this.renderRow}
+              dataSource={this.state.dataSourceFellowTeams}
+              renderRow={this.renderRowFellowTeams}
             />
           </View>
         }
 
           <View>
-            <Text h3> Fellow Agents </Text>
-             <ListView dataSource={this.state.dataSourceFellowAgents}
-              renderRow={this.renderFellowAgents}
+            <Text h3> All Teams </Text>
+            <ListView
+              dataSource={this.state.dataSourceAllTeams}
+              renderRow={this.renderRow}
             />
-           
+
           </View>
 
-           <Spacer size={20} />
-         
-
-           <Spacer size={20} />
+          <Spacer size={20} />
           {
             this.props.userdetails.isAdmin == "Yes" &&
-          <View>
-          <Button
-            title={'Save Changes'}
-            onPress={this.editGroup}
-          />
-           <Spacer size={20} />
-          
-          <Button
-            title={'Delete Group'}
-            onPress={this.deleteGroup}
-          />
-          </View>
+            <View>
+              <Button
+                title={'Save Changes'}
+                onPress={this.editGroup}
+              />
+              <Spacer size={20} />
+
+              <Button
+                title={'Delete Group'}
+                onPress={this.deleteGroup}
+              />
+            </View>
         }
 
           <Spacer size={10} />
 
-         
+
         </Card>
-       </ScrollView>
+      </ScrollView>
     );
   }
 }
 
 
 function mapStateToProps(state) {
-   const {groups,groupediterror,groupeditsuccess} =  state.groups;
-    const { userdetails } = state.user;
+  const { groups, groupediterror, groupeditsuccess, deptteams } =  state.groups;
+  const { userdetails } = state.user;
+  const { teams } = state.teams;
 
-  return {groups,groupediterror,groupeditsuccess,userdetails };
+  return { groups, groupediterror, groupeditsuccess, userdetails, deptteams, teams };
 }
 
 
@@ -374,7 +388,7 @@ const mapDispatchToProps = {
   editgroup: GroupActions.editgroup,
   deletegroup: GroupActions.deletegroup,
   resetEditStatus: GroupActions.resetGroupEdit,
+  teamFetch: TeamActions.teamFetch,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditGroup);
-

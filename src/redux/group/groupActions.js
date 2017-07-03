@@ -150,7 +150,7 @@ export const creategroup = (group) => {
 export function showDeptTeams(teams) {
   return {
     type: ActionTypes.ADD_DEPTTEAMS,
-    payload: teams,
+    payload: teams.data,
   };
 }
 
@@ -175,11 +175,6 @@ export const getDeptTeams = (token) => {
 
 export const editgroup = (group) => {
     var token = group.token;
-    // console.log('without remove_dups');
-    // console.log(group.deptagents);
-    var remove_dups = utils.removeDuplicates(group.deptagents, '_id');
-    // console.log('removeDuplicates');
-    // console.log(remove_dups);
     var config = {
       rejectUnauthorized : false,
       headers: {
@@ -195,7 +190,7 @@ export const editgroup = (group) => {
         }
     var data = {
       'dept' : d,
-      'deptagents': remove_dups,
+      'teamagents': group.teamagents,
 
       }
 

@@ -189,10 +189,10 @@ const mapDispatchToProps = {
   getDeptTeams: GroupActions.getDeptTeams,
 };
 function mapStateToProps(state) {
-   const { groups ,groupagents} = state.groups;
-   const { agents } = state.agents;
+  const { groups, groupagents, deptteams } = state.groups;
+  const { agents } = state.agents;
 
-  return {groups ,groupagents,agents};
+  return { groups, groupagents, agents, deptteams };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Groups);
