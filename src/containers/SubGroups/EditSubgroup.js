@@ -77,6 +77,18 @@ class EditSubgroup extends Component {
 
 
   editSubgroup = async () => {
+    if(this.props.subgroup.msg_channel_name=='General')
+    {
+       Alert.alert(
+            'Delete Subgroup',
+            'You cannot edit General subgroup',
+            [
+              {text: 'Ok', onPress: () => console.log('Cancel Pressed!')},
+              //{text: 'Yes', onPress: () => this.deleteSubgroupConfirm()},
+            ]
+          )
+    }
+    else{
     // Get new credentials and update
     const credentials = this.form.getValue();
 
@@ -111,6 +123,7 @@ class EditSubgroup extends Component {
       });
     }
   }
+  }
 
   deleteSubgroupConfirm = async () => {
     // Form is valid
@@ -133,7 +146,19 @@ class EditSubgroup extends Component {
 
 
   deleteSubgroup = () => {
-
+    if(this.props.subgroup.msg_channel_name=='General')
+    {
+      Alert.alert(
+            'Delete Subgroup',
+            'You cannot delete General subgroup',
+            [
+              {text: 'Ok', onPress: () => console.log('Cancel Pressed!')},
+              //{text: 'Yes', onPress: () => this.deleteSubgroupConfirm()},
+            ]
+          )
+    }
+    else
+    {
     Alert.alert(
             'Delete Subgroup',
             'Are you sure you want to delete this subgroup?',
@@ -142,6 +167,7 @@ class EditSubgroup extends Component {
               {text: 'Yes', onPress: () => this.deleteSubgroupConfirm()},
             ]
           )
+  }
 
 
 
