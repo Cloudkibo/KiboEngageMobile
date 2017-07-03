@@ -66,6 +66,10 @@ import FbChat from '@containers/Facebook/FbChat';
 import FbSettings from '@containers/Facebook/FbSettings';
 import Reports from '@containers/Reports/Reports';
 
+
+import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButtonContainer';
+import { AppStyles, AppSizes } from '@theme/';
+
 ////rightButtonTextStyle={{ tintColor: 'white' }}
 /* Routes ==================================================================== */
 
@@ -74,6 +78,15 @@ const styles = StyleSheet.create({
         color: 'white' 
     },
     });
+
+const navbarPropsTabs = {
+  ...AppConfig.navbarProps,
+  renderLeftButton: () => <NavbarMenuButton />,
+  sceneStyle: {
+    ...AppConfig.navbarProps.sceneStyle,
+    paddingBottom: AppSizes.tabbarHeight,
+  },
+};
 
 export default Actions.create(
   <Scene key={'root'} {...AppConfig.navbarProps}>
@@ -303,23 +316,17 @@ export default Actions.create(
         component={Reports}
         analyticsDesc={'Reports'}
       />
-
-
+ 
       <Scene
         key={'agents'}
-        initial={'tabBar'}
         title={'Agents'}
-        onLeft={() => Actions.dashboard}
+       {...navbarPropsTabs}
         onRight={() => Actions.inviteAgent()}
         rightTitle="Invite"
         rightButtonTextStyle={styles.rightbarbuttonstyle}
         component={Agents}
-        initial={'agenttabBar'}
         analyticsDesc={'Agents:Agents'}
-        >
-         {TabsScenes}
-
-      </Scene>
+      />
 
       <Scene
         key={'groupEdit'}
