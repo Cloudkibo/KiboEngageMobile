@@ -657,7 +657,7 @@ export function fetchGif(){
 export function fetchSticker(){
 
   return (dispatch) => {
-    axios.get(`http://api.giphy.com/v1/stickers/search?q=happy&api_key=dc6zaTOxFJmzC`)
+    axios.get(`http://api.giphy.com/v1/stickers/search?q=pusheen-the-cat&api_key=dc6zaTOxFJmzC`)
     .then(
       res => {
         // console.log(res);
