@@ -304,16 +304,22 @@ export default Actions.create(
         analyticsDesc={'Reports'}
       />
 
+
       <Scene
         key={'agents'}
+        initial={'tabBar'}
         title={'Agents'}
-        onLeft={() => Actions.dashboard()}
+        onLeft={() => Actions.dashboard}
         onRight={() => Actions.inviteAgent()}
         rightTitle="Invite"
         rightButtonTextStyle={styles.rightbarbuttonstyle}
         component={Agents}
+        initial={'agenttabBar'}
         analyticsDesc={'Agents:Agents'}
-      />
+        >
+         {TabsScenes}
+
+      </Scene>
 
       <Scene
         key={'groupEdit'}

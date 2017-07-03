@@ -16,6 +16,7 @@ import { TabIcon } from '@ui/';
 import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButtonContainer';
 
 // Scenes
+import Agents from '@containers/Agents/Agents';
 import Placeholder from '@components/general/Placeholder';
 import StyleGuide from '@containers/StyleGuideView';
 import Recipes from '@containers/recipes/Browse/BrowseContainer';
@@ -53,6 +54,23 @@ const scenes = (
     
    
   </Scene>
+    
 );
+const scenesagent = (
+ 
+<Scene key={'agenttabBar'} tabs tabBarIconContainerStyle={AppStyles.tabbar} pressOpacity={0.95}>
+     
+      <Scene
+        {...navbarPropsTabs}
+        key={'groupListing'}
+        title={'Dashboard'}
+        component={Agent}
+        analyticsDesc={'Dashboard'}
+      />
+    
+    
+   
+  </Scene>
+  );
 
-export default scenes;
+export default scenes,scenesagent;
