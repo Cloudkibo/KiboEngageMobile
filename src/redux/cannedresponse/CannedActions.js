@@ -18,6 +18,12 @@ export function showResponses(cannedresponses) {
   };
 }
 
+export const reset = () => {
+  return {
+    type: ActionTypes.RESET_STATUS,
+  };
+}
+
 export const cannedFetch = (token) => {
    var config = {
       rejectUnauthorized : false,
