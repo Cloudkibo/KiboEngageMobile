@@ -5,11 +5,12 @@
  * https://github.com/mcnamee/react-native-starter-app
  */
 import React, { PropTypes } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 /* Component ==================================================================== */
 const NavbarMenuButton = ({ toggleSideMenu }) => (
+  <View>
   <TouchableOpacity
     onPress={toggleSideMenu}
     activeOpacity={0.7}
@@ -18,6 +19,8 @@ const NavbarMenuButton = ({ toggleSideMenu }) => (
   >
     <Icon name={'menu'} size={32} color={'#FFF'} />
   </TouchableOpacity>
+  <Text>Hellloooo</Text>
+  </View>
 );
 
 NavbarMenuButton.propTypes = {
