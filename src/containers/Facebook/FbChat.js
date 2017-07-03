@@ -334,9 +334,29 @@ class FbChat extends Component {
               this.setState({text: ''});
               this.props.getfbchatfromAgent(saveMsg);
             }
+             else if(msgObj.image && msgObj.type == 'gif'){
+                      var saveMsg = {
+                                   senderid: this.props.userdetails._id,
+                                   recipientid:this.props.senderid,
+                                   companyid:this.props.userdetails.uniqueid,
+                                   timestamp:Date.now(),
+                                   message:{
+                                     mid:unique_id,
+                                     seq:1,
+                                     attachments:[{
+                                       type:'image',
+                                       payload:{
+                                         url:msgObj.image,
+                                       }
 
+                                     }]
+                                   },
 
+                                  pageid:pageid
 
+                             }
+              this.props.getfbchatfromAgent(saveMsg);
+             }
     else if(msgObj.image && msgObj.type != 'gif'){
       /*** for image file ******/
     var filename = msgObj.image.split('/');
