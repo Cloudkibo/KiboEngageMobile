@@ -39,7 +39,7 @@ export const createPage=(fbpage,token) => {
 
 
 // create fbpage
-export const editPage=(fbpage,token) => {
+export const editPage=(fbpage,token, teams) => {
     var token = token;
     var id = fbpage.pageid;
     var config = {
@@ -50,10 +50,14 @@ export const editPage=(fbpage,token) => {
             },
 
           };
+  const data = {
+    fbpage,
+    teamagents: teams,
+  }
 
   return (dispatch) => {
     console.log('calling api');
-    axios.put(`${baseURL}/api/fbpages/${id}`,querystring.stringify(fbpage),config).then(res =>
+    axios.put(`${baseURL}/api/fbpages/${id}`, querystring.stringify(data), config).then(res =>
     {
       dispatch(fbpageEditSuccess(res));
       dispatch(getfbpages(token));

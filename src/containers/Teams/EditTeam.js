@@ -201,12 +201,7 @@ class EditTeam extends Component {
 
 
    this.setState({
-            form_values : {
-                teamName:this.form.getValue().teamName,
-                teamDescription: this.form.getValue().teamDescription,
-                status:this.form.getValue().status,
-
-            },
+            form_values: this.state.form_values,
             dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
         });
   }
@@ -218,12 +213,7 @@ class EditTeam extends Component {
     this.newFellowAgents.splice(indexOfItem, 1);
     // update the DataSource in the component state
    this.setState({
-            form_values : {
-                teamName:this.form.getValue().teamName,
-                teamDescription: this.form.getValue().teamDescription,
-                status: this.form.getValue().status,
-
-            },
+            form_values: this.state.form_values,
             dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
         });
   }

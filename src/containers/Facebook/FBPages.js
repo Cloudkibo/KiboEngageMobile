@@ -61,6 +61,7 @@ class FBPages extends Component {
     console.log(`token is Launchview is ${token}`);
     if (token !== '') {
       this.props.getfbpages(token);
+      this.props.fetchfbpageteams(token);
     }
   }
 
@@ -147,6 +148,7 @@ class FBPages extends Component {
 
 const mapDispatchToProps = {
   getfbpages: FbActions.getfbpages,
+  fetchfbpageteams: FbActions.fetchfbpageteams,
 };
 
 function mapStateToProps(state) {

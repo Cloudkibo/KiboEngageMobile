@@ -1,9 +1,11 @@
 import { AppStyles } from '@theme/';
-import { Alerts, Card, Spacer, Button } from '@ui/';
+import { Alerts, Card, Text, Spacer, Button } from '@ui/';
 import * as FbActions from '@redux/facebook/FbActions';
+import * as TeamActions from '@redux/team/TeamActions';
+import { ListItem } from 'react-native-elements';
 import Loading from '@components/general/Loading';
 import React, { Component } from 'react';
-import { View, ScrollView, Alert } from 'react-native';
+import { View, ScrollView, Alert, ListView } from 'react-native';
 import { connect } from 'react-redux';
 import FormValidation from 'tcomb-form-native';
 var _ = require('lodash');
@@ -32,27 +34,33 @@ class EditFbPage extends Component {
         success: '',
         error: '',
       },
-     // loading: true,
+      newteams: [],
+      dataSourceAllTeams: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => true
+      }),
+      dataSourceFellowTeams: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => true
+      }),
       form_fields: FormValidation.struct({
         pageId: validName,
         pageTitle: validName,
-        pageDescription:validName,
-        appId:validName,
-        pageToken:validName
+        pageDescription: validName,
+        appId: validName,
+        pageToken: validName
       }),
       empty_form_values: {
         pageId: '',
         pageTitle: '',
-        pageDescription:'',
-        appId:'',
-        pageToken:'',
+        pageDescription: '',
+        appId: '',
+        pageToken: '',
       },
       form_values: {
-        pageId:this.props.fbpage.pageid,
+        pageId: this.props.fbpage.pageid,
         pageTitle: this.props.fbpage.pageTitle,
-        pageDescription:this.props.fbpage.pageDescription,
-        appId:this.props.fbpage.appid,
-        pageToken:this.props.fbpage.pageToken,
+        pageDescription: this.props.fbpage.pageDescription,
+        appId: this.props.fbpage.appid,
+        pageToken: this.props.fbpage.pageToken,
       },
       options: {
         fields: {
@@ -95,6 +103,8 @@ class EditFbPage extends Component {
         },
       },
     };
+    this.renderRow = this.renderRow.bind(this);
+    this.renderRowFellowTeams = this.renderRowFellowTeams.bind(this);
   }
 
   componentDidMount = async () => {
@@ -103,15 +113,29 @@ class EditFbPage extends Component {
     console.log("Component Did Mount in FB EDIT PAGES Status was reset");
     const token = await auth.getToken();
     console.log(`token is Launchview is ${token}`);
+    const fbpageTeams = this.props.fbteams.filter((c) => c.pageid._id == this.props.fbpage._id);
+    console.log()
+    for (let i = 0; i < fbpageTeams.length; i++) {
+      if (fbpageTeams[i].teamid) {
+        this.state.newteams.push(fbpageTeams[i].teamid);
+      }
+    }
     if (token !== '') {
       this.props.getfbpages(token);
-      this.props.fetchfbpageteams(token);
+      this.props.teamFetch(token);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.fbteams) {
-      console.log(nextProps.fbteams);
+    if (nextProps.teams) {
+      console.log(this.props.fbteams);
+      console.log(this.state.newteams);
+      const ds = this.state.dataSourceAllTeams.cloneWithRows(nextProps.teams);
+      const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
+      this.setState({
+        dataSourceAllTeams: ds,
+        dataSourceFellowTeams: ds2,
+      });
     }
   }
 
@@ -147,6 +171,50 @@ class EditFbPage extends Component {
     }
   };
 
+  appendTeam(team) {
+    let flag = 0;
+    for (let i = 0; i < this.state.newteams.length; i++) {
+      if (this.state.newteams[i]._id == team._id) {
+          flag = 1;
+          break;
+      }
+    }
+    if (flag == 0) {
+      this.state.newteams.push(team);
+      const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
+      this.setState({
+        form_values: this.state.form_values,
+        dataSourceFellowTeams: ds2,
+      });
+    }
+    else {
+      Alert.alert(
+        'Add Team',
+        'Team already added in the group',
+        [
+          { text: 'Ok', onPress: () => console.log('Ok Pressed!') },
+        ],
+      );
+    }
+  }
+
+  removeTeam(team) {
+    let index;
+
+    for (let i = 0; i < this.state.newteams.length; i++) {
+      if (this.state.newteams[i]._id == team._id) {
+        index = i;
+        break;
+      }
+    }
+    this.state.newteams.splice(index, 1);
+    const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
+    this.setState({
+      form_values: this.state.form_values,
+      dataSourceFellowTeams: ds2,
+    });
+  }
+
   addFbPage = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();
@@ -174,7 +242,7 @@ class EditFbPage extends Component {
           const pageid = credentials.pageId;
           if (pageToken && pageid)
            {
-             this.props.editPage({pageid,appid,pageToken,pageTitle,pageDescription,companyid},token);
+             this.props.editPage({ pageid, appid, pageToken, pageTitle, pageDescription, companyid }, token, this.state.newteams);
 
           }
 
@@ -182,6 +250,24 @@ class EditFbPage extends Component {
       });
     }
   }
+
+  renderRow = team => (
+    <ListItem
+      key={`list-row-${team._id}`}
+      onPress={this.appendTeam.bind(this, team)}
+      title={team.groupname}
+      leftIcon={{ name: 'add-circle' }}
+    />
+  )
+
+  renderRowFellowTeams = team => (
+    <ListItem
+      key={`list-row-${team._id}`}
+      title={team.groupname}
+      leftIcon={{ name: 'remove-circle' }}
+      onPress={this.removeTeam.bind(this, team)}
+    />
+  )
 
   render = () => {
     const Form = FormValidation.form.Form;
@@ -205,6 +291,23 @@ class EditFbPage extends Component {
             value={this.state.form_values}
             options={this.state.options}
           />
+
+          <View>
+            <Text h3> Fellow Teams </Text>
+            <ListView
+              dataSource={this.state.dataSourceFellowTeams}
+              renderRow={this.renderRowFellowTeams}
+            />
+          </View>
+
+          <View>
+            <Text h3> All Teams </Text>
+            <ListView
+              dataSource={this.state.dataSourceAllTeams}
+              renderRow={this.renderRow}
+            />
+
+          </View>
 
           {this.props.userdetails.isAgent=="No" &&
           <View>
@@ -234,7 +337,8 @@ class EditFbPage extends Component {
 function mapStateToProps(state) {
   const { fbpageerror, fbpagesuccess, fbteams } = state.fbpages;
   const { userdetails } = state.user;
-  return { fbpageerror, fbpagesuccess, userdetails, fbteams };
+  const { teams } = state.teams;
+  return { fbpageerror, fbpagesuccess, userdetails, fbteams, teams };
 }
 
 
@@ -245,6 +349,7 @@ const mapDispatchToProps = {
   getfbpages: FbActions.getfbpages,
   deletefbpage: FbActions.deletefbpage,
   fetchfbpageteams: FbActions.fetchfbpageteams,
+  teamFetch: TeamActions.teamFetch,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditFbPage);
