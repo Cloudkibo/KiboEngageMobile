@@ -1,5 +1,5 @@
 import { AppStyles } from '@theme/';
-import { Alerts, Card, Spacer, Button } from '@ui/';
+import { Alerts, Card, Spacer, Button, Text } from '@ui/';
 import * as FbActions from '@redux/facebook/FbActions';
 import Loading from '@components/general/Loading';
 import React, { Component } from 'react';
@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import FormValidation from 'tcomb-form-native';
 var _ = require('lodash');
 import auth from '../../services/auth';
+import * as TeamActions from '@redux/team/TeamActions';
+import * as AgentActions from '@redux/agents/agentActions';
 
 class AddFbPage extends Component {
   static componentName = 'AddFacebookPage';
@@ -90,7 +92,17 @@ class AddFbPage extends Component {
     };
   }
 
+   componentDidMount = async() => {
+    console.log('team component did mount called');
+     var token =  await auth.getToken();
+      console.log('token is Launchview is: ' + token);
+      if(token !== ''){
+            this.props.teamFetch(token);
+            this.props.agentTeamFetch(token);
+            this.props.agentFetch(token);
+          }
 
+  }
  
   addFbPage = async () => {
     // Get new credentials and update
@@ -151,6 +163,21 @@ class AddFbPage extends Component {
             options={this.state.options}
           />
 
+          <View>
+            <Text h3> Remaining Agents </Text>
+          </View>
+        
+
+          <View>
+            <Text h3> Fellow Agents </Text>           
+          </View>
+
+           <Spacer size={20} />
+         
+
+           <Spacer size={20} />
+
+
           <Button
             title={'Submit'}
             onPress={this.addFbPage}
@@ -168,13 +195,17 @@ class AddFbPage extends Component {
 function mapStateToProps(state) {
    const {fbpageerror,fbpagesuccess} =  state.fbpages;
    const { userdetails} = state.user;
-  return {fbpageerror,fbpagesuccess,userdetails};
+    const { teams, teamagents } = state.teams;
+  return {fbpageerror,fbpagesuccess,userdetails, teams, teamagents};
 }
 
 
 // Any actions to map to the component?
 const mapDispatchToProps = {
   createPage: FbActions.createPage,
+   teamFetch: TeamActions.teamFetch,
+  agentTeamFetch : TeamActions.agentTeamFetch,
+  agentFetch: AgentActions.agentFetch,
 
 };
 

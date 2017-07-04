@@ -206,7 +206,7 @@ class CompanySettings extends Component {
   saveSettings = async () => {
     var token =  await auth.getToken();
     //console.log(this.state.text);
-    console.log(token);
+    console.log("You gotta do the work", this.state.updatedData);
     this.props.save(token, this.state.updatedData);
   }
 
