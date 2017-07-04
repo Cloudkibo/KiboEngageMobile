@@ -171,7 +171,6 @@ class CreateSubGroup extends Component {
         onChange={this.onSideMenuChange}
         disableGestures
       >
-    
 
       </SideMenu>
 
@@ -183,7 +182,7 @@ class CreateSubGroup extends Component {
                 success={this.props.subgroupsuccess}
                 error={this.props.channelerror}
               />
-              <NavbarMenuButton onPress={this.createChannel}></NavbarMenuButton>
+              <NavbarMenuButton/>
               <Form
                 ref={(b) => { this.form = b; }}
                 type={this.state.form_fields}

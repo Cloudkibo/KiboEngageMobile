@@ -17,7 +17,6 @@ import Drawer from '@containers/ui/DrawerContainer';
 import AppLaunch from '@containers/Launch/LaunchContainer';
 import Groups from '@containers/Groups/Groups';
 
-import ChatSession from '@containers/Chat/ChatSession';
 import Chat from '@containers/Chat/Chat';
 import ChatSettings from '@containers/Chat/ChatSettings';
 
@@ -108,13 +107,14 @@ export default Actions.create(
         component={Dashboard}
         analyticsDesc={'Placeholder: Coming Soon'}
       />
+    
       <Scene
         key={'ChatSettings'}
         title={'Chat Settings'}
         component={ChatSettings}
         analyticsDesc={'Placeholder: Chat Settings'}
       />
-
+      
       <Scene
         key={'FbSettings'}
         title={'Facebook Settings'}
@@ -132,17 +132,11 @@ export default Actions.create(
         analyticsDesc={'Placeholder: Coming Soon'}
       />
 
+
       <Scene
         key={'companySettings'}
         title={'Company Settings'}
         component={CompanySettings}
-        analyticsDesc={'Placeholder: Coming Soon'}
-      />
-
-      <Scene
-        key={'ChatSession'}
-        title={'ChatSession'}
-        component={ChatSession}
         analyticsDesc={'Placeholder: Coming Soon'}
       />
 

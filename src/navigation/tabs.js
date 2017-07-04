@@ -21,6 +21,8 @@ import StyleGuide from '@containers/StyleGuideView';
 import Recipes from '@containers/recipes/Browse/BrowseContainer';
 import RecipeView from '@containers/recipes/RecipeView';
 import Dashboard from '@containers/dashboard';
+import ChatSession from '@containers/Chat/ChatSession';
+
 //import DashboardiOS from '@containers/dashboardiOS';
 //const Dashboard = require('@containers/dashboard');
 var ReactNative = require('react-native');
@@ -50,6 +52,13 @@ const scenes = (
         analyticsDesc={'Dashboard'}
       />
     
+      <Scene
+         {...navbarPropsTabs}
+        key={'ChatSession'}
+        title={'ChatSession'}
+        component={ChatSession}
+        analyticsDesc={'Placeholder: Coming Soon'}
+      />
     
    
   </Scene>
