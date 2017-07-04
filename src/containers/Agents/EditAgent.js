@@ -54,6 +54,9 @@ class EditAgent extends Component {
     };
   }
 
+   componentWillReceiveProps(nextProps) {
+     this.forceUpdate();
+   }
   editAgent = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();

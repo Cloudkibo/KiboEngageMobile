@@ -13,7 +13,7 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
    
    case ActionTypes.ADD_AGENTS:
-      return {...state,agents:action.payload,status:'',statuscode: ''};
+      return {...state,agents:action.payload};
   
    case ActionTypes.INVITE_AGENTS:
       return {...state,invite:action.payload,status:'',statuscode: ''};
