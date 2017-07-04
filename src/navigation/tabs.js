@@ -16,6 +16,7 @@ import { TabIcon } from '@ui/';
 import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButtonContainer';
 
 // Scenes
+
 import Placeholder from '@components/general/Placeholder';
 import StyleGuide from '@containers/StyleGuideView';
 import Recipes from '@containers/recipes/Browse/BrowseContainer';
@@ -38,6 +39,9 @@ import FbChat from '@containers/Facebook/FbChat';
 import Reports from '@containers/Reports/Reports';
 import MyProfile from '@containers/MyProfile/MyProfile';
 import CompanySettings from '@containers/CompanySettings/CompanySettings';
+
+import FbCustomers from '@containers/Facebook/FbCustomers';
+
 //import DashboardiOS from '@containers/dashboardiOS';
 //const Dashboard = require('@containers/dashboard');
 var ReactNative = require('react-native');
@@ -67,6 +71,15 @@ const scenes = (
         title={'Dashboard'}
         component={Dashboard}
         analyticsDesc={'Dashboard'}
+      />
+
+       
+         <Scene
+         {...navbarPropsTabs}
+        key={'dashboard'}
+        title={'Dashboard'}
+        component={Dashboard}
+        analyticsDesc={'Placeholder: Coming Soon'}
       />
     
       <Scene
@@ -177,8 +190,7 @@ const scenes = (
       />
 
        <Scene
-
-       
+       {...navbarPropsTabs}
         key={'fbChats'}
         title={'Chat'}
         component={FbChat}
@@ -188,6 +200,21 @@ const scenes = (
         analyticsDesc={'FbChat: FbChat'}
       />
    
+      <Scene
+       {...navbarPropsTabs}
+        key={'customers'}
+        title={'Customers'}
+        component={Customers}
+        analyticsDesc={'Customers: Customers'}
+      />
+
+      <Scene
+       {...navbarPropsTabs}
+        key={'FbCustomers'}
+        title={'Facebook Customers'}
+        component={FbCustomers}
+        analyticsDesc={'FbCustomers: FbCustomers'}
+      />
   </Scene>
 );
 

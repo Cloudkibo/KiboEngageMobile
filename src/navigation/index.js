@@ -53,7 +53,6 @@ import TabsScenes from './tabs';
 
 import AddFbPage from '@containers/Facebook/AddFbPage';
 import EditFbPage from '@containers/Facebook/EditFbPage';
-import FbCustomers from '@containers/Facebook/FbCustomers';
 import FbSettings from '@containers/Facebook/FbSettings';
 
 ////rightButtonTextStyle={{ tintColor: 'white' }}
@@ -92,19 +91,8 @@ export default Actions.create(
         component={Placeholder}
         analyticsDesc={'Placeholder: Coming Soon'}
       />
-      <Scene
-        key={'dashboard'}
-        title={'Dashboard'}
-        component={Dashboard}
-        analyticsDesc={'Placeholder: Coming Soon'}
-      />
     
-      <Scene
-        key={'ChatSettings'}
-        title={'Chat Settings'}
-        component={ChatSettings}
-        analyticsDesc={'Placeholder: Chat Settings'}
-      />
+    
       
       <Scene
         key={'FbSettings'}
@@ -123,7 +111,12 @@ export default Actions.create(
         analyticsDesc={'Placeholder: Coming Soon'}
       />
 
-
+ <Scene
+        key={'ChatSettings'}
+        title={'Chat Settings'}
+        component={ChatSettings}
+        analyticsDesc={'Placeholder: Chat Settings'}
+      />
       
 
       <Scene
@@ -276,12 +269,7 @@ export default Actions.create(
         analyticsDesc={'EditFbPage: EditFbPage'}
       />
 
-       <Scene
-        key={'FbCustomers'}
-        title={'Facebook Customers'}
-        component={FbCustomers}
-        analyticsDesc={'FbCustomers: FbCustomers'}
-      />
+       
 
       
 
