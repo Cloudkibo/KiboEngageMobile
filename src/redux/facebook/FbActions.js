@@ -115,6 +115,30 @@ const fbpageEditSuccess = (res) => {
 
 };
 
+const showfbpageteams = (teams) => {
+  return {
+    type: ActionTypes.ADD_FBPAGETEAMS,
+    payload: teams,
+  };
+};
+
+export const fetchfbpageteams = (token) => {
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'content-type' : 'application/json',
+    },
+  };
+
+  return (dispatch) => {
+    axios.get(`${baseURL}/api/fbpageteams/`, config).then(res => dispatch(showfbpageteams(res.data)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+      });
+  };
+};
 
 //get fbcustomers list
 

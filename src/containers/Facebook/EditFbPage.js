@@ -105,6 +105,13 @@ class EditFbPage extends Component {
     console.log(`token is Launchview is ${token}`);
     if (token !== '') {
       this.props.getfbpages(token);
+      this.props.fetchfbpageteams(token);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.fbteams) {
+      console.log(nextProps.fbteams);
     }
   }
 
@@ -225,9 +232,9 @@ class EditFbPage extends Component {
 }
 
 function mapStateToProps(state) {
-   const {fbpageerror,fbpagesuccess} =  state.fbpages;
-   const { userdetails} = state.user;
-  return {fbpageerror,fbpagesuccess,userdetails};
+  const { fbpageerror, fbpagesuccess, fbteams } = state.fbpages;
+  const { userdetails } = state.user;
+  return { fbpageerror, fbpagesuccess, userdetails, fbteams };
 }
 
 
@@ -237,6 +244,7 @@ const mapDispatchToProps = {
   resetFbStatus: FbActions.resetFbStatus,
   getfbpages: FbActions.getfbpages,
   deletefbpage: FbActions.deletefbpage,
+  fetchfbpageteams: FbActions.fetchfbpageteams,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditFbPage);
