@@ -657,23 +657,39 @@ export function fetchGif(){
 export function fetchSticker(){
 
   return (dispatch) => {
-    axios.get(`http://api.giphy.com/v1/stickers/search?q=pusheen-the-cat&api_key=dc6zaTOxFJmzC`)
-    .then(
-      res => {
-        // console.log(res);
+    // axios.get(`http://api.giphy.com/v1/stickers/search?q=pusheen-the-cat&api_key=dc6zaTOxFJmzC`)
+    // .then(
+    //   res => {
+    //     // console.log(res);
+    //     console.log("New Log");
+    //     var gifs = ['https://s-media-cache-ak0.pinimg.com/originals/43/fb/5e/43fb5e66257b295df39dc803bcd7236b.jpg'];
+    //     // for(i = 0; i < res.data.data.length; i++){
+    //     //     gifs.push(res.data.data[i].images.fixed_height.url);
+    //     // }
+    //     console.log(gifs);
+    //     dispatch(updateSticker(gifs));
+    //   }
+    //   ).catch(function (error) {
+    //     console.log('Error occured');
+    //     console.log(error);
+
+    //   });
+
         console.log("New Log");
-        var gifs = [];
-        for(i = 0; i < res.data.data.length; i++){
-            gifs.push(res.data.data[i].images.fixed_height.url);
-        }
+        var gifs = ['https://s-media-cache-ak0.pinimg.com/originals/43/fb/5e/43fb5e66257b295df39dc803bcd7236b.jpg',
+        'https://s-media-cache-ak0.pinimg.com/originals/ea/06/94/ea0694cbcbc97a7093e862c51179938f.png',
+        'https://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2016/03/tumblr_inline_o4t4uatJoR1qbp58u_250.png',
+        'https://s-media-cache-ak0.pinimg.com/736x/b4/91/da/b491da3802228bac01e95d652c8da56c--followers-emoticon.jpg',
+        'https://s-media-cache-ak0.pinimg.com/originals/2d/03/4d/2d034d5551608094d83ba060883473f2.jpg',
+        'https://s-media-cache-ak0.pinimg.com/originals/9c/97/b8/9c97b8603e218c81e23a1b41589baa83.png',
+        'https://s-media-cache-ak0.pinimg.com/236x/bc/62/ac/bc62ac65ecb74c0bd6569d09743ceab9--emoji-emoticons-french-bulldogs.jpg',
+        'http://123emoji.com/wp-content/uploads/2016/04/22.png',
+        'http://123emoji.com/wp-content/uploads/2016/04/8.png'];
+        // for(i = 0; i < res.data.data.length; i++){
+        //     gifs.push(res.data.data[i].images.fixed_height.url);
+        // }
         console.log(gifs);
         dispatch(updateSticker(gifs));
-      }
-      ).catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
-
-      });
   };
 };
 
