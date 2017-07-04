@@ -242,10 +242,7 @@ class EditGroup extends Component {
       this.state.newteams.push(team);
       const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
       this.setState({
-        form_values: {
-          groupName: this.form.getValue().groupName,
-          groupDescription: this.form.getValue().groupDescription,
-        },
+        form_values: this.state.form_values,
         dataSourceFellowTeams: ds2,
       });
     }
@@ -274,10 +271,7 @@ class EditGroup extends Component {
     this.state.newteams.splice(index, 1);
     const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
     this.setState({
-      form_values: {
-        groupName: this.form.getValue().groupName,
-        groupDescription: this.form.getValue().groupDescription,
-      },
+      form_values: this.state.form_values,
       dataSourceFellowTeams: ds2,
     });
   }
