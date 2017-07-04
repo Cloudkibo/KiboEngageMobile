@@ -715,12 +715,14 @@ class FbChat extends Component {
     this.state.chatProp = propy;
       if(this.props.emojiVisible){
         return (
+          <View>
     <ScrollView style={styles.footerContainer}>
         <EmojiPicker
           onEmojiSelected={(emoji) => {this.logEmoji(emoji, propy)}}
           visible={this.props.emojiVisible}
           />
         </ScrollView>
+        </View>
       );
       }
       if(this.props.gifVisible){
