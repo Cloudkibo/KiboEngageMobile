@@ -17,6 +17,7 @@ const INITIAL_STATE = {
  fbSessions: [],
  currentSession: {},
  agent_assign_status: '',
+ fbteams: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -81,6 +82,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, fbpageerror: '', fbpagesuccess: 'Page deleted successfully!', fbpages: state.fbpages };
     case ActionTypes.DELETE_FBPAGE_FAIL:
       return { ...state, fbpageerror: 'There is an error occurred. Please try later', fbpagesuccess: '' };
+    case ActionTypes.ADD_FBPAGETEAMS:
+      return { ...state, fbteams: action.payload };
 
     default:
       return state;
