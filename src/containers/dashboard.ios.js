@@ -25,6 +25,7 @@ import { connect } from 'react-redux';
 import * as UserActions from '@redux/user/actions';
 import * as FbActions from '@redux/facebook/FbActions';
 import * as chatActions from '@redux/chat/chatActions';
+import * as menuActions from '@redux/sidemenu/actions';
 import Loading from '@components/general/Loading';
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
@@ -129,7 +130,8 @@ class Dashboard extends Component {
  
 
   componentDidMount = async() => {
-  
+  console.log('login component did mount');
+    this.props.closemenu();
     NotificationHub.addEventListener('register', this._onRegistered);
     NotificationHub.addEventListener('registrationError', this._onRegistrationError);
     NotificationHub.addEventListener('registerAzureNotificationHub', this._onAzureNotificationHubRegistered);
@@ -383,6 +385,7 @@ const mapDispatchToProps = {
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
   updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
+  closemenu: menuActions.close,
  };
 
 function mapStateToProps(state) {
