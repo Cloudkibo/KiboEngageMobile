@@ -12,6 +12,10 @@ import auth from '../../services/auth';
 import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButtonContainer';
 import * as SideMenuActions from '@redux/sidemenu/actions';
 import SideMenu from 'react-native-side-menu';
+
+import { DefaultRenderer } from 'react-native-router-flux';
+
+import Menu from '@containers/ui/Menu/MenuContainer';
 const _ = require('lodash');
 
 class CreateSubGroup extends Component {
@@ -167,9 +171,8 @@ class CreateSubGroup extends Component {
         onChange={this.onSideMenuChange}
         disableGestures
       >
-        <View style={{ backgroundColor: '#000', flex: 1 }}>
-          <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate} />
-        </View>
+    
+
       </SideMenu>
 
             <Spacer size={55} />
