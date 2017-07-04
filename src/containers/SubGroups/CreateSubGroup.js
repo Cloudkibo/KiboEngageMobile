@@ -9,7 +9,9 @@ import { Keyboard, View, ScrollView, TouchableWithoutFeedback } from 'react-nati
 import ModalDropdown from 'react-native-modal-dropdown';
 import FormValidation from 'tcomb-form-native';
 import auth from '../../services/auth';
-
+import { NavbarMenuButton } from '@containers/ui/NavbarMenuButton/NavbarMenuButtonContainer';
+import * as SideMenuActions from '@redux/sidemenu/actions';
+import SideMenu from 'react-native-side-menu';
 const _ = require('lodash');
 
 class CreateSubGroup extends Component {
@@ -149,8 +151,27 @@ class CreateSubGroup extends Component {
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
+
         <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); }}>
           <View>
+           <SideMenu
+        ref={(a) => { this.rootSidebarMenu = a; }}
+       // openMenuOffset={AppSizes.screen.width * 0.75}
+        menu={
+          <Menu
+            closeSideMenu={this.props.closeSideMenu}
+            ref={(b) => { this.rootSidebarMenuMenu = b; }}
+          />
+        }
+        isOpen={this.props.sideMenuIsOpen}
+        onChange={this.onSideMenuChange}
+        disableGestures
+      >
+        <View style={{ backgroundColor: '#000', flex: 1 }}>
+          <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate} />
+        </View>
+      </SideMenu>
+
             <Spacer size={55} />
             <ScrollView>
             <Card>
@@ -159,7 +180,7 @@ class CreateSubGroup extends Component {
                 success={this.props.subgroupsuccess}
                 error={this.props.channelerror}
               />
-
+              <NavbarMenuButton onPress={this.createChannel}></NavbarMenuButton>
               <Form
                 ref={(b) => { this.form = b; }}
                 type={this.state.form_fields}
@@ -205,6 +226,8 @@ const mapDispatchToProps = {
   groupFetch: GroupActions.groupFetch,
   getuser: UserActions.getuser,
   createChannel: SubgroupActions.createChannel,
+   toggleSideMenu: SideMenuActions.toggle,
+  closeSideMenu: SideMenuActions.close,
 };
 
 function mapStateToProps(state) {

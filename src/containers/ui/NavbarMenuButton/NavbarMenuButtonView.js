@@ -16,7 +16,7 @@ const NavbarMenuButton = ({ toggleSideMenu }) => (
     style={{ top: 2 }}
     hitSlop={{ top: 7, right: 7, bottom: 7, left: 7 }}
   >
-    <Icon name={'menu'} size={32} color={'#FFF'} />
+    <Icon name={'menu'} size={32} color={'red'} />
   </TouchableOpacity>
 );
 
