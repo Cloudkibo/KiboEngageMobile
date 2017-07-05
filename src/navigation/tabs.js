@@ -5,9 +5,10 @@
  * https://github.com/mcnamee/react-native-starter-app
  */
 import React from 'react';
-import { Scene } from 'react-native-router-flux';
+import { Scene,Actions } from 'react-native-router-flux';
 
 // Consts and Libs
+import { StyleSheet } from 'react-native'
 import { AppConfig } from '@constants/';
 import { AppStyles, AppSizes } from '@theme/';
 
@@ -41,6 +42,8 @@ import MyProfile from '@containers/MyProfile/MyProfile';
 import CompanySettings from '@containers/CompanySettings/CompanySettings';
 
 import FbCustomers from '@containers/Facebook/FbCustomers';
+import AddNotification from '@containers/Notifications/AddNotification';
+
 
 //import DashboardiOS from '@containers/dashboardiOS';
 //const Dashboard = require('@containers/dashboard');
@@ -60,6 +63,14 @@ const navbarPropsTabs = {
     paddingTop: 0,
   },
 };
+
+const backButton = () => (<Icon name="arrow-back" size={10} color={COLORS.red} onPress={()=> Actions.pop()} />);
+
+const styles = StyleSheet.create({
+    rightbarbuttonstyle: {
+        color: 'white' 
+    },
+    });
 
 /* Routes ==================================================================== */
 const scenes = (
@@ -214,6 +225,13 @@ const scenes = (
         title={'Facebook Customers'}
         component={FbCustomers}
         analyticsDesc={'FbCustomers: FbCustomers'}
+      />
+
+       <Scene
+        key={'addNotification'}
+        title={'Add Notification'}
+        component={AddNotification}
+        analyticsDesc={'AddNotification: Add Notification'}
       />
   </Scene>
 );
