@@ -85,7 +85,7 @@ console.log('chats fetch called');
         console.log(error);
         if(error = 'Network Error')
         {
-          //Alert.alert('You are not connected with Internet');
+          Alert.alert('You are not connected with Internet');
           dispatch(readChats());
         }
        }); 
@@ -617,6 +617,7 @@ export  function writeChats(chats){
   record.push(JSON.stringify(chats[i].agentid));
   record.push(JSON.stringify(chats[i].agentemail));
   rows.push(record);
+  console.log(record)
   // addItem(db,record);
 
   
@@ -647,7 +648,7 @@ return (dispatch) => {
   }, function() {
           console.log('Populated database OK');
        //   console.log('res is:')
-        //  console.log(res);
+          console.log(res);
           dispatch(callbackchats(res));
   }
   );
