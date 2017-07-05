@@ -139,6 +139,83 @@ export const updateprofile = (user, token) => {
   };
 };
 
+
+export  function writeGroups(groups){
+  var db = SqliteCalls.getConnection();
+   var res = [];
+  var CREATE_Groups_TABLE = "CREATE TABLE USER_DETAILS ("
+                + "_id TEXT PRIMARY KEY,"
+                + "abandonedemail1 TEXT,"
+                + "abandonedemail2 TEXT,"
+                + "abandonedemail3 TEXT,"
+                + "accountVerified TEXT,"
+                + "allowchime TEXT,"
+                + "allownotification TEXT,"
+                + "canExcludeAgent TEXT,"
+                + "city TEXT,"
+                + "companyName TEXT,"
+                + "completedemail1 TEXT,"
+                + "completedemail2 TEXT,"
+                + "completedemail3 TEXT,"
+                + "country TEXT,"
+                + "date TEXT,"
+                + "email TEXT,"
+                + "firstname TEXT,"
+                + "canIncludeAgent TEXT,"
+                + "canIncludeAgent TEXT,"
+                + ")";
+
+ var rows = []
+ for(var i=0;i<groups.length;i++){
+  var record = []
+  record.push(groups[i]._id)
+  record.push(groups[i].deptname);
+  record.push(groups[i].deptdescription);
+  record.push(groups[i].companyid);
+  record.push(groups[i].createdby._id);
+  record.push(groups[i].creationdate);
+  record.push(groups[i].deleteStatus);
+  record.push(groups[i].isFbGroup);
+  record.push(groups[i].fbPageID?groups[i].fbPageID:"");
+  rows.push(record);
+ // addItem(db,record);
+
+
+ }
+ console.log(rows);
+
+
+return (dispatch) => {
+
+    db.transaction(function(tx) {
+    tx.executeSql('DROP TABLE IF EXISTS GROUPS');
+    tx.executeSql(CREATE_Groups_TABLE);
+
+    for(var j=0;j<rows.length;j++){
+       tx.executeSql('INSERT INTO GROUPS VALUES (?,?,?,?,?,?,?,?,?)',rows[j]);
+
+    }
+    tx.executeSql('SELECT * FROM GROUPS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+          res = results;
+
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackgroups(res));
+  }
+  );
+
+  }
+
+}
+
+
+
 const updateProfileFailure = () => {
   return { type: ActionTypes.UPDATE_PROFILE_FAIL };
 };
