@@ -358,7 +358,9 @@ class Chat extends Component {
     var i = 0;
     this.state.canned = [];
     for(i = 0; i < this.props.cannedresponses.length; i++){
-      this.state.canned.push(<TouchableOpacity identifier={i} key={i}  onPress = {() => {this.setState({isCanned: false})}} style={{padding: 10, backgroundColor: 'grey', margin: 5}}>
+      var temp = i;
+      this.state.canned.push(<TouchableOpacity identifier={i} key={i}  onPress = { () => {this.selectCanned(temp)}}
+      style={{padding: 10, backgroundColor: 'grey', margin: 5}}>
       <Text>
       {this.props.cannedresponses[i].message}
       </Text>
@@ -367,9 +369,23 @@ class Chat extends Component {
     return this.state.canned;
   }
 
+  selectCanned = (str) => {
+    
+    var words = this.state.text.split(" ");
+    words[words.length - 1] = str;
+    words = words.join(" ");
+    console.log("Rece and final", str, words);
+    this.setState({isCanned: false, text: words});
+  } 
+
   triggerCanned = () => {
-      console.log("Canned was triggered", this.state.text.substr(-2));
-      if(this.state.text.substr(-2) == " /"){
+      var words = this.state.text.split(" ");
+      if(words.length <= 0){
+        this.setState({isCanned: false});
+        return;
+      }
+      console.log("Canned was triggered", words[words.length - 1].charAt(0));
+      if(words[words.length - 1].charAt(0) == "/"){
         this.setState({isCanned: true});
       }else{
         this.setState({isCanned: false});
