@@ -99,7 +99,6 @@ class AddFbPage extends Component {
       if(token !== ''){
             this.props.teamFetch(token);
             this.props.agentTeamFetch(token);
-            this.props.agentFetch(token);
           }
 
   }
@@ -205,7 +204,6 @@ const mapDispatchToProps = {
   createPage: FbActions.createPage,
    teamFetch: TeamActions.teamFetch,
   agentTeamFetch : TeamActions.agentTeamFetch,
-  agentFetch: AgentActions.agentFetch,
 
 };
 

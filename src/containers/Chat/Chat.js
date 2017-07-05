@@ -7,6 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import { List, ListItem, SocialIcon, Card, Button, Icon } from 'react-native-elements';
@@ -21,6 +22,7 @@ import * as GroupActions from '@redux/group/groupActions';
 import * as AgentActions from '@redux/agents/agentActions';
 const DocumentPicker = require('react-native').NativeModules.RNDocumentPicker;
 var ReactNative = require('react-native');
+import * as CannedActions from '@redux/cannedresponse/CannedActions';
 
 // Consts and Libs
 import { AppColors, AppStyles } from '@theme/';
@@ -37,13 +39,18 @@ return c;
 class Chat extends Component {
   constructor(props) {
     super(props);
-    this.state = {messages: []};
+    this.state = {messages: [], text: '', isCanned: false, canned:[]};
     this.onSend = this.onSend.bind(this);
     this.renderChat = this.renderChat.bind(this);
     this.renderActions = this.renderActions.bind(this);
     this.selectFileTapped = this.selectFileTapped.bind(this);
     this.renderBubble = this.renderBubble.bind(this);
     // this.renderChat(this.props.currentChats);
+    this.renderComposer = this.renderComposer.bind(this);
+    this.renderSend = this.renderSend.bind(this);
+    this.triggerCanned = this.triggerCanned.bind(this);
+    this.renderFooter = this.renderFooter.bind(this);
+    this.renderCanned = this.renderCanned.bind(this);
   }
 
    componentWillReceiveProps(nextProps) {
@@ -51,15 +58,26 @@ class Chat extends Component {
     if(nextProps.currentChats){
       console.log("Next Props Current Chat:", nextProps.currentChats);
       this.renderChat(nextProps.currentChats);
+      this.forceUpdate();
+    }
+    if(nextProps.cannedresponses){
+      this.setState({canned: nextProps.cannedresponses});
+      this.renderCanned();
     }
   }
 
-    componentDidMount(){
-    console.log('component did. mount called');
-    if(this.props.currentChats){
-      this.renderChat(this.props.currentChats);
-      this.forceUpdate(); 
-    }
+    componentDidMount= async() => {
+    // console.log('component did. mount called');
+    // if(this.props.currentChats){
+    //   this.renderChat(this.props.currentChats);
+      //  this.forceUpdate();
+    // }
+        console.log("cannedresponse componentDidMount")
+     var token =  await auth.getToken();
+      console.log('token is Launchview is: ' + token);
+      if(token != ''){
+            this.props.cannedFetch(token);     
+          }
   }
 
 
@@ -176,7 +194,7 @@ class Chat extends Component {
       };
     });
 }
-    
+     this.setState({text:'', isCanned: false});
   }
 
 
@@ -336,6 +354,76 @@ class Chat extends Component {
     );
   }
 
+  renderCanned = () => {
+    var i = 0;
+    this.state.canned = [];
+    for(i = 0; i < this.props.cannedresponses.length; i++){
+      this.state.canned.push(<TouchableOpacity identifier={i} key={i}  onPress = {() => {this.setState({isCanned: false})}} style={{padding: 10, backgroundColor: 'grey', margin: 5}}>
+      <Text>
+      {this.props.cannedresponses[i].message}
+      </Text>
+      </TouchableOpacity>);
+    }
+    return this.state.canned;
+  }
+
+  triggerCanned = () => {
+      console.log("Canned was triggered", this.state.text.substr(-2));
+      if(this.state.text.substr(-2) == " /"){
+        this.setState({isCanned: true});
+      }else{
+        this.setState({isCanned: false});
+      }
+  };
+
+    renderFooter(propy) {
+      if(this.state.isCanned){
+        return (
+          <View>
+    <ScrollView horizontal={true} style={styles.footerContainer}>
+        {this.renderCanned()}
+        </ScrollView>
+        </View>
+      );
+      }
+    
+      return null;
+  }
+
+  renderComposer(props){
+     console.log('renderComposer props',props);
+
+
+    return(
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <TextInput placeholderTextColor="rgba(67,88,101,0.4)"
+        placeholder="Type a message.."
+         value={this.state.text} multiline={true}
+         style={{maxHeight:100,height:Math.max(40,props.composerHeight),color: 'rgb(67,88,101)' ,fontSize: 15, flex: 4, padding:5}}
+          onChangeText={(e) => {
+            this.setState({text:e});
+            console.log("Printing e in onchange", e);
+            this.triggerCanned();
+        }}
+        />
+        </View>
+    )
+  }
+
+   renderSend(props) {
+    var button = 'paper-plane';
+    return (
+    <Icon
+  reverse
+  name={button}
+  type='font-awesome'
+  color='#517fa4'
+  size={15}
+  onPress={() => props.onSend({text:this.state.text.trim()}, true)}
+/>
+);
+}
+
   render() {
     return (
       <GChat.GiftedChat
@@ -343,6 +431,9 @@ class Chat extends Component {
         onSend={this.onSend}
         renderActions={this.renderActions}
         renderBubble={this.renderBubble}
+        renderComposer={this.renderComposer}
+        renderSend={this.renderSend}
+        renderFooter={this.renderFooter}
         user={{
           _id: 1,
         }}
@@ -360,6 +451,7 @@ const mapDispatchToProps = {
   agentGroupFetch : GroupActions.agentGroupFetch,
   sendChat: chatActions.sendChat,
   uploadChatDocfile: chatActions.uploadChatDocfile,
+  cannedFetch: CannedActions.cannedFetch,
   
 };
 function mapStateToProps(state) {
@@ -367,8 +459,9 @@ function mapStateToProps(state) {
    const { agents } = state.agents;
    const { teams, teamagents } = state.teams;
    const { subgroups} = state.subgroups;
+   const {cannedresponses} = state.cannedresponses
    const { singleChat,invite_agent_status, upload, currentChats } = state.chat;
-   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, upload, currentChats };
+   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, upload, currentChats, cannedresponses };
  
 
 
