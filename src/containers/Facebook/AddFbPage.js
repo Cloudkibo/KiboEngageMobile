@@ -3,14 +3,14 @@ import { Alerts, Card, Spacer, Button, Text } from '@ui/';
 import * as FbActions from '@redux/facebook/FbActions';
 import Loading from '@components/general/Loading';
 import React, { Component } from 'react';
-import { View,ScrollView } from 'react-native';
+import { View,ScrollView, ListView } from 'react-native';
 import { connect } from 'react-redux';
 import FormValidation from 'tcomb-form-native';
 var _ = require('lodash');
 import auth from '../../services/auth';
 import * as TeamActions from '@redux/team/TeamActions';
 import * as AgentActions from '@redux/agents/agentActions';
-
+import { ListItem } from 'react-native-elements';
 class AddFbPage extends Component {
   static componentName = 'AddFacebookPage';
 
@@ -34,6 +34,13 @@ class AddFbPage extends Component {
         success: '',
         error: '',
       },
+      newteams: [],
+      dataSourceAllTeams: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => true
+      }),
+      dataSourceFellowTeams: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => true
+      }),
      // loading: true,
       form_fields: FormValidation.struct({
         pageId: validName,
@@ -90,19 +97,106 @@ class AddFbPage extends Component {
         },
       },
     };
+
+     this.renderRow = this.renderRow.bind(this);
+    this.renderRowFellowTeams = this.renderRowFellowTeams.bind(this);
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.teams) {
+      console.log("Fb teams", this.props.fbteams);
+      console.log("New Teams", this.state.newteams);
+      const ds = this.state.dataSourceAllTeams.cloneWithRows(nextProps.teams);
+      const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
+      this.setState({
+        dataSourceAllTeams: ds,
+        dataSourceFellowTeams: ds2,
+      });
+    }
   }
 
    componentDidMount = async() => {
     console.log('team component did mount called');
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
+       const fbpageTeams = this.props.fbteams.filter((c) => c.pageid._id == this.props.fbpage._id);
+    console.log()
+    for (let i = 0; i < fbpageTeams.length; i++) {
+      if (fbpageTeams[i].teamid) {
+        this.state.newteams.push(fbpageTeams[i].teamid);
+      }
+    }
       if(token !== ''){
+          this.props.getfbpages(token);
             this.props.teamFetch(token);
-            this.props.agentTeamFetch(token);
           }
 
   }
  
+    renderRow = team => (
+    <ListItem
+      key={`list-row-${team._id}`}
+      onPress={this.appendTeam.bind(this, team)}
+      title={team.groupname}
+      leftIcon={{ name: 'add-circle' }}
+    />
+  )
+
+  renderRowFellowTeams = team => (
+    <ListItem
+      key={`list-row-${team._id}`}
+      title={team.groupname}
+      leftIcon={{ name: 'remove-circle' }}
+      onPress={this.removeTeam.bind(this, team)}
+    />
+  )
+
+
+   appendTeam(team) {
+    let flag = 0;
+    for (let i = 0; i < this.state.newteams.length; i++) {
+      if (this.state.newteams[i]._id == team._id) {
+          flag = 1;
+          break;
+      }
+    }
+    if (flag == 0) {
+      this.state.newteams.push(team);
+      const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
+      this.setState({
+        form_values: this.state.form_values,
+        dataSourceFellowTeams: ds2,
+      });
+    }
+    else {
+      Alert.alert(
+        'Add Team',
+        'Team already added in the group',
+        [
+          { text: 'Ok', onPress: () => console.log('Ok Pressed!') },
+        ],
+      );
+    }
+  }
+
+  removeTeam(team) {
+    let index;
+
+    for (let i = 0; i < this.state.newteams.length; i++) {
+      if (this.state.newteams[i]._id == team._id) {
+        index = i;
+        break;
+      }
+    }
+    this.state.newteams.splice(index, 1);
+    const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
+    this.setState({
+      form_values: this.state.form_values,
+      dataSourceFellowTeams: ds2,
+    });
+  }
+
   addFbPage = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();
@@ -163,12 +257,20 @@ class AddFbPage extends Component {
           />
 
           <View>
-            <Text h3> Remaining Agents </Text>
+            <Text h3> Fellow Teams </Text>
+            <ListView
+              dataSource={this.state.dataSourceFellowTeams}
+              renderRow={this.renderRowFellowTeams}
+            />
           </View>
-        
 
           <View>
-            <Text h3> Fellow Agents </Text>           
+            <Text h3> All Teams </Text>
+            <ListView
+              dataSource={this.state.dataSourceAllTeams}
+              renderRow={this.renderRow}
+            />
+
           </View>
 
            <Spacer size={20} />
@@ -192,10 +294,10 @@ class AddFbPage extends Component {
 }
 
 function mapStateToProps(state) {
-   const {fbpageerror,fbpagesuccess} =  state.fbpages;
+   const {fbpageerror,fbpagesuccess, fbteams} =  state.fbpages;
    const { userdetails} = state.user;
-    const { teams, teamagents } = state.teams;
-  return {fbpageerror,fbpagesuccess,userdetails, teams, teamagents};
+    const { teams } = state.teams;
+  return {fbpageerror,fbpagesuccess,userdetails, teams, fbteams};
 }
 
 
@@ -204,6 +306,7 @@ const mapDispatchToProps = {
   createPage: FbActions.createPage,
    teamFetch: TeamActions.teamFetch,
   agentTeamFetch : TeamActions.agentTeamFetch,
+  getfbpages: FbActions.getfbpages,
 
 };
 
