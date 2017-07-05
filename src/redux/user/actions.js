@@ -92,7 +92,7 @@ export const getuser = (token) => {
         console.log(error);
         if(error === 'Network Error')
         {
-          dispatch(readusers());
+       dispatch(readusers());
           Alert.alert('You are not connected with Internet');
 
         }
@@ -202,23 +202,25 @@ export  function writeUserDetails(users){
   record.push(users.allowchime);
   record.push(users.allownotification);
   record.push(users.canExcludeAgent);
-  record.push(users.city?users[i].city:"");
-  record.push(users.companyName?users[i].companyName:"");
-  record.push(users.completedemail1?users[i].completedemail1:"");
-  record.push(users.completedemail2?users[i].completedemail2:"");
-  record.push(users.completedemail3?users[i].completedemail3:"");
+  record.push(users.city?users.city:"");
+  record.push(users.companyName?users.companyName:"");
+  record.push(users.completedemail1?users.completedemail1:"");
+  record.push(users.completedemail2?users.completedemail2:"");
+  record.push(users.completedemail3?users.completedemail3:"");
+  //country
+  record.push(users.country);
   record.push(users.date);
-  record.push(users.email?users[i].email:"");
-  record.push(users.firstname?users[i].firstname:"");
-  record.push(users.invitedemail1?users[i].invitedemail1:"");
-  record.push(users.invitedemail2?users[i].invitedemail2:"");
-  record.push(users.invitedemail3?users[i].invitedemail3:"");
+  record.push(users.email?users.email:"");
+  record.push(users.firstname?users.firstname:"");
+  record.push(users.invitedemail1?users.invitedemail1:"");
+  record.push(users.invitedemail2?users.invitedemail2:"");
+  record.push(users.invitedemail3?users.invitedemail3:"");
   record.push(users.isAdmin);
   record.push(users.isAgent);
   record.push(users.isOwner);
   record.push(users.isDeleted);
   record.push(users.isSupervisor);
-  record.push(users.lastname);
+  record.push(users.lastname?users.lastname:"");
   record.push(users.phone);
   record.push(users.role);
   record.push(users.state);
@@ -253,7 +255,7 @@ return (dispatch) => {
              console.log('Transaction ERROR: ' + error.message);
   }, function() {
           console.log('Populated database OK');
-           dispatch(callbackusers(res));
+           dispatch(callbackusers(users));
   }
   );
 
@@ -264,19 +266,19 @@ return (dispatch) => {
 
 export function callbackusers(results) {
  var userdetails = []
-  var len = results.rows.length;
+  var len = results.length;
   for (let i = 0; i < len; i++) {
-    let row = results.rows.item(i);
+    let row = results.item(i);
     console.log('row');
     console.log(row);
     userdetails.push(row);
   }
   console.log('userdetails');
-  console.log(userdetails);
+  console.log(results);
 
   return {
     type: ActionTypes.ADD_USER_DETAILS,
-    payload : results.data,
+    payload : results,
 
   };
 }

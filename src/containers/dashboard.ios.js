@@ -165,13 +165,15 @@ class Dashboard extends Component {
   }
   
   rendername(){
+
+        
    return (
      <View style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
       <Spacer size={55} />
         <Card>
-          <Text> Hello {this.state.userdetails.firstname}</Text>
+         <Text> Hello {this.state.userdetails.firstname}</Text>
           
         </Card>
       </View>
@@ -193,6 +195,9 @@ renderLoadingView(){
     );
   }
   render = () => {
+        console.log('rendername');
+     //console.log(this.props.userdetails);
+     //   console.log(this.props.userdetails.lastname);
      if (this.state.loading) return <Loading />;
       
 
