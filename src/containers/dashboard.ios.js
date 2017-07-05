@@ -33,8 +33,8 @@ import codePush from "react-native-code-push";
 let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 
 const NotificationHub = require('react-native-azurenotificationhub/index.ios');
-const connectionString = 'Endpoint=sb://kiboengagetest.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=zKwwZV4p4KNXSJg6HDFkWOhXAeZpRJ7FWicdehpM/pQ=';
-const hubName = 'KiboEngageTestHub';          // The Notification Hub name
+const connectionString = 'Endpoint=sb://kiboengagetesthub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=XitK1UR1T+Tb5Hi2btmM/jNEmTvCO/5ocyfXYhhDaVs=';
+const hubName = 'kiboengagetesthub';          // The Notification Hub name
 const senderID = '';         // The Sender ID from the Cloud Messaging tab of the Firebase console
 const tagName = 'jekram@hotmail.com';           // The set of tags to subscribe to
 

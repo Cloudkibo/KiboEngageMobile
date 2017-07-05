@@ -42,8 +42,8 @@ const tagName = 'jekram@hotmail.com';           // The set of tags to subscribe 
 
 const NotificationHub = require('react-native-azurenotificationhub');
 
-const connectionString = 'Endpoint=sb://kiboengagepushns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=gDirYG/+a/dN5Md5rOXMX6QFfiFnX0Dg3kabUNCjIy0='; // The Notification Hub connection string
-const hubName = 'KiboEngagePush';          // The Notification Hub name
+const connectionString = 'Endpoint=sb://kiboengagetesthub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=XitK1UR1T+Tb5Hi2btmM/jNEmTvCO/5ocyfXYhhDaVs='; // The Notification Hub connection string
+const hubName = 'kiboengagetesthub';          // The Notification Hub name
 const senderID = '626408245088';         // The Sender ID from the Cloud Messaging tab of the Firebase console
 const tags = ['sojharo@gmail.com','sojharo3800399','jekram@hotmail.com'];           // The set of tags to subscribe to
 
