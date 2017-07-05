@@ -84,14 +84,18 @@ export const getuser = (token) => {
     axios.get(`${baseURL}/api/users/me`,config)
     .then((res) => res).then(res => 
 
-      {dispatch(writeUserDetails(res));
-        dispatch(showUsername(res));}
+      {dispatch(writeUserDetails(res.data));}
+      //  dispatch(showUsername(res));}
       )
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
         if(error === 'Network Error')
+        {
+          dispatch(readusers());
           Alert.alert('You are not connected with Internet');
+
+        }
         if(error.response && error.response.status == 401){ Actions.login()}
 
       });
@@ -179,7 +183,7 @@ export  function writeUserDetails(users){
                 + "role TEXT,"
                 + "state TEXT,"
                 + "uniqueid TEXT,"
-                * "website TEXT,"
+                * "website TEXT"
                 + ")";
 
  var rows = []
@@ -244,7 +248,7 @@ return (dispatch) => {
              console.log('Transaction ERROR: ' + error.message);
   }, function() {
           console.log('Populated database OK');
-         //  dispatch(callbackusers(res));
+           dispatch(callbackusers(res));
   }
   );
 
@@ -253,6 +257,51 @@ return (dispatch) => {
 }
 
 
+export function callbackusers(results) {
+ var userdetails = []
+  var len = results.rows.length;
+  for (let i = 0; i < len; i++) {
+    let row = results.rows.item(i);
+    console.log('row');
+    console.log(row);
+    userdetails.push(row);
+  }
+  console.log('userdetails');
+  console.log(userdetails);
+
+  return {
+    type: ActionTypes.ADD_USER_DETAILS,
+    payload : results.data,
+
+  };
+}
+
+
+
+export function readusers(){
+   var db = SqliteCalls.getConnection();
+   return (dispatch) => {
+
+    db.transaction(function(tx) {
+
+    tx.executeSql('SELECT * FROM USER_DETAILS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+          res = results;
+
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackusers(res));
+  }
+  );
+
+  }
+
+}
 
 const updateProfileFailure = () => {
   return { type: ActionTypes.UPDATE_PROFILE_FAIL };
