@@ -15,25 +15,21 @@ import Drawer from '@containers/ui/DrawerContainer';
 
 // Scenes
 import AppLaunch from '@containers/Launch/LaunchContainer';
-import Groups from '@containers/Groups/Groups';
 
-import ChatSession from '@containers/Chat/ChatSession';
+
 import Chat from '@containers/Chat/Chat';
 import ChatSettings from '@containers/Chat/ChatSettings';
 
-import TeamsMain from '@containers/Teams/TeamsMain';
-import Agents from '@containers/Agents/Agents';
 import EditAgent from '@containers/Agents/EditAgent';
 import InviteAgent from '@containers/Agents/InviteAgent';
 import GroupsMain from '@containers/Groups/GroupsMain';
 import CreateGroup from '@containers/Groups/CreateGroup';
 import EditGroup from '@containers/Groups/EditGroup';
-import Cannedresponse from '@containers/CannedResponses/Cannedresponse';
 import CreateCannedresponse from '@containers/CannedResponses/CreateCannedResponse';
 import EditCannedresponse from '@containers/CannedResponses/EditCannedResponse';
+import Groups from '@containers/Groups/Groups';
 
 import CreateSubGroup from '@containers/SubGroups/CreateSubGroup';
-import Subgroups from '@containers/SubGroups/Subgroups';
 import EditSubgroup from '@containers/SubGroups/EditSubgroup';
 
 import Teams from '@containers/Teams/Teams';
@@ -41,14 +37,11 @@ import CreateTeam  from '@containers/Teams/CreateTeam';
 import JoinTeam from '@containers/Teams/JoinTeam';
 import EditTeam  from '@containers/Teams/EditTeam';
 
-import Notifications from '@containers/Notifications/Notifications';
 import AddNotification from '@containers/Notifications/AddNotification';
 import ResendNotification from '@containers/Notifications/ResendNotification';
 
-import Customers from '@containers/CustomerDirectory/Customers';
 import CustomerDetailView from '@containers/CustomerDirectory/CustomerDetailView';
 import SendEmail from '@containers/CustomerDirectory/SendEmail';
-import MyProfile from '@containers/MyProfile/MyProfile';
 
 import CompanySettings from '@containers/CompanySettings/CompanySettings';
 
@@ -59,12 +52,8 @@ import TabsScenes from './tabs';
 
 
 import AddFbPage from '@containers/Facebook/AddFbPage';
-import FBPages from '@containers/Facebook/FBPages';
 import EditFbPage from '@containers/Facebook/EditFbPage';
-import FbCustomers from '@containers/Facebook/FbCustomers';
-import FbChat from '@containers/Facebook/FbChat';
 import FbSettings from '@containers/Facebook/FbSettings';
-import Reports from '@containers/Reports/Reports';
 
 ////rightButtonTextStyle={{ tintColor: 'white' }}
 /* Routes ==================================================================== */
@@ -102,19 +91,9 @@ export default Actions.create(
         component={Placeholder}
         analyticsDesc={'Placeholder: Coming Soon'}
       />
-      <Scene
-        key={'dashboard'}
-        title={'Dashboard'}
-        component={Dashboard}
-        analyticsDesc={'Placeholder: Coming Soon'}
-      />
-      <Scene
-        key={'ChatSettings'}
-        title={'Chat Settings'}
-        component={ChatSettings}
-        analyticsDesc={'Placeholder: Chat Settings'}
-      />
-
+    
+    
+      
       <Scene
         key={'FbSettings'}
         title={'Facebook Settings'}
@@ -132,19 +111,13 @@ export default Actions.create(
         analyticsDesc={'Placeholder: Coming Soon'}
       />
 
-      <Scene
-        key={'companySettings'}
-        title={'Company Settings'}
-        component={CompanySettings}
-        analyticsDesc={'Placeholder: Coming Soon'}
+ <Scene
+        key={'ChatSettings'}
+        title={'Chat Settings'}
+        component={ChatSettings}
+        analyticsDesc={'Placeholder: Chat Settings'}
       />
-
-      <Scene
-        key={'ChatSession'}
-        title={'ChatSession'}
-        component={ChatSession}
-        analyticsDesc={'Placeholder: Coming Soon'}
-      />
+      
 
       <Scene
         key={'groupCreate'}
@@ -154,7 +127,8 @@ export default Actions.create(
         hideNavBar={true}
         analyticsDesc={'CreateGroup: Create Group'}
       />
-      <Scene
+     
+       <Scene
         key={'groups'}
         title={'Groups'}
         onRight={() => Actions.groupCreate()}
@@ -163,13 +137,7 @@ export default Actions.create(
         analyticsDesc={'Groups: Groups'}
       />
 
-      <Scene
-        key={'groupsmain'}
-        title={'Groups'}
-        component={GroupsMain}
-        analyticsDesc={'Groups: Groups'}
-        //renderBackButton={()=>(null)}
-      />
+    
 
       <Scene
         key={'channelCreate'}
@@ -177,23 +145,8 @@ export default Actions.create(
         component={CreateSubGroup}
         analyticsDesc={'CreateSubGroup: Create Channel'}
       />
-      <Scene
-        key={'subgroups'}
-        title={'Sub Groups'}
-        onRight={() => Actions.channelCreate()}
-        rightTitle="Add"
-        rightButtonTextStyle={{ color: 'white' }}
-        barButtonTextStyle={{ color: '#FFFFFF' }}
-        component={Subgroups}
-        analyticsDesc={'Subgroup: Subgroup'}
-      />
-
-      <Scene
-        key={'customers'}
-        title={'Customers'}
-        component={Customers}
-        analyticsDesc={'Customers: Customers'}
-      />
+     
+     
       <Scene
         key={'customerDetailView'}
         title={'Customer Details'}
@@ -217,13 +170,7 @@ export default Actions.create(
         analyticsDesc={'Teams: Teams'}
       />
 
-      <Scene
-        key={'teamsmain'}
-        title={'Teams'}
-
-        component={TeamsMain}
-        analyticsDesc={'Teams Main: Teams'}
-      />
+     
 
       <Scene
         key={'teamEdit'}
@@ -257,15 +204,7 @@ export default Actions.create(
         component={AddNotification}
         analyticsDesc={'AddNotification: Add Notification'}
       />
-      <Scene
-        key={'notifications'}
-        title={'Notifications'}
-        onRight={() => Actions.addNotification()}
-        rightTitle="Add"
-        rightButtonTextStyle={styles.rightbarbuttonstyle}
-        component={Notifications}
-        analyticsDesc={'Notifications: Notifications'}
-      />
+      
 
       <Scene
         key={'cannedCreate'}
@@ -280,15 +219,7 @@ export default Actions.create(
         component={EditCannedresponse}
         analyticsDesc={'EditCannedresponse: EditCannedresponse'}
       />
-      <Scene
-        key={'cannedresponse'}
-        title={'Canned Responses'}
-        component={Cannedresponse}
-        onRight={() => Actions.cannedCreate()}
-        rightTitle="Add"
-        rightButtonTextStyle={styles.rightbarbuttonstyle}
-        analyticsDesc={'Cannedresponse: Cannedresponse'}
-      />
+    
 
       <Scene
         key={'inviteAgent'}
@@ -297,22 +228,7 @@ export default Actions.create(
         analyticsDesc={'Agents:Invite Agents'}
       />
 
-      <Scene
-        key={'reports'}
-        title={'Reports'}
-        component={Reports}
-        analyticsDesc={'Reports'}
-      />
-
-      <Scene
-        key={'agents'}
-        title={'Agents'}
-        onRight={() => Actions.inviteAgent()}
-        rightTitle="Invite"
-        rightButtonTextStyle={styles.rightbarbuttonstyle}
-        component={Agents}
-        analyticsDesc={'Agents:Agents'}
-      />
+      
 
       <Scene
         key={'groupEdit'}
@@ -335,12 +251,7 @@ export default Actions.create(
         analyticsDesc={'resendNotification: resendNotification'}
       />
 
-      <Scene
-        key={'myProfile'}
-        title={'My Profile'}
-        component={MyProfile}
-        analyticsDesc={'MyProfile: MyProfile'}
-      />
+   
 
       <Scene
         key={'AddFbPage'}
@@ -349,15 +260,7 @@ export default Actions.create(
         analyticsDesc={'AddFbPage: AddFbPage'}
       />
 
-      <Scene
-        key={'fbpages'}
-        title={'Facebook Pages'}
-        onRight={() => Actions.AddFbPage()}
-        rightTitle="Add"
-        rightButtonTextStyle={styles.rightbarbuttonstyle}
-        component={FBPages}
-        analyticsDesc={'FBPages: FBPages'}
-      />
+     
 
        <Scene
         key={'EditFbPage'}
@@ -366,22 +269,9 @@ export default Actions.create(
         analyticsDesc={'EditFbPage: EditFbPage'}
       />
 
-       <Scene
-        key={'FbCustomers'}
-        title={'Facebook Customers'}
-        component={FbCustomers}
-        analyticsDesc={'FbCustomers: FbCustomers'}
-      />
+       
 
-       <Scene
-        key={'fbChats'}
-        title={'Chat'}
-        component={FbChat}
-        onRight={() => Actions.FbSettings()}
-        rightTitle="Settings"
-        rightButtonTextStyle={styles.rightbarbuttonstyle}
-        analyticsDesc={'FbChat: FbChat'}
-      />
+      
 
     </Scene>
   </Scene>,

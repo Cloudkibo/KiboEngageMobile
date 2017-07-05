@@ -6,6 +6,7 @@
  */
 
 export function toggle() {
+	console.log('sidemenu toggle');
   return {
     type: 'SIDEMENU_TOGGLE',
   };
