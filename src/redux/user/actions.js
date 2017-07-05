@@ -187,38 +187,43 @@ export  function writeUserDetails(users){
                 + ")";
 
  var rows = []
- for(var i=0;i<users.length;i++){
+ console.log('...');
+ console.log(users.length);
+ console.log(users);
+ for(var i=0;i<1;i++){
+
+  console.log(i);
   var record = []
-  record.push(users[i]._id)
-  record.push(users[i].abandonedemail1);
-  record.push(users[i].abandonedemail2);
-  record.push(users[i].abandonedemail3);
-  record.push(users[i].accountVerified);
-  record.push(users[i].allowchime);
-  record.push(users[i].allownotification);
-  record.push(users[i].canExcludeAgent);
-  record.push(users[i].city?users[i].city:"");
-  record.push(users[i].companyName?users[i].companyName:"");
-  record.push(users[i].completedemail1?users[i].completedemail1:"");
-  record.push(users[i].completedemail2?users[i].completedemail2:"");
-  record.push(users[i].completedemail3?users[i].completedemail3:"");
-  record.push(users[i].date);
-  record.push(users[i].email?users[i].email:"");
-  record.push(users[i].firstname?users[i].firstname:"");
-  record.push(users[i].invitedemail1?users[i].invitedemail1:"");
-  record.push(users[i].invitedemail2?users[i].invitedemail2:"");
-  record.push(users[i].invitedemail3?users[i].invitedemail3:"");
-  record.push(users[i].isAdmin);
-  record.push(users[i].isAgent);
-  record.push(users[i].isOwner);
-  record.push(users[i].isDeleted);
-  record.push(users[i].isSupervisor);
-  record.push(users[i].lastname);
-  record.push(users[i].phone);
-  record.push(users[i].role);
-  record.push(users[i].state);
-  record.push(users[i].uniqueid);
-  record.push(users[i].website);
+  record.push(users._id)
+  record.push(users.abandonedemail1);
+  record.push(users.abandonedemail2);
+  record.push(users.abandonedemail3);
+  record.push(users.accountVerified);
+  record.push(users.allowchime);
+  record.push(users.allownotification);
+  record.push(users.canExcludeAgent);
+  record.push(users.city?users[i].city:"");
+  record.push(users.companyName?users[i].companyName:"");
+  record.push(users.completedemail1?users[i].completedemail1:"");
+  record.push(users.completedemail2?users[i].completedemail2:"");
+  record.push(users.completedemail3?users[i].completedemail3:"");
+  record.push(users.date);
+  record.push(users.email?users[i].email:"");
+  record.push(users.firstname?users[i].firstname:"");
+  record.push(users.invitedemail1?users[i].invitedemail1:"");
+  record.push(users.invitedemail2?users[i].invitedemail2:"");
+  record.push(users.invitedemail3?users[i].invitedemail3:"");
+  record.push(users.isAdmin);
+  record.push(users.isAgent);
+  record.push(users.isOwner);
+  record.push(users.isDeleted);
+  record.push(users.isSupervisor);
+  record.push(users.lastname);
+  record.push(users.phone);
+  record.push(users.role);
+  record.push(users.state);
+  record.push(users.uniqueid);
+  record.push(users.website);
   rows.push(record);
  // addItem(db,record);
 
