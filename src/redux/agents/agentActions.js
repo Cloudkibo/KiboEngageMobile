@@ -101,7 +101,7 @@ var config = {
       .then((res) => 
 
     {
-      // dispatch(agentFetch(token,userid));
+      dispatch(agentFetch(token,userid));
       dispatch(agentRoleUpdate(res));
       console.log("Agent role update");
   })
