@@ -174,6 +174,7 @@ class CreateGroup extends Component {
     if (flag == 0) {
       this.state.newteams.push(team);
       const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
+      if(this.form.getValue() != null){
       this.setState({
         form_values: {
           groupName: this.form.getValue().groupName,
@@ -181,6 +182,11 @@ class CreateGroup extends Component {
         },
         dataSourceFellowTeams: ds2,
       });
+    } else {
+      this.setState({
+        dataSourceFellowTeams: ds2,
+      });
+    }
   }
     else {
       Alert.alert(
@@ -206,6 +212,7 @@ class CreateGroup extends Component {
     }
     this.state.newteams.splice(index, 1);
     const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
+    if(this.form.getValue() != null){
     this.setState({
       form_values: {
         groupName: this.form.getValue().groupName,
@@ -213,6 +220,11 @@ class CreateGroup extends Component {
       },
       dataSourceFellowTeams: ds2,
     });
+  } else {
+    this.setState({
+      dataSourceFellowTeams: ds2,
+    });
+  }
   }
 
   renderRow = team => (
