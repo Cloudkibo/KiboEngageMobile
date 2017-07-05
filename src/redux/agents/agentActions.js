@@ -100,8 +100,10 @@ var config = {
     axios.post(`${baseURL}/api/users/updaterole/`, data,config)
       .then((res) => 
 
-    {dispatch(agentRoleUpdate(res));
-      dispatch(agentFetch(token,userid));
+    {
+      // dispatch(agentFetch(token,userid));
+      dispatch(agentRoleUpdate(res));
+      console.log("Agent role update");
   })
       .catch(function (error) {
          console.log('Error occured');

@@ -62,7 +62,7 @@ export const settingsSave =  (token, companyObj) => {
 
 
       
-  console.log("THis is the token in action " + token);
+  console.log("THis is the token in action along with some new data", token, companyObj);
   return (dispatch) => {
     axios.post(`${baseURL}/api/companyprofiles/updatecompanyprofile`, companyObj,config)
       .then((res) => dispatch(confirmSave('Settings Saved Successfully')))

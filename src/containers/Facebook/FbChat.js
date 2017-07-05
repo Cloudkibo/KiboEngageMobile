@@ -81,15 +81,15 @@ class FbChat extends Component {
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called with chat session data');
     // console.log(nextProps.groups);
-    if(nextProps.fbchatSelected){
-      this.renderChat(nextProps);
-      this.forceUpdate();
       this.renderGif(nextProps);
       this.renderSticker(nextProps);
+    if(nextProps.fbchatSelected){
+      // this.renderChat(nextProps);
+      // this.forceUpdate();
      }
      if(nextProps.upload){
        console.log("Upload updated");
-       this.renderChat(nextProps);
+      //  this.renderChat(nextProps);
      }
   }
 
@@ -487,6 +487,8 @@ class FbChat extends Component {
         messages: GChat.GiftedChat.append(previousState.messages, messages),
       };
     });
+
+    console.log("Messages after send", messages);
   }
 
 
@@ -713,12 +715,14 @@ class FbChat extends Component {
     this.state.chatProp = propy;
       if(this.props.emojiVisible){
         return (
+          <View>
     <ScrollView style={styles.footerContainer}>
         <EmojiPicker
           onEmojiSelected={(emoji) => {this.logEmoji(emoji, propy)}}
           visible={this.props.emojiVisible}
           />
         </ScrollView>
+        </View>
       );
       }
       if(this.props.gifVisible){
