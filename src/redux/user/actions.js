@@ -82,7 +82,11 @@ export const getuser = (token) => {
 
   return (dispatch) => {
     axios.get(`${baseURL}/api/users/me`,config)
-    .then((res) => res).then(res => dispatch(showUsername(res)))
+    .then((res) => res).then(res => 
+
+      {dispatch(writeUserDetails(res));
+        dispatch(showUsername(res));}
+      )
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -140,10 +144,11 @@ export const updateprofile = (user, token) => {
 };
 
 
-export  function writeGroups(groups){
+export  function writeUserDetails(users){
+  console.log('inside write user');
   var db = SqliteCalls.getConnection();
    var res = [];
-  var CREATE_Groups_TABLE = "CREATE TABLE USER_DETAILS ("
+  var CREATE_USER_DETAILS_TABLE = "CREATE TABLE USER_DETAILS ("
                 + "_id TEXT PRIMARY KEY,"
                 + "abandonedemail1 TEXT,"
                 + "abandonedemail2 TEXT,"
@@ -158,25 +163,58 @@ export  function writeGroups(groups){
                 + "completedemail2 TEXT,"
                 + "completedemail3 TEXT,"
                 + "country TEXT,"
-                + "date TEXT,"
+                + "date DATETIME,"
                 + "email TEXT,"
                 + "firstname TEXT,"
-                + "canIncludeAgent TEXT,"
-                + "canIncludeAgent TEXT,"
+                + "invitedemail1 TEXT,"
+                + "invitedemail2 TEXT,"
+                + "invitedemail3 TEXT,"
+                + "isAdmin TEXT,"
+                + "isAgent TEXT,"
+                + "isOwner TEXT,"
+                + "isDeleted TEXT,"
+                + "isSupervisor TEXT,"
+                + "lastname TEXT,"
+                + "phone TEXT,"
+                + "role TEXT,"
+                + "state TEXT,"
+                + "uniqueid TEXT,"
+                * "website TEXT,"
                 + ")";
 
  var rows = []
- for(var i=0;i<groups.length;i++){
+ for(var i=0;i<users.length;i++){
   var record = []
-  record.push(groups[i]._id)
-  record.push(groups[i].deptname);
-  record.push(groups[i].deptdescription);
-  record.push(groups[i].companyid);
-  record.push(groups[i].createdby._id);
-  record.push(groups[i].creationdate);
-  record.push(groups[i].deleteStatus);
-  record.push(groups[i].isFbGroup);
-  record.push(groups[i].fbPageID?groups[i].fbPageID:"");
+  record.push(users[i]._id)
+  record.push(users[i].abandonedemail1);
+  record.push(users[i].abandonedemail2);
+  record.push(users[i].abandonedemail3);
+  record.push(users[i].accountVerified);
+  record.push(users[i].allowchime);
+  record.push(users[i].allownotification);
+  record.push(users[i].canExcludeAgent);
+  record.push(users[i].city?users[i].city:"");
+  record.push(users[i].companyName?users[i].companyName:"");
+  record.push(users[i].completedemail1?users[i].completedemail1:"");
+  record.push(users[i].completedemail2?users[i].completedemail2:"");
+  record.push(users[i].completedemail3?users[i].completedemail3:"");
+  record.push(users[i].date);
+  record.push(users[i].email?users[i].email:"");
+  record.push(users[i].firstname?users[i].firstname:"");
+  record.push(users[i].invitedemail1?users[i].invitedemail1:"");
+  record.push(users[i].invitedemail2?users[i].invitedemail2:"");
+  record.push(users[i].invitedemail3?users[i].invitedemail3:"");
+  record.push(users[i].isAdmin);
+  record.push(users[i].isAgent);
+  record.push(users[i].isOwner);
+  record.push(users[i].isDeleted);
+  record.push(users[i].isSupervisor);
+  record.push(users[i].lastname);
+  record.push(users[i].phone);
+  record.push(users[i].role);
+  record.push(users[i].state);
+  record.push(users[i].uniqueid);
+  record.push(users[i].website);
   rows.push(record);
  // addItem(db,record);
 
@@ -188,14 +226,14 @@ export  function writeGroups(groups){
 return (dispatch) => {
 
     db.transaction(function(tx) {
-    tx.executeSql('DROP TABLE IF EXISTS GROUPS');
-    tx.executeSql(CREATE_Groups_TABLE);
+    tx.executeSql('DROP TABLE IF EXISTS USER_DETAILS');
+    tx.executeSql(CREATE_USER_DETAILS_TABLE);
 
     for(var j=0;j<rows.length;j++){
-       tx.executeSql('INSERT INTO GROUPS VALUES (?,?,?,?,?,?,?,?,?)',rows[j]);
+       tx.executeSql('INSERT INTO USER_DETAILS VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',rows[j]);
 
     }
-    tx.executeSql('SELECT * FROM GROUPS', [], (tx,results) => {
+    tx.executeSql('SELECT * FROM USER_DETAILS', [], (tx,results) => {
           console.log("Query completed");
           console.log(results);
           res = results;
@@ -206,7 +244,7 @@ return (dispatch) => {
              console.log('Transaction ERROR: ' + error.message);
   }, function() {
           console.log('Populated database OK');
-           dispatch(callbackgroups(res));
+         //  dispatch(callbackusers(res));
   }
   );
 
