@@ -119,25 +119,27 @@ export const agentGroupFetch = (token) => {
 
 // create group
 export const creategroup = (group) => {
+    console.log('group teams in actions');
+    console.log(group.newteams);
     var token = group.token;
     var config = {
       rejectUnauthorized : false,
       headers: {
             'Authorization': token,
-            'content-type' : 'application/x-www-form-urlencoded'
+            'content-type' : 'application/json'
             },
 
           };
-       var data =  {
-        deptname: group.groupname,
-        deptdescription: group.description,
-        teamagents: group.newteams,
-      }
-  // console.log(data);
+       var data = {
+        "deptname": group.groupname,
+        "deptdescription": group.description,
+        "teamagents": group.newteams,
+      };
+  console.log(data);
   return (dispatch) => {
     dispatch(groupCreateInAction());
     // console.log('calling api');
-    axios.post(`${baseURLKiboEngage}/api/creategroup`,querystring.stringify(data),config).then(res => dispatch(groupCreateSuccess(res)))
+    axios.post(`${baseURLKiboEngage}/api/creategroup`, data, config).then(res => dispatch(groupCreateSuccess(res)))
       .catch(function (error) {
         // console.log('Error occured');
         // console.log(error);
