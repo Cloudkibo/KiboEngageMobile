@@ -217,7 +217,6 @@ class EditFbPage extends Component {
   addFbPage = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();
-
     // Form is valid
     if (credentials) {
       this.setState({ form_values: credentials }, async () => {
@@ -232,20 +231,16 @@ class EditFbPage extends Component {
           console.log('auth.loggedIn() return true');
           const token = await auth.getToken();
           console.log(token);
-          const usertoken = auth.getToken();
           const pageTitle = credentials.pageTitle;
           const pageDescription = credentials.pageDescription;
           const pageToken = credentials.pageToken;
           const appid = credentials.appId;
-          var companyid = this.props.userdetails.uniqueid;
+          const companyid = this.props.userdetails.uniqueid;
           const pageid = credentials.pageId;
           const _id = this.props.fbpage._id;
-          if (pageToken && pageid)
-           {
+          if (pageToken && pageid) {
              this.props.editPage({ _id, pageid, appid, pageToken, pageTitle, pageDescription, companyid }, token, this.state.newteams);
-
           }
-
         }
       });
     }

@@ -10,8 +10,6 @@ var baseURLKiboEngage = Config.baseURLKiboEngage;
 import RNFetchBlob from 'react-native-fetch-blob';
 var ReactNative = require('react-native');
 
-
-
 // create fbpage
 export const createPage=(fbpage,token) => {
     var token = token;
@@ -71,16 +69,14 @@ export const getfbpages = (token) => {
 
 // create fbpage
 export const editPage = (fbpage, token, teams) => {
-    var token = token;
-    var id = fbpage.pageid;
-    var config = {
-      rejectUnauthorized : false,
-      headers: {
-            'Authorization': `Bearer ${token}`,
-            'content-type' : 'application/json'
-            },
-
-          };
+  const id = fbpage.pageid;
+  const config = {
+    rejectUnauthorized : false,
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'content-type' : 'application/json'
+    },
+  };
   const data = {
     "fbpage": fbpage,
     "teamagents": teams,
