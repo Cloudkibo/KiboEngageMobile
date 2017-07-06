@@ -716,11 +716,13 @@ class FbChat extends Component {
       if(this.props.emojiVisible){
         return (
           <View>
-    <ScrollView style={styles.footerContainer}>
+      <ScrollView>
+      
         <EmojiPicker
           onEmojiSelected={(emoji) => {this.logEmoji(emoji, propy)}}
           visible={this.props.emojiVisible}
           />
+        
         </ScrollView>
         </View>
       );
@@ -781,4 +783,5 @@ function mapStateToProps(state) {
   return { fbcustomers,fbchats,fbchatSelected,userdetails, emojiVisible, gifVisible, gifs, stickers, stickerVisible, upload};
 
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(FbChat);
