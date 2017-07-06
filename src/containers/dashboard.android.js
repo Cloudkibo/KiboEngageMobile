@@ -45,7 +45,7 @@ const NotificationHub = require('react-native-azurenotificationhub');
 const connectionString = 'Endpoint=sb://kiboengagetesthub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=XitK1UR1T+Tb5Hi2btmM/jNEmTvCO/5ocyfXYhhDaVs='; // The Notification Hub connection string
 const hubName = 'kiboengagetesthub';          // The Notification Hub name
 const senderID = '626408245088';         // The Sender ID from the Cloud Messaging tab of the Firebase console
-const tags = ['sojharo@gmail.com','sojharo3800399','jekram@hotmail.com'];           // The set of tags to subscribe to
+const tags = [];           // The set of tags to subscribe to
 
 
 var remoteNotificationsDeviceToken = '';  // The device token registered with APNS
@@ -104,18 +104,19 @@ class Dashboard extends Component {
     NotificationHub.unregister();
   }
   componentWillReceiveProps(props){
-    console.log('componentWillReceiveProps called');
-    if(props.userdetails){
+    if((this.props.userdetails && props.userdetails.email != this.props.userdetails.email) ||  !this.props.userdetails){
       console.log(props.userdetails);
       this.setState({
           userdetails: props.userdetails,
           loading : false,
         });
+       tags.push('Agent-'+props.userdetails.email); 
+       this.register();
     }
   }
   componentDidMount = async() => {
     this.props.closemenu();
-    this.register();
+    //this.register();
     var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
