@@ -22,6 +22,7 @@ import * as GroupActions from '@redux/group/groupActions';
 import * as AgentActions from '@redux/agents/agentActions';
 import * as SubgroupActions from '@redux/subgroup/SubgroupActions';
 import * as TeamActions from '@redux/team/TeamActions';
+import * as actions from '@redux/user/actions';
 import Loading from '@components/general/Loading';
 
 import auth from '../../services/auth';
@@ -75,7 +76,7 @@ class ChatSession extends Component {
     super(props);
     this.state = {loading : true};
     this.state.menuItems = [];
-    
+
     // this.createDataSource(props);
   }
 
@@ -90,8 +91,9 @@ class ChatSession extends Component {
         this.props.channelFetch(token);
         this.props.agentTeamFetch(token);
         this.props.agentFetch(token);
-        this.props.teamFetch(token); 
-        
+        this.props.teamFetch(token);
+        this.props.getDeptTeams(token);
+        this.props.getuser(token);
        }
   }
 
@@ -101,7 +103,7 @@ class ChatSession extends Component {
     // this.props is still the old set of props
     // console.log('componentWillReceiveProps is called with chat session data');
     // console.log(nextProps.groups);
-    if(nextProps.data && nextProps.teams && nextProps.chat && nextProps.agents && nextProps.groupagents && nextProps.teamagents && nextProps.groups){
+    if(nextProps.data && nextProps.userdetails && nextProps.deptteams && nextProps.teams && nextProps.chat && nextProps.agents && nextProps.groupagents && nextProps.teamagents && nextProps.groups){
        console.log("Next Props Received in chat session");
        this.renderCard(nextProps);
        this.setState({loading:false});
@@ -127,56 +129,69 @@ class ChatSession extends Component {
 
 
   renderCard = (nextProps) => {
-      var data = nextProps.data;
-      var group = nextProps.groups;
-      var groups = nextProps.groups;
-      this.state.menuItems = [];
-      // Build the actual Menu Items
+    const data = nextProps.data;
+    this.state.menuItems = [];
+    console.log(nextProps.groups);
+    console.log(nextProps.deptteams);
+    console.log(nextProps.deptteams.filter((c) => c.deptid._id == '588051e557927115389ec16f'));
+    const temp = nextProps.deptteams.filter((c) => c.deptid._id == '588051e557927115389ec16f');
+    const t = nextProps.teamagents.filter((a) => a.agentid == nextProps.userdetails._id);
+    console.log(nextProps.teamagents.filter((a) => a.agentid == nextProps.userdetails._id));
+    console.log(t.filter((a) => a.groupid == temp[0].teamid._id).length);
+    // Build the actual Menu Items
     data.map((item, index) => {
-      var name =  item.customerID;
-      //console.log(nextProps.chat);
-      var mychats = nextProps.chat.filter((c)=> c.request_id == item.request_id);
-       if(mychats.length <=  0){
-         return;
-       } 
-
-       if(item.customerid.name){
-          name =   item.customerid.name;
-       }
-       var agent = '';
-
-
-      var groupname = nextProps.groups.filter((t)=> t._id == item.departmentid);
-      var channelname = '';
-      if(item.messagechannel.length>0){
-        channelname = item.messagechannel[item.messagechannel.length-1];
+      let name = item.customerID;
+      let agentinteam = false;
+      const group = nextProps.groups.filter((t) => t._id === item.departmentid);
+      console.log(group);
+      let groupTeams = [];
+      if (group.length > 0) {
+        groupTeams = nextProps.deptteams.filter((c) => c.deptid._id === group[0]._id);
       }
-        var group_agents_name = 'Not assigned yet';
-     if(item.agent_ids.length > 0 && item.status == "assigned"){
-      if(item.agent_ids[item.agent_ids.length-1].type == 'agent'){
-        var agentassigned = this.props.agents.filter((a)=> a._id == item.agent_ids[item.agent_ids.length-1].id)[0];
-        if(agentassigned){
-        group_agents_name = agentassigned.firstname + agentassigned.lastname;
+      console.log(groupTeams);
+      const agentTeams = nextProps.teamagents.filter((a) => a.agentid === nextProps.userdetails._id);
+      console.log(agentTeams);
+      if (groupTeams.length > 0) {
+        for (let i =0; i < groupTeams.length; i++) {
+          if (agentTeams.filter((a) => a.groupid == groupTeams[i].teamid._id).length > 0) {
+            console.log(agentTeams.filter((a) => a.groupid == groupTeams[i].teamid._id));
+            agentinteam = true;
+          }
         }
       }
-      else{
-        // add condition to show group name
-        var teamname = nextProps.teams.filter((g)=>g._id == item.agent_ids[item.agent_ids.length-1].id)[0];
-      
-        group_agents_name = teamname? teamname.groupname:'Team deleted';
 
-      }
-     }
-      
-      // var agent_name = nextProps.teamagents.filter((g) => g.agent_id == channelname);
-      var subgroupName = nextProps.subgroups.filter((c) => c._id == channelname);
-      return this.state.menuItems.push(
-          
-        
+      if (agentinteam) {
+        const mychats = nextProps.chat.filter((c)=> c.request_id == item.request_id);
+        if (mychats.length <= 0) {
+          return;
+        }
+
+        if (item.customerid.name) {
+          name = item.customerid.name;
+        }
+
+        var channelname = '';
+        if(item.messagechannel.length>0){
+          channelname = item.messagechannel[item.messagechannel.length-1];
+        }
+        var group_agents_name = 'Not assigned yet';
+        if(item.agent_ids.length > 0 && item.status == "assigned"){
+          if(item.agent_ids[item.agent_ids.length-1].type == 'agent'){
+            var agentassigned = this.props.agents.filter((a)=> a._id == item.agent_ids[item.agent_ids.length-1].id)[0];
+            if(agentassigned){
+              group_agents_name = agentassigned.firstname + agentassigned.lastname;
+            }
+          }
+        }
+
+        // var agent_name = nextProps.teamagents.filter((g) => g.agent_id == channelname);
+        var subgroupName = nextProps.subgroups.filter((c) => c._id == channelname);
+        return this.state.menuItems.push(
+
           <Card title = {name} key={index}>
              <View>
                 <Text style={[styles.menuItem_text]}>
-                    { groupname.length>0?groupname[0].deptname :'-'}
+                    { group.length>0?group[0].deptname :'-'}
                 </Text>
                  <View style={[styles.menuItem]}>
                     <View style={styles.iconContainer}>
@@ -232,7 +247,8 @@ class ChatSession extends Component {
                     title='View Chats'
                     onPress = {() => this.gotoChatBox(nextProps, item.request_id, item.companyid, item._id, item.departmentid, item.status,groupname[0].deptname?groupname[0].deptname:'-', subgroupName[0].msg_channel_name?subgroupName[0].msg_channel_name:'-', item)} />
                 </Card>
-      );
+            );
+      }
     }, this);
   }
 
@@ -249,11 +265,11 @@ class ChatSession extends Component {
             >
              <Spacer size={50} />
              <View>{this.state.menuItems}</View>
-             
-              
+
+
             </ScrollView>
             </View>
- 
+
   );
 }
 }
@@ -267,16 +283,18 @@ const mapDispatchToProps = {
   channelFetch: SubgroupActions.channelFetch,
   teamFetch: TeamActions.teamFetch,
   agentTeamFetch : TeamActions.agentTeamFetch,
-  agentFetch:AgentActions.agentFetch,
-  updateChat: chatActions.updateChat
+  agentFetch: AgentActions.agentFetch,
+  updateChat: chatActions.updateChat,
+  getDeptTeams: GroupActions.getDeptTeams,
+  getuser: actions.getuser,
 };
 function mapStateToProps(state) {
-   const { data, loading, chat } = state.chat;
-   const { groups ,groupagents} = state.groups;
-    const { subgroups} = state.subgroups;
-    const {agents} = state.agents;
-    const { teamagents,teams } = state.teams;
-  return { data, loading, groups, groupagents,agents, chat, subgroups,teamagents,teams };
-
+  const { data, loading, chat } = state.chat;
+  const { groups, groupagents, deptteams } = state.groups;
+  const { subgroups } = state.subgroups;
+  const { agents } = state.agents;
+  const { teamagents, teams } = state.teams;
+  const { userdetails } = state.user;
+  return { data, loading, groups, groupagents, agents, chat, subgroups, teamagents, teams, deptteams, userdetails };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSession);

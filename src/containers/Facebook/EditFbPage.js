@@ -113,16 +113,15 @@ class EditFbPage extends Component {
     console.log("Component Did Mount in FB EDIT PAGES Status was reset");
     const token = await auth.getToken();
     console.log(`token is Launchview is ${token}`);
+    if (token !== '') {
+      this.props.getfbpages(token);
+      this.props.teamFetch(token);
+    }
     const fbpageTeams = this.props.fbteams.filter((c) => c.pageid._id == this.props.fbpage._id);
-    console.log()
     for (let i = 0; i < fbpageTeams.length; i++) {
       if (fbpageTeams[i].teamid) {
         this.state.newteams.push(fbpageTeams[i].teamid);
       }
-    }
-    if (token !== '') {
-      this.props.getfbpages(token);
-      this.props.teamFetch(token);
     }
   }
 
@@ -240,9 +239,10 @@ class EditFbPage extends Component {
           const appid = credentials.appId;
           var companyid = this.props.userdetails.uniqueid;
           const pageid = credentials.pageId;
+          const _id = this.props.fbpage._id;
           if (pageToken && pageid)
            {
-             this.props.editPage({ pageid, appid, pageToken, pageTitle, pageDescription, companyid }, token, this.state.newteams);
+             this.props.editPage({ _id, pageid, appid, pageToken, pageTitle, pageDescription, companyid }, token, this.state.newteams);
 
           }
 

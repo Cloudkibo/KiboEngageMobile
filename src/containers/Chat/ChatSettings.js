@@ -40,7 +40,7 @@ class ChatSettings extends Component {
   constructor(props) {
     super(props);
     var ReactNative = require('react-native');
-    this.state = {items: [], language: '', teamsList: [], channelList: [], assignedAgent: '', assignedTeam: '', assignedChannel: '', platform: 'Detected Platform: ' + ReactNative.Platform.OS};
+    this.state = {items: [], language: '', teamsList: [], channelList: [], assignedAgent: '', assignedChannel: '', platform: 'Detected Platform: ' + ReactNative.Platform.OS};
     this.createPickerItems = this.createPickerItems.bind(this);
 }
   componentWillMount = async () => {
@@ -136,57 +136,6 @@ class ChatSettings extends Component {
       }
   }
 
-
-  assignToGroups = async () => {
-    //this.props.agentFetch();
-     var token =  await auth.getToken();
-      console.log('token is Launchview is: ' + token);
-      if(token != ''){
-
-        // Scroll to top, to show message
-      if (this.scrollView) {
-        this.scrollView.scrollTo({ y: 0 });
-      }
-
-
-         //update session status on server
-        var session = {
-          request_id : this.props.singleChat.request_id,
-          status : 'assigned',
-        }
-
-        //preparing data
-         var emails = [];
-         this.props.teams.map((item, index) => {
-          var agents = this.props.teamagents.filter((g)=> g.groupid == item._id);
-          console.log("Filtered Objects");
-          console.log(this.props.agents);
-          for(i = 0; i < agents.length; i++){
-            for(j = 0; j < this.props.agents.length; j++){
-              if(this.props.agents[j]._id == agents[i].agentid){
-                // console.log(this.props.agents[j].email);
-                emails.push(this.props.agents[j].email);
-              }
-            }
-          }
-         });
-         console.log("Emails");
-         var unique = emails.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
-          console.log(unique);
-        input = {
-          agentidTo: this.state.assignedTeam,
-          agentidBy: this.props.userdetails._id,
-          companyid: this.props.singleChat.companyid,
-          requestid: this.props.singleChat.request_id,
-          _id: this.props.singleChat._id,
-          type: 'group',
-          email: unique,
-        };
-
-        this.props.moveAgent(token, input,session);
-       }
-  }
-
   assignToChannels = async () => {
     //this.props.agentFetch();
      var token =  await auth.getToken();
@@ -260,29 +209,12 @@ class ChatSettings extends Component {
         >
   {this.state.items}
 </Picker>
-     
+
      <Button
         title="Assign"
         color="#841584"
         accessibilityLabel="Assign To Agent"
         onPress={this.assignToAgents}
-      />
-    </Card>
-
-     <Card>
-    <Text>Assign To Team</Text>
-    <Spacer size={10} />
-      <Picker
-          selectedValue={this.state.assignedTeam}
-        onValueChange={(toGroupId) => this.setState({assignedTeam: toGroupId})}>
-  {this.state.teamsList}
-</Picker>
-     
-     <Button
-        title="Assign"
-        color="#841584"
-        accessibilityLabel="Assign To Group"
-        onPress={this.assignToGroups}
       />
     </Card>
 

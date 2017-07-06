@@ -112,7 +112,7 @@ class CreateGroup extends Component {
     // this.props is still the old set of props
     if (nextProps.teams) {
       const ds = this.state.dataSourceAllTeams.cloneWithRows(nextProps.teams);
-      const all = nextProps.teams.filter((c)=>c.groupname == 'All' && c.companyid == nextProps.userdetails.uniqueid)[0]
+      const all = nextProps.teams.filter((c)=>c.groupname == 'All' && c.companyid == nextProps.userdetails.uniqueid)[0];
       this.state.newteams.push(all);
       console.log(this.state.newteams);
       const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
@@ -151,11 +151,16 @@ class CreateGroup extends Component {
             console.log('auth.loggedIn() return true');
             var token = await auth.getToken();
             console.log(token);
-
+            console.log(this.state.newteams);
+            let groupTeams = [];
+            for (let i = 0; i < this.state.newteams.length; i++) {
+              groupTeams.push({"_id":this.state.newteams[i]._id});
+            }
+            console.log(groupTeams);
             this.props.creategroup({
               groupname: credentials.groupName,
               description: credentials.groupDescription,
-              newteams: this.state.newteams,
+              newteams: groupTeams,
               token:token,
             })
         }

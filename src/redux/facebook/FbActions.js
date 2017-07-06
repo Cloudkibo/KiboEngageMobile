@@ -36,28 +36,59 @@ export const createPage=(fbpage,token) => {
   };
 };
 
+const fbpageEditFail = () => {
+  return{ type: ActionTypes.FBPAGE_FAIL };
+};
 
+const fbpageEditSuccess = (res) => {
+  //Actions.main();
+  return{
+    type: ActionTypes.FBPAGE_SUCCESS,
+    payload: 'Information updated successfully'
+  };
+
+
+};
+
+export const getfbpages = (token) => {
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+        'Authorization': `Bearer ${token}`,
+        'content-type' : 'application/x-www-form-urlencoded'
+    },
+  };
+
+  return (dispatch) => {
+    console.log('calling api');
+    axios.get(`${baseURL}/api/fbpages/`, config).then(res => dispatch(showfbpages(res.data)))
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+      });
+  };
+};
 
 // create fbpage
-export const editPage=(fbpage,token, teams) => {
+export const editPage = (fbpage, token, teams) => {
     var token = token;
     var id = fbpage.pageid;
     var config = {
       rejectUnauthorized : false,
       headers: {
             'Authorization': `Bearer ${token}`,
-            'content-type' : 'application/x-www-form-urlencoded'
+            'content-type' : 'application/json'
             },
 
           };
   const data = {
-    fbpage,
-    teamagents: teams,
+    "fbpage": fbpage,
+    "teamagents": teams,
   }
 
   return (dispatch) => {
     console.log('calling api');
-    axios.put(`${baseURL}/api/fbpages/${id}`, querystring.stringify(data), config).then(res =>
+    axios.put(`${baseURL}/api/fbpages/${id}`, data, config).then(res =>
     {
       dispatch(fbpageEditSuccess(res));
       dispatch(getfbpages(token));
@@ -99,21 +130,6 @@ const updateFbSessionsStatus = (data) => {
   return{
     type: ActionTypes.FB_SESSIONS_STATUS,
     payload: data,
-  };
-
-
-};
-
-
-const fbpageEditFail = () => {
-  return{ type: ActionTypes.FBPAGE_FAIL };
-};
-
-const fbpageEditSuccess = (res) => {
-  //Actions.main();
-  return{
-    type: ActionTypes.FBPAGE_SUCCESS,
-    payload: 'Information updated successfully'
   };
 
 
@@ -366,25 +382,6 @@ export function updateStateResolve(data){
 
   };
 }
-
-export const getfbpages = (token) => {
-  const config = {
-    rejectUnauthorized: false,
-    headers: {
-        'Authorization': `Bearer ${token}`,
-        'content-type' : 'application/x-www-form-urlencoded'
-    },
-  };
-
-  return (dispatch) => {
-    console.log('calling api');
-    axios.get(`${baseURL}/api/fbpages/`, config).then(res => dispatch(showfbpages(res.data)))
-      .catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
-      });
-  };
-};
 
 
 export const uploadFbChatfile =(filedata,chatmsg)=>{
