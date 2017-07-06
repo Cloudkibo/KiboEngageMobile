@@ -121,10 +121,8 @@ export default Actions.create(
 
       <Scene
         key={'groupCreate'}
-        title={'Create Group2'}
+        title={'Create Group'}
         component={CreateGroup}
-        
-        hideNavBar={true}
         analyticsDesc={'CreateGroup: Create Group'}
       />
      

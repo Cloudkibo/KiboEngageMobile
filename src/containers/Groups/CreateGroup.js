@@ -255,9 +255,9 @@ class CreateGroup extends Component {
 
     return (
       <View
-        renderBackButton={() => (null)}
+        
         style={[AppStyles.container]}
-        contentContainerStyle={[AppStyles.container]}
+       
       >
         <Spacer size={55} />
         <ScrollView

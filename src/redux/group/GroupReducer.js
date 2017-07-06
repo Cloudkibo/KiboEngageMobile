@@ -34,7 +34,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, loading: true, grouperror: '',groupsuccess:'',  groupediterror : '',
   groupeditsuccess:'',};
     case ActionTypes.CREATE_GROUP_SUCCESS:
-      return { ...state, ...INITIAL_STATE, groupsuccess: 'Group created successfully' };
+      return { ...state, groupsuccess: 'Group created successfully' };
     case ActionTypes.CREATE_GROUP_FAIL:
       return { ...state, grouperror: 'Group creation failed', loading: false };
 
