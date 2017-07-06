@@ -255,7 +255,7 @@ return (dispatch) => {
              console.log('Transaction ERROR: ' + error.message);
   }, function() {
           console.log('Populated database OK');
-           dispatch(callbackusers(users));
+           dispatch(callbackusers(res));
   }
   );
 
@@ -265,20 +265,20 @@ return (dispatch) => {
 
 
 export function callbackusers(results) {
- var userdetails = []
-  var len = results.length;
+ var userdetails = {};
+  var len = results.rows.length;
   for (let i = 0; i < len; i++) {
-    let row = results.item(i);
+    let row = results.rows.item(i);
     console.log('row');
     console.log(row);
-    userdetails.push(row);
+    userdetails=row;
   }
   console.log('userdetails');
   console.log(results);
 
   return {
     type: ActionTypes.ADD_USER_DETAILS,
-    payload : results,
+    payload : userdetails,
 
   };
 }
