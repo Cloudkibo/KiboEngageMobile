@@ -1,7 +1,7 @@
-import * as ActionTypes from '../types'; 
+import * as ActionTypes from '../types';
 
 const INITIAL_STATE = {
-  
+
   data: '',
   loading: true,
   chat: [],
@@ -13,13 +13,18 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-   
+
    case ActionTypes.FETCH_SESSIONS:
       return {...state,data:action.payload, loading:false};
 
    case ActionTypes.FETCH_CHATS:
       return {...state,chat:action.payload, loading:false};
-   
+
+    case ActionTypes.SINGLE_CHAT_FETCH:
+      return { ...state, chat: [...state.chat, action.payload[0]], loading:false };
+    case ActionTypes.SINGLE_SESSION_FETCH:
+      return { ...state, data: [...state.data, action.payload[0]], loading:false };
+
    case ActionTypes.SINGLE_CHATS:
       return {...state,singleChat:action.payload, loading:false};
   case ActionTypes.ASSIGN_AGENT:
@@ -34,7 +39,7 @@ export default (state = INITIAL_STATE, action) => {
       console.log('inside ASSIGN_AGENT_UPDATE_STATUS');
       console.log(action.payload)
       return {...state,data:action.payload,loading:false};
-   
+
     default:
       return {...state,invite_agent_status:''};
   }

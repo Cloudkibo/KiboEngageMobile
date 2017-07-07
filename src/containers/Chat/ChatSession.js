@@ -110,9 +110,18 @@ class ChatSession extends Component {
      }
   }
 
+  componentDidUpdate(prevProps) {
+    console.log('component did update called before');
+    if (prevProps.data.length < this.props.data.length) {
+      console.log('component did update called');
+      this.renderCard(this.props);
+    }
+  }
 
   gotoChatBox = (nextProps, request_id, companyid, _id, departmentid, status, team_name, channel_name, item) => {
-    var mychats = nextProps.chat.filter((c)=> c.request_id == request_id);
+    var mychats = this.props.chat.filter((c)=> c.request_id == request_id);
+    console.log(this.props.chat);
+    console.log(mychats);
     var sessiondata = {};
     sessiondata.request_id = request_id;
     sessiondata.companyid = companyid;
@@ -131,30 +140,19 @@ class ChatSession extends Component {
   renderCard = (nextProps) => {
     const data = nextProps.data;
     this.state.menuItems = [];
-    console.log(nextProps.groups);
-    console.log(nextProps.deptteams);
-    console.log(nextProps.deptteams.filter((c) => c.deptid._id == '588051e557927115389ec16f'));
-    const temp = nextProps.deptteams.filter((c) => c.deptid._id == '588051e557927115389ec16f');
-    const t = nextProps.teamagents.filter((a) => a.agentid == nextProps.userdetails._id);
-    console.log(nextProps.teamagents.filter((a) => a.agentid == nextProps.userdetails._id));
-    console.log(t.filter((a) => a.groupid == temp[0].teamid._id).length);
     // Build the actual Menu Items
     data.map((item, index) => {
       let name = item.customerID;
       let agentinteam = false;
       const group = nextProps.groups.filter((t) => t._id === item.departmentid);
-      console.log(group);
       let groupTeams = [];
       if (group.length > 0) {
         groupTeams = nextProps.deptteams.filter((c) => c.deptid._id === group[0]._id);
       }
-      console.log(groupTeams);
       const agentTeams = nextProps.teamagents.filter((a) => a.agentid === nextProps.userdetails._id);
-      console.log(agentTeams);
       if (groupTeams.length > 0) {
         for (let i =0; i < groupTeams.length; i++) {
           if (agentTeams.filter((a) => a.groupid == groupTeams[i].teamid._id).length > 0) {
-            console.log(agentTeams.filter((a) => a.groupid == groupTeams[i].teamid._id));
             agentinteam = true;
           }
         }
@@ -245,7 +243,7 @@ class ChatSession extends Component {
                     backgroundColor='#03A9F4'
                     buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
                     title='View Chats'
-                    onPress = {() => this.gotoChatBox(nextProps, item.request_id, item.companyid, item._id, item.departmentid, item.status,groupname[0].deptname?groupname[0].deptname:'-', subgroupName[0].msg_channel_name?subgroupName[0].msg_channel_name:'-', item)} />
+                    onPress = {() => this.gotoChatBox(nextProps, item.request_id, item.companyid, item._id, item.departmentid, item.status, group[0].deptname ? group[0].deptname:'-', subgroupName[0].msg_channel_name?subgroupName[0].msg_channel_name:'-', item)} />
                 </Card>
             );
       }
