@@ -200,16 +200,7 @@ const scenes = (
         analyticsDesc={'FBPages: FBPages'}
       />
 
-       <Scene
-       {...navbarPropsTabs}
-        key={'fbChats'}
-        title={'Chat'}
-        component={FbChat}
-        onRight={() => Actions.FbSettings()}
-        rightTitle="Settings"
-        rightButtonTextStyle={styles.rightbarbuttonstyle}
-        analyticsDesc={'FbChat: FbChat'}
-      />
+     
    
       <Scene
        {...navbarPropsTabs}

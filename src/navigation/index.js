@@ -16,6 +16,7 @@ import Drawer from '@containers/ui/DrawerContainer';
 // Scenes
 import AppLaunch from '@containers/Launch/LaunchContainer';
 
+import FbChat from '@containers/Facebook/FbChat';
 
 import Chat from '@containers/Chat/Chat';
 import ChatSettings from '@containers/Chat/ChatSettings';
@@ -109,6 +110,15 @@ export default Actions.create(
         rightButtonTextStyle={styles.rightbarbuttonstyle}
         component={Chat}
         analyticsDesc={'Placeholder: Coming Soon'}
+      />
+        <Scene
+        key={'fbChats'}
+        title={'Chat'}
+        component={FbChat}
+        onRight={() => Actions.FbSettings()}
+        rightTitle="Settings"
+        rightButtonTextStyle={styles.rightbarbuttonstyle}
+        analyticsDesc={'FbChat: FbChat'}
       />
 
  <Scene
