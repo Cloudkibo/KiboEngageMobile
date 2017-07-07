@@ -181,10 +181,11 @@ export const fetchfbcustomers=(token) => {
   };
 };
 
-export const updatedSelectedFbChats=(fbchatsSelected) => {
+export const updatedSelectedFbChats=(fbchatsSelected,fbCustomerSelected) => {
    return{
     type: ActionTypes.SHOW_FB_SELECTEDCHATS,
     payload: fbchatsSelected,
+    fbCustomerSelected:fbCustomerSelected,
   };
 
 }

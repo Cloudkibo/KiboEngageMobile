@@ -38,7 +38,7 @@ export default (state = INITIAL_STATE, action) => {
     return { ...state,fbchats:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
 
     case ActionTypes.SHOW_FB_SELECTEDCHATS:
-    return { ...state,fbchatSelected:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
+    return { ...state,fbchatSelected:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false,fbCustomerSelected:action.fbCustomerSelected };
 
     case ActionTypes.SHOW_FB_CHATS_UPDATED:
     return { ...state,fbchatSelected:action.fbchatSelected,fbchats:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };

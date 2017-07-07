@@ -67,8 +67,7 @@ class FbChat extends Component {
 
   componentDidMount(){
     console.log('component did. mount called');
-
-    if(this.props.fbchatSelected){
+    if(this.props.fbchatSelected && this.props.fbCustomerSelected){
       this.renderChat(this.props);
      // this.forceUpdate();
     }
@@ -83,10 +82,7 @@ class FbChat extends Component {
     // console.log(nextProps.groups);
       this.renderGif(nextProps);
       this.renderSticker(nextProps);
-    if(nextProps.fbchatSelected){
-      // this.renderChat(nextProps);
-      // this.forceUpdate();
-     }
+    
      if(nextProps.upload){
        console.log("Upload updated");
       //  this.renderChat(nextProps);
@@ -103,7 +99,10 @@ class FbChat extends Component {
        if(nextProps.fbchatSelected[i].message){
             var item = nextProps.fbchatSelected[i];
             if(item.message.text){
-              
+              if(nextProps.fbCustomerSelected.user_id.user_id === item.senderid){
+                  console.log('true');
+              }
+             
                temparray.push(
                      {
                     _id: i,
@@ -116,7 +115,7 @@ class FbChat extends Component {
                     attachments:item.message.attachments,
                     seen:false,
                     user: {
-                      _id: this.props.senderid === item.senderid?2:1,
+                      _id: nextProps.fbCustomerSelected.user_id.user_id == item.senderid?2:1,
                      // name:  item.senderid,
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
@@ -124,7 +123,9 @@ class FbChat extends Component {
 
                   }
                  );
-             }
+              }
+              
+             
               else if(item.message.attachments && item.message.attachments.length >0 && item.message.attachments[0].type == "image"){
                  console.log(item.message.attachments);
                  temparray.push(
@@ -139,7 +140,7 @@ class FbChat extends Component {
                     attachments:item.message.attachments,
                     seen:false,
                     user: {
-                      _id: this.props.senderid == item.senderid?2:1,
+                      _id: nextProps.fbCustomerSelected.user_id.user_id== item.senderid?2:1,
                     //  name:  item.senderid,
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
@@ -165,7 +166,7 @@ class FbChat extends Component {
                     attachments:item.message.attachments,
                     seen:false,
                     user: {
-                      _id: this.props.senderid == item.senderid?2:1,
+                      _id: nextProps.fbCustomerSelected.user_id.user_id == item.senderid?2:1,
                      // name:  item.senderid,
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
@@ -190,7 +191,7 @@ class FbChat extends Component {
                     attachments:item.message.attachments,
                     seen:false,
                     user: {
-                      _id: this.props.senderid == item.senderid?2:1,
+                      _id: nextProps.fbCustomerSelected.user_id.user_id== item.senderid?2:1,
                      // name:  item.senderid,
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
@@ -215,7 +216,7 @@ class FbChat extends Component {
                     attachments:item.message.attachments,
                     seen:false,
                     user: {
-                      _id: this.props.senderid == item.senderid?2:1,
+                      _id:nextProps.fbCustomerSelected.user_id.user_id == item.senderid?2:1,
                      // name:  item.senderid,
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
@@ -240,7 +241,7 @@ class FbChat extends Component {
                     attachments:item.message.attachments,
                     seen:false,
                     user: {
-                      _id: this.props.senderid == item.senderid?2:1,
+                      _id: nextProps.fbCustomerSelected.user_id.user_id== item.senderid?2:1,
                      // name:  item.senderid,
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
@@ -288,20 +289,13 @@ class FbChat extends Component {
    var uid = Math.random().toString(36).substring(7);
    var unique_id = 'f' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
 
-    var pageid=''
-    for(var i=0;i<this.props.fbchatSelected.length;i++){
-      if(this.props.fbchatSelected[i].senderid == this.props.senderid){
-        pageid = this.props.fbchatSelected[i].recipientid;
-        //alert(pageid)
-        break;
-      }
-    }
-
+    var pageid=this.props.fbCustomerSelected.pageid.pageid
+     
     /*** for text message *****/
     if(msgObj.text){
               var saveMsg = {
                         senderid: this.props.userdetails._id,
-                        recipientid:this.props.senderid,
+                        recipientid:this.props.fbCustomerSelected.user_id.user_id,
                         companyid:this.props.userdetails.uniqueid,
                         timestamp:Date.now(),
                         message:{
@@ -322,7 +316,7 @@ class FbChat extends Component {
              else if(msgObj.image && msgObj.type == 'gif'){
                       var saveMsg = {
                                    senderid: this.props.userdetails._id,
-                                   recipientid:this.props.senderid,
+                                   recipientid:this.props.fbCustomerSelected.user_id.user_id,
                                    companyid:this.props.userdetails.uniqueid,
                                    timestamp:Date.now(),
                                    message:{
@@ -362,7 +356,7 @@ class FbChat extends Component {
 
                var saveMsg = {
                                   senderid: this.props.userdetails._id,
-                                  recipientid:this.props.senderid,
+                                  recipientid:this.props.fbCustomerSelected.user_id.user_id,
                                   companyid:this.props.userdetails.uniqueid,
                                   timestamp:Date.now(),
                                   message:{
@@ -388,7 +382,7 @@ class FbChat extends Component {
             else {
                 var saveMsg = {
                                    senderid: this.props.userdetails._id,
-                                   recipientid:this.props.senderid,
+                                   recipientid:this.props.fbCustomerSelected.user_id.user_id,
                                    companyid:this.props.userdetails.uniqueid,
                                    timestamp:Date.now(),
                                    message:{
@@ -444,7 +438,7 @@ class FbChat extends Component {
               console.log(fileobj);
                var saveMsg = {
                                   senderid: this.props.userdetails._id,
-                                  recipientid:this.props.senderid,
+                                  recipientid:this.props.fbCustomerSelected.user_id.user_id,
                                   companyid:this.props.userdetails.uniqueid,
                                   timestamp:Date.now(),
                                   message:{
@@ -763,9 +757,9 @@ const mapDispatchToProps = {
   downloadFileFromFb: FbActions.downloadFile,
 };
 function mapStateToProps(state) {
-   const { fbcustomers,fbchats,fbchatSelected, emojiVisible, gifVisible, gifs, stickers, stickerVisible, upload} = state.fbpages;
+   const { fbcustomers,fbchats,fbCustomerSelected,fbchatSelected, emojiVisible, gifVisible, gifs, stickers, stickerVisible, upload} = state.fbpages;
     const { userdetails} = state.user;
-  return { fbcustomers,fbchats,fbchatSelected,userdetails, emojiVisible, gifVisible, gifs, stickers, stickerVisible, upload};
+  return { fbcustomers,fbchats,fbCustomerSelected,fbchatSelected,userdetails, emojiVisible, gifVisible, gifs, stickers, stickerVisible, upload};
 
 }
 
