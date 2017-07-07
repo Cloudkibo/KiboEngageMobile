@@ -66,6 +66,16 @@ class Chat extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    console.log('componentDidUpdate');
+    if (prevProps.chat.length < this.props.chat.length) {
+      console.log('componentDidUpdate: new chat appened');
+      const mychats = this.props.chat.filter((c)=> c.request_id == this.props.chat[this.props.chat.length-1].request_id);
+      this.renderChat(mychats);
+      this.forceUpdate();
+    }
+  }
+
     componentDidMount= async() => {
     // console.log('component did. mount called');
     // if(this.props.currentChats){
@@ -76,7 +86,7 @@ class Chat extends Component {
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
-            this.props.cannedFetch(token);     
+            this.props.cannedFetch(token);
           }
   }
 
@@ -86,7 +96,7 @@ class Chat extends Component {
       console.log("Single Chat", this.props.singleChat);
       // console.log("In renderChat", newchats);
      newchats.map((item, index) => {
-      
+
       temp.push(
            {
           _id: index,
@@ -111,11 +121,11 @@ class Chat extends Component {
     var msgObj = messages[0];
    console.log('msgObj');
   // console.log(msgObj);
-   var today = new Date();  
+   var today = new Date();
    var uid = Math.random().toString(36).substring(7);
    var unique_id = 'f' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
 
-   
+
 
     if(msgObj.file){
       /*** for image file ******/
@@ -200,7 +210,7 @@ class Chat extends Component {
 
   selectFileTapped() {
     console.log('selectFileTapped called');
-    
+
     if(ReactNative.Platform.OS == "android"){
 
       const FilePickerManager = require('NativeModules').FilePickerManager;
@@ -246,8 +256,8 @@ class Chat extends Component {
                      this.onSend(files);
               }
         },5000);
-         
-       
+
+
     });
   }
 
@@ -279,11 +289,11 @@ class Chat extends Component {
       };
 
       console.log(body);
-      
+
       // console.log(this.props.sessioninfo);
       if(token != ''){
         console.log("Calling send Chat");
-        console.log("Print token " + token);  
+        console.log("Print token " + token);
         this.props.sendChat(token, body);
       }
   }
@@ -301,7 +311,7 @@ class Chat extends Component {
       }
     }
   }
-    
+
     if(isFile  && fileUpload.progress < 100 && fileUpload.progress >= 0){
 
       return (
@@ -309,7 +319,7 @@ class Chat extends Component {
 
               <PercentageCircle radius={35} percent={fileUpload.progress} color={"#3498db"}>
                 <Text>{fileUpload.progress}%</Text>
-              </PercentageCircle>  
+              </PercentageCircle>
             </View>
       );
     }else if(fileUpload.progress == -1){
@@ -324,7 +334,7 @@ class Chat extends Component {
         }}
       />
     );
-    } 
+    }
     else{
     return (
       <GChat.Bubble
@@ -337,7 +347,7 @@ class Chat extends Component {
       />
     );
     }
-    // this.props.downloadFile(); 
+    // this.props.downloadFile();
   }
 
   renderActions(prop){
@@ -370,13 +380,13 @@ class Chat extends Component {
   }
 
   selectCanned = (str) => {
-    
+
     var words = this.state.text.split(" ");
     words[words.length - 1] = str;
     words = words.join(" ");
     console.log("Rece and final", str, words);
     this.setState({isCanned: false, text: words});
-  } 
+  }
 
   triggerCanned = () => {
       var words = this.state.text.split(" ");
@@ -402,7 +412,7 @@ class Chat extends Component {
         </View>
       );
       }
-    
+
       return null;
   }
 
@@ -468,7 +478,6 @@ const mapDispatchToProps = {
   sendChat: chatActions.sendChat,
   uploadChatDocfile: chatActions.uploadChatDocfile,
   cannedFetch: CannedActions.cannedFetch,
-  
 };
 function mapStateToProps(state) {
    const { userdetails } = state.user;
@@ -476,11 +485,8 @@ function mapStateToProps(state) {
    const { teams, teamagents } = state.teams;
    const { subgroups} = state.subgroups;
    const {cannedresponses} = state.cannedresponses
-   const { singleChat,invite_agent_status, upload, currentChats } = state.chat;
-   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, upload, currentChats, cannedresponses };
- 
-
-
+   const { singleChat,invite_agent_status, upload, currentChats, chat } = state.chat;
+   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, upload, currentChats, cannedresponses, chat };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

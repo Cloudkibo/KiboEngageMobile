@@ -54,22 +54,22 @@ var remoteNotificationsDeviceToken = '';  // The device token registered with AP
 class Dashboard extends Component {
   static componentName = 'Dashboard';
 
- 
+
   constructor(props) {
     super(props);
-    
+
     this.state = {'userdetails' : null,loading : true};
     this.register = this.register.bind(this);
    this._onRemoteNotification = this._onRemoteNotification.bind(this);
-  
+
   }
- 
- 
+
+
 
   async register() {
     console.log('registerering to hub');
     var token = NotificationHub.register({connectionString, hubName, senderID, tags})
-    
+
     try {
     var {
      message
@@ -110,7 +110,7 @@ class Dashboard extends Component {
           userdetails: props.userdetails,
           loading : false,
         });
-       tags.push('Agent-'+props.userdetails.email); 
+       tags.push('Agent-'+props.userdetails.email);
        this.register();
     }
   }
@@ -120,12 +120,12 @@ class Dashboard extends Component {
     var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
-     
+
            this.props.getuser(token);
-       
-            
+           this.props.sessionsFetch(token);
+
           }
-  
+
   }
 
   componentWillMount() {
@@ -133,10 +133,10 @@ class Dashboard extends Component {
                        'onNotificationReceived',
                        this._onRemoteNotification);*/
     DeviceEventEmitter.addListener('onNotificationReceived', this._onRemoteNotification);
- 
-  
+
+
   }
-  
+
   rendername(){
    return (
      <View style={[AppStyles.container]}
@@ -147,7 +147,7 @@ class Dashboard extends Component {
           <Text> Hello {this.state.userdetails.firstname}</Text>
         </Card>
       </View>
-    
+
     );
   }
 
@@ -161,12 +161,12 @@ renderLoadingView(){
           <Text> Loading User data ...</Text>
         </Card>
       </View>
-    
+
     );
   }
   render = () => {
      if (this.state.loading) return <Loading />;
-      
+
 
       return(<View style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
@@ -176,20 +176,20 @@ renderLoadingView(){
           <Text> Hello {this.props.userdetails.firstname}</Text>
         </Card>
 
-       
+
       </View>
       );
-    
-    
+
+
   }
- 
+
 
   async _onRemoteNotification(notification) {
     console.log('notification');
     console.log(notification);
     var notif = JSON.parse(notification.message);
     console.log("Notif", notif);
-    
+
     Alert.alert(
       'Push Notification Received',
       'Alert message: ' + notif.data.status,
@@ -207,10 +207,18 @@ renderLoadingView(){
             this.props.getfbChatsUpdate(token,this.props.currentSession);
 
             //this.forceUpdate();
-            
+
            }
     }
-    if(notif.data.request_id && notif.data.uniqueid){
+    if (notif.data.type == 'chatsession') {
+      console.log('notification receieved');
+      console.log(notif.data);
+      console.log(this.props.data);
+      const token = await auth.getToken();
+      this.props.fetchSingleChat(token, notif.data);
+      this.props.sessionsFetch(token);
+    }
+    /*if(notif.data.request_id && notif.data.uniqueid){
       console.log("Fetching the receieved chat");
           var token =  await auth.getToken();
           // console.log('token is Launchview is: ' + token);
@@ -218,10 +226,10 @@ renderLoadingView(){
             if(notif.data.request_id == this.props.singleChat.request_id){
               this.props.fetchChat(token, notif.data);
             }
-            
+
            }
-      
-    }
+
+    }*/
     if(notif.data.type == "fb_chat_assigned"){
             console.log("Updating FbSession Status to assigned");
             var newSessions = this.props.fbSessions.map((obj) => {
@@ -245,7 +253,7 @@ renderLoadingView(){
             });
             this.props.updateFbSessionsAssignedStatus(newSessions);
             //this.forceUpdate();
-    
+
   }
 
 }
@@ -257,23 +265,25 @@ const mapDispatchToProps = {
   getuser: UserActions.getuser,
   getsqlData:UserActions.getsqlData,
   fetchChat: chatActions.fetchChat,
+  fetchSingleChat: chatActions.fetchSingleChat,
+  fetchSingleSession: chatActions.fetchSingleSession,
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
+  sessionsFetch: chatActions.sessionsFetch,
   updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
     closemenu: menuActions.close,
  };
 
 function mapStateToProps(state) {
-   const { userdetails,fetchedR} = state.user;
-   const {fbchatSelected, fbSessions,currentSession} = state.fbpages;
-   var {chat} = state.chat;
-   var {singleChat} = state.chat;
-  return {userdetails,fetchedR,fbchatSelected, chat, singleChat, fbSessions,currentSession};
+  const { userdetails, fetchedR } = state.user;
+  const { fbchatSelected, fbSessions, currentSession } = state.fbpages;
+  const { chat, singleChat, data } = state.chat;
+
+  return { userdetails, fetchedR, fbchatSelected, chat, singleChat, fbSessions, currentSession, data };
 
 }
 // Dashboard = codePush(codePushOptions)(Dashboard);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
-

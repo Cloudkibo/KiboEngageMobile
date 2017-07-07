@@ -39,10 +39,10 @@ export const sessionsFetch =  (token) => {
           'Authorization': `Bearer ${token}`,
       },
     };
-      
+
  /* return (dispatch) => {
     axios.get(`${baseURL}/api/visitorcalls/kiboengagesessions`,config)
-    .then(res => dispatch(showSessions(res)));   
+    .then(res => dispatch(showSessions(res)));
   };
 };
 */
@@ -59,8 +59,8 @@ export const sessionsFetch =  (token) => {
           //Alert.alert('You are not connected with Internet');
           dispatch(readSessions());
         }
-       }); 
-      
+       });
+
   };
 };
 
@@ -71,10 +71,10 @@ console.log('chats fetch called');
           'Authorization': `Bearer ${token}`,
       },
     };
-      
+
 /*  return (dispatch) => {
     axios.get(`${baseURL}/api/userchats/`,config)
-    .then(res => dispatch(showChats(res)));   
+    .then(res => dispatch(showChats(res)));
   };
 };*/
  return (dispatch) => {
@@ -88,21 +88,81 @@ console.log('chats fetch called');
           Alert.alert('You are not connected with Internet');
           dispatch(readChats());
         }
-       }); 
-      
+       });
+
   };
 };
 
 
 export function singleChats(data) {
   // console.log('show single chat messages data');
-  // console.log(data);
+  console.log(data);
   return {
     type: ActionTypes.SINGLE_CHATS,
-    payload : data,
+    payload: data,
   };
 }
 
+export function singleChatFetch(data) {
+  // console.log('show single chat messages data');
+  console.log(data);
+  return {
+    type: ActionTypes.SINGLE_CHAT_FETCH,
+    payload: data,
+  };
+}
+
+export function singleSessionFetch(data) {
+  // console.log('show single chat messages data');
+  console.log(data);
+  return {
+    type: ActionTypes.SINGLE_SESSION_FETCH,
+    payload: data,
+  };
+}
+
+export const fetchSingleChat = (token, chat) => {
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'content-type': 'application/json',
+    },
+  };
+  const data = {
+    "uniqueid": chat.uniqueid,
+    "request_id": chat.request_id,
+  };
+
+  return (dispatch) => {
+    axios.post(`${baseURL}/api/userchats/fetchchat`, data, config)
+    .then((res) => res).then(res => dispatch(singleChatFetch(res.data)))
+    .catch(function (error) {
+      console.log('Error occured');
+      console.log(error);
+    });
+  };
+};
+
+export const fetchSingleSession = (token, chat) => {
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'content-type': 'application/json',
+    },
+  };
+  const data = {
+    "request_id": chat.request_id,
+  };
+
+  return (dispatch) => {
+    axios.post(`${baseURL}/api/visitorcalls/getSession`, data, config)
+    .then((res) => res).then(res => dispatch(singleSessionFetch(res.data)))
+    .catch(function (error) {
+      console.log('Error occured');
+      console.log(error);
+    });
+  };
+};
 
 // Assign Agent
 //updated,sessionid,data
@@ -137,7 +197,7 @@ export const assignAgent = (token, input,session,allsessions,stringvaluestatus) 
             datetime   : Date.now(),
             type : input.type,
           },
-          
+
       };
  // console.log(data);
     return (dispatch) => {
@@ -154,7 +214,7 @@ export const assignAgent = (token, input,session,allsessions,stringvaluestatus) 
         dispatch(sessionsFetch(token));
        // dispatch(assign_agent_update_states(session.request_id,stringvaluestatus,allsessions,input.agentidTo));
         dispatch(assign_agent_status('Successfully Assigned', ));
-      
+
 
         console.log("Agent Successfully Assigned");
       })
@@ -190,7 +250,7 @@ else{
   return {
     type: ActionTypes.ASSIGN_AGENT_UPDATE_STATUS,
     payload : updatedsessions,
-   
+
 
   };
 }
@@ -276,7 +336,7 @@ console('resolve chat session called');
           'Authorization': token,
       },
     };
-      
+
 
     data = {
         request_id : sessionid,
@@ -296,7 +356,7 @@ console('resolve chat session called');
         console.log(error);
         // dispatch(confirmInvite(error));
         dispatch(assign_agent_status('Unable to mark chat as resolved'));
-      });   
+      });
   };
 };
 
@@ -305,10 +365,10 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
                console.log("Sending file.....");
                dispatch (update_upload_progress({
                                     message_id: filedata._id,
-                                    progress: 1, 
+                                    progress: 1,
                                   }));
                 RNFetchBlob.fetch('POST', `https://kiboengage.kibosupport.com/api/uploadchatfile`, {
-                               
+
                                 'Content-Type' : 'multipart/form-data'},[
                                 { name : 'file', type: filedata.type,filename : filedata.name, data: RNFetchBlob.wrap(filedata.uri.replace("file://", ""))},
                                 { name : 'chatmsg', data : JSON.stringify(chatmsg)}]
@@ -319,26 +379,26 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
                                       console.warn('uploaded');
                                       dispatch (update_upload_progress({
                                     message_id: filedata._id,
-                                    progress: 100, 
-                                  }));  
+                                    progress: 100,
+                                  }));
                                     }
                                    dispatch (update_upload_progress({
                                     message_id: filedata._id,
-                                    progress: Math.round(written/total * 100), 
+                                    progress: Math.round(written/total * 100),
                                   }));
                                 })
-                               
+
                                 .then((resp) => {
                                   console.log("Me in then of sending.. fine", resp);
                                   dispatch (update_upload_progress({
                                     message_id: filedata._id,
-                                    progress: 100, 
+                                    progress: 100,
                                   }));
                                   if(resp.statusCode == 201){
                                       console.log('File uploaded');
                                       dispatch ({
                                     message_id: filedata._id,
-                                    progress: 100, 
+                                    progress: 100,
                                   });
                                   }
 
@@ -346,7 +406,7 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
                                 .catch((err) => {
                                   update_upload_progress({
                                     message_id: filedata._id,
-                                    progress: -1, 
+                                    progress: -1,
                                   });
                                   console.log("Me in log of response", err);
                                   console.warn(err);
@@ -361,9 +421,9 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
 console.log('fetch chat called');
    var config = {
       headers: {
-          'Authorization': `Bearer ${token}`,      
+          'Authorization': `Bearer ${token}`,
       },
-      
+
     };
     var data = {
         'uniqueid': data.uniqueid,
@@ -376,8 +436,8 @@ console.log('fetch chat called');
       dispatch(addChat(res.data[0]));
       console.log("Chat Updated");
     }).catch((err) => {
-      
-      console.log("Printing the err", err)});   
+
+      console.log("Printing the err", err)});
   };
 };
 
@@ -415,13 +475,13 @@ export function callbacksessions(results) {
 
 
       }
-    
+
     console.log('row');
     fsessions.push(obj);
   }
   console.log('callbacksessions');
   console.log(fsessions);
- 
+
   return {
     type: ActionTypes.FETCH_SESSIONS,
     payload : fsessions,
@@ -468,31 +528,31 @@ export  function writeSessions(sessions){
   record.push(sessions[i].messagechannel[sessions[i].messagechannel.length-1]);
   record.push(sessions[i].customerID);
   record.push(sessions[i].is_rescheduled);
-  
+
   rows.push(record);
   // addItem(db,record);
 
-  
+
  }
- 
+
 
 return (dispatch) => {
-    
+
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS CHATSESSIONS');
     tx.executeSql(CREATE_Sessions_TABLE);
 
     for(var j=0;j<rows.length;j++){
        tx.executeSql('INSERT INTO CHATSESSIONS VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)',rows[j]);
-   
+
     }
     tx.executeSql('SELECT * FROM CHATSESSIONS', [], (tx,results) => {
           console.log("Query completed");
           console.log("convert query result into desired format");
          // console.log(results);
-    
+
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -504,7 +564,7 @@ return (dispatch) => {
           dispatch(callbacksessions(res));
   }
   );
-  
+
   }
 
 }
@@ -512,14 +572,14 @@ return (dispatch) => {
 export function readSessions(){
    var db = SqliteCalls.getConnection();
    return (dispatch) => {
-    
+
     db.transaction(function(tx) {
-   
+
     tx.executeSql('SELECT * FROM CHATSESSIONS', [], (tx,results) => {
           console.log("Query completed");
         //  console.log(results);
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -529,7 +589,7 @@ export function readSessions(){
            dispatch(callbacksessions(res));
   }
   );
-  
+
   }
 
 }
@@ -564,13 +624,13 @@ export function callbackchats(results) {
           agentemail:JSON.parse(row.agentemail)
 
       }
-    
+
     console.log('row');
     fsessions.push(obj);
   }
   console.log('callbackchats');
   console.log(fsessions);
- 
+
   return {
     type: ActionTypes.FETCH_CHATS,
     payload : fsessions,
@@ -620,27 +680,27 @@ export  function writeChats(chats){
   console.log(record)
   // addItem(db,record);
 
-  
+
  }
- 
+
 
 return (dispatch) => {
-    
+
     db.transaction(function(tx) {
     tx.executeSql('DROP TABLE IF EXISTS CHATS');
     tx.executeSql(CREATE_Chats_TABLE);
 
     for(var j=0;j<rows.length;j++){
        tx.executeSql('INSERT INTO CHATS VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',rows[j]);
-   
+
     }
     tx.executeSql('SELECT * FROM CHATS', [], (tx,results) => {
           console.log("Query completed");
           console.log("convert query result into desired format");
          // console.log(results);
-    
+
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -652,7 +712,7 @@ return (dispatch) => {
           dispatch(callbackchats(res));
   }
   );
-  
+
   }
 
 }
@@ -660,16 +720,16 @@ return (dispatch) => {
 export function readChats(){
    var db = SqliteCalls.getConnection();
    return (dispatch) => {
-    
+
     db.transaction(function(tx) {
-   
+
     tx.executeSql('SELECT * FROM CHATS', [], (tx,results) => {
           console.log("Query completed");
           console.log("convert query result into desired format");
          // console.log(results);
-    
+
           res = results;
-          
+
         });
   }
     , function(error) {
@@ -679,8 +739,7 @@ export function readChats(){
            dispatch(callbackchats(res));
   }
   );
-  
+
   }
 
 }
-
