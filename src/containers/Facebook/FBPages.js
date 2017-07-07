@@ -74,6 +74,7 @@ class FBPages extends Component {
     if (nextProps.fbpages && nextProps.fbteams) {
       this.setState({ loading: false });
       this.createDataSource(nextProps.fbpages);
+      console.log("Fbpages fb teams", nextProps.fbteams);
     }
   }
 

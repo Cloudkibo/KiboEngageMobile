@@ -61,7 +61,7 @@ export const getfbpages = (token) => {
     console.log('calling api');
     axios.get(`${baseURL}/api/fbpages/`, config).then(res => dispatch(showfbpages(res.data)))
       .catch(function (error) {
-        console.log('Error occured');
+        console.log('Error occured in getting fb pages');
         console.log(error);
       });
   };
@@ -148,9 +148,12 @@ export const fetchfbpageteams = (token) => {
   };
 
   return (dispatch) => {
-    axios.get(`${baseURL}/api/fbpageteams/`, config).then(res => dispatch(showfbpageteams(res.data)))
+    axios.get(`${baseURL}/api/fbpageteams/`, config).then(res => {
+      console.log("Fb pages teams fetched successfully")
+      dispatch(showfbpageteams(res.data));
+    })
       .catch(function (error) {
-        console.log('Error occured');
+        console.log('Error occured in fetching fb page teams');
         console.log(error);
       });
   };
