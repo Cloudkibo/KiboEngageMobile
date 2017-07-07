@@ -114,7 +114,7 @@ class EditFbPage extends Component {
     const token = await auth.getToken();
     console.log(`token is Launchview is ${token}`);
     if (token !== '') {
-      this.props.getfbpages(token);
+      //this.props.getfbpages(token);
       this.props.teamFetch(token);
     }
     const fbpageTeams = this.props.fbteams.filter((c) => c.pageid._id == this.props.fbpage._id);
@@ -330,10 +330,10 @@ class EditFbPage extends Component {
 }
 
 function mapStateToProps(state) {
-  const { fbpageerror, fbpagesuccess, fbteams } = state.fbpages;
+  const { fbpageerror, fbpagesuccess, fbteams,fbpages } = state.fbpages;
   const { userdetails } = state.user;
   const { teams } = state.teams;
-  return { fbpageerror, fbpagesuccess, userdetails, fbteams, teams };
+  return { fbpageerror, fbpagesuccess, userdetails, fbteams, teams,fbpages };
 }
 
 

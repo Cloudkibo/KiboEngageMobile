@@ -46,7 +46,7 @@ class FBPages extends Component {
   constructor(props) {
     super(props);
     this.state = { loading: true };
-    this.createDataSource(props);
+    this.createDataSource(props.fbpages);
   }
 
   componentWillMount() {
@@ -70,19 +70,19 @@ class FBPages extends Component {
     // will be rendered with
     // this.props is still the old set of props
     console.log('componentWillReceiveProps is called');
-    console.log(nextProps);
-    if (nextProps.fbpages) {
+    //console.log(nextProps);
+    if (nextProps.fbpages && nextProps.fbteams) {
       this.setState({ loading: false });
-      this.createDataSource(nextProps);
+      this.createDataSource(nextProps.fbpages);
     }
   }
 
-  componentDidUpdate(prevProps){
+  /*componentDidUpdate(prevProps){
     this.setState({ loading: false });
     this.createDataSource(this.props);
-  }
+  }*/
 
-  createDataSource({ fbpages }) {
+  createDataSource(fbpages) {
     const ds = new ListView.DataSource({
 
       rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -152,8 +152,8 @@ const mapDispatchToProps = {
 };
 
 function mapStateToProps(state) {
-  const { fbpages } = state.fbpages;
+  const { fbpages,fbteams } = state.fbpages;
   const { userdetails } = state.user;
-  return { fbpages, userdetails };
+  return { fbpages, userdetails,fbteams };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FBPages);
