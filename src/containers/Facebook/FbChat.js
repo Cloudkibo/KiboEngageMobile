@@ -28,7 +28,7 @@ var ReactNative = require('react-native');
 import { AppColors, AppStyles } from '@theme/';
 
 // Components
-import { Alerts, Spacer, Text } from '@components/ui/';
+import { Alerts, Spacer, Text, myEmojiPicker } from '@components/ui/';
 import CustomActions from './CustomActions';
 import CustomView from './CustomView';
 import AudioPlayer from './AudioPlayer';
@@ -718,7 +718,7 @@ class FbChat extends Component {
           <View>
       <ScrollView>
       
-        <EmojiPicker
+        <myEmojiPicker
           onEmojiSelected={(emoji) => {this.logEmoji(emoji, propy)}}
           visible={this.props.emojiVisible}
           />
