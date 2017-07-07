@@ -183,7 +183,7 @@ export  function writeUserDetails(users){
                 + "role TEXT,"
                 + "state TEXT,"
                 + "uniqueid TEXT,"
-                * "website TEXT"
+                + "website TEXT"
                 + ")";
 
  var rows = []
@@ -241,7 +241,7 @@ return (dispatch) => {
     tx.executeSql(CREATE_USER_DETAILS_TABLE);
 
     for(var j=0;j<rows.length;j++){
-       tx.executeSql('INSERT INTO USER_DETAILS VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',rows[j]);
+       tx.executeSql('INSERT INTO USER_DETAILS VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',rows[j]);
 
     }
     tx.executeSql('SELECT * FROM USER_DETAILS', [], (tx,results) => {

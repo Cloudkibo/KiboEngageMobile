@@ -70,7 +70,7 @@ class FbChat extends Component {
 
     if(this.props.fbchatSelected){
       this.renderChat(this.props);
-      this.forceUpdate();
+     // this.forceUpdate();
     }
   }
 
@@ -96,22 +96,6 @@ class FbChat extends Component {
 
 
   renderChat = (nextProps) => {
-      // var temp = [];
-     // this.setState({messages:[]});
-
-       /* message: temp[i].message.text,
-        inbound: true,
-        backColor: '#3d83fa',
-        textColor: "white",
-        avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
-        duration: 0,
-        timestamp:temp[i].timestamp,
-        senderid:temp[i].senderid,
-        recipientid:temp[i].recipientid,
-        mid:temp[i].message.mid,
-        attachments:temp[i].message.attachments,
-        seen:false
-*/
      var temparray = [];
      console.log("In render chat", nextProps.fbchatSelected);
       for(var i=0;i<nextProps.fbchatSelected.length;i++){
@@ -119,6 +103,7 @@ class FbChat extends Component {
        if(nextProps.fbchatSelected[i].message){
             var item = nextProps.fbchatSelected[i];
             if(item.message.text){
+              
                temparray.push(
                      {
                     _id: i,
@@ -131,7 +116,7 @@ class FbChat extends Component {
                     attachments:item.message.attachments,
                     seen:false,
                     user: {
-                      _id: this.props.senderid == item.senderid?2:1,
+                      _id: this.props.senderid === item.senderid?2:1,
                      // name:  item.senderid,
                       name: 'React Native',
                       avatar: 'https://ca.slack-edge.com/T039DMJ6N-U0S6AEV5W-gd92f62a7969-512',
@@ -518,8 +503,8 @@ class FbChat extends Component {
   }
 
   renderBubble(prop) {
-    console.log("In render bubble", prop.currentMessage);
-    console.log("THis render upload", this.props.upload);
+   // console.log("In render bubble", prop.currentMessage);
+   // console.log("THis render upload", this.props.upload);
     if(!prop.currentMessage.attachments && prop.currentMessage.file){
         return (
           <Text>{prop.currentMessage.text}</Text>
@@ -716,7 +701,7 @@ class FbChat extends Component {
       if(this.props.emojiVisible){
         return (
           <View>
-      <ScrollView>
+      <ScrollView style={styles.footerContainer}>
       
         <EmojiPicker
           onEmojiSelected={(emoji) => {this.logEmoji(emoji, propy)}}

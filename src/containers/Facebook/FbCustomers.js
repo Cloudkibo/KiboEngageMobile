@@ -110,17 +110,8 @@ class FbCustomers extends Component {
 
   gotoChatBox = (item) => {
     this.props.setSession(item);
-   //will call chat messages page
-   /*var fbpage = {
-      pageid:"101",
-      appid:"101",
-      pageToken:"101",
-      pageTitle:"sample",
-      pageDescription:"sample",
-      companyid:"cd89f71715f2014725163952",
-     
-    }
-    Actions.EditFbPage({fbpage:fbpage});*/
+    console.log('gotoChatBox called');
+    console.log(item);
    this.props.updatedSelectedFbChats(this.props.fbchats.filter((c)=>c.senderid == item.user_id.user_id || c.recipientid == item.user_id.user_id).reverse());
    //Actions.fbChats({fbchatSelected:this.props.fbchats.filter((c)=>c.senderid == item.user_id || c.recipientid == item.user_id)})
    Actions.fbChats({senderid:item.user_id.user_id});
@@ -174,8 +165,8 @@ const mapDispatchToProps = {
 };
 function mapStateToProps(state) {
    const { fbcustomers,fbchats,fbchatSelected, fbSessions} = state.fbpages;
-  
-  return { fbcustomers,fbchats,fbchatSelected, fbSessions };
+    const { userdetails } = state.user;
+  return { fbcustomers,fbchats,fbchatSelected, fbSessions ,userdetails};
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FbCustomers);
