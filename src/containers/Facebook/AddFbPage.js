@@ -104,6 +104,20 @@ class AddFbPage extends Component {
 
 
   componentWillReceiveProps(nextProps) {
+    console.log("Add page component recieved called", nextProps.fbteams);
+  if(nextProps.fbteams){
+    console.log("Fbteams in add pages", nextProps.fbteams);
+  }
+    // if(nextProps.fbteams){
+    // const fbpageTeams = nextProps.fbteams.filter((c) => c.pageid._id == this.props.fbpage._id);
+    // console.log("Fbteams recieved", nextProps.fbteams)
+    // for (let i = 0; i < fbpageTeams.length; i++) {
+    //   if (fbpageTeams[i].teamid) {
+    //     // this.state.newteams.push(fbpageTeams[i].teamid);
+    //      console.log("Team Matched", fbpageTeams[i].teamid);
+    //   }
+    // }
+    // }
     if (nextProps.teams) {
       console.log("Fb teams", this.props.fbteams);
       console.log("New Teams", this.state.newteams);
@@ -118,19 +132,14 @@ class AddFbPage extends Component {
 
    componentDidMount = async() => {
     console.log('team component did mount called');
+    console.log("Fb teams", this.props.fbteams);
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
-       const fbpageTeams = this.props.fbteams.filter((c) => c.pageid._id == this.props.fbpage._id);
-    console.log()
-    for (let i = 0; i < fbpageTeams.length; i++) {
-      if (fbpageTeams[i].teamid) {
-        this.state.newteams.push(fbpageTeams[i].teamid);
-      }
-    }
       if(token !== ''){
           this.props.getfbpages(token);
-            this.props.teamFetch(token);
-          }
+          this.props.teamFetch(token);
+          // this.props.fetchfbpageteams(token);
+        }
 
   }
  
@@ -307,6 +316,7 @@ const mapDispatchToProps = {
    teamFetch: TeamActions.teamFetch,
   agentTeamFetch : TeamActions.agentTeamFetch,
   getfbpages: FbActions.getfbpages,
+  fetchfbpageteams: FbActions.fetchfbpageteams,
 
 };
 
