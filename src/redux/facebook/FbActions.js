@@ -342,7 +342,9 @@ export function getfbchatfromAgent(chat){
           };
 
  return (dispatch) => {
-    axios.post(`${baseURLKiboEngage}/api/sendfbchat`,chat,config).then(res => dispatch(fbchatmessageSent(res)))
+    axios.post(`${baseURLKiboEngage}/api/sendfbchat`,chat,config).then(res =>{
+      dispatch(fbchatmessageSent(res));
+    })
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
