@@ -295,7 +295,7 @@ export const sendChat  = (token, input) => {
           'kibo-app-id' : '5wdqvvi8jyvfhxrxmu73dxun9za8x5u6n59',
           'kibo-app-secret': 'jcmhec567tllydwhhy2z692l79j8bkxmaa98do1bjer16cdu5h79xvx',
           'kibo-client-id': 'cd89f71715f2014725163952',
-          'authorization': token,
+          'authorization': `Bearer ${token}`,
             },
 
           };
@@ -309,6 +309,8 @@ export const sendChat  = (token, input) => {
                   .then((res) => {
                     // dispatch(assign_agent_status('Successfully Assigned'));
                     //console.log("Chat Message Sent Successfully to get chat from agent");
+                    console.log("Chat Message Sent Successfully to get chat from agent");
+                    console.log(res);
                   })
                   .catch(function (error) {
                     //console.log('Error occured in get chat from agent');

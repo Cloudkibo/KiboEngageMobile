@@ -214,7 +214,7 @@ renderLoadingView(){
           var token =  await auth.getToken();
           // console.log('token is Launchview is: ' + token);
           if(token != ''){
-            this.props.fetchfbcustomers(token);
+            this.props.fetchChatSessions(token);
             this.props.getfbChatsUpdate(token,this.props.currentSession);
 
             //this.forceUpdate();
@@ -278,6 +278,7 @@ const mapDispatchToProps = {
   fetchChat: chatActions.fetchChat,
   fetchSingleChat: chatActions.fetchSingleChat,
   fetchSingleSession: chatActions.fetchSingleSession,
+  fetchChatSessions: FbActions.fetchChatSessions,
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,

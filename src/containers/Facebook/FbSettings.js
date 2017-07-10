@@ -34,15 +34,12 @@ styles = {
   }
 }
 
-
-
-
 class FbSettings extends Component {
 
   constructor(props) {
     super(props);
     var ReactNative = require('react-native');
-    this.state = {items: [], language: '', teamsList: [], channelList: [], assignedAgent: '', assignedTeam: '', assignedChannel: '', platform: 'Detected Platform: ' + ReactNative.Platform.OS};
+    this.state = {items: [], language: '', channelList: [], assignedAgent: '', assignedChannel: '', platform: 'Detected Platform: ' + ReactNative.Platform.OS};
     this.createPickerItems = this.createPickerItems.bind(this);
     console.log("Current Session",  this.props.currentSession);
 }
@@ -71,23 +68,15 @@ class FbSettings extends Component {
   createPickerItems(nextProps){
      console.log('called');
     itemsTemp = [];
-    teamsListTemp = [];
     nextProps.agents.map((item, index) => {
        return itemsTemp.push(
            <Picker.Item label={item.firstname + ' ' + item.lastname} key={'key-'+item._id } value={item._id+','+item.email} />
        );
      });
-      nextProps.teams.map((item, index) => {
-       return teamsListTemp.push(
-           <Picker.Item label={item.groupname} key={'key-'+item._id } value={item._id} />
-       );
-     });
      itemsTemp.unshift(<Picker.Item label='Select an agent' value={'123'+','+'test'} />);
-     teamsListTemp.unshift(<Picker.Item label='Select an team' value={'123'+','+'test'} />);
      console.log("Teams in fb settings", nextProps.teams);
      console.log("Agents in fb settings", nextProps.agents);
      this.setState({items: itemsTemp});
-     this.setState({teamsList: teamsListTemp});
   }
 
   assignToAgents = async () => {
@@ -116,70 +105,6 @@ class FbSettings extends Component {
         }
         console.log("Assign agent data stanza", data);
         this.props.assignChatSession(token, data);
-       }
-  }
-
-
-  assignToGroups = async () => {
-    //this.props.agentFetch();
-     var token =  await auth.getToken();
-      console.log('token is Launchview is: ' + token);
-      if(token != ''){
-         //update session status on server
-        var session = {
-          request_id : this.props.singleChat.request_id,
-          status : 'assigned',
-        }
-        
-        //preparing data
-         var emails = []; 
-         this.props.teams.map((item, index) => {
-          var agents = this.props.teamagents.filter((g)=> g.groupid == item._id);
-          console.log("Filtered Objects");
-          console.log(this.props.agents);
-          for(i = 0; i < agents.length; i++){
-            for(j = 0; j < this.props.agents.length; j++){
-              if(this.props.agents[j]._id == agents[i].agentid){
-                // console.log(this.props.agents[j].email);
-                emails.push(this.props.agents[j].email);
-              }
-            }
-          }
-         });
-         console.log("Emails");
-         var unique = emails.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
-          console.log("Unique emails", unique);
-        
-        data = {
-        companyid : this.props.currentSession.pageid.companyid,
-        pageid : this.props.currentSession.pageid._id, //_id field of page object
-        user_id: this.props.currentSession.user_id._id, //_id field of user object //Ask if this is small or capital?
-        agentAssignment : {
-            assignedto : this.state.assignedTeam,
-            assignedby : this.props.userdetails._id,
-            companyid : this.props.currentSession.pageid.companyid,
-            datetime : Date.now(),
-            type : 'group',
-            pageid : this.props.currentSession.pageid._id, //fb page id, this is the ‘_id’ field of pageid object inside fbsession object
-            userid: this.props.currentSession.user_id._id, //fb user id, this is the ‘_id’ field of user_id object inside fbsession object
-        },
-          type : 'group',
-          agentemail : unique
-        }
-        console.log("Assign team data stanza", data);
-        this.props.assignChatSession(token, data, this.props.currentSession._id);
-        
-        // input = {
-        //   agentidTo: this.state.assignedTeam,
-        //   agentidBy: this.props.userdetails._id,
-        //   companyid: this.props.singleChat.companyid,
-        //   requestid: this.props.singleChat.request_id,
-        //   _id: this.props.singleChat._id,
-        //   type: 'group',
-        //   email: unique,
-        // };
-
-        // this.props.moveAgent(token, input,session);
        }
   }
 
@@ -224,7 +149,7 @@ class FbSettings extends Component {
     <ScrollView>
       <View style={[AppStyles.container]}>
     <Spacer size={50} />
-    
+
     <Card>
     <Text>{this.state.platform}</Text>
          <Alerts
@@ -239,7 +164,7 @@ class FbSettings extends Component {
       <Text style={styles.cardDescription}>
         {this.props.singleChat.team_name} - {this.props.singleChat.channel_name}
       </Text>
-      
+
     </Card>
     <Card>
     <Text>Assign To Agent {this.state.assignedAgent}</Text>
@@ -256,23 +181,6 @@ class FbSettings extends Component {
         color="#841584"
         accessibilityLabel="Assign To Agent"
         onPress={this.assignToAgents}
-      />
-    </Card>
-
-     <Card>
-    <Text>Assign To Team {this.state.assignedTeam}</Text>
-    <Spacer size={10} />
-      <Picker
-          selectedValue={this.state.assignedTeam}
-        onValueChange={(toGroupId) => this.setState({assignedTeam: toGroupId})}>
-  {this.state.teamsList}
-</Picker>
-     <Spacer size={10} />
-     <Button
-        title="Assign"
-        color="#841584"
-        accessibilityLabel="Assign To Team"
-        onPress={this.assignToGroups}
       />
     </Card>
 
@@ -311,4 +219,3 @@ function mapStateToProps(state) {
    return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, currentSession, agent_assign_status };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(FbSettings);
-
