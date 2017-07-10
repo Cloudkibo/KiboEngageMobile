@@ -203,9 +203,8 @@ export const editgroup = (group) => {
     dispatch(groupEditInAction());
     // console.log('calling api');
     axios.post(`${baseURL}/api/departments/update/`,data,config).then(res => {
-         dispatch(myGroupFetch(token));
          dispatch(groupFetch(token));
-      dispatch(agentGroupFetch(token));
+      dispatch(getDeptTeams(token));
       dispatch(groupEditSuccess(res));
     })
       .catch(function (error) {

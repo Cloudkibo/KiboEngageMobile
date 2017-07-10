@@ -36,7 +36,6 @@ import FBPages from '@containers/Facebook/FBPages';
 import Notifications from '@containers/Notifications/Notifications';
 import Cannedresponse from '@containers/CannedResponses/Cannedresponse';
 
-import FbChat from '@containers/Facebook/FbChat';
 import Reports from '@containers/Reports/Reports';
 import MyProfile from '@containers/MyProfile/MyProfile';
 import CompanySettings from '@containers/CompanySettings/CompanySettings';

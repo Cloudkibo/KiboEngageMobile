@@ -64,7 +64,7 @@ class Groups extends Component {
       if(token != ''){
 
             this.props.groupFetch(token);
-            this.props.agentGroupFetch(token);
+            //this.props.agentGroupFetch(token); No need for this. Groups are now associated with Teams
             this.props.agentFetch(token);
             this.props.getDeptTeams(token);
 
