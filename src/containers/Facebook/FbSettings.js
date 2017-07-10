@@ -66,14 +66,23 @@ class FbSettings extends Component {
   }
 
   createPickerItems(nextProps){
-     console.log('called');
+    console.log('called');
+
     itemsTemp = [];
     nextProps.agents.map((item, index) => {
        return itemsTemp.push(
            <Picker.Item label={item.firstname + ' ' + item.lastname} key={'key-'+item._id } value={item._id+','+item.email} />
        );
      });
-     itemsTemp.unshift(<Picker.Item label='Select an agent' value={'123'+','+'test'} />);
+
+     const assgAgent = nextProps.agents.filter((c) => c._id == nextProps.currentSession.agent_ids[0].id);
+
+     if (assgAgent.length > 0) {
+       itemsTemp.unshift(<Picker.Item label={assgAgent[0].firstname + ' ' + assgAgent[0].lastname} value={assgAgent[0]._id+','+assgAgent[0].email} />);
+     } else {
+       itemsTemp.unshift(<Picker.Item label='Select an agent' value={'123'+','+'test'} />);
+     }
+     //itemsTemp.unshift(<Picker.Item label='Select an agent' value={'123'+','+'test'} />);
      console.log("Teams in fb settings", nextProps.teams);
      console.log("Agents in fb settings", nextProps.agents);
      this.setState({items: itemsTemp});
@@ -167,7 +176,7 @@ class FbSettings extends Component {
 
     </Card>
     <Card>
-    <Text>Assign To Agent {this.state.assignedAgent}</Text>
+    <Text>Assign To Agent </Text>
     <Spacer size={10} />
        <Picker
         selectedValue={this.state.assignedAgent}
