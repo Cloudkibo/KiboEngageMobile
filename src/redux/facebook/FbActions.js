@@ -11,7 +11,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 var ReactNative = require('react-native');
 
 // create fbpage
-export const createPage=(fbpage,token) => {
+export const createPage=(data,token) => {
     var token = token;
     var config = {
       rejectUnauthorized : false,
@@ -23,8 +23,11 @@ export const createPage=(fbpage,token) => {
           };
 
   return (dispatch) => {
-    console.log('calling api');
-    axios.post(`${baseURL}/api/fbpages/`,querystring.stringify(fbpage),config).then(res => dispatch(fbpageCreateSuccess(res)))
+    console.log('calling api', data);
+    axios.post(`${baseURL}/api/fbpages/`,fbpage,config).then(res => {
+      console.log("Create Fb page response", res);
+      dispatch(fbpageCreateSuccess(res));
+  })
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);

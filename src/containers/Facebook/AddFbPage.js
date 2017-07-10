@@ -3,7 +3,7 @@ import { Alerts, Card, Spacer, Button, Text } from '@ui/';
 import * as FbActions from '@redux/facebook/FbActions';
 import Loading from '@components/general/Loading';
 import React, { Component } from 'react';
-import { View,ScrollView, ListView } from 'react-native';
+import { View,ScrollView, ListView, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import FormValidation from 'tcomb-form-native';
 var _ = require('lodash');
@@ -233,7 +233,19 @@ class AddFbPage extends Component {
           const pageid = credentials.pageId;
           if (pageToken && pageid)
            {
-             this.props.createPage({pageid,appid,pageToken,pageTitle,pageDescription,companyid},token);
+        var data = {
+                fbpage :{
+                pageid:credentials.pageId,
+                appid:credentials.appId,
+                pageToken:credentials.pageToken,
+                pageTitle:credentials.pageTitle,
+                pageDescription:credentials.pageDescription,
+                companyid:this.props.userdetails.uniqueid,
+                },
+                teamagents: this.state.newteams,
+                }
+             this.props.createPage(data,token);
+            // console.log("New teams", this.state.newteams);
            
           }
           
