@@ -287,7 +287,8 @@ class FbChat extends Component {
    var uid = Math.random().toString(36).substring(7);
    var unique_id = 'f' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
 
-    var pageid=this.props.fbCustomerSelected.pageid.pageid
+    var pageid=this.props.fbCustomerSelected.pageid.pageid;
+    const newtoken = await auth.getToken();
 
     /*** for text message *****/
     if(msgObj.text){
@@ -309,7 +310,9 @@ class FbChat extends Component {
 
               console.log(saveMsg);
               this.setState({text: ''});
-              this.props.getfbchatfromAgent(saveMsg);
+              if(newtoken != ''){
+                this.props.getfbchatfromAgent(saveMsg, newtoken);
+              }
             }
              else if(msgObj.image && msgObj.type == 'gif'){
                       var saveMsg = {
@@ -332,7 +335,9 @@ class FbChat extends Component {
                                   pageid:pageid
 
                              }
-              this.props.getfbchatfromAgent(saveMsg);
+             if(newtoken != ''){
+              this.props.getfbchatfromAgent(saveMsg, newtoken);
+             }
              }
     else if(msgObj.image && msgObj.type != 'gif'){
       /*** for image file ******/
@@ -398,7 +403,9 @@ class FbChat extends Component {
                                   pageid:pageid
 
                              }
-              this.props.getfbchatfromAgent(saveMsg);
+              if(newtoken != ''){
+              this.props.getfbchatfromAgent(saveMsg, newtoken);
+              }
             }
   }
 
