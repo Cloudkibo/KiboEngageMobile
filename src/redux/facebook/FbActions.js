@@ -11,7 +11,7 @@ import RNFetchBlob from 'react-native-fetch-blob';
 var ReactNative = require('react-native');
 
 // create fbpage
-export const createPage=(fbpage,token) => {
+export const createPage=(data,token) => {
     var token = token;
     var config = {
       rejectUnauthorized : false,
@@ -23,8 +23,11 @@ export const createPage=(fbpage,token) => {
           };
 
   return (dispatch) => {
-    console.log('calling api');
-    axios.post(`${baseURL}/api/fbpages/`,querystring.stringify(fbpage),config).then(res => dispatch(fbpageCreateSuccess(res)))
+    console.log('calling api', data);
+    axios.post(`${baseURL}/api/fbpages/`,fbpage,config).then(res => {
+      console.log("Create Fb page response", res);
+      dispatch(fbpageCreateSuccess(res));
+  })
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -81,6 +84,7 @@ export const editPage = (fbpage, token, teams) => {
     "fbpage": fbpage,
     "teamagents": teams,
   }
+  console.log(data);
 
   return (dispatch) => {
     console.log('calling api');
@@ -88,6 +92,7 @@ export const editPage = (fbpage, token, teams) => {
     {
       dispatch(fbpageEditSuccess(res));
       dispatch(getfbpages(token));
+      dispatch(fetchfbpageteams(token));
     })
       .catch(function (error) {
         console.log('Error occured');
@@ -339,7 +344,9 @@ export function getfbchatfromAgent(chat){
           };
 
  return (dispatch) => {
-    axios.post(`${baseURLKiboEngage}/api/sendfbchat`,chat,config).then(res => dispatch(fbchatmessageSent(res)))
+    axios.post(`${baseURLKiboEngage}/api/sendfbchat`,chat,config).then(res =>{
+      dispatch(fbchatmessageSent(res));
+    })
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);

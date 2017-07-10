@@ -238,8 +238,12 @@ class EditFbPage extends Component {
           const companyid = this.props.userdetails.uniqueid;
           const pageid = credentials.pageId;
           const _id = this.props.fbpage._id;
+          let pageTeams = [];
+          for (let i = 0; i < this.state.newteams.length; i++) {
+            pageTeams.push({"_id":this.state.newteams[i]._id});
+          }
           if (pageToken && pageid) {
-             this.props.editPage({ _id, pageid, appid, pageToken, pageTitle, pageDescription, companyid }, token, this.state.newteams);
+             this.props.editPage({ _id, pageid, appid, pageToken, pageTitle, pageDescription, companyid }, token, pageTeams);
           }
         }
       });

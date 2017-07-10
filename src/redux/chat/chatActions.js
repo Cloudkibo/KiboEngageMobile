@@ -10,8 +10,8 @@ import SqliteCalls from '../../services/SqliteCalls';
 var SQLite = require('react-native-sqlite-storage')
 
 export function showChats(data) {
-  // console.log('show chat messages data');
-  // console.log(data);
+  // //console.log('show chat messages data');
+  // //console.log(data);
   return {
     type: ActionTypes.FETCH_CHATS,
     payload : data,
@@ -19,12 +19,12 @@ export function showChats(data) {
 }
 
 export function showSessions(data) {
-  // console.log('show data');
-  // console.log(data);
+  // //console.log('show data');
+  // //console.log(data);
   var final = data.data.filter(function (el) {
     return el.platform == "mobile";
 });
-// console.log('Final', final);
+// //console.log('Final', final);
   return {
     type: ActionTypes.FETCH_SESSIONS,
     payload : final,
@@ -52,8 +52,8 @@ export const sessionsFetch =  (token) => {
     axios.get(`${baseURL}/api/visitorcalls/kiboengagesessions`,config)
     .then((res) => res).then(res => dispatch(writeSessions(res.data.filter((s) => s.platform == "mobile"))))
     .catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
+        //console.log('Error occured');
+        //console.log(error);
         if(error = 'Network Error')
         {
           //Alert.alert('You are not connected with Internet');
@@ -65,7 +65,7 @@ export const sessionsFetch =  (token) => {
 };
 
 export const chatsFetch =  (token) => {
-console.log('chats fetch called');
+//console.log('chats fetch called');
    var config = {
       headers: {
           'Authorization': `Bearer ${token}`,
@@ -81,8 +81,8 @@ console.log('chats fetch called');
     axios.get(`${baseURL}/api/userchats/`,config)
     .then((res) => res).then(res => dispatch(writeChats(res.data)))
     .catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
+        //console.log('Error occured');
+        //console.log(error);
         if(error = 'Network Error')
         {
           Alert.alert('You are not connected with Internet');
@@ -95,8 +95,8 @@ console.log('chats fetch called');
 
 
 export function singleChats(data) {
-  // console.log('show single chat messages data');
-  console.log(data);
+  // //console.log('show single chat messages data');
+  ////console.log(data);
   return {
     type: ActionTypes.SINGLE_CHATS,
     payload: data,
@@ -104,8 +104,8 @@ export function singleChats(data) {
 }
 
 export function singleChatFetch(data) {
-  // console.log('show single chat messages data');
-  console.log(data);
+  // //console.log('show single chat messages data');
+  ////console.log(data);
   return {
     type: ActionTypes.SINGLE_CHAT_FETCH,
     payload: data,
@@ -113,8 +113,8 @@ export function singleChatFetch(data) {
 }
 
 export function singleSessionFetch(data) {
-  // console.log('show single chat messages data');
-  console.log(data);
+  // //console.log('show single chat messages data');
+  ////console.log(data);
   return {
     type: ActionTypes.SINGLE_SESSION_FETCH,
     payload: data,
@@ -137,8 +137,8 @@ export const fetchSingleChat = (token, chat) => {
     axios.post(`${baseURL}/api/userchats/fetchchat`, data, config)
     .then((res) => res).then(res => dispatch(singleChatFetch(res.data)))
     .catch(function (error) {
-      console.log('Error occured');
-      console.log(error);
+      //console.log('Error occured');
+      //console.log(error);
     });
   };
 };
@@ -158,8 +158,8 @@ export const fetchSingleSession = (token, chat) => {
     axios.post(`${baseURL}/api/visitorcalls/getSession`, data, config)
     .then((res) => res).then(res => dispatch(singleSessionFetch(res.data)))
     .catch(function (error) {
-      console.log('Error occured');
-      console.log(error);
+      //console.log('Error occured');
+      //console.log(error);
     });
   };
 };
@@ -167,7 +167,7 @@ export const fetchSingleSession = (token, chat) => {
 // Assign Agent
 //updated,sessionid,data
 export const assignAgent = (token, input,session,allsessions,stringvaluestatus) => {
-  console.log('assign agent in chat actions called');
+  //console.log('assign agent in chat actions called');
     var config = {
       rejectUnauthorized : false,
       headers: {
@@ -199,29 +199,29 @@ export const assignAgent = (token, input,session,allsessions,stringvaluestatus) 
           },
 
       };
- // console.log(data);
+ // //console.log(data);
     return (dispatch) => {
     axios.post(`${baseURLKiboEngage}/api/assignToAgent`, data,config)
     .then(()=>{
       axios.post(`${baseURL}/api/visitorcalls/pickSession`, session,configKS)
     })
       .then((res) => {
-        console.log('assign_agent_update_states called');
-        console.log(session.request_id);
-        console.log(stringvaluestatus);
-        console.log(allsessions);
-        console.log(input.agentidTo);
+        //console.log('assign_agent_update_states called');
+       // //console.log(session.request_id);
+       // //console.log(stringvaluestatus);
+       // //console.log(allsessions);
+       // //console.log(input.agentidTo);
         dispatch(sessionsFetch(token));
        // dispatch(assign_agent_update_states(session.request_id,stringvaluestatus,allsessions,input.agentidTo));
         dispatch(assign_agent_status('Successfully Assigned', ));
 
 
-        console.log("Agent Successfully Assigned");
+        //console.log("Agent Successfully Assigned");
       })
       .catch(function (error) {
-        console.log('Error occured');
+        //console.log('Error occured');
         dispatch(assign_agent_status('Error Occurred'));
-        console.log(error);
+        //console.log(error);
         // dispatch(confirmInvite(error));
       });
   };
@@ -234,19 +234,19 @@ if(updatedsessions[i].request_id==reqid)
 {
   updatedsessions[i].status=stringvaluestatus
   if(agentids){
-    console.log('found agent ids');
+    //console.log('found agent ids');
   updatedsessions[i].agent_ids.push({id:agentids,type:stringvaluestatus})
 }
 else{
-  console.log('NOT found agent ids');
+  //console.log('NOT found agent ids');
   }
   break;
 }
 
 
   }
-  console.log('updatedsessions');
-  console.log(updatedsessions);
+  //console.log('updatedsessions');
+  //console.log(updatedsessions);
   return {
     type: ActionTypes.ASSIGN_AGENT_UPDATE_STATUS,
     payload : updatedsessions,
@@ -287,7 +287,7 @@ export function addChat(chat) {
 
 // Send Chat to server
 export const sendChat  = (token, input) => {
-    console.log("In send chat");
+    //console.log("In send chat");
     var config = {
       rejectUnauthorized : false,
       headers: {
@@ -295,7 +295,7 @@ export const sendChat  = (token, input) => {
           'kibo-app-id' : '5wdqvvi8jyvfhxrxmu73dxun9za8x5u6n59',
           'kibo-app-secret': 'jcmhec567tllydwhhy2z692l79j8bkxmaa98do1bjer16cdu5h79xvx',
           'kibo-client-id': 'cd89f71715f2014725163952',
-          'authorization': token,
+          'authorization': `Bearer ${token}`,
             },
 
           };
@@ -303,25 +303,27 @@ export const sendChat  = (token, input) => {
     axios.post(`${baseURL}/api/userchats/create`, input,config)
       .then((res) => {
         // dispatch(assign_agent_status('Successfully Assigned'));
-        console.log("Chat Message Sent Successfully");
+        //console.log("Chat Message Sent Successfully");
 
               axios.post(`${baseURLKiboEngage}/api/getchatfromagent`, input,config)
                   .then((res) => {
                     // dispatch(assign_agent_status('Successfully Assigned'));
+                    //console.log("Chat Message Sent Successfully to get chat from agent");
                     console.log("Chat Message Sent Successfully to get chat from agent");
+                    console.log(res);
                   })
                   .catch(function (error) {
-                    console.log('Error occured in get chat from agent');
+                    //console.log('Error occured in get chat from agent');
                     // dispatch(assign_agent_status('Error Occurred'));
-                    console.log(error);
+                    //console.log(error);
                     // dispatch(confirmInvite(error));
                   });
 
       })
       .catch(function (error) {
-        console.log('Error occured');
+        //console.log('Error occured');
         // dispatch(assign_agent_status('Error Occurred'));
-        console.log(error);
+        //console.log(error);
         // dispatch(confirmInvite(error));
       });
   };
@@ -345,15 +347,15 @@ console('resolve chat session called');
 
     axios.post(`${baseURLKiboEngage}/api/resolvechatsession`, data, config)
     .then(res => {
-    //  console.log(res);
-      console.log("Chat marked as resolved");
+    //  //console.log(res);
+      //console.log("Chat marked as resolved");
       // dispatch(showSessions(res))
         dispatch(assign_agent_status('Chat Marked As Resolved'));
         dispatch(chatsFetch(token));
       }).catch(function (error) {
-        console.log('Unable to mark chat as resolved');
+        //console.log('Unable to mark chat as resolved');
         // dispatch(assign_agent_status('Error Occurred'));
-        console.log(error);
+        //console.log(error);
         // dispatch(confirmInvite(error));
         dispatch(assign_agent_status('Unable to mark chat as resolved'));
       });
@@ -362,7 +364,7 @@ console('resolve chat session called');
 
 export const uploadChatDocfile =(filedata,chatmsg)=>{
      return (dispatch) => {
-               console.log("Sending file.....");
+               //console.log("Sending file.....");
                dispatch (update_upload_progress({
                                     message_id: filedata._id,
                                     progress: 1,
@@ -374,7 +376,7 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
                                 { name : 'chatmsg', data : JSON.stringify(chatmsg)}]
                               )// listen to upload progress event
                                 .uploadProgress((written, total) => {
-                                    console.log('uploaded', written / total * 100)
+                                    //console.log('uploaded', written / total * 100)
                                     if(written / total == 1){
                                       console.warn('uploaded');
                                       dispatch (update_upload_progress({
@@ -389,13 +391,13 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
                                 })
 
                                 .then((resp) => {
-                                  console.log("Me in then of sending.. fine", resp);
+                                  //console.log("Me in then of sending.. fine", resp);
                                   dispatch (update_upload_progress({
                                     message_id: filedata._id,
                                     progress: 100,
                                   }));
                                   if(resp.statusCode == 201){
-                                      console.log('File uploaded');
+                                      //console.log('File uploaded');
                                       dispatch ({
                                     message_id: filedata._id,
                                     progress: 100,
@@ -408,7 +410,7 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
                                     message_id: filedata._id,
                                     progress: -1,
                                   });
-                                  console.log("Me in log of response", err);
+                                  //console.log("Me in log of response", err);
                                   console.warn(err);
                                 })
              }
@@ -418,7 +420,7 @@ export const uploadChatDocfile =(filedata,chatmsg)=>{
 
 
   export const fetchChat =  (token, data) => {
-console.log('fetch chat called');
+//console.log('fetch chat called');
    var config = {
       headers: {
           'Authorization': `Bearer ${token}`,
@@ -432,12 +434,13 @@ console.log('fetch chat called');
   return (dispatch) => {
     axios.post(`${baseURL}/api/userchats/fetchChat`,data,config)
     .then(res => {
-      console.log("Response of fetchChat api", res.data[0]);
+      //console.log("Response of fetchChat api", res.data[0]);
       dispatch(addChat(res.data[0]));
-      console.log("Chat Updated");
+      //console.log("Chat Updated");
     }).catch((err) => {
 
-      console.log("Printing the err", err)});
+      //console.log("Printing the err", err);
+    });
   };
 };
 
@@ -447,16 +450,16 @@ console.log('fetch chat called');
 
 /******* SQLite actions for Chat Sessions and chat message*/
 export function callbacksessions(results) {
-  console.log('callback chat sessions called');
+  //console.log('callback chat sessions called');
  var fsessions = []
- console.log('inside callbacksessions')
+ //console.log('inside callbacksessions')
  var len = results.rows.length;
   for (let i = 0; i < len; i++) {
     let row = results.rows.item(i);
-    console.log('row.customerid');
-    console.log(JSON.parse(row.customerid));
-    console.log('request_id is ------ ***');
-    console.log(row.request_id);
+    //console.log('row.customerid');
+    //console.log(JSON.parse(row.customerid));
+    //console.log('request_id is ------ ***');
+    //console.log(row.request_id);
     var obj = {
           _id: row._id,
           companyid:row.companyid,
@@ -476,11 +479,11 @@ export function callbacksessions(results) {
 
       }
 
-    console.log('row');
+    //console.log('row');
     fsessions.push(obj);
   }
-  console.log('callbacksessions');
-  console.log(fsessions);
+  //console.log('callbacksessions');
+  //console.log(fsessions);
 
   return {
     type: ActionTypes.FETCH_SESSIONS,
@@ -509,7 +512,7 @@ export  function writeSessions(sessions){
                 + ")";
 
  var rows = []
- console.log('inside writeSessions');
+ //console.log('inside writeSessions');
  for(var i=0;i<sessions.length;i++){
   var record = []
   record.push(sessions[i]._id)
@@ -522,8 +525,8 @@ export  function writeSessions(sessions){
   record.push(sessions[i].platform);
   record.push(sessions[i].status);
   record.push(sessions[i].agent_ids.length>0?JSON.stringify(sessions[i].agent_ids[sessions[i].agent_ids.length-1]):'');
-  console.log('Request_id is ------ ')
-  console.log(sessions[i].request_id)
+  //console.log('Request_id is ------ ')
+  //console.log(sessions[i].request_id)
   record.push(sessions[i].request_id);
   record.push(sessions[i].messagechannel[sessions[i].messagechannel.length-1]);
   record.push(sessions[i].customerID);
@@ -547,20 +550,20 @@ return (dispatch) => {
 
     }
     tx.executeSql('SELECT * FROM CHATSESSIONS', [], (tx,results) => {
-          console.log("Query completed");
-          console.log("convert query result into desired format");
-         // console.log(results);
+          //console.log("Query completed");
+          //console.log("convert query result into desired format");
+         // //console.log(results);
 
           res = results;
 
         });
   }
     , function(error) {
-             console.log('Transaction ERROR: ' + error.message);
+             //console.log('Transaction ERROR: ' + error.message);
   }, function() {
-          console.log('Populated database OK');
-         // console.log('res is:')
-         // console.log(res);
+          //console.log('Populated database OK');
+         // //console.log('res is:')
+         // //console.log(res);
           dispatch(callbacksessions(res));
   }
   );
@@ -576,16 +579,16 @@ export function readSessions(){
     db.transaction(function(tx) {
 
     tx.executeSql('SELECT * FROM CHATSESSIONS', [], (tx,results) => {
-          console.log("Query completed");
-        //  console.log(results);
+          //console.log("Query completed");
+        //  //console.log(results);
           res = results;
 
         });
   }
     , function(error) {
-             console.log('Transaction ERROR: ' + error.message);
+             //console.log('Transaction ERROR: ' + error.message);
   }, function() {
-          console.log('Populated database OK');
+          //console.log('Populated database OK');
            dispatch(callbacksessions(res));
   }
   );
@@ -600,12 +603,12 @@ export function readSessions(){
 
 export function callbackchats(results) {
  var fsessions = []
- console.log('inside callbackchats')
+ //console.log('inside callbackchats')
  var len = results.rows.length;
   for (let i = 0; i < len; i++) {
     let row = results.rows.item(i);
-    console.log('row.request_id');
-    console.log(row.request_id);
+    //console.log('row.request_id');
+    //console.log(row.request_id);
     var obj = {
           _id: row._id,
           to:row.receiver,
@@ -625,11 +628,11 @@ export function callbackchats(results) {
 
       }
 
-    console.log('row');
+    //console.log('row');
     fsessions.push(obj);
   }
-  console.log('callbackchats');
-  console.log(fsessions);
+  //console.log('callbackchats');
+  //console.log(fsessions);
 
   return {
     type: ActionTypes.FETCH_CHATS,
@@ -658,7 +661,7 @@ export  function writeChats(chats){
                 + "agentemail TEXT" + ")";
 
  var rows = []
- console.log('inside writeChats');
+ //console.log('inside writeChats');
  for(var i=0;i<chats.length;i++){
   var record = []
   record.push(chats[i]._id)
@@ -677,7 +680,7 @@ export  function writeChats(chats){
   record.push(JSON.stringify(chats[i].agentid));
   record.push(JSON.stringify(chats[i].agentemail));
   rows.push(record);
-  console.log(record)
+ // //console.log(record)
   // addItem(db,record);
 
 
@@ -695,20 +698,20 @@ return (dispatch) => {
 
     }
     tx.executeSql('SELECT * FROM CHATS', [], (tx,results) => {
-          console.log("Query completed");
-          console.log("convert query result into desired format");
-         // console.log(results);
+          //console.log("Query completed");
+          //console.log("convert query result into desired format");
+         // //console.log(results);
 
           res = results;
 
         });
   }
     , function(error) {
-             console.log('Transaction ERROR: ' + error.message);
+             //console.log('Transaction ERROR: ' + error.message);
   }, function() {
-          console.log('Populated database OK');
-       //   console.log('res is:')
-          console.log(res);
+          //console.log('Populated database OK');
+       //   //console.log('res is:')
+         // //console.log(res);
           dispatch(callbackchats(res));
   }
   );
@@ -724,18 +727,18 @@ export function readChats(){
     db.transaction(function(tx) {
 
     tx.executeSql('SELECT * FROM CHATS', [], (tx,results) => {
-          console.log("Query completed");
-          console.log("convert query result into desired format");
-         // console.log(results);
+          //console.log("Query completed");
+          //console.log("convert query result into desired format");
+         // //console.log(results);
 
           res = results;
 
         });
   }
     , function(error) {
-             console.log('Transaction ERROR: ' + error.message);
+             //console.log('Transaction ERROR: ' + error.message);
   }, function() {
-          console.log('Populated database OK');
+          //console.log('Populated database OK');
            dispatch(callbackchats(res));
   }
   );

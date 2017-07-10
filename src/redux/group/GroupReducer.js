@@ -22,8 +22,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, [action.payload.prop]: action.payload.value };
 
     case ActionTypes.ADD_GROUPS:
-      return {...state,groups:action.payload,groupagents : state.groupagents,grouperror: '',groupsuccess:'',  groupediterror : '',
-  groupeditsuccess:''};
+      return {...state,groups:action.payload,groupagents : state.groupagents,grouperror: '',groupsuccess:''};
     case ActionTypes.ADD_GROUP_AGENTS:
       return {...state,groups:state.groups,groupagents : action.payload,grouperror: '',groupsuccess:''};
     case ActionTypes.ADD_MY_GROUPS:
@@ -42,7 +41,7 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.EDIT_GROUP:
       return { ...state, groups:state.groups,groupagents : state.groupagents,loading: true, grouperror: '',groupsuccess:'' ,groupediterror : '',groupeditsuccess:''};
     case ActionTypes.EDIT_GROUP_SUCCESS:
-      return { ...state, groups:state.groups,groupagents : state.groupagents,groupeditsuccess: 'Group edited successfully' };
+      return { ...state, groupeditsuccess: 'Group edited successfully' };
     case ActionTypes.EDIT_GROUP_FAIL:
       return { ...state, groupediterror: 'Group update failed', groups:state.groups,groupagents : state.groupagents,loading: false };
 

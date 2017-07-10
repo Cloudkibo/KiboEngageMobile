@@ -97,7 +97,10 @@ class FBPages extends Component {
 
   goToView2(fbpage) {
     console.log('navigate subgroup is called');
-    Actions.EditFbPage({ fbpage });
+    if (this.props.userdetails.isAgent == 'No') {
+      Actions.EditFbPage({ fbpage });
+    }
+
   }
   renderRow = (fbpage) => (
     <ListItem
@@ -105,6 +108,7 @@ class FBPages extends Component {
       onPress={this.goToView2.bind(this, fbpage)}
       title={fbpage.pageTitle}
       subtitle={fbpage.pageDescription}
+      hideChevron={this.props.userdetails.isAgent == 'No' ? false : true}
     />
   )
 

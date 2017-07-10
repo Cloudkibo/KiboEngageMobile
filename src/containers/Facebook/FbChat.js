@@ -34,7 +34,7 @@ import CustomView from './CustomView';
 import AudioPlayer from './AudioPlayer';
 
 import GoogleStaticMap from 'react-native-google-static-map';
-
+var moment = require('moment');
 
 var handleDate = function(d){
 
@@ -61,10 +61,6 @@ class FbChat extends Component {
    // this.renderChat(this.props.fbchatSelected);
   }
 
-
-
-
-
   componentDidMount(){
     console.log('component did. mount called');
     if(this.props.fbchatSelected && this.props.fbCustomerSelected){
@@ -82,18 +78,20 @@ class FbChat extends Component {
     // console.log(nextProps.groups);
       this.renderGif(nextProps);
       this.renderSticker(nextProps);
-    
+
      if(nextProps.upload){
        console.log("Upload updated");
       //  this.renderChat(nextProps);
      }
   }
 
-
-
   renderChat = (nextProps) => {
      var temparray = [];
-     console.log("In render chat", nextProps.fbchatSelected);
+     nextProps.fbchatSelected.sort(function(left, right){
+       console.log("In render chat", left.timestamp)
+      return moment.unix(left.timestamp).diff(moment.unix(right.timestamp))
+});
+     console.log("In render chat", nextProps.fbchatSelected.reverse());
       for(var i=0;i<nextProps.fbchatSelected.length;i++){
 
        if(nextProps.fbchatSelected[i].message){
@@ -102,7 +100,7 @@ class FbChat extends Component {
               if(nextProps.fbCustomerSelected.user_id.user_id === item.senderid){
                   console.log('true');
               }
-             
+
                temparray.push(
                      {
                     _id: i,
@@ -124,8 +122,8 @@ class FbChat extends Component {
                   }
                  );
               }
-              
-             
+
+
               else if(item.message.attachments && item.message.attachments.length >0 && item.message.attachments[0].type == "image"){
                  console.log(item.message.attachments);
                  temparray.push(
@@ -290,7 +288,7 @@ class FbChat extends Component {
    var unique_id = 'f' + uid + '' + today.getFullYear() + '' + (today.getMonth()+1) + '' + today.getDate() + '' + today.getHours() + '' + today.getMinutes() + '' + today.getSeconds();
 
     var pageid=this.props.fbCustomerSelected.pageid.pageid
-     
+
     /*** for text message *****/
     if(msgObj.text){
               var saveMsg = {
@@ -696,12 +694,12 @@ class FbChat extends Component {
         return (
           <View>
       <ScrollView style={styles.footerContainer}>
-      
+
         <EmojiPicker
           onEmojiSelected={(emoji) => {this.logEmoji(emoji, propy)}}
           visible={this.props.emojiVisible}
           />
-        
+
         </ScrollView>
         </View>
       );

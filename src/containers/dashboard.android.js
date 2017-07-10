@@ -104,6 +104,7 @@ class Dashboard extends Component {
     NotificationHub.unregister();
   }
   componentWillReceiveProps(props){
+    console.log(props.userdetails);
     if((this.props.userdetails && props.userdetails.email != this.props.userdetails.email) ||  !this.props.userdetails){
       console.log(props.userdetails);
       this.setState({
@@ -115,7 +116,17 @@ class Dashboard extends Component {
     }
   }
   componentDidMount = async() => {
+    var updateDialogOptions = {
+        updateTitle: "You have an update",
+        optionalUpdateMessage: "Update available. Install?",
+        optionalIgnoreButtonLabel: "Nop",
+        optionalInstallButtonLabel: "Yep",
+    };
+
+    codePush.sync({ updateDialog: updateDialogOptions});
+
     this.props.closemenu();
+
     //this.register();
     var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
@@ -173,7 +184,7 @@ renderLoadingView(){
       >
       <Spacer size={55} />
         <Card>
-          <Text> Hello {this.props.userdetails.firstname}</Text>
+          <Text> Hi, This is a new update {this.props.userdetails.firstname}</Text>
         </Card>
 
 
@@ -203,7 +214,7 @@ renderLoadingView(){
           var token =  await auth.getToken();
           // console.log('token is Launchview is: ' + token);
           if(token != ''){
-            this.props.fetchfbcustomers(token);
+            this.props.fetchChatSessions(token);
             this.props.getfbChatsUpdate(token,this.props.currentSession);
 
             //this.forceUpdate();
@@ -267,6 +278,7 @@ const mapDispatchToProps = {
   fetchChat: chatActions.fetchChat,
   fetchSingleChat: chatActions.fetchSingleChat,
   fetchSingleSession: chatActions.fetchSingleSession,
+  fetchChatSessions: FbActions.fetchChatSessions,
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
@@ -283,7 +295,7 @@ function mapStateToProps(state) {
   return { userdetails, fetchedR, fbchatSelected, chat, singleChat, fbSessions, currentSession, data };
 
 }
-// Dashboard = codePush(codePushOptions)(Dashboard);
+ Dashboard = codePush(codePushOptions)(Dashboard);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
