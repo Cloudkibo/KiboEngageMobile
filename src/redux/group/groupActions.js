@@ -202,7 +202,12 @@ export const editgroup = (group) => {
   return (dispatch) => {
     dispatch(groupEditInAction());
     // console.log('calling api');
-    axios.post(`${baseURL}/api/departments/update/`,data,config).then(res => dispatch(groupEditSuccess(res)))
+    axios.post(`${baseURL}/api/departments/update/`,data,config).then(res => {
+         dispatch(myGroupFetch(token));
+         dispatch(groupFetch(token));
+      dispatch(agentGroupFetch(token));
+      dispatch(groupEditSuccess(res));
+    })
       .catch(function (error) {
         //console.log(error.response)
         // console.log('Error occured');
