@@ -34,7 +34,7 @@ import CustomView from './CustomView';
 import AudioPlayer from './AudioPlayer';
 
 import GoogleStaticMap from 'react-native-google-static-map';
-
+var moment = require('moment');
 
 var handleDate = function(d){
 
@@ -93,7 +93,11 @@ class FbChat extends Component {
 
   renderChat = (nextProps) => {
      var temparray = [];
-     console.log("In render chat", nextProps.fbchatSelected);
+     nextProps.fbchatSelected.sort(function(left, right){
+       console.log("In render chat", left.timestamp)
+      return moment.unix(left.timestamp).diff(moment.unix(right.timestamp))
+});
+     console.log("In render chat", nextProps.fbchatSelected.reverse());
       for(var i=0;i<nextProps.fbchatSelected.length;i++){
 
        if(nextProps.fbchatSelected[i].message){

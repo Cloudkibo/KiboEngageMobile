@@ -112,6 +112,7 @@ class FbCustomers extends Component {
     this.props.setSession(item);
     console.log('gotoChatBox called');
     console.log(item.user_id.user_id);
+    console.log("fbchats", this.props.fbchats);
    this.props.updatedSelectedFbChats(this.props.fbchats.filter((c)=>c.senderid == item.user_id.user_id || c.recipientid == item.user_id.user_id).reverse(),item);
    //Actions.fbChats({fbchatSelected:this.props.fbchats.filter((c)=>c.senderid == item.user_id || c.recipientid == item.user_id)})
    
