@@ -19,7 +19,7 @@ import com.microsoft.codepush.react.CodePush;
 //import cl.json.RNSharePackage;
 //import com.BV.LinearGradient.LinearGradientPackage;
 //import com.oblador.vectoricons.VectorIconsPackage;
-import com.brentvatne.react.ReactVideoPackage;
+//import com.brentvatne.react.ReactVideoPackage;
 //import com.microsoft.codepush.react.CodePush;
 //import com.zmxv.RNSound.RNSoundPackage;
 //import com.reactnativeandroidmediaplayer.mediaplayer.MediaPlayerPackage;
@@ -78,7 +78,7 @@ public class MainApplication extends Application implements ReactApplication {
            // new RNSharePackage(),
            // new LinearGradientPackage(),
            // new VectorIconsPackage(),
-            new ReactVideoPackage(),
+           // new ReactVideoPackage(),
             new CodePush("wjqmL8L7u3UrsmpIQPYm--N74H5I4klroPZkQ", MainApplication.this, BuildConfig.DEBUG),
           //  new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
            // new RNSoundPackage(),
