@@ -84,6 +84,7 @@ export const editPage = (fbpage, token, teams) => {
     "fbpage": fbpage,
     "teamagents": teams,
   }
+  console.log(data);
 
   return (dispatch) => {
     console.log('calling api');
@@ -91,6 +92,7 @@ export const editPage = (fbpage, token, teams) => {
     {
       dispatch(fbpageEditSuccess(res));
       dispatch(getfbpages(token));
+      dispatch(fetchfbpageteams(token));
     })
       .catch(function (error) {
         console.log('Error occured');
