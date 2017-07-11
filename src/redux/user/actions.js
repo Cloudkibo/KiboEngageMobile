@@ -84,20 +84,21 @@ export const getuser = (token) => {
     axios.get(`${baseURL}/api/users/me`,config)
     .then((res) => res).then(res => 
 
-      {dispatch(writeUserDetails(res.data));}
+      {dispatch(writeUserDetails(res.data));
+      //dispatch(readusers());
+    }
       //  dispatch(showUsername(res));}
       )
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
-        if(error === 'Network Error')
-        {
-       dispatch(readusers());
-          Alert.alert('You are not connected with Internet');
-
-        }
+     
         if(error.response && error.response.status == 401){ Actions.login()}
-
+        else{
+             // Alert.alert('Error occured');
+              dispatch(readusers());
+       
+        }
       });
 
 

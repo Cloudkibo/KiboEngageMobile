@@ -65,7 +65,7 @@ class Dashboard extends Component {
     NotificationHub.addEventListener('notification', this._onRemoteNotification);
     NotificationHub.addEventListener('localNotification', this._onLocalNotification);
 */
-    NotificationHub.requestPermissions();
+   // NotificationHub.requestPermissions();
   }
 
   async register() {
@@ -116,18 +116,11 @@ class Dashboard extends Component {
           loading : false,
         });
        tagName = 'Agent-'+props.userdetails.email; 
-       this.requestPermissions();
+     //  this.requestPermissions();
     }
 
 
-    if(props.fetchedR){
-       var len = props.fetchedR.rows.length;
-        for (let i = 0; i < len; i++) {
-          let row = props.fetchedR.rows.item(i);
-          console.log(`Employee name: ${row.name}, Dept Name: ${row.score}`);
-        }
-
-    }
+  
   }
  
 
@@ -147,7 +140,7 @@ class Dashboard extends Component {
       if(token != ''){
      
            this.props.getuser(token);
-           this.props.getsqlData();
+         //  this.props.getsqlData();
             
           }
     
@@ -175,7 +168,7 @@ class Dashboard extends Component {
       >
       <Spacer size={55} />
         <Card>
-         <Text> Hello {this.state.userdetails.firstname}</Text>
+         <Text> Hello This is {this.state.userdetails.firstname}</Text>
           
         </Card>
       </View>
@@ -208,7 +201,7 @@ renderLoadingView(){
       >
       <Spacer size={55} />
         <Card>
-          <Text> Hello {this.props.userdetails.firstname}</Text>
+          <Text> Hello This is{this.props.userdetails.firstname}</Text>
          
         </Card>
 
