@@ -17,7 +17,7 @@ export const createPage=(data,token) => {
       rejectUnauthorized : false,
       headers: {
             'Authorization': `Bearer ${token}`,
-            'content-type' : 'application/x-www-form-urlencoded'
+            'content-type' : 'application/json'
             },
 
           };
