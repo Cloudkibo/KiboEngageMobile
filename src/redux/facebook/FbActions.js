@@ -220,7 +220,7 @@ export const getfbChats=(token) => {
 
           };
 
-/*  return (dispatch) => {
+  return (dispatch) => {
     console.log('calling api');
     axios.get(`${baseURL}/api/fbmessages/`,config).then(res => dispatch(showfbchats(res.data)))
       .catch(function (error) {
@@ -230,24 +230,27 @@ export const getfbChats=(token) => {
       });
 
   };
-};*/
-
-
- return (dispatch) => {
-    axios.get(`${baseURL}/api/fbmessages/`,config)
-    .then((res) => res).then(res => dispatch(writeFBChats(res.data)))
-    .catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
-        if(error = 'Network Error')
-        {
-          //Alert.alert('You are not connected with Internet');
-          dispatch(readFBChats());
-        }
-       });
-
-  };
 };
+
+
+//  return (dispatch) => {
+//     axios.get(`${baseURL}/api/fbmessages/`,config)
+//     .then((res) => res).then(res => {
+//       dispatch(showfbchats(res.data));
+//       dispatch(writeFBChats(res.data));
+//     })
+//     .catch(function (error) {
+//         console.log('Error occured');
+//         console.log(error);
+//         if(error = 'Network Error')
+//         {
+//           //Alert.alert('You are not connected with Internet');
+//           dispatch(readFBChats());
+//         }
+//        });
+
+//   };
+// };
 
 
 const showfbchats = (fbchats) => {
@@ -334,7 +337,7 @@ const showfbchatsupdated = (fbchats,selectedChat) => {
 
 
 //send message to customer
-export function getfbchatfromAgent(chat){
+export function getfbchatfromAgent(chat, token){
  var config = {
       rejectUnauthorized : false,
       headers: {
@@ -346,6 +349,7 @@ export function getfbchatfromAgent(chat){
  return (dispatch) => {
     axios.post(`${baseURLKiboEngage}/api/sendfbchat`,chat,config).then(res =>{
       dispatch(fbchatmessageSent(res));
+      dispatch(getfbChats(token));
     })
     .catch(function (error) {
         console.log('Error occured');
@@ -519,7 +523,7 @@ export const fetchChatSessions=(token) => {
 
           };
 
-  /*return (dispatch) => {
+  return (dispatch) => {
     axios.get(`${baseURL}/api/fbsessions/`,config).then(res => {
       console.log("Chat session from facebook", res);
       dispatch(updateFbSessions(res.data));
@@ -532,24 +536,28 @@ export const fetchChatSessions=(token) => {
 
   };
 };
-*/
 
 
-return (dispatch) => {
-    axios.get(`${baseURL}/api/fbsessions/`,config)
-    .then((res) => res).then(res => dispatch(writeFBSessions(res.data)))
-    .catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
-        if(error = 'Network Error')
-        {
-          //Alert.alert('You are not connected with Internet');
-          dispatch(readFBSessions());
-        }
-       });
 
-  };
-};
+// return (dispatch) => {
+//     axios.get(`${baseURL}/api/fbsessions/`,config)
+//     .then((res) => res).then(res => {
+//       console.log("Chat session from facebook", res);
+//       dispatch(updateFbSessions(res.data));
+//       dispatch(writeFBSessions(res.data));
+//     })
+//     .catch(function (error) {
+//         console.log('Error occured');
+//         console.log(error);
+//         if(error = 'Network Error')
+//         {
+//           //Alert.alert('You are not connected with Internet');
+//           dispatch(readFBSessions());
+//         }
+//        });
+
+//   };
+// };
 
 
 
