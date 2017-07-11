@@ -184,7 +184,7 @@ renderLoadingView(){
       >
       <Spacer size={55} />
         <Card>
-          <Text> Hi, This is a new update {this.props.userdetails.firstname}</Text>
+          <Text> Hi, {this.props.userdetails.firstname}</Text>
         </Card>
 
 
@@ -221,6 +221,7 @@ renderLoadingView(){
 
            }
     }
+    //chat message received from mobile/web client
     if (notif.data.type == 'chatsession') {
       console.log('notification receieved');
       console.log(notif.data);
@@ -284,7 +285,7 @@ const mapDispatchToProps = {
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
   sessionsFetch: chatActions.sessionsFetch,
   updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
-    closemenu: menuActions.close,
+  closemenu: menuActions.close,
  };
 
 function mapStateToProps(state) {

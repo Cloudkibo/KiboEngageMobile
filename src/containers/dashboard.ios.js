@@ -304,9 +304,56 @@ renderLoadingView(){
            }
     }
 
+        //chat message received from mobile/web client
+    if (notif.data.type == 'chatsession') {
+      console.log('notification receieved');
+      console.log(notif.data);
+      console.log(this.props.data);
+      const token = await auth.getToken();
+      this.props.fetchSingleChat(token, notif.data);
+      this.props.sessionsFetch(token);
+    }
+    /*if(notif.data.request_id && notif.data.uniqueid){
+      console.log("Fetching the receieved chat");
+          var token =  await auth.getToken();
+          // console.log('token is Launchview is: ' + token);
+          if(token != ''){
+            if(notif.data.request_id == this.props.singleChat.request_id){
+              this.props.fetchChat(token, notif.data);
+            }
+
+           }
+
+    }*/
+    if(notif.data.type == "fb_chat_assigned"){
+            console.log("Updating FbSession Status to assigned");
+            var newSessions = this.props.fbSessions.map((obj) => {
+              if(obj.pageid._id == notif.data.pageid){
+                obj.status = 'assigned';
+              }
+              return obj;
+            });
+            this.props.updateFbSessionsAssignedStatus(newSessions);
+            //this.forceUpdate();
+    }
 
 
-    if(notif.data.request_id && notif.data.uniqueid){
+    if(notif.data.type == "fbchat_resolved"){
+            console.log("Updating FbSession Status to resolved");
+            var newSessions = this.props.fbSessions.map((obj) => {
+              if(obj.pageid._id == notif.data.pageid){
+                obj.status = 'resolved';
+              }
+              return obj;
+            });
+            this.props.updateFbSessionsAssignedStatus(newSessions);
+            //this.forceUpdate();
+
+  }
+
+
+
+    /*if(notif.data.request_id && notif.data.uniqueid){
       console.log("Fetching the receieved chat");
           var token =  await auth.getToken();
           // console.log('token is Launchview is: ' + token);
@@ -317,7 +364,7 @@ renderLoadingView(){
             
            }
       
-    }
+    }*/
     if(notif.data.type == "fb_chat_assigned"){
             console.log("Updating FbSession Status to assigned");
             var newSessions = this.props.fbSessions.map((obj) => {
@@ -385,22 +432,27 @@ renderLoadingView(){
 
 
 const mapDispatchToProps = {
-  getuser: UserActions.getuser,
+   closemenu: menuActions.close,
+   getuser: UserActions.getuser,
   getsqlData:UserActions.getsqlData,
   fetchChat: chatActions.fetchChat,
+  fetchSingleChat: chatActions.fetchSingleChat,
+  fetchSingleSession: chatActions.fetchSingleSession,
+  fetchChatSessions: FbActions.fetchChatSessions,
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
+  sessionsFetch: chatActions.sessionsFetch,
   updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
-  closemenu: menuActions.close,
  };
 
 function mapStateToProps(state) {
    const { userdetails,fetchedR} = state.user;
    const {fbchatSelected, fbSessions,currentSession} = state.fbpages;
-   var {chat} = state.chat;
-   var {singleChat} = state.chat;
-  return {userdetails,fetchedR,fbchatSelected, chat, singleChat, fbSessions,currentSession};
+   const { chat, singleChat, data } = state.chat;
+
+  return { userdetails, fetchedR, fbchatSelected, chat, singleChat, fbSessions, currentSession, data };
+
 
 }
 Dashboard = codePush(codePushOptions)(Dashboard);
