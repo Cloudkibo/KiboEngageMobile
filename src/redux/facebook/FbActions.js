@@ -24,7 +24,7 @@ export const createPage=(data,token) => {
 
   return (dispatch) => {
     console.log('calling api', data);
-    axios.post(`${baseURL}/api/fbpages/`,fbpage,config).then(res => {
+    axios.post(`${baseURL}/api/fbpages/`,data,config).then(res => {
       console.log("Create Fb page response", res);
       dispatch(fbpageCreateSuccess(res));
   })
