@@ -61,8 +61,8 @@ class Chat extends Component {
       this.forceUpdate();
     }
     if(nextProps.cannedresponses){
-      this.setState({canned: nextProps.cannedresponses});
-      this.renderCanned();
+      // this.setState({canned: nextProps.cannedresponses});
+      this.renderCanned(nextProps.cannedresponses);
     }
   }
 
@@ -364,19 +364,21 @@ class Chat extends Component {
     );
   }
 
-  renderCanned = () => {
-    var i = 0;
-    this.state.canned = [];
-    for(i = 0; i < this.props.cannedresponses.length; i++){
+  renderCanned = (cannedresponses) => {
+    
+    let i = 0;
+    other = [];
+    for(i = 0; i < cannedresponses.length; i++){
       var temp = i;
-      this.state.canned.push(<TouchableOpacity identifier={i} key={i}  onPress = { () => {this.selectCanned(temp)}}
+      other.push(<TouchableOpacity identifier={i} key={i}  onPress = {this.selectCanned.bind(this, cannedresponses[i].message)}
       style={{padding: 10, backgroundColor: 'grey', margin: 5}}>
       <Text>
-      {this.props.cannedresponses[i].message}
+      {cannedresponses[i].message}
       </Text>
       </TouchableOpacity>);
     }
-    return this.state.canned;
+    this.setState({canned: other});
+    console.log("Render Canned was called", this.state.canned, other);
   }
 
   selectCanned = (str) => {
@@ -384,9 +386,28 @@ class Chat extends Component {
     var words = this.state.text.split(" ");
     words[words.length - 1] = str;
     words = words.join(" ");
-    console.log("Rece and final", str, words);
+    console.log("final", str);
+    // console.log("Canned responses", this.props.cannedresponses);
     this.setState({isCanned: false, text: words});
   }
+
+
+  sortByTerm(data, key, input) {
+    console.log("Term", input);
+     var first = [];
+    var others = [];
+    for (var i = 0; i < data.length; i++) {
+        if (data[i].shortcode.indexOf(input) == 0) {
+            first.push(data[i]);
+            console.log("Message", data[i].shortcode);
+        } else {
+            others.push(data[i]);
+        }
+    }
+    first.sort();
+    others.sort();
+    return(first.concat(others));
+ };
 
   triggerCanned = () => {
       var words = this.state.text.split(" ");
@@ -396,6 +417,10 @@ class Chat extends Component {
       }
       console.log("Canned was triggered", words[words.length - 1].charAt(0));
       if(words[words.length - 1].charAt(0) == "/"){
+        var copy = JSON.parse(JSON.stringify(this.props.cannedresponses));
+        copy = this.sortByTerm(copy, 'message',words[words.length - 1]);
+        console.log("Sorted", copy);
+        this.renderCanned(copy);
         this.setState({isCanned: true});
       }else{
         this.setState({isCanned: false});
@@ -404,10 +429,11 @@ class Chat extends Component {
 
     renderFooter(propy) {
       if(this.state.isCanned){
+        console.log("Canned UI", this.state.canned);
         return (
           <View>
     <ScrollView horizontal={true} style={styles.footerContainer}>
-        {this.renderCanned()}
+        {this.state.canned}
         </ScrollView>
         </View>
       );
