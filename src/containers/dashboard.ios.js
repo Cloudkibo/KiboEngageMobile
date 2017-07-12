@@ -58,14 +58,14 @@ class Dashboard extends Component {
   }
  
   requestPermissions() {
-   /* NotificationHub.addEventListener('register', this._onRegistered);
+    NotificationHub.addEventListener('register', this._onRegistered);
     NotificationHub.addEventListener('registrationError', this._onRegistrationError);
     NotificationHub.addEventListener('registerAzureNotificationHub', this._onAzureNotificationHubRegistered);
     NotificationHub.addEventListener('azureNotificationHubRegistrationError', this._onAzureNotificationHubRegistrationError);
     NotificationHub.addEventListener('notification', this._onRemoteNotification);
     NotificationHub.addEventListener('localNotification', this._onLocalNotification);
-*/
-   // NotificationHub.requestPermissions();
+
+   NotificationHub.requestPermissions();
   }
 
   async register() {
@@ -116,7 +116,7 @@ class Dashboard extends Component {
           loading : false,
         });
        tagName = 'Agent-'+props.userdetails.email; 
-     //  this.requestPermissions();
+      this.requestPermissions();
     }
 
 
