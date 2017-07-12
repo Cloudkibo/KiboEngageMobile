@@ -182,7 +182,13 @@ class EditFbPage extends Component {
       this.state.newteams.push(team);
       const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
       this.setState({
-        form_values: this.state.form_values,
+        form_values: {
+          pageId: this.form.getValue().pageId,
+          pageTitle: this.form.getValue().pageTitle,
+          pageDescription: this.form.getValue().pageDescription,
+          appId: this.form.getValue().appId,
+          pageToken: this.form.getValue().pageToken,
+        },
         dataSourceFellowTeams: ds2,
       });
     }
@@ -209,7 +215,13 @@ class EditFbPage extends Component {
     this.state.newteams.splice(index, 1);
     const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
     this.setState({
-      form_values: this.state.form_values,
+      form_values: {
+        pageId: this.form.getValue().pageId,
+        pageTitle: this.form.getValue().pageTitle,
+        pageDescription: this.form.getValue().pageDescription,
+        appId: this.form.getValue().appId,
+        pageToken: this.form.getValue().pageToken,
+      },
       dataSourceFellowTeams: ds2,
     });
   }
