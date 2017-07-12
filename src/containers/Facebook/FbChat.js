@@ -462,7 +462,7 @@ class FbChat extends Component {
 
                             }
                   messages[0].text = filename;
-                  this.props.uploadFbChatDocfile(fileobj,saveMsg);
+                  this.props.uploadFbChatDocfile(fileobj,saveMsg, newtoken);
     }
   }
     this.state.stickgif = false;

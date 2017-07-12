@@ -426,7 +426,7 @@ export const uploadFbChatfile =(filedata,chatmsg)=>{
 
 
 
-export const uploadFbChatDocfile = (filedata,chatmsg)=>{
+export const uploadFbChatDocfile = (filedata,chatmsg, newtoken)=>{
      console.log("Asking for permission", filedata);
      return (dispatch) => {
                 dispatch (update_upload_progress({
@@ -460,6 +460,7 @@ export const uploadFbChatDocfile = (filedata,chatmsg)=>{
                                 })
 
                                 .then((resp) => {
+                                  dispatch(getfbChats(newtoken));
                                   console.log("File Uploaded", resp);
                                      dispatch (update_upload_progress({
                                     message_id: filedata._id,
@@ -469,7 +470,7 @@ export const uploadFbChatDocfile = (filedata,chatmsg)=>{
 
                                       console.log('File uploaded')
                                   }
-
+                                  
                                 })
                                 .catch((err) => {
                                   dispatch (update_upload_progress({
@@ -477,7 +478,9 @@ export const uploadFbChatDocfile = (filedata,chatmsg)=>{
                                     progress: -1,
                                   }));
                                   console.warn(err);
-                                })
+                                });
+
+                                
              }
 
 
