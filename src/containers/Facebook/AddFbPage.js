@@ -11,6 +11,7 @@ import auth from '../../services/auth';
 import * as TeamActions from '@redux/team/TeamActions';
 import * as AgentActions from '@redux/agents/agentActions';
 import { ListItem } from 'react-native-elements';
+const Form = FormValidation.form.Form;
 class AddFbPage extends Component {
   static componentName = 'AddFacebookPage';
 
@@ -20,6 +21,7 @@ class AddFbPage extends Component {
     const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
     stylesheet.textbox.normal.height = 80;
     stylesheet.textbox.error.height = 80;
+
 
     const validName = FormValidation.refinement(
       FormValidation.String, (textval) => {
@@ -100,6 +102,7 @@ class AddFbPage extends Component {
 
      this.renderRow = this.renderRow.bind(this);
     this.renderRowFellowTeams = this.renderRowFellowTeams.bind(this);
+    
   }
 
 
@@ -174,7 +177,7 @@ class AddFbPage extends Component {
       this.state.newteams.push(team);
       const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
       this.setState({
-        form_values: this.state.form_values,
+        form_values: this.form.getValue(),
         dataSourceFellowTeams: ds2,
       });
     }
@@ -200,8 +203,11 @@ class AddFbPage extends Component {
     }
     this.state.newteams.splice(index, 1);
     const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
+
+    console.log("Form Valies", this.state.form_values, this.state.newteams);
+    
     this.setState({
-      form_values: this.state.form_values,
+      form_values: this.form.getValue(),
       dataSourceFellowTeams: ds2,
     });
   }
@@ -244,6 +250,18 @@ class AddFbPage extends Component {
                 },
                 teamagents: this.state.newteams,
                 }
+
+              if(this.state.newteams.length <= 0){
+                      Alert.alert(
+                        'No team selected',
+                        'Please atleast select one team',
+                        [
+                          { text: 'Ok', onPress: () => console.log('Ok Pressed!') },
+                        ],
+                      );
+
+                      return;
+              }
              this.props.createPage(data,token);
             // console.log("New teams", this.state.newteams);
            
@@ -256,7 +274,7 @@ class AddFbPage extends Component {
 
   }
   render = () => {
-    const Form = FormValidation.form.Form;
+    console.log("In render", this.state.form_values);
     return (
       <View
       style={[AppStyles.container]}
