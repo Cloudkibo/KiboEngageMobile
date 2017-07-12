@@ -125,6 +125,11 @@ class AddFbPage extends Component {
       console.log("Fb teams", this.props.fbteams);
       console.log("New Teams", this.state.newteams);
       const ds = this.state.dataSourceAllTeams.cloneWithRows(nextProps.teams);
+      for(let i =0; i < nextProps.teams.length; i++){
+        if(nextProps.teams[i].groupname == "All"){
+          this.state.newteams.push(nextProps.teams[i]);
+        }
+      }
       const ds2 = this.state.dataSourceFellowTeams.cloneWithRows(this.state.newteams);
       this.setState({
         dataSourceAllTeams: ds,
@@ -166,6 +171,7 @@ class AddFbPage extends Component {
 
 
    appendTeam(team) {
+     console.log("New teams", this.state.newteams);
     let flag = 0;
     for (let i = 0; i < this.state.newteams.length; i++) {
       if (this.state.newteams[i]._id == team._id) {
