@@ -111,6 +111,7 @@ class Dashboard extends Component {
           userdetails: props.userdetails,
           loading : false,
         });
+       tags = [];
        tags.push('Agent-'+props.userdetails.email);
        this.register();
     }
