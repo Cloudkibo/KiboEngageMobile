@@ -39,7 +39,7 @@ class FbSettings extends Component {
   constructor(props) {
     super(props);
     var ReactNative = require('react-native');
-    this.state = {items: [], language: '', channelList: [], assignedAgent: '', assignedChannel: '', platform: 'Detected Platform: ' + ReactNative.Platform.OS};
+    this.state = {items: [], language: '', agent: {}, channelList: [], assignedAgent: '', assignedChannel: '', platform: 'Detected Platform: ' + ReactNative.Platform.OS};
     this.createPickerItems = this.createPickerItems.bind(this);
     console.log("Current Session",  this.props.currentSession);
 }
@@ -76,13 +76,11 @@ class FbSettings extends Component {
      });
 
      const assgAgent = nextProps.agents.filter((c) => c._id == nextProps.currentSession.agent_ids[0].id);
+     this.setState({
+       agent: assgAgent[0],
+     })
 
-     if (assgAgent.length > 0) {
-       itemsTemp.unshift(<Picker.Item label={assgAgent[0].firstname + ' ' + assgAgent[0].lastname} value={assgAgent[0]._id+','+assgAgent[0].email} />);
-     } else {
-       itemsTemp.unshift(<Picker.Item label='Select an agent' value={'123'+','+'test'} />);
-     }
-     //itemsTemp.unshift(<Picker.Item label='Select an agent' value={'123'+','+'test'} />);
+     itemsTemp.unshift(<Picker.Item label='Select an agent' value={'123'+','+'test'} />);
      console.log("Teams in fb settings", nextProps.teams);
      console.log("Agents in fb settings", nextProps.agents);
      this.setState({items: itemsTemp});
@@ -170,6 +168,12 @@ class FbSettings extends Component {
       <Text style={styles.cardDescription}>
         Current Status - {this.props.currentSession.status}
       </Text>
+      {
+        this.props.currentSession.status == 'assigned' && this.state.agent.firstname &&
+        <Text style={styles.cardDescription}>
+          Assigned Agent - {this.state.agent.firstname + ' ' + this.state.agent.lastname}
+        </Text>
+      }
       <Text style={styles.cardDescription}>
         {this.props.singleChat.team_name} - {this.props.singleChat.channel_name}
       </Text>
