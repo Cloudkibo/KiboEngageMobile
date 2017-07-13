@@ -75,10 +75,12 @@ class FbSettings extends Component {
        );
      });
 
-     const assgAgent = nextProps.agents.filter((c) => c._id == nextProps.currentSession.agent_ids[0].id);
-     this.setState({
-       agent: assgAgent[0],
-     })
+     if (nextProps.currentSession.agent_ids[0]) {
+       const assgAgent = nextProps.agents.filter((c) => c._id == nextProps.currentSession.agent_ids[0].id);
+       this.setState({
+         agent: assgAgent[0],
+       });
+     }
 
      itemsTemp.unshift(<Picker.Item label='Select an agent' value={'123'+','+'test'} />);
      console.log("Teams in fb settings", nextProps.teams);
