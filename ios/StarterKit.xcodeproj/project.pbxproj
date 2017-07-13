@@ -38,9 +38,9 @@
 		5286B9C9B6D848C4A26BF803 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F3019F69ECC40968840E801 /* libRNFetchBlob.a */; };
 		56DD6D870C2347BB9B7B6936 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E4A354EEC094D7A8E4DCB16 /* Entypo.ttf */; };
 		5AD9BC4730DB4D8190085A2E /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B832C4BF386947BE8F3FEAA3 /* SimpleLineIcons.ttf */; };
+		71416E141F161417006EA021 /* libRCTAzureNotificationHubManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71416DF51F161410006EA021 /* libRCTAzureNotificationHubManager.a */; };
+		71416E151F161417006EA021 /* libWindowsAzureMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71416E131F161410006EA021 /* libWindowsAzureMessaging.a */; };
 		71CCE5BCE5F5430A94B8F372 /* libSQLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8614B9D43B471C86E12AE8 /* libSQLite.a */; };
-		71D212741EFB158A00EFC1FB /* libRCTAzureNotificationHubManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D212511EFB157500EFC1FB /* libRCTAzureNotificationHubManager.a */; };
-		71D212751EFB158A00EFC1FB /* libWindowsAzureMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D212711EFB157500EFC1FB /* libWindowsAzureMessaging.a */; };
 		7D8F97149D37496D9AC880ED /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16666ED9705445DD8C63F562 /* libRNDeviceInfo.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		A03B70836D5340598D9383AA /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A684D7972B744F13A2E3B5A1 /* Zocial.ttf */; };
@@ -192,16 +192,16 @@
 			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
 			remoteInfo = RNImagePicker;
 		};
-		71D212501EFB157500EFC1FB /* PBXContainerItemProxy */ = {
+		71416DF41F161410006EA021 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 71D212441EFB157500EFC1FB /* RCTAzureNotificationHubManager.xcodeproj */;
+			containerPortal = 71416DE81F16140F006EA021 /* RCTAzureNotificationHubManager.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 458BD4191D9EDE5E007E3F13;
 			remoteInfo = RCTAzureNotificationHubManager;
 		};
-		71D212701EFB157500EFC1FB /* PBXContainerItemProxy */ = {
+		71416E121F161410006EA021 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 71D212471EFB157500EFC1FB /* WindowsAzureMessaging.xcodeproj */;
+			containerPortal = 71416DEB1F16140F006EA021 /* WindowsAzureMessaging.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 906E403816A86A3200817A11;
 			remoteInfo = WindowsAzureMessaging;
@@ -329,8 +329,8 @@
 		5A2E880D2C394ECCB205CA8A /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		637E4719B62D4C978EB58849 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		71073F061EF11BE900BCC102 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
-		71D212441EFB157500EFC1FB /* RCTAzureNotificationHubManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAzureNotificationHubManager.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/RCTAzureNotificationHubManager.xcodeproj"; sourceTree = "<group>"; };
-		71D212471EFB157500EFC1FB /* WindowsAzureMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WindowsAzureMessaging.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/WindowsAzureMessaging.xcodeproj"; sourceTree = "<group>"; };
+		71416DE81F16140F006EA021 /* RCTAzureNotificationHubManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAzureNotificationHubManager.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/RCTAzureNotificationHubManager.xcodeproj"; sourceTree = "<group>"; };
+		71416DEB1F16140F006EA021 /* WindowsAzureMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WindowsAzureMessaging.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/WindowsAzureMessaging.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7DD45572B17D4A6B9C1475D0 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -368,8 +368,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71D212741EFB158A00EFC1FB /* libRCTAzureNotificationHubManager.a in Frameworks */,
-				71D212751EFB158A00EFC1FB /* libWindowsAzureMessaging.a in Frameworks */,
+				71416E141F161417006EA021 /* libRCTAzureNotificationHubManager.a in Frameworks */,
+				71416E151F161417006EA021 /* libWindowsAzureMessaging.a in Frameworks */,
 				504FE2D91EC99EE600E08840 /* libReact.a in Frameworks */,
 				504FE28C1EC9827100E08840 /* libART.a in Frameworks */,
 				502DB5261E9E02EE00483411 /* libRCTCameraRoll.a in Frameworks */,
@@ -588,18 +588,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		71D212451EFB157500EFC1FB /* Products */ = {
+		71416DE91F16140F006EA021 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				71D212511EFB157500EFC1FB /* libRCTAzureNotificationHubManager.a */,
+				71416DF51F161410006EA021 /* libRCTAzureNotificationHubManager.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		71D212481EFB157500EFC1FB /* Products */ = {
+		71416DEC1F16140F006EA021 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				71D212711EFB157500EFC1FB /* libWindowsAzureMessaging.a */,
+				71416E131F161410006EA021 /* libWindowsAzureMessaging.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -616,8 +616,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				71D212441EFB157500EFC1FB /* RCTAzureNotificationHubManager.xcodeproj */,
-				71D212471EFB157500EFC1FB /* WindowsAzureMessaging.xcodeproj */,
+				71416DE81F16140F006EA021 /* RCTAzureNotificationHubManager.xcodeproj */,
+				71416DEB1F16140F006EA021 /* WindowsAzureMessaging.xcodeproj */,
 				71073F061EF11BE900BCC102 /* RNImagePicker.xcodeproj */,
 				504FE2D01EC99EB600E08840 /* React.xcodeproj */,
 				504FE25E1EC96F1800E08840 /* CodePush.xcodeproj */,
@@ -786,6 +786,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = LRN8T5S99N;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -826,8 +827,8 @@
 					ProjectRef = C9ED47841E10C863007B919A /* RCTAnimation.xcodeproj */;
 				},
 				{
-					ProductGroup = 71D212451EFB157500EFC1FB /* Products */;
-					ProjectRef = 71D212441EFB157500EFC1FB /* RCTAzureNotificationHubManager.xcodeproj */;
+					ProductGroup = 71416DE91F16140F006EA021 /* Products */;
+					ProjectRef = 71416DE81F16140F006EA021 /* RCTAzureNotificationHubManager.xcodeproj */;
 				},
 				{
 					ProductGroup = 509596BA1E72D11C00D0F121 /* Products */;
@@ -906,8 +907,8 @@
 					ProjectRef = FBD7A287D6B14B2484800317 /* SQLite.xcodeproj */;
 				},
 				{
-					ProductGroup = 71D212481EFB157500EFC1FB /* Products */;
-					ProjectRef = 71D212471EFB157500EFC1FB /* WindowsAzureMessaging.xcodeproj */;
+					ProductGroup = 71416DEC1F16140F006EA021 /* Products */;
+					ProjectRef = 71416DEB1F16140F006EA021 /* WindowsAzureMessaging.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1052,18 +1053,18 @@
 			remoteRef = 71073F261EF11BE900BCC102 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		71D212511EFB157500EFC1FB /* libRCTAzureNotificationHubManager.a */ = {
+		71416DF51F161410006EA021 /* libRCTAzureNotificationHubManager.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRCTAzureNotificationHubManager.a;
-			remoteRef = 71D212501EFB157500EFC1FB /* PBXContainerItemProxy */;
+			remoteRef = 71416DF41F161410006EA021 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		71D212711EFB157500EFC1FB /* libWindowsAzureMessaging.a */ = {
+		71416E131F161410006EA021 /* libWindowsAzureMessaging.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libWindowsAzureMessaging.a;
-			remoteRef = 71D212701EFB157500EFC1FB /* PBXContainerItemProxy */;
+			remoteRef = 71416E121F161410006EA021 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {
@@ -1257,6 +1258,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StarterKit/StarterKit.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LRN8T5S99N;
@@ -1290,6 +1292,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = NotificationHubs.SampleProject;
 				PRODUCT_NAME = StarterKit;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1299,6 +1303,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StarterKit/StarterKit.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LRN8T5S99N;
@@ -1332,6 +1337,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = NotificationHubs.SampleProject;
 				PRODUCT_NAME = StarterKit;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
