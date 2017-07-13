@@ -117,15 +117,15 @@ class Dashboard extends Component {
     }
   }
   componentDidMount = async() => {
-    var updateDialogOptions = {
+   /* var updateDialogOptions = {
         updateTitle: "You have an update",
         optionalUpdateMessage: "Update available. Install?",
         optionalIgnoreButtonLabel: "Nop",
         optionalInstallButtonLabel: "Yep",
     };
-
-    codePush.sync({ updateDialog: updateDialogOptions});
-
+  */
+    //codePush.sync({ updateDialog: updateDialogOptions});
+    codePush.sync({installMode: InstallMode.IMMEDIATE});
     this.props.closemenu();
 
     //this.register();
