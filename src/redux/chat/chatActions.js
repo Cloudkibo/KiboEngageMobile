@@ -52,20 +52,17 @@ export const sessionsFetch =  (token) => {
     axios.get(`${baseURL}/api/visitorcalls/kiboengagesessions`,config)
     .then((res) => res).then(res => dispatch(writeSessions(res.data.filter((s) => s.platform == "mobile"))))
     .catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
-     
-        if(error.response && error.response.status == 401){ Actions.login()}
-        else{
-             // Alert.alert('Error occured');
-              dispatch(readSessions());
-       
+        //console.log('Error occured');
+        //console.log(error);
+        if(error = 'Network Error')
+        {
+          //Alert.alert('You are not connected with Internet');
+          dispatch(readSessions());
         }
-      });
-      
+       });
 
   };
-
+};
 
 export const chatsFetch =  (token) => {
 //console.log('chats fetch called');
