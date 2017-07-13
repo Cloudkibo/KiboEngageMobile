@@ -96,7 +96,8 @@ class Notifications extends Component {
   goToView2(notification)
   {
         console.log('navigate notification is called');
-        console.log(notification)
+        console.log(notification);
+        this.props.resetNotifications();
         Actions.resendNotification({notification:notification});
   }
   renderRow = (notification) => (
@@ -154,6 +155,7 @@ class Notifications extends Component {
 
 const mapDispatchToProps = {
   notificationFetch: NotificationActions.notificationFetch,
+  resetNotifications: NotificationActions.resetNotifications,
  
 };
 function mapStateToProps(state) {
