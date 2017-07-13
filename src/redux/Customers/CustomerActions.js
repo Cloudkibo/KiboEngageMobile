@@ -1,7 +1,7 @@
 // import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import * as ActionTypes from '../types';
-
+import { Alert } from 'react-native';
 var querystring = require('querystring');
 
 import * as Config from '../config';
@@ -11,7 +11,8 @@ var baseURLKiboEngage = Config.baseURLKiboEngage;
 // var baseURLKiboEngage = `http://localhost:8000`
 
 export function showCustomers(customers) {
-  //console.log(customers.data);
+  console.log('show customers in sendemail page');
+  console.log(customers.data);
   return {
     type: ActionTypes.ADD_CUSTOMERS,
     payload: customers.data,

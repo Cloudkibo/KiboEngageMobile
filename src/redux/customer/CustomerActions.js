@@ -8,7 +8,8 @@ var baseURL = Config.baseURLKiboSupport;
 var baseURLKiboEngage = Config.baseURLKiboEngage;
 
 export function showCustomers(customers) {
-//console.log(customers.data);
+  console.log('show customers');
+console.log(customers.data);
   return {
     type: ActionTypes.ADD_CUSTOMERS,
     payload : customers.data,
@@ -29,7 +30,14 @@ export const customerFetch = (token) => {
 
   return (dispatch) => {
     axios.get(`${baseURL}/api/customers`,config)
-    .then((res) => res).then(res => dispatch(showCustomers(res)));
+    .then((res) => res).then(res => 
+
+      {
+        console.log('customers');
+console.log(res.data);
+        dispatch(showCustomers(res));}
+
+      );
 
   };
 };
