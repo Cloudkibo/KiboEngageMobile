@@ -125,7 +125,7 @@ class Dashboard extends Component {
     };
   */
     //codePush.sync({ updateDialog: updateDialogOptions});
-    codePush.sync({installMode: InstallMode.IMMEDIATE});
+    codePush.sync({installMode: codePush.InstallMode.IMMEDIATE});
     this.props.closemenu();
 
     //this.register();
