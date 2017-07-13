@@ -15,6 +15,13 @@ console.log(notifications.data);
   };
 }
 
+
+export function resetNotifications() {
+  return {
+    type: ActionTypes.RESET_NOTIFICATIONS,
+  };
+}
+
 export const notificationFetch = (token) => {
   console.log('notifications fetch is called');
    var config = {
