@@ -177,6 +177,8 @@ renderLoadingView(){
     );
   }
   render = () => {
+
+      console.log("User details", this.props.userdetails);
      if (this.state.loading) return <Loading />;
 
 

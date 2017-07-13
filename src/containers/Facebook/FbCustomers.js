@@ -147,10 +147,11 @@ class FbCustomers extends Component {
     return(
           <View style={[AppStyles.container]}>
           <Spacer size={25} />
-         
+         <ScrollView>
            <List containerStyle={{marginTop: 50}}>
            {this.state.menuItems}
            </List>
+          </ScrollView>
             </View>
  
   );
