@@ -17,6 +17,36 @@ console.log(customers.data);
   };
 }
 
+/*
+companyid
+:
+"cd89f71715f2014725163952"
+country
+:
+"United States"
+customerID
+:
+"Test5"
+email
+:
+"Test5"
+isMobileClient
+:
+"false"
+name
+:
+"Test5"
+phone
+:
+""
+__v
+:
+0
+_id
+:
+"58cf22b25e4c8cfa69652d28"
+*/
+
 export const customerFetch = (token) => {
   console.log('customers fetch is called');
    var config = {

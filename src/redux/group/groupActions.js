@@ -175,7 +175,7 @@ export const getDeptTeams = (token) => {
     .catch(function (error) {
         console.log('readdeptteams');
         console.log(error)
-        dispatch(readdeptteams);
+        dispatch(readdeptteams());
        });
   };
 };
@@ -337,13 +337,59 @@ export const deletegroup = (group) => {
 
 //callbackdeptteams
 export function callbackdeptteams(results) {
+   /*
+ var CREATE_DEPT_TEAMS_TABLE = "CREATE TABLE DEPT_TEAMS ("
+                + "_id TEXT PRIMARY KEY,"
+                + "companyid TEXT,"
+                + "deleteStatus TEXT,"
+                + "deptid TEXT,"
+                + "joindate DATETIME,"
+                + "teamid TEXT" + ")";
+  */
+  /*
+ for (let i = 0; i < len; i++) {
+    let row = results.rows.item(i);
+    //console.log('row.customerid');
+    //console.log(JSON.parse(row.customerid));
+    //console.log('request_id is ------ ***');
+    //console.log(row.request_id);
+    var obj = {
+          _id: row._id,
+          companyid:row.companyid,
+          customerid: JSON.parse(row.customerid),
+          customerID:row.customerIDmod,
+          departmentid: row.departmentid,
+          picktime: row.picktime,
+          requesttime:row.requesttime,
+          deleteStatus:row.deleteStatus,
+          status:row.status,
+          platform:row.platform,
+          is_rescheduled:row.is_rescheduled,
+          agent_ids: [row.agent_ids && row.agent_ids != ''?JSON.parse(row.agent_ids):''],
+          messagechannel: [row.messagechannel],
+          request_id:row.request_id,
+
+
+      }
+  */
  var deptteams = []
   var len = results.rows.length;
   for (let i = 0; i < len; i++) {
     let row = results.rows.item(i);
     console.log('row');
     console.log(row);
-    deptteams.push(row);
+    var obj = {
+          _id: row._id,
+          companyid:row.companyid,
+          deleteStatus:row.deleteStatus,
+          deptid:JSON.parse(row.deptid),
+          joindate:row.joindate,
+          teamid:JSON.parse(row.teamid),
+
+
+
+        }
+    deptteams.push(obj);
   }
   console.log('deptteams');
   console.log(deptteams);
@@ -612,6 +658,42 @@ export function readGroups(){
   }, function() {
           console.log('Populated database OK');
            dispatch(callbackgroups(res));
+  }
+  );
+
+  }
+
+}
+
+export function readdeptteams(){
+
+  /*
+ var CREATE_DEPT_TEAMS_TABLE = "CREATE TABLE DEPT_TEAMS ("
+                + "_id TEXT PRIMARY KEY,"
+                + "companyid TEXT,"
+                + "deleteStatus TEXT,"
+                + "deptid TEXT,"
+                + "joindate DATETIME,"
+                + "teamid TEXT" + ")";
+  */
+
+   var db = SqliteCalls.getConnection();
+   return (dispatch) => {
+
+    db.transaction(function(tx) {
+
+    tx.executeSql('SELECT * FROM DEPT_TEAMS', [], (tx,results) => {
+          console.log("Query completed");
+          console.log(results);
+          res = results;
+
+        });
+  }
+    , function(error) {
+             console.log('Transaction ERROR: ' + error.message);
+  }, function() {
+          console.log('Populated database OK');
+           dispatch(callbackdeptteams(res));
   }
   );
 
