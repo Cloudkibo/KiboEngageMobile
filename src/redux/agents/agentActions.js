@@ -35,17 +35,21 @@ export const agentFetch =  (token,userid) => {
 
 
 
-.then((res) => res).then(res => dispatch(writeAgents(res.data.agents.filter((s) => s._id != userid))))
+.then((res) => res).then(res => 
+
+  dispatch(writeAgents(res.data.agents.filter((s) => s._id != userid)))
+ //dispatch(readAgents())
+  )
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
-        if(error = 'Network Error')
-        {
+       // if(error = 'Network Error')
+       // {
           //Alert.alert('You are not connected with Internet');
           console.log('myID ...')
           console.log(userid)
           dispatch(readAgents());
-        }
+       // }
        });
 
   };

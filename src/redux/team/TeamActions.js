@@ -58,15 +58,19 @@ export const teamFetch = (token) => {
 
   return (dispatch) => {
     axios.get(`${baseURL}/api/groups`,config)
-    .then((res) => res).then(res => dispatch(writeTeams(res.data)))
+    .then((res) => res).then(res => 
+
+      dispatch(writeTeams(res.data))
+ //dispatch(readTeams())
+      )
      .catch(function (error) {
         console.log('Error occured');
         console.log(error);
-        if(error = 'Network Error')
-        {
+       // if(error = 'Network Error')
+      //  {
           //Alert.alert('You are not connected with Internet');
           dispatch(readTeams());
-        }
+        //}
        });
 
   };
@@ -159,15 +163,19 @@ export const agentTeamFetch = (token) => {
 
   return (dispatch) => {
     axios.get(`${baseURL}/api/groupagents`,config)
-    .then((res) => res).then(res => dispatch(writeTeamAgents(res.data)))
+    .then((res) => res).then(res => 
+
+      dispatch(writeTeamAgents(res.data))
+//dispatch(readTeamAgents())
+      )
      .catch(function (error) {
         console.log('Error occured');
         console.log(error);
-        if(error = 'Network Error')
-        {
+        //if(error = 'Network Error')
+        //{
           //Alert.alert('You are not connected with Internet');
           dispatch(readTeamAgents());
-        }
+        //}
        });
 
   };
