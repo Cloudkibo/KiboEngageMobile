@@ -83,12 +83,16 @@ class FbChat extends Component {
        console.log("Upload updated");
       //  this.renderChat(nextProps);
      }
+     if(nextProps.fbchatSelected && nextProps.fbCustomerSelected){
+      this.renderChat(nextProps);
+     // this.forceUpdate();
+    }
   }
 
   renderChat = (nextProps) => {
      var temparray = [];
      nextProps.fbchatSelected.sort(function(left, right){
-       console.log("In render chat", left.timestamp)
+      //  console.log("In render chat", left.timestamp)
       return moment.unix(left.timestamp).diff(moment.unix(right.timestamp))
 });
      console.log("In render chat", nextProps.fbchatSelected.reverse());

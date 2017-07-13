@@ -217,9 +217,9 @@ renderLoadingView(){
           var token =  await auth.getToken();
           // console.log('token is Launchview is: ' + token);
           if(token != ''){
-            this.props.fetchChatSessions(token);
+            this.props.fetchPushChatSessions(token);
             this.props.getfbChatsUpdate(token,this.props.currentSession);
-
+            // this.props.updateChatPush(token, this.props.fbCustomerSelected);
             //this.forceUpdate();
 
            }
@@ -282,7 +282,7 @@ const mapDispatchToProps = {
   fetchChat: chatActions.fetchChat,
   fetchSingleChat: chatActions.fetchSingleChat,
   fetchSingleSession: chatActions.fetchSingleSession,
-  fetchChatSessions: FbActions.fetchChatSessions,
+  fetchPushChatSessions: FbActions.fetchPushChatSessions,
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
@@ -293,10 +293,10 @@ const mapDispatchToProps = {
 
 function mapStateToProps(state) {
   const { userdetails, fetchedR } = state.user;
-  const { fbchatSelected, fbSessions, currentSession } = state.fbpages;
+  const { fbchatSelected, fbSessions, currentSession, fbCustomerSelected } = state.fbpages;
   const { chat, singleChat, data } = state.chat;
 
-  return { userdetails, fetchedR, fbchatSelected, chat, singleChat, fbSessions, currentSession, data };
+  return { userdetails, fetchedR, fbchatSelected, chat, singleChat, fbSessions, currentSession, data, fbCustomerSelected };
 
 }
  Dashboard = codePush(codePushOptions)(Dashboard);
