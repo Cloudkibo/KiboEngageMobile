@@ -84,9 +84,8 @@ export const getuser = (token) => {
     axios.get(`${baseURL}/api/users/me`,config)
     .then((res) => res).then(res => 
 
-      {
-        //dispatch(writeUserDetails(res.data));
-      dispatch(readusers());
+      {dispatch(writeUserDetails(res.data));
+      //dispatch(readusers());
     }
       //  dispatch(showUsername(res));}
       )

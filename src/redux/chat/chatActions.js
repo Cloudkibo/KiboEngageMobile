@@ -33,7 +33,7 @@ export function showSessions(data) {
 
 
 export const sessionsFetch =  (token) => {
-console.log('inside session fetch');
+
    var config = {
       headers: {
           'Authorization': `Bearer ${token}`,
@@ -50,28 +50,25 @@ console.log('inside session fetch');
 
  return (dispatch) => {
     axios.get(`${baseURL}/api/visitorcalls/kiboengagesessions`,config)
-    .then((res) => res).then(res =>
-     dispatch(writeSessions(res.data.filter((s) => s.platform == "mobile")))
- //dispatch(readSessions())
- )
+    .then((res) => res).then(res => dispatch(writeSessions(res.data.filter((s) => s.platform == "mobile"))))
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
      
-       // if(error.response && error.response.status == 401){ Actions.login()}
-       // else{
+        if(error.response && error.response.status == 401){ Actions.login()}
+        else{
              // Alert.alert('Error occured');
               dispatch(readSessions());
        
-       // }
+        }
       });
       
 
   };
-};
+
 
 export const chatsFetch =  (token) => {
-console.log('chats fetch called');
+//console.log('chats fetch called');
    var config = {
       headers: {
           'Authorization': `Bearer ${token}`,
@@ -85,21 +82,15 @@ console.log('chats fetch called');
 };*/
  return (dispatch) => {
     axios.get(`${baseURL}/api/userchats/`,config)
-    .then((res) => res).then(res => 
-
-     dispatch(writeChats(res.data))
-//dispatch(readChats())
-      )
+    .then((res) => res).then(res => dispatch(writeChats(res.data)))
     .catch(function (error) {
         //console.log('Error occured');
         //console.log(error);
-       
-      //  if(error.response && error.response.status == 401){ Actions.login()}
-       // else{
-             // Alert.alert('Error occured');
-              dispatch(readChats());
-       
-       // }
+        if(error = 'Network Error')
+        {
+          Alert.alert('You are not connected with Internet');
+          dispatch(readChats());
+        }
        });
 
   };
