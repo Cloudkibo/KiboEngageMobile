@@ -102,7 +102,9 @@ class SubGroups extends Component {
   {
         console.log('navigate subgroup is called');
         this.props.resetStatus();
-        Actions.channelEdit({subgroup:subgroup,groupName:groupName});
+        if (this.props.userdetails.isAgent == 'No') {
+          Actions.channelEdit({subgroup:subgroup,groupName:groupName});
+        }
   }
 
   returnGroupName(subgroup){
@@ -117,7 +119,7 @@ class SubGroups extends Component {
    }
    return deptname;
   }
-  
+
 
 
   renderRow = (subgroup) => (
@@ -126,7 +128,7 @@ class SubGroups extends Component {
       onPress={this.goToView2.bind(this,subgroup,this.returnGroupName(subgroup))}
       title={subgroup.msg_channel_name}
       subtitle={this.returnGroupName(subgroup) + '\n' + subgroup.msg_channel_description || null}
-
+      hideChevron={this.props.userdetails.isAgent == 'No' ? false : true}
     />
 
 

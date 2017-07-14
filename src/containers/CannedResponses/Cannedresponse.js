@@ -59,21 +59,21 @@ class Cannedresponse extends Component {
     if(this.props.userdetails.isAgent == "Yes"){
        Actions.refresh({rightTitle: "",onRight:()=> {console.log('do nothing')}});
 
-   
+
     }
   }
-    
+
    componentDidMount = async() => {
     console.log("cannedresponse componentDidMount")
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
-     
+
             this.props.cannedFetch(token);
-       
-            
+
+
           }
-  
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -87,10 +87,10 @@ class Cannedresponse extends Component {
      }
   }
 
-  createDataSource({ cannedresponses 
+  createDataSource({ cannedresponses
   }) {
     const ds = new ListView.DataSource({
-  
+
       rowHasChanged: (r1, r2) => r1 !== r2
     });
 
@@ -104,7 +104,9 @@ class Cannedresponse extends Component {
   goToView2(cannedresponse)
   {
     this.props.resetcannedFetch();
-        Actions.cannedEdit({cannedresponse:cannedresponse})
+    if (this.props.userdetails.isAgent == 'No') {
+        Actions.cannedEdit({cannedresponse:cannedresponse});
+    }
   }
   renderRow = (cannedresponse) => (
     <ListItem
@@ -112,10 +114,10 @@ class Cannedresponse extends Component {
       title={cannedresponse.shortcode}
       subtitle={cannedresponse.message || null}
       onPress={this.goToView2.bind(this,cannedresponse)}
-      
+      hideChevron={this.props.userdetails.isAgent == 'No' ? false : true}
     />
 
- 
+
   )
 
 
@@ -147,10 +149,10 @@ class Cannedresponse extends Component {
                  renderRow={this.renderRow}
                 />
               </List>
-              
+
             </ScrollView>
             </View>
- 
+
   )
 }
 
@@ -165,4 +167,3 @@ function mapStateToProps(state) {
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Cannedresponse);
-

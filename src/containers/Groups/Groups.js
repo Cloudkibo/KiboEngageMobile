@@ -122,7 +122,9 @@ class Groups extends Component {
   goToView2(group)
   {
         console.log('navigate group is called');
-        Actions.groupEdit({group:group,groupagents : this.props.groupagents,agents: this.props.agents})
+        if (this.props.userdetails.isAgent == 'No') {
+          Actions.groupEdit({group:group,groupagents : this.props.groupagents,agents: this.props.agents})
+        }
   }
   renderRow = (group) => (
     <ListItem
@@ -130,7 +132,7 @@ class Groups extends Component {
       onPress={this.goToView2.bind(this,group)}
       title={group.deptname}
       subtitle={group.deptdescription || null}
-
+      hideChevron={this.props.userdetails.isAgent == 'No' ? false : true}
 
     />
 
