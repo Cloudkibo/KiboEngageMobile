@@ -87,6 +87,7 @@ class Agents extends Component {
   goToView2(agent)
   {
         console.log('navigate group is called');
+        if(this.props.userdetails.isAgent == 'Yes') return;
         Actions.editAgent({agent:agent,userid:this.props.userdetails._id})
   }
 

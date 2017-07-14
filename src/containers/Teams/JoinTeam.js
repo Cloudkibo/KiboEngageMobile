@@ -80,8 +80,8 @@ class JoinTeam extends Component {
       
       },
       form_values: {
-        teamName:this.props.team.teamname,
-        teamDescription: this.props.team.teamdescription,
+        teamName:this.props.team.groupname,
+        teamDescription: this.props.team.groupdescription,
         status:this.props.team.status,
       
       },
@@ -172,7 +172,7 @@ class JoinTeam extends Component {
 
   render = () => {
     const Form = FormValidation.form.Form;
-
+    console.log("Join teams", this.props.team);
     return (
       <ScrollView style={[AppStyles.container]}>
       <Spacer size={55} />

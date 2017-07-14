@@ -190,6 +190,7 @@ export const fetchfbcustomers=(token) => {
 };
 
 export const updatedSelectedFbChats=(fbchatsSelected,fbCustomerSelected) => {
+  console.log("FbCustomer Selected", fbCustomerSelected);
    return{
     type: ActionTypes.SHOW_FB_SELECTEDCHATS,
     payload: fbchatsSelected,
@@ -315,7 +316,7 @@ const showfbchatsupdated = (fbchats,selectedChat) => {
   if(selectedChat){
      var currently_selectedId = selectedChat.user_id.user_id;
      var selected = fbchats.filter((c)=>c.senderid == currently_selectedId || c.recipientid == currently_selectedId).reverse();
-     console.log("Found a selected chat");
+     console.log("Found a selected chat", selected);
      return{ type: ActionTypes.SHOW_FB_CHATS_UPDATED,
       payload: fbchats,
       fbchatSelected:selected,
@@ -540,6 +541,30 @@ export const fetchChatSessions=(token) => {
   };
 };
 
+
+export const fetchPushChatSessions=(token) => {
+    var token = token;
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+            'Authorization': `Bearer ${token}`,
+            },
+
+          };
+
+  return (dispatch) => {
+    axios.get(`${baseURL}/api/fbsessions/`,config).then(res => {
+      console.log("Chat push session from facebook", res);
+      dispatch(updateFbSessions(res.data));
+    })
+      .catch(function (error) {
+        console.log('Error occured, cannot fetch fb chat sessions');
+        console.log(error);
+
+      });
+
+  };
+};
 
 
 // return (dispatch) => {

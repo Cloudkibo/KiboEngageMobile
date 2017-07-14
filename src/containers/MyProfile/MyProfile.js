@@ -219,7 +219,7 @@ class MyProfile extends Component {
       FirstName: this.props.userdetails.firstname,
       LastName: this.props.userdetails.lastname,
       Email: this.props.userdetails.email,
-      Role: this.props.userdetails.role,
+      Role: (this.props.userdetails.isAdmin == "Yes") ? "admin" : (this.props.userdetails.isAgent == "Yes") ? "agent" : (this.props.userdetails.isSupervisor == "Yes") ? "supervisor" : "owner",
       Phone: this.props.userdetails.phone,
       City: this.props.userdetails.city,
       State: this.props.userdetails.state,
@@ -227,7 +227,6 @@ class MyProfile extends Component {
       DomainName: this.props.userdetails.website,
       CompanyName: this.props.userdetails.companyName,
     };
-
     return (
       <View
         style={[AppStyles.container]}

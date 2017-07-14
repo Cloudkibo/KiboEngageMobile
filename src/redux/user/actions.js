@@ -86,6 +86,7 @@ export const getuser = (token) => {
 
       {
       dispatch(writeUserDetails(res.data));
+
       //dispatch(readusers());
     }
       //  dispatch(showUsername(res));}
