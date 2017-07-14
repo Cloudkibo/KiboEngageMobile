@@ -89,6 +89,7 @@ class TeamsMain extends Component {
                   onPress={() => this.changeTab('teams')}>
                   <Teams />
                 </Tab>
+                { (this.props.isAdmin == 'Yes') ?
                 <Tab
                   titleStyle={{fontWeight: 'bold', fontSize: 10}}
                   selectedTitleStyle={{marginTop: -1, marginBottom: 6}}
@@ -98,8 +99,8 @@ class TeamsMain extends Component {
                   renderSelectedIcon={() => <Icon color={'#6296f9'} name='group-add' size={30} />}
                   onPress={() => this.changeTab('createTeam')}>
                   <CreateTeam />
-                </Tab>
-
+                </Tab> : <Tab />
+                }
               </Tabs>
  
   );
@@ -107,6 +108,13 @@ class TeamsMain extends Component {
 }
 
 
+function mapStateToProps(state) {
+   const { userdetails } = state.user;
+  return {userdetails};
+  
 
-export default TeamsMain;
+}
+export default connect(mapStateToProps, {})(TeamsMain);
+
+
 
