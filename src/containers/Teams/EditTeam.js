@@ -282,6 +282,7 @@ class EditTeam extends Component {
 
   render = () => {
     const Form = FormValidation.form.Form;
+    console.log("Form values", this.state.form_values);
 
     return (
       <ScrollView

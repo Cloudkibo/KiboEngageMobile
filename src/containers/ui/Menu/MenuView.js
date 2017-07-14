@@ -14,6 +14,9 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import * as UserActions from '@redux/user/actions';
+import auth from '../../../services/auth';
 
 // Consts and Libs
 import { AppStyles, AppSizes } from '@theme/';
@@ -95,8 +98,8 @@ class Menu extends Component {
     }),
   }
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       menu: [
@@ -205,6 +208,14 @@ class Menu extends Component {
 
   }
 
+  componentDidMount = async () => {
+    const token = await auth.getToken();
+
+    if (token !== '') {
+      this.props.getuser(token);
+    }
+  }
+
   render = () => {
     const { menu } = this.state;
 
@@ -212,7 +223,9 @@ class Menu extends Component {
     const menuItems = [];
     menu.map((item) => {
       const { title, onPress, icon } = item;
-
+      if(this.props.userdetails && title == 'Company Settings' && this.props.userdetails.isAdmin == "No"){
+        return menuItems;
+      }
       return menuItems.push(
         <TouchableOpacity
           key={`menu-item-${title}`}
@@ -266,4 +279,11 @@ class Menu extends Component {
 }
 
 /* Export Component ==================================================================== */
-export default Menu;
+
+function mapStateToProps(state) {
+  const { userdetails } = state.user;
+
+  return { userdetails};
+}
+
+export default connect(mapStateToProps, {})(Menu);
