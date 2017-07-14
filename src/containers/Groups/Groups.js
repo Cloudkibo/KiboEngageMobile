@@ -59,6 +59,7 @@ class Groups extends Component {
 
    componentDidMount = async() => {
     console.log('group component did mount called');
+    Actions.refresh({rightTitle:"", onRight: null});
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
