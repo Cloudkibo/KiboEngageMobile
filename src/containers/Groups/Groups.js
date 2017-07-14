@@ -59,7 +59,9 @@ class Groups extends Component {
 
    componentDidMount = async() => {
     console.log('group component did mount called');
-    Actions.refresh({rightTitle:"", onRight: null});
+    if(this.props.userdetails.isAgent == "Yes"){
+        Actions.refresh({rightTitle:"", onRight: null});
+    }
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
@@ -192,8 +194,9 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
   const { groups, groupagents, deptteams } = state.groups;
   const { agents } = state.agents;
+  const { userdetails } = state.user;
 
-  return { groups, groupagents, agents, deptteams };
+  return { groups, groupagents, agents, deptteams, userdetails };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Groups);
