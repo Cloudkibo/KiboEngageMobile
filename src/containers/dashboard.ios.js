@@ -29,8 +29,8 @@ import * as menuActions from '@redux/sidemenu/actions';
 import Loading from '@components/general/Loading';
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
-import codePush from "react-native-code-push";
-let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
+//import codePush from "react-native-code-push";
+//let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 
 const NotificationHub = require('react-native-azurenotificationhub/index.ios');
 const connectionString = 'Endpoint=sb://kiboengagetesthub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=XitK1UR1T+Tb5Hi2btmM/jNEmTvCO/5ocyfXYhhDaVs=';
@@ -448,6 +448,6 @@ function mapStateToProps(state) {
 
 
 }
-Dashboard = codePush(codePushOptions)(Dashboard);
+//Dashboard = codePush(codePushOptions)(Dashboard);
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
 

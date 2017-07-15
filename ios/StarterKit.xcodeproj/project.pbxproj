@@ -38,8 +38,8 @@
 		5286B9C9B6D848C4A26BF803 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F3019F69ECC40968840E801 /* libRNFetchBlob.a */; };
 		56DD6D870C2347BB9B7B6936 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E4A354EEC094D7A8E4DCB16 /* Entypo.ttf */; };
 		5AD9BC4730DB4D8190085A2E /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B832C4BF386947BE8F3FEAA3 /* SimpleLineIcons.ttf */; };
-		71416E141F161417006EA021 /* libRCTAzureNotificationHubManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71416DF51F161410006EA021 /* libRCTAzureNotificationHubManager.a */; };
-		71416E151F161417006EA021 /* libWindowsAzureMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71416E131F161410006EA021 /* libWindowsAzureMessaging.a */; };
+		712DAFF01F19081B002517AD /* libRCTAzureNotificationHubManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71416DF51F161410006EA021 /* libRCTAzureNotificationHubManager.a */; };
+		712DAFF11F19081B002517AD /* libWindowsAzureMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71416E131F161410006EA021 /* libWindowsAzureMessaging.a */; };
 		71CCE5BCE5F5430A94B8F372 /* libSQLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8614B9D43B471C86E12AE8 /* libSQLite.a */; };
 		7D8F97149D37496D9AC880ED /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16666ED9705445DD8C63F562 /* libRNDeviceInfo.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -368,8 +368,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				71416E141F161417006EA021 /* libRCTAzureNotificationHubManager.a in Frameworks */,
-				71416E151F161417006EA021 /* libWindowsAzureMessaging.a in Frameworks */,
+				712DAFF01F19081B002517AD /* libRCTAzureNotificationHubManager.a in Frameworks */,
+				712DAFF11F19081B002517AD /* libWindowsAzureMessaging.a in Frameworks */,
 				504FE2D91EC99EE600E08840 /* libReact.a in Frameworks */,
 				504FE28C1EC9827100E08840 /* libART.a in Frameworks */,
 				502DB5261E9E02EE00483411 /* libRCTCameraRoll.a in Frameworks */,
@@ -786,7 +786,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = LRN8T5S99N;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1284,6 +1284,7 @@
 					"$(SRCROOT)..",
 				);
 				INFOPLIST_FILE = StarterKit/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1292,8 +1293,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = NotificationHubs.SampleProject;
 				PRODUCT_NAME = StarterKit;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "d97ab728-acab-461e-a254-16856a5aa571";
+				PROVISIONING_PROFILE_SPECIFIER = "KiboEngage-Agent-DebugProfile";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1303,7 +1304,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StarterKit/StarterKit.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = LRN8T5S99N;
@@ -1329,6 +1330,7 @@
 					"$(SRCROOT)..",
 				);
 				INFOPLIST_FILE = StarterKit/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1337,8 +1339,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = NotificationHubs.SampleProject;
 				PRODUCT_NAME = StarterKit;
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "1b66feb0-24b3-43ef-9525-ad33df934c83";
+				PROVISIONING_PROFILE_SPECIFIER = "KiboEngage-Agent-ReleaseProfile";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
