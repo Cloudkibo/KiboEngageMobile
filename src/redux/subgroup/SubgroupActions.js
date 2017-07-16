@@ -32,15 +32,19 @@ export const channelFetch = (token) => {
   return (dispatch) => {
     dispatch(readChannels());
     axios.get(`${baseURL}/api/messagechannels`,config)
-    .then((res) => res).then(res => dispatch(writeChannels(res.data)))
+    .then((res) => res).then(res => 
+
+      dispatch(writeChannels(res.data))
+// dispatch(readChannels())
+      )
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
-        if(error = 'Network Error')
-        {
+        //if(error = 'Network Error')
+       // {
           //Alert.alert('You are not connected with Internet');
           dispatch(readChannels());
-        }
+        //}
        });
 
   };
