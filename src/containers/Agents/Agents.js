@@ -99,6 +99,7 @@ class Agents extends Component {
       key={`list-row-${agent._id}`}
       onPress={this.goToView2.bind(this,agent)}
       title={agent.firstname + ' ' + agent.lastname}
+      hideChevron={this.props.userdetails.isAgent == 'No' ? false : true}
     />
 
  
