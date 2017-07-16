@@ -125,10 +125,17 @@ class EditTeam extends Component {
     // Get user data from AsyncStorage to populate fields
 
 
-      this.newFellowAgents  = this.props.teamagents.filter((c) => c.teamid == this.props.team._id)
+      this.newFellowAgents  = this.props.teamagents.filter((c) => c._id == this.props.team._id)
 
       let ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
       let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents);
+
+      console.log('dataSourceAllAgents');
+      console.log(this.state.dataSourceAllAgents);
+      console.log("This team fellowAgent agents", this.newFellowAgents);
+      console.log("This team fellowAgent agents", this.props.teamagents);
+    console.log(ds);
+    console.log(ds2);
 
       this.setState({
 
@@ -137,8 +144,7 @@ class EditTeam extends Component {
 
       });
 
-      console.log('dataSourceAllAgents');
-      console.log(this.state.dataSourceAllAgents);
+      
   }
 
   /**
@@ -218,28 +224,13 @@ class EditTeam extends Component {
         });
   }
   renderFellowAgents = (fellowAgent) =>{
-   console.log('fellowAgent');
-   console.log(fellowAgent);
-   var flag = 0;
-   for(var j=0;j<this.props.agents.length;j++){
-        if(this.props.agents[j]._id == fellowAgent.agentid){
-          console.log('fellowAgent matched');
-                return  (<ListItem
-                          key={`list-row-${this.props.agents[j]._id}`}
-                          title={this.props.agents[j].firstname + ' '+ this.props.agents[j].lastname}
-                          leftIcon={{ name: 'remove-circle' }}
-                          onPress={this.removeAgent.bind(this,fellowAgent)}
-                          /> )
-        flag = 1;
-        break;
-        }
-
-
-       }
-       if(flag == 0){
-        return null;
-       }
-
+  
+      <ListItem
+              key={`list-row-${this.props.agents[j]._id}`}
+              title={this.props.agents[j].firstname + ' '+ this.props.agents[j].lastname}
+              leftIcon={{ name: 'remove-circle' }}
+              onPress={this.removeAgent.bind(this,fellowAgent)}
+              /> 
 
   }
 
