@@ -125,10 +125,17 @@ class EditTeam extends Component {
     // Get user data from AsyncStorage to populate fields
 
 
-      this.newFellowAgents  = this.props.teamagents.filter((c) => c.teamid == this.props.team._id)
+      this.newFellowAgents  = this.props.teamagents.filter((c) => c._id == this.props.team._id)
 
       let ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
       let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents);
+
+      console.log('dataSourceAllAgents');
+      console.log(this.state.dataSourceAllAgents);
+      console.log("This team fellowAgent agents", this.newFellowAgents);
+      console.log("This team fellowAgent agents", this.props.teamagents);
+    console.log(ds);
+    console.log(ds2);
 
       this.setState({
 
@@ -137,8 +144,7 @@ class EditTeam extends Component {
 
       });
 
-      console.log('dataSourceAllAgents');
-      console.log(this.state.dataSourceAllAgents);
+      
   }
 
   /**
