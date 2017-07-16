@@ -40,7 +40,16 @@ class ChatSettings extends Component {
   constructor(props) {
     super(props);
     var ReactNative = require('react-native');
-    this.state = {items: [], language: '', teamsList: [], channelList: [], assignedAgent: '', assignedChannel: '', platform: 'Detected Platform: ' + ReactNative.Platform.OS};
+    this.state = {
+      items: [],
+      status: '',
+      language: '',
+      teamsList: [],
+      channelList: [],
+      assignedAgent: '',
+      assignedChannel: '',
+      platform: 'Detected Platform: ' + ReactNative.Platform.OS,
+    };
     this.createPickerItems = this.createPickerItems.bind(this);
 }
   componentWillMount = async () => {
@@ -102,6 +111,9 @@ class ChatSettings extends Component {
 
   assignToAgents = async () => {
     //this.props.agentFetch();
+    this.setState({
+      status: 'One moment ...',
+    });
      var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       // Scroll to top, to show message
@@ -187,7 +199,7 @@ class ChatSettings extends Component {
 
     <Card>
          <Alerts
-            status={ this.props.invite_agent_status }
+            status={ this.props.invite_agent_status ? this.props.invite_agent_status : this.state.status }
             success=''
             error=''
       />

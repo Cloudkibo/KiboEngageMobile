@@ -206,17 +206,8 @@ export const assignAgent = (token, input,session,allsessions,stringvaluestatus) 
       axios.post(`${baseURL}/api/visitorcalls/pickSession`, session,configKS)
     })
       .then((res) => {
-        //console.log('assign_agent_update_states called');
-       // //console.log(session.request_id);
-       // //console.log(stringvaluestatus);
-       // //console.log(allsessions);
-       // //console.log(input.agentidTo);
+       dispatch(assign_agent_status('Successfully Assigned'));
         dispatch(sessionsFetch(token));
-       // dispatch(assign_agent_update_states(session.request_id,stringvaluestatus,allsessions,input.agentidTo));
-        dispatch(assign_agent_status('Successfully Assigned', ));
-
-
-        //console.log("Agent Successfully Assigned");
       })
       .catch(function (error) {
         //console.log('Error occured');
