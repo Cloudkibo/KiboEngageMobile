@@ -321,35 +321,26 @@ export const sendChat  = (token, input) => {
 };
 
 
-export const resolveChatSession =  (token, sessionid) => {
-console('resolve chat session called');
-   var config = {
-           headers:{
-          'Content-Type': 'application/json',
-          'Authorization': token,
-      },
-    };
+export const resolveChatSession = (token, sessionid) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    },
+  };
 
+  const data = {
+    request_id: sessionid,
+  };
 
-    data = {
-        request_id : sessionid,
-     };
   return (dispatch) => {
-
     axios.post(`${baseURLKiboEngage}/api/resolvechatsession`, data, config)
     .then(res => {
-    //  //console.log(res);
-      //console.log("Chat marked as resolved");
-      // dispatch(showSessions(res))
-        dispatch(assign_agent_status('Chat Marked As Resolved'));
-        dispatch(chatsFetch(token));
-      }).catch(function (error) {
-        //console.log('Unable to mark chat as resolved');
-        // dispatch(assign_agent_status('Error Occurred'));
-        //console.log(error);
-        // dispatch(confirmInvite(error));
-        dispatch(assign_agent_status('Unable to mark chat as resolved'));
-      });
+      dispatch(assign_agent_status('Chat Marked As Resolved'));
+      dispatch(chatsFetch(token));
+    }).catch(function (error) {
+      dispatch(assign_agent_status('Unable to mark chat as resolved'));
+    });
   };
 };
 
