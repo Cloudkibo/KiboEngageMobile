@@ -476,9 +476,13 @@ class Chat extends Component {
 );
 }
 
+
+
   render() {
     return (
-      <GChat.GiftedChat
+    <View style={[AppStyles.container]}>
+     <Spacer size={65} />
+      <GChat.GiftedChat 
         messages={this.state.messages}
         onSend={this.onSend}
         renderActions={this.renderActions}
@@ -490,10 +494,16 @@ class Chat extends Component {
           _id: 1,
         }}
       />
+      </View>
     );
   }
 }
 
+const styles = StyleSheet.create({
+  contentContainer: {
+    paddingTop: 30,
+  },
+});
 
 
 const mapDispatchToProps = {
