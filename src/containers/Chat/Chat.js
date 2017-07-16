@@ -72,6 +72,7 @@ class Chat extends Component {
       console.log('componentDidUpdate: new chat appened');
       const mychats = this.props.chat.filter((c)=> c.request_id == this.props.chat[this.props.chat.length-1].request_id);
       this.renderChat(mychats);
+      console.log(mychats);
       this.forceUpdate();
     }
   }
@@ -365,7 +366,7 @@ class Chat extends Component {
   }
 
   renderCanned = (cannedresponses) => {
-    
+
     let i = 0;
     other = [];
     for(i = 0; i < cannedresponses.length; i++){
@@ -482,7 +483,7 @@ class Chat extends Component {
     return (
     <View style={[AppStyles.container]}>
      <Spacer size={65} />
-      <GChat.GiftedChat 
+      <GChat.GiftedChat
         messages={this.state.messages}
         onSend={this.onSend}
         renderActions={this.renderActions}
