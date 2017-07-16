@@ -218,28 +218,13 @@ class EditTeam extends Component {
         });
   }
   renderFellowAgents = (fellowAgent) =>{
-   console.log('fellowAgent');
-   console.log(fellowAgent);
-   var flag = 0;
-   for(var j=0;j<this.props.agents.length;j++){
-        if(this.props.agents[j]._id == fellowAgent.agentid){
-          console.log('fellowAgent matched');
-                return  (<ListItem
-                          key={`list-row-${this.props.agents[j]._id}`}
-                          title={this.props.agents[j].firstname + ' '+ this.props.agents[j].lastname}
-                          leftIcon={{ name: 'remove-circle' }}
-                          onPress={this.removeAgent.bind(this,fellowAgent)}
-                          /> )
-        flag = 1;
-        break;
-        }
-
-
-       }
-       if(flag == 0){
-        return null;
-       }
-
+  
+      <ListItem
+              key={`list-row-${this.props.agents[j]._id}`}
+              title={this.props.agents[j].firstname + ' '+ this.props.agents[j].lastname}
+              leftIcon={{ name: 'remove-circle' }}
+              onPress={this.removeAgent.bind(this,fellowAgent)}
+              /> 
 
   }
 

@@ -89,7 +89,7 @@ class TeamsMain extends Component {
                   onPress={() => this.changeTab('teams')}>
                   <Teams />
                 </Tab>
-                { (this.props.isAdmin == 'Yes') ?
+                { (this.props.userdetails.isAdmin == 'Yes') ?
                 <Tab
                   titleStyle={{fontWeight: 'bold', fontSize: 10}}
                   selectedTitleStyle={{marginTop: -1, marginBottom: 6}}
