@@ -68,6 +68,7 @@ class Teams extends Component {
             this.props.teamFetch(token);
             this.props.agentTeamFetch(token);
             this.props.agentFetch(token);
+            this.props.myteamFetch(token);
           }
 
   }
@@ -121,7 +122,6 @@ class Teams extends Component {
         if(team.createdby == this.props.userdetails._id){
           Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
       }
-
       else{
          Actions.teamJoin({team:team,teamagents : this.props.teamagents})
       }
@@ -188,16 +188,17 @@ class Teams extends Component {
 }
 
 const mapDispatchToProps = {
+  myteamFetch: TeamActions.myteamFetch,
   teamFetch: TeamActions.teamFetch,
   agentTeamFetch : TeamActions.agentTeamFetch,
   agentFetch: AgentActions.agentFetch,
 
 };
 function mapStateToProps(state) {
-  const { teams, teamagents } = state.teams;
+  const {myteams, teams, teamagents } = state.teams;
   const { agents } = state.agents;
   const { userdetails } = state.user;
-  return { teams, teamagents, agents, userdetails };
+  return {myteams, teams, teamagents, agents, userdetails };
 
 
 }

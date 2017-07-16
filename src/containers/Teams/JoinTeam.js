@@ -173,6 +173,14 @@ class JoinTeam extends Component {
   render = () => {
     const Form = FormValidation.form.Form;
     console.log("Join teams", this.props.team);
+    var text = "Join Team";
+    var joined = false;
+    for(var i = 0; i < this.props.myteams.length; i++){
+      if(this.props.team.companyid==this.props.myteams[i].companyid){
+        text = "Already joined";
+        joined = true;
+      }
+    }
     return (
       <ScrollView style={[AppStyles.container]}>
       <Spacer size={55} />
@@ -193,8 +201,9 @@ class JoinTeam extends Component {
 
          <Spacer size={20} />
           <Button
-            title={'Join Team'}
+            title={text}
             onPress={this.joinTeam}
+            disabled={joined}
           />
          
 
@@ -207,10 +216,10 @@ class JoinTeam extends Component {
 
 
 function mapStateToProps(state) {
-   const {teams,teamerror,teamsuccess} =  state.teams;
+   const {myteams, teams,teamerror,teamsuccess} =  state.teams;
    const { userdetails } = state.user;
   
-  return {teams,teamerror,teamsuccess,userdetails};
+  return {myteams, teams,teamerror,teamsuccess,userdetails};
 }
 
 
