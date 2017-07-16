@@ -138,7 +138,7 @@ class ChatSession extends Component {
 
 
   renderCard = (nextProps) => {
-    const data = nextProps.data;
+    const data = nextProps.data.filter((c) => c.status != 'resolved');
     this.state.menuItems = [];
     // Build the actual Menu Items
     data.map((item, index) => {

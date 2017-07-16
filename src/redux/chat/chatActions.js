@@ -56,15 +56,15 @@ console.log('inside session fetch');
     .catch(function (error) {
         console.log('Error occured');
         console.log(error);
-     
+
        // if(error.response && error.response.status == 401){ Actions.login()}
        // else{
              // Alert.alert('Error occured');
               dispatch(readSessions());
-       
+
        // }
       });
-      
+
 
   };
 };
@@ -84,7 +84,7 @@ console.log('chats fetch called');
 };*/
  return (dispatch) => {
     axios.get(`${baseURL}/api/userchats/`,config)
-    .then((res) => res).then(res => 
+    .then((res) => res).then(res =>
 
      dispatch(writeChats(res.data))
 //dispatch(readChats())
@@ -92,12 +92,12 @@ console.log('chats fetch called');
     .catch(function (error) {
         //console.log('Error occured');
         //console.log(error);
-       
+
       //  if(error.response && error.response.status == 401){ Actions.login()}
        // else{
              // Alert.alert('Error occured');
               dispatch(readChats());
-       
+
        // }
        });
 
@@ -310,10 +310,9 @@ export const sendChat  = (token, input) => {
 
               axios.post(`${baseURLKiboEngage}/api/getchatfromagent`, input,config)
                   .then((res) => {
-                    // dispatch(assign_agent_status('Successfully Assigned'));
-                    //console.log("Chat Message Sent Successfully to get chat from agent");
                     console.log("Chat Message Sent Successfully to get chat from agent");
                     console.log(res);
+                    dispatch(chatsFetch(token));
                   })
                   .catch(function (error) {
                     //console.log('Error occured in get chat from agent');
@@ -334,7 +333,6 @@ export const sendChat  = (token, input) => {
 
 
 export const resolveChatSession =  (token, sessionid) => {
-console('resolve chat session called');
    var config = {
            headers:{
           'Content-Type': 'application/json',
