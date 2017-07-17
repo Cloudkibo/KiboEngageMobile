@@ -18,6 +18,7 @@ const INITIAL_STATE = {
  currentSession: {},
  agent_assign_status: '',
  fbteams: [],
+ unreadcountData: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -36,6 +37,9 @@ export default (state = INITIAL_STATE, action) => {
 
     case ActionTypes.SHOW_FB_CHATS:
     return { ...state,fbchats:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
+
+    case ActionTypes.SHOW_UNREAD_COUNT:
+      return { ...state, unreadcountData: action.payload };
 
     case ActionTypes.SHOW_FB_SELECTEDCHATS:
     return { ...state,fbchatSelected:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false,fbCustomerSelected:action.fbCustomerSelected };
