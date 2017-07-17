@@ -108,6 +108,31 @@ export const deleteunreadcountforAgent = (token, details) => {
   };
 };
 
+export const deleteunreadcountResoleSession = (token, requestid) => {
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+        'Authorization': `Bearer ${token}`,
+        'content-type' : 'application/json'
+    },
+  };
+  const data = {
+    "request_id": requestid,
+  };
+
+  return (dispatch) => {
+    console.log('calling api');
+    axios.post(`${baseURL}/api/readstatus/deleteforsession`, data, config).then(res => {
+      console.log('Unseen messages records for resolved session deleted.');
+      console.log(res);
+    })
+      .catch(function (error) {
+        console.log('Error occured in delete unread count for resolved session');
+        console.log(error);
+      });
+  };
+};
+
 export const getfbpages = (token) => {
   const config = {
     rejectUnauthorized: false,
