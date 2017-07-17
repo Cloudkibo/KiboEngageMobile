@@ -205,7 +205,7 @@ class ChatSettings extends Component {
       />
       <Text>Status</Text>
       <Text style={styles.cardDescription}>
-        Current Status - {this.props.singleChat.status}
+        Current Status - {this.props.invite_agent_status.contains('Resolved') ? 'resolved':this.props.invite_agent_status.contains('Assigned') ? 'assigned':this.props.singleChat.status}
       </Text>
       <Text style={styles.cardDescription}>
         {this.props.singleChat.team_name} - {this.props.singleChat.channel_name}
