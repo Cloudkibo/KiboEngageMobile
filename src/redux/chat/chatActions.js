@@ -349,8 +349,8 @@ export const resolveChatSession =  (token, sessionid) => {
   return (dispatch) => {
     axios.post(`${baseURLKiboEngage}/api/resolvechatsession`, data, config)
     .then(res => {
-      dispatch(assign_agent_status('Chat Marked As Resolved'));
       dispatch(chatsFetch(token));
+      dispatch(assign_agent_status('Chat Marked As Resolved'));
     }).catch(function (error) {
       dispatch(assign_agent_status('Unable to mark chat as resolved'));
     });

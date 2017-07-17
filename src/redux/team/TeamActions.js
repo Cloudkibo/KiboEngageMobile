@@ -56,7 +56,7 @@ export const teamFetch = (token) => {
 
   return (dispatch) => {
     axios.get(`${baseURL}/api/groups`,config)
-    .then((res) => res).then(res => 
+    .then((res) => res).then(res =>
 
       dispatch(writeTeams(res.data))
  //dispatch(readTeams())
@@ -161,10 +161,10 @@ export const agentTeamFetch = (token) => {
 
   return (dispatch) => {
     axios.get(`${baseURL}/api/groupagents`,config)
-    .then((res) => res).then(res => 
-
+    .then((res) => res).then(res => {
+      console.log(res.data);
       dispatch(writeTeamAgents(res.data))
-//dispatch(readTeamAgents())
+    }
       )
      .catch(function (error) {
         console.log('Error occured');
