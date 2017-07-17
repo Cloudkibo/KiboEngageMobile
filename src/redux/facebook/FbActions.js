@@ -81,6 +81,33 @@ export const getunreadsessionscount = (token, agentid) => {
   };
 };
 
+export const deleteunreadcountforAgent = (token, details) => {
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+        'Authorization': `Bearer ${token}`,
+        'content-type' : 'application/json'
+    },
+  };
+  const data = {
+    "agent_id": details.agent_id,
+    "message_id": details.message_id,
+    "request_id": details.request_id,
+  };
+
+  return (dispatch) => {
+    console.log('calling api');
+    axios.post(`${baseURL}/api/readstatus/deleteforagent`, data, config).then(res => {
+      console.log('Messages seen by agent');
+      console.log(res);
+    })
+      .catch(function (error) {
+        console.log('Error occured in delete unread count for agent');
+        console.log(error);
+      });
+  };
+};
+
 export const getfbpages = (token) => {
   const config = {
     rejectUnauthorized: false,
