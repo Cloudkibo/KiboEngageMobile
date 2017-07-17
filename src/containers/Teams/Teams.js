@@ -120,7 +120,9 @@ class Teams extends Component {
   {
         console.log('navigate team is called');
         if(team.createdby == this.props.userdetails._id){
-          Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents})
+          var fellow  = this.props.teamagents.filter((c) => c.groupid == team._id);
+          console.log("Team Fellow", fellow);
+          Actions.teamEdit({team:team,teamagents : this.props.teamagents,agents: this.props.agents, fellow: fellow})
       }
       else{
          Actions.teamJoin({team:team,teamagents : this.props.teamagents})
