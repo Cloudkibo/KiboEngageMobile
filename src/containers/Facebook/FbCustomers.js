@@ -80,7 +80,7 @@ class FbCustomers extends Component {
     super(props);
     this.state = {loading : true};
     this.state.menuItems = [];
-    
+
     // this.createDataSource(props);
   }
 
@@ -92,6 +92,7 @@ class FbCustomers extends Component {
        // this.props.fetchfbcustomers(token);
         this.props.getfbChats(token);
         this.props.fetchSession(token);
+        this.props.getunreadsessionscount(token, this.props.userdetails._id);
        }
   }
 
@@ -115,7 +116,7 @@ class FbCustomers extends Component {
     console.log("fbchats", this.props.fbchats);
    this.props.updatedSelectedFbChats(this.props.fbchats.filter((c)=>c.senderid == item.user_id.user_id || c.recipientid == item.user_id.user_id).reverse(),item);
    //Actions.fbChats({fbchatSelected:this.props.fbchats.filter((c)=>c.senderid == item.user_id || c.recipientid == item.user_id)})
-   
+
    Actions.fbChats();
   }
 
@@ -136,8 +137,8 @@ class FbCustomers extends Component {
                   onPress={this.gotoChatBox.bind(this,item)}
                   subtitle={item.pageid.pageTitle + ", " + item.status}
             />
-        
-       
+
+
       );
     }, this);
   }
@@ -153,7 +154,7 @@ class FbCustomers extends Component {
            </List>
           </ScrollView>
             </View>
- 
+
   );
 }
 }
@@ -164,7 +165,7 @@ const mapDispatchToProps = {
   updatedSelectedFbChats:FbActions.updatedSelectedFbChats,
   fetchSession:FbActions.fetchChatSessions,
   setSession: FbActions.setCurrentSession,
-  
+  getunreadsessionscount: FbActions.getunreadsessionscount,
 };
 function mapStateToProps(state) {
    const { fbcustomers,fbchats,fbchatSelected, fbSessions} = state.fbpages;

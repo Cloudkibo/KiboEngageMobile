@@ -51,6 +51,36 @@ const fbpageEditSuccess = (res) => {
 
 };
 
+const showUnreadCount = (res) => {
+  console.log(res);
+  return {
+    type: ActionTypes.SHOW_UNREAD_COUNT,
+    payload: res,
+  };
+};
+
+export const getunreadsessionscount = (token, agentid) => {
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+        'Authorization': `Bearer ${token}`,
+        'content-type' : 'application/json'
+    },
+  };
+  const data = {
+    "agent_id": agentid,
+  };
+
+  return (dispatch) => {
+    console.log('calling api');
+    axios.post(`${baseURL}/api/readstatus/getunreadsessionscount`, data, config).then(res => dispatch(showUnreadCount(res.data)))
+      .catch(function (error) {
+        console.log('Error occured in getting unread count');
+        console.log(error);
+      });
+  };
+};
+
 export const getfbpages = (token) => {
   const config = {
     rejectUnauthorized: false,
@@ -471,7 +501,7 @@ export const uploadFbChatDocfile = (filedata,chatmsg, newtoken)=>{
 
                                       console.log('File uploaded')
                                   }
-                                  
+
                                 })
                                 .catch((err) => {
                                   dispatch (update_upload_progress({
@@ -481,7 +511,7 @@ export const uploadFbChatDocfile = (filedata,chatmsg, newtoken)=>{
                                   console.warn(err);
                                 });
 
-                                
+
              }
 
 
