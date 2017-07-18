@@ -85,7 +85,6 @@ class ChatSession extends Component {
      var token =  await auth.getToken();
       // console.log('token is Launchview is: ' + token);
       if(token != ''){
-        this.props.sessionsFetch(token);
         this.props.groupFetch(token);
         this.props.chatsFetch(token);
         this.props.channelFetch(token);
@@ -94,6 +93,7 @@ class ChatSession extends Component {
         this.props.teamFetch(token);
         this.props.getDeptTeams(token);
         this.props.getuser(token);
+        this.props.getAllSessions(token, this.props.userdetails.uniqueid);
        }
   }
 
@@ -274,6 +274,7 @@ class ChatSession extends Component {
 
 const mapDispatchToProps = {
   sessionsFetch: chatActions.sessionsFetch,
+  getAllSessions: chatActions.getAllSessions,
   chatsFetch: chatActions.chatsFetch,
   groupFetch: GroupActions.groupFetch,
   agentGroupFetch : GroupActions.agentGroupFetch,

@@ -39,14 +39,6 @@ console.log('inside session fetch');
       },
     };
 
- /* return (dispatch) => {
-    axios.get(`${baseURL}/api/visitorcalls/kiboengagesessions`,config)
-    .then(res => dispatch(showSessions(res)));
-  };
-};
-*/
-
-
  return (dispatch) => {
     axios.get(`${baseURL}/api/visitorcalls/kiboengagesessions`,config)
     .then((res) => res).then(res =>
@@ -55,6 +47,46 @@ console.log('inside session fetch');
  )
     .catch(function (error) {
         console.log('Error occured');
+        console.log(error);
+
+       // if(error.response && error.response.status == 401){ Actions.login()}
+       // else{
+             // Alert.alert('Error occured');
+              dispatch(readSessions());
+
+       // }
+      });
+
+
+  };
+};
+
+
+export const getAllSessions =  (token, data) => {
+
+   var config = {
+      headers: {
+          'Authorization': token,
+          'Content-Type': 'application/json',
+      },
+    };
+    var data = {
+        companyid: data
+      };
+
+    console.log('inside get all session fetch');
+ return (dispatch) => {
+   console.log("Calling api for get all")
+    axios.post(`${BaseURLKiboengage}/api/getallsessions`,data,config)
+    .then(res =>{
+      console.log("Get All session response", res);
+     dispatch(writeSessions(res.data));
+
+    }
+ //dispatch(readSessions())
+ )
+    .catch(function (error) {
+        console.log('Error Get All');
         console.log(error);
 
        // if(error.response && error.response.status == 401){ Actions.login()}
