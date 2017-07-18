@@ -124,11 +124,11 @@ class EditTeam extends Component {
   componentDidMount =  () => {
     // Get user data from AsyncStorage to populate fields
 
-
+      console.log("Fellow", this.props.fellow);
       this.newFellowAgents  = this.props.teamagents.filter((c) => c._id == this.props.team._id)
 
       let ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
-      let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents);
+      let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.props.fellow);
 
       console.log('dataSourceAllAgents');
       console.log(this.state.dataSourceAllAgents);
@@ -224,13 +224,41 @@ class EditTeam extends Component {
         });
   }
   renderFellowAgents = (fellowAgent) =>{
-  
+      console.log("Render Team Agents", this.props.teamagents);
+      console.log("Render All Agents", this.props.agents);
+      console.log("Render All fellowAgents", this.newFellowAgents);
+      console.log("This team", this.props.team);
+      var name = "Test";
+    //   for(var j=0; j < this.newFellowAgents.length; j++){
+    //     if(fellowAgent.agentid==this.newFellowAgents[j].agentid){
+          
+    // // Alert.alert(
+    // //         'Already Added',
+    // //         'Please select a different agent',
+
+    // //         [{
+    // //           text: 'Dismiss',
+    // //           onPress: null,
+    // //         }]
+    // //       );
+    //       return null;
+    //     } 
+    //   }
+
+      for(var i=0; i < this.props.agents.length; i++){
+        if(fellowAgent.agentid == this.props.agents[i]._id){
+          name = this.props.agents[i].firstname + " " + this.props.agents[i].lastname;
+          break;
+        }
+      }
+     return(
       <ListItem
-              key={`list-row-${this.props.agents[j]._id}`}
-              title={this.props.agents[j].firstname + ' '+ this.props.agents[j].lastname}
+      key={`list-row-${fellowAgent.agentid}`}
+              title={name}
               leftIcon={{ name: 'remove-circle' }}
               onPress={this.removeAgent.bind(this,fellowAgent)}
               /> 
+    );
 
   }
 
