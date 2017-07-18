@@ -8,18 +8,21 @@
  */
 
 #import "AppDelegate.h"
+#import "CodePush.h"
 #import <CodePush/CodePush.h>
 
 #import <RCTBundleURLProvider.h>
 #import <RCTRootView.h>
 #import "RCTAzureNotificationHubManager.h"
+#import "BugsnagReactNative/BugsnagReactNative.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+ [BugsnagReactNative start];
   NSURL *jsCodeLocation;
 
-  
+  BugsnagReactNative.start;
 #ifdef DEBUG
     jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 #else
