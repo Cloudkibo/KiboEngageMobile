@@ -72,4 +72,5 @@ class CustomerDetailView extends Component {
   }
 }
 
+
 export default CustomerDetailView;
