@@ -50,7 +50,7 @@ class SendEmail extends Component {
     this.state = {
       resultMsg: {
         status: '',
-        success: '',
+        success: 'Email has been sent successfully.',
         error: '',
       },
       form_fields: FormValidation.struct({
@@ -148,13 +148,14 @@ class SendEmail extends Component {
         <ScrollView
           automaticallyAdjustContentInsets={false}
           style={[AppStyles.container]}
+          ref={(b) => { this.scrollView = b; }}
         >
           <Spacer size={55} />
           <Card>
             <Alerts
               status={this.state.resultMsg.status}
-              success={this.props.sendEmailSuccess}
-              error={this.props.sendEmailError}
+              success={this.props.sendEmailSuccess ? 'Email has been sent successfully.' : ''}
+              error={this.props.sendEmailError ? 'Email sending failed.' : ''}
             />
 
             <Form

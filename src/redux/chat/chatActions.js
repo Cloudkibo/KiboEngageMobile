@@ -1,146 +1,154 @@
 import axios from 'axios';
+import RNFetchBlob from 'react-native-fetch-blob';
+import SqliteCalls from '../../services/SqliteCalls';
 import * as ActionTypes from '../types';
 import * as Config from '../config';
-var baseURL = Config.baseURLKiboSupport;
-var baseURLKiboEngage = Config.baseURLKiboEngage;
-var querystring = require('querystring');
-import RNFetchBlob from 'react-native-fetch-blob';
-var ReactNative = require('react-native');
-import SqliteCalls from '../../services/SqliteCalls';
-var SQLite = require('react-native-sqlite-storage')
+
+const baseURL = Config.baseURLKiboSupport;
+const baseURLKiboEngage = Config.baseURLKiboEngage;
+const querystring = require('querystring');
+const ReactNative = require('react-native');
+const SQLite = require('react-native-sqlite-storage')
 
 export function showChats(data) {
-  // //console.log('show chat messages data');
-  // //console.log(data);
   return {
     type: ActionTypes.FETCH_CHATS,
-    payload : data,
+    payload: data,
   };
 }
 
 export function showSessions(data) {
-  // //console.log('show data');
-  // //console.log(data);
-  var final = data.data.filter(function (el) {
+  const final = data.data.filter(function (el) {
     return el.platform == "mobile";
-});
-// //console.log('Final', final);
+  });
   return {
     type: ActionTypes.FETCH_SESSIONS,
-    payload : final,
+    payload: final,
   };
 }
 
-export const sessionsFetch =  (token) => {
-console.log('inside session fetch');
-   var config = {
-      headers: {
-          'Authorization': `Bearer ${token}`,
-      },
-    };
+export const sessionsFetch = (token) => {
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  };
 
- return (dispatch) => {
-    axios.get(`${baseURL}/api/visitorcalls/kiboengagesessions`,config)
+  return (dispatch) => {
+    axios.get(`${baseURL}/api/visitorcalls/kiboengagesessions`, config)
     .then((res) => res).then(res =>
      dispatch(writeSessions(res.data.filter((s) => s.platform == "mobile")))
- //dispatch(readSessions())
  )
     .catch(function (error) {
-        console.log('Error occured');
-        console.log(error);
-
-       // if(error.response && error.response.status == 401){ Actions.login()}
-       // else{
-             // Alert.alert('Error occured');
-              dispatch(readSessions());
-
-       // }
-      });
-
-
+      console.log('Error occured');
+      console.log(error);
+      dispatch(readSessions());
+    });
   };
 };
 
+export const deleteunreadcountforAgent = (token, details) => {
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'content-type' : 'application/json'
+    },
+  };
+  const data = {
+    "agent_id": details.agent_id,
+    "message_id": details.message_id,
+    "request_id": details.request_id,
+  };
 
-export const getAllSessions =  (token, data) => {
+  return (dispatch) => {
+    console.log('calling api');
+    axios.post(`${baseURL}/api/readstatus/deleteforagent`, data, config).then(res => {
+      console.log('Messages seen by agent');
+      console.log(res);
+    })
+      .catch(function (error) {
+        console.log('Error occured in delete unread count for agent');
+        console.log(error);
+      });
+  };
+};
 
-   var config = {
-      headers: {
-          'Authorization': token,
-          'Content-Type': 'application/json',
-      },
-    };
-    var data = {
-        companyid: data
-      };
+export const deleteunreadcountResoleSession = (token, requestid) => {
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'content-type': 'application/json',
+    },
+  };
+  const data = {
+    "request_id": requestid,
+  };
 
-    console.log('inside get all session fetch');
- return (dispatch) => {
-   console.log("Calling api for get all")
-    axios.post(`${BaseURLKiboengage}/api/getallsessions`,data,config)
+  return (dispatch) => {
+    console.log('calling api');
+    axios.post(`${baseURL}/api/readstatus/deleteforsession`, data, config).then(res => {
+      console.log('Unseen messages records for resolved session deleted.');
+      console.log(res);
+    })
+      .catch(function (error) {
+        console.log('Error occured in delete unread count for resolved session');
+        console.log(error);
+      });
+  };
+};
+
+export const getAllSessions = (token, companyid) => {
+  const config = {
+    headers: {
+      'Authorization': token,
+      'Content-Type': 'application/json',
+    },
+  };
+  const data = {
+    "companyid": companyid
+  };
+
+  console.log('inside get all session fetch');
+  return (dispatch) => {
+    console.log("Calling api for get all")
+    axios.post(`${BaseURLKiboengage}/api/getallsessions`, data, config)
     .then(res =>{
-      console.log("Get All session response", res);
-     dispatch(writeSessions(res.data));
-
+      console.log('Get All session response', res);
+      dispatch(writeSessions(res.data));
     }
- //dispatch(readSessions())
  )
     .catch(function (error) {
-        console.log('Error Get All');
-        console.log(error);
-
-       // if(error.response && error.response.status == 401){ Actions.login()}
-       // else{
-             // Alert.alert('Error occured');
-              dispatch(readSessions());
-
-       // }
-      });
-
-
+      console.log('Error Get All');
+      console.log(error);
+      dispatch(readSessions());
+    });
   };
 };
 
-export const chatsFetch =  (token) => {
-console.log('chats fetch called');
-   var config = {
-      headers: {
-          'Authorization': `Bearer ${token}`,
-      },
-    };
-
-/*  return (dispatch) => {
-    axios.get(`${baseURL}/api/userchats/`,config)
-    .then(res => dispatch(showChats(res)));
+export const chatsFetch = (token) => {
+  console.log('chats fetch called');
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
   };
-};*/
- return (dispatch) => {
-    axios.get(`${baseURL}/api/userchats/`,config)
+
+  return (dispatch) => {
+    axios.get(`${baseURL}/api/userchats/`, config)
     .then((res) => res).then(res =>
-
      dispatch(writeChats(res.data))
-//dispatch(readChats())
-      )
+    )
     .catch(function (error) {
-        //console.log('Error occured');
-        //console.log(error);
-
-      //  if(error.response && error.response.status == 401){ Actions.login()}
-       // else{
-             // Alert.alert('Error occured');
-              dispatch(readChats());
-
-       // }
-       });
-
+      console.log('Error occured');
+      console.log(error);
+      dispatch(readChats());
+    });
   };
 };
-
-
 
 export function singleChats(data) {
-  // //console.log('show single chat messages data');
-  ////console.log(data);
   return {
     type: ActionTypes.SINGLE_CHATS,
     payload: data,
@@ -148,8 +156,6 @@ export function singleChats(data) {
 }
 
 export function singleChatFetch(data) {
-  // //console.log('show single chat messages data');
-  ////console.log(data);
   return {
     type: ActionTypes.SINGLE_CHAT_FETCH,
     payload: data,
@@ -157,8 +163,6 @@ export function singleChatFetch(data) {
 }
 
 export function singleSessionFetch(data) {
-  // //console.log('show single chat messages data');
-  ////console.log(data);
   return {
     type: ActionTypes.SINGLE_SESSION_FETCH,
     payload: data,
@@ -181,8 +185,8 @@ export const fetchSingleChat = (token, chat) => {
     axios.post(`${baseURL}/api/userchats/fetchchat`, data, config)
     .then((res) => res).then(res => dispatch(singleChatFetch(res.data)))
     .catch(function (error) {
-      //console.log('Error occured');
-      //console.log(error);
+      console.log('Error occured');
+      console.log(error);
     });
   };
 };
@@ -202,177 +206,143 @@ export const fetchSingleSession = (token, chat) => {
     axios.post(`${baseURL}/api/visitorcalls/getSession`, data, config)
     .then((res) => res).then(res => dispatch(singleSessionFetch(res.data)))
     .catch(function (error) {
-      //console.log('Error occured');
-      //console.log(error);
+      console.log('Error occured');
+      console.log(error);
     });
   };
 };
 
-// Assign Agent
-//updated,sessionid,data
-export const assignAgent = (token, input,session,allsessions,stringvaluestatus) => {
-  //console.log('assign agent in chat actions called');
-    var config = {
-      rejectUnauthorized : false,
-      headers: {
-            'authorization': token,
-            'content-type': 'application/json',
-            },
+export const assignAgent = (token, input, session, allsessions, stringvaluestatus) => {
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+      'authorization': token,
+      'content-type': 'application/json',
+    },
+  };
+  const configKS = {
+    rejectUnauthorized: false,
+    headers: {
+      'authorization': `Bearer ${token}`,
+      'content-type': 'application/json',
+    },
+  };
+  const data = {
+    companyid: input.companyid,
+    sessionid: input.requestid,
+    agentemail: input.email,
+    type: input.type,
+    agentAssignment: {
+      assignedto: input.agentidTo,
+      assignedby: input.agentidBy,
+      sessionid: input.requestid,
+      companyid: input.companyid,
+      datetime: Date.now(),
+      type: input.type,
+    },
+  };
 
-          };
-    var configKS = {
-      rejectUnauthorized : false,
-      headers: {
-            'authorization': `Bearer ${token}`,
-            'content-type': 'application/json',
-            },
-
-          };
-      var data =  {
-           companyid : input.companyid,
-           sessionid : input.requestid,
-           agentemail: input.email,
-           type: input.type,
-           agentAssignment : {
-            assignedto : input.agentidTo,
-            assignedby : input.agentidBy,
-            sessionid  : input.requestid,
-            companyid  : input.companyid ,
-            datetime   : Date.now(),
-            type : input.type,
-          },
-
-      };
- // //console.log(data);
-    return (dispatch) => {
-    axios.post(`${baseURLKiboEngage}/api/assignToAgent`, data,config)
-    .then(()=>{
-      axios.post(`${baseURL}/api/visitorcalls/pickSession`, session,configKS)
+  return (dispatch) => {
+    axios.post(`${baseURLKiboEngage}/api/assignToAgent`, data, config)
+    .then(() => {
+      axios.post(`${baseURL}/api/visitorcalls/pickSession`, session, configKS);
     })
       .then((res) => {
-       dispatch(assign_agent_status('Successfully Assigned'));
+        dispatch(assign_agent_status('Successfully Assigned'));
         dispatch(sessionsFetch(token));
       })
       .catch(function (error) {
-        //console.log('Error occured');
         dispatch(assign_agent_status('Error Occurred'));
-        //console.log(error);
-        // dispatch(confirmInvite(error));
       });
   };
 };
 
-export function assign_agent_update_states(reqid,stringvaluestatus, updatedsessions, agentids) {
-  for(var i=0;i<updatedsessions.length;i++)
-  {
-if(updatedsessions[i].request_id==reqid)
-{
-  updatedsessions[i].status=stringvaluestatus
-  if(agentids){
-    //console.log('found agent ids');
-  updatedsessions[i].agent_ids.push({id:agentids,type:stringvaluestatus})
-}
-else{
-  //console.log('NOT found agent ids');
+export function assign_agent_update_states(reqid, stringvaluestatus, updatedsessions, agentids) {
+  for (let i = 0; i < updatedsessions.length; i++) {
+    if (updatedsessions[i].request_id == reqid) {
+      updatedsessions[i].status = stringvaluestatus;
+      if (agentids) {
+        updatedsessions[i].agent_ids.push({ id: agentids, type: stringvaluestatus });
+      }
+      break;
+    }
   }
-  break;
-}
 
-
-  }
-  //console.log('updatedsessions');
-  //console.log(updatedsessions);
   return {
     type: ActionTypes.ASSIGN_AGENT_UPDATE_STATUS,
-    payload : updatedsessions,
-
-
+    payload: updatedsessions,
   };
 }
 
-
-export function assign_agent_status(data,chats,requestid) {
+export function assign_agent_status(data, chats, requestid) {
   return {
     type: ActionTypes.ASSIGN_AGENT,
-    payload : data,
-
+    payload: data,
   };
 }
 
 export function update_upload_progress(data) {
   return {
     type: ActionTypes.UPLOAD_PROGRESS,
-    payload : data,
+    payload: data,
   };
 }
 
 export function updateChat(chat) {
   return {
     type: ActionTypes.UPDATE_CHAT,
-    payload : chat,
+    payload: chat,
   };
 }
 
 export function addChat(chat) {
   return {
     type: ActionTypes.ADD_CHAT,
-    payload : chat,
+    payload: chat,
   };
 }
 
 // Send Chat to server
-export const sendChat  = (token, input) => {
-    //console.log("In send chat");
-    var config = {
-      rejectUnauthorized : false,
-      headers: {
-          'Content-Type': 'application/json',
-          'kibo-app-id' : '5wdqvvi8jyvfhxrxmu73dxun9za8x5u6n59',
-          'kibo-app-secret': 'jcmhec567tllydwhhy2z692l79j8bkxmaa98do1bjer16cdu5h79xvx',
-          'kibo-client-id': 'cd89f71715f2014725163952',
-          'authorization': `Bearer ${token}`,
-            },
+export const sendChat = (token, input) => {
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+      'Content-Type': 'application/json',
+      'kibo-app-id' : '5wdqvvi8jyvfhxrxmu73dxun9za8x5u6n59',
+      'kibo-app-secret': 'jcmhec567tllydwhhy2z692l79j8bkxmaa98do1bjer16cdu5h79xvx',
+      'kibo-client-id': 'cd89f71715f2014725163952',
+      'authorization': `Bearer ${token}`,
+    },
+  };
 
-          };
-    return (dispatch) => {
-    axios.post(`${baseURL}/api/userchats/create`, input,config)
+  return (dispatch) => {
+    axios.post(`${baseURL}/api/userchats/create`, input, config)
       .then((res) => {
-        // dispatch(assign_agent_status('Successfully Assigned'));
-        //console.log("Chat Message Sent Successfully");
-
-              axios.post(`${baseURLKiboEngage}/api/getchatfromagent`, input,config)
-                  .then((res) => {
-                    console.log("Chat Message Sent Successfully to get chat from agent");
-                    console.log(res);
-                    dispatch(chatsFetch(token));
-                  })
-                  .catch(function (error) {
-                    //console.log('Error occured in get chat from agent');
-                    // dispatch(assign_agent_status('Error Occurred'));
-                    //console.log(error);
-                    // dispatch(confirmInvite(error));
-                  });
-
+        axios.post(`${baseURLKiboEngage}/api/getchatfromagent`, input, config)
+        .then((res) => {
+          console.log("Chat Message Sent Successfully to get chat from agent");
+          console.log(res);
+          dispatch(chatsFetch(token));
+        })
+        .catch(function (error) {
+          console.log('Error occured in get chat from agent');
+          console.log(error);
+        });
       })
       .catch(function (error) {
-        //console.log('Error occured');
-        // dispatch(assign_agent_status('Error Occurred'));
-        //console.log(error);
-        // dispatch(confirmInvite(error));
+        console.log('Error occured');
+        console.log(error);
       });
   };
 };
 
-
-
-export const resolveChatSession =  (token, sessionid) => {
-   var config = {
-           headers:{
-          'Content-Type': 'application/json',
-          'Authorization': token,
-      },
-    };
-
+export const resolveChatSession = (token, sessionid) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': token,
+    },
+  };
 
   const data = {
     request_id: sessionid,
@@ -389,91 +359,73 @@ export const resolveChatSession =  (token, sessionid) => {
   };
 };
 
-export const uploadChatDocfile =(filedata,chatmsg)=>{
-     return (dispatch) => {
-               //console.log("Sending file.....");
-               dispatch (update_upload_progress({
-                                    message_id: filedata._id,
-                                    progress: 1,
-                                  }));
-                RNFetchBlob.fetch('POST', `https://kiboengage.kibosupport.com/api/uploadchatfile`, {
-
-                                'Content-Type' : 'multipart/form-data'},[
-                                { name : 'file', type: filedata.type,filename : filedata.name, data: RNFetchBlob.wrap(filedata.uri.replace("file://", ""))},
-                                { name : 'chatmsg', data : JSON.stringify(chatmsg)}]
-                              )// listen to upload progress event
-                                .uploadProgress((written, total) => {
-                                    //console.log('uploaded', written / total * 100)
-                                    if(written / total == 1){
-                                      console.warn('uploaded');
-                                      dispatch (update_upload_progress({
-                                    message_id: filedata._id,
-                                    progress: 100,
-                                  }));
-                                    }
-                                   dispatch (update_upload_progress({
-                                    message_id: filedata._id,
-                                    progress: Math.round(written/total * 100),
-                                  }));
-                                })
-
-                                .then((resp) => {
-                                  //console.log("Me in then of sending.. fine", resp);
-                                  dispatch (update_upload_progress({
-                                    message_id: filedata._id,
-                                    progress: 100,
-                                  }));
-                                  if(resp.statusCode == 201){
-                                      //console.log('File uploaded');
-                                      dispatch ({
-                                    message_id: filedata._id,
-                                    progress: 100,
-                                  });
-                                  }
-
-                                })
-                                .catch((err) => {
-                                  update_upload_progress({
-                                    message_id: filedata._id,
-                                    progress: -1,
-                                  });
-                                  //console.log("Me in log of response", err);
-                                  console.warn(err);
-                                })
-             }
-
-
-  }
-
-
-  export const fetchChat =  (token, data) => {
-//console.log('fetch chat called');
-   var config = {
-      headers: {
-          'Authorization': `Bearer ${token}`,
-      },
-
-    };
-    var data = {
-        'uniqueid': data.uniqueid,
-        'request_id': data.request_id,
-      };
+export const uploadChatDocfile = (filedata, chatmsg) => {
   return (dispatch) => {
-    axios.post(`${baseURL}/api/userchats/fetchChat`,data,config)
-    .then(res => {
-      //console.log("Response of fetchChat api", res.data[0]);
-      dispatch(addChat(res.data[0]));
-      //console.log("Chat Updated");
-    }).catch((err) => {
-
-      //console.log("Printing the err", err);
+    dispatch(update_upload_progress({
+      message_id: filedata._id,
+      progress: 1,
+    }));
+    RNFetchBlob.fetch('POST', `https://kiboengage.kibosupport.com/api/uploadchatfile`, {
+      'Content-Type' : 'multipart/form-data' },
+      [
+        { name: 'file', type: filedata.type, filename: filedata.name, data: RNFetchBlob.wrap(filedata.uri.replace('file://', '')) },
+        { name: 'chatmsg', data: JSON.stringify(chatmsg) }
+      ]
+    )// listen to upload progress event
+    .uploadProgress((written, total) => {
+      if (written / total == 1) {
+        console.warn('uploaded');
+        dispatch(update_upload_progress({
+          message_id: filedata._id,
+          progress: 100,
+        }));
+      }
+      dispatch(update_upload_progress({
+        message_id: filedata._id,
+        progress: Math.round((written / total) * 100),
+      }));
+    })
+    .then((resp) => {
+      dispatch(update_upload_progress({
+        message_id: filedata._id,
+        progress: 100,
+      }));
+      if (resp.statusCode == 201) {
+        dispatch({
+          message_id: filedata._id,
+          progress: 100,
+        });
+      }
+    })
+    .catch((err) => {
+      update_upload_progress({
+        message_id: filedata._id,
+        progress: -1,
+      });
+      console.warn(err);
     });
   };
 };
 
+export const fetchChat = (token, chatData) => {
+  const config = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  };
+  const data = {
+    'uniqueid': chatData.uniqueid,
+    'request_id': chatData.request_id,
+  };
+  return (dispatch) => {
+    axios.post(`${baseURL}/api/userchats/fetchChat`, data, config)
+    .then(res => {
+      dispatch(addChat(res.data[0]));
+    }).catch((err) => {
 
-
-
+    });
+  };
+};
 
 /******* SQLite actions for Chat Sessions and chat message*/
 export function callbacksessions(results) {

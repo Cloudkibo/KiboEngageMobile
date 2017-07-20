@@ -64,6 +64,7 @@ class FbChat extends Component {
   componentDidMount(){
     console.log('component did. mount called');
     if(this.props.fbchatSelected && this.props.fbCustomerSelected){
+      console.log(this.props.fbchatSelected);
       this.renderChat(this.props);
      // this.forceUpdate();
     }

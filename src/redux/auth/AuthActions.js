@@ -5,7 +5,7 @@ import * as SideMenuActionTypes from '../sidemenu/actions';
 var querystring = require('querystring');
 import { Actions } from 'react-native-router-flux';
 import {
-  AsyncStorage,
+  AsyncStorage,Alert,
 } from 'react-native'
 
 var STORAGE_KEY = 'id_token';
@@ -163,6 +163,8 @@ const signupSuccess = (user) => {
   console.log(user);
   var errs = []
   errs.push('Your account is created successfully');
+   Alert.alert('Account verifying email has been sent. Please verify your account to proceed');
+
   /*return{
     type: ActionTypes.SIGNUP_USER_SUCCESS,
     payload: errs

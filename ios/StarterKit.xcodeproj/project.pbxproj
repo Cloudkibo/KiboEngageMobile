@@ -38,9 +38,9 @@
 		5286B9C9B6D848C4A26BF803 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F3019F69ECC40968840E801 /* libRNFetchBlob.a */; };
 		56DD6D870C2347BB9B7B6936 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9E4A354EEC094D7A8E4DCB16 /* Entypo.ttf */; };
 		5AD9BC4730DB4D8190085A2E /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B832C4BF386947BE8F3FEAA3 /* SimpleLineIcons.ttf */; };
-		714BC0891F1D6302007DFDB6 /* libRCTAzureNotificationHubManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 714BC0841F1D62EB007DFDB6 /* libRCTAzureNotificationHubManager.a */; };
-		714BC08A1F1D6302007DFDB6 /* libWindowsAzureMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 714BC0881F1D62EB007DFDB6 /* libWindowsAzureMessaging.a */; };
 		714BC0CD1F1D669F007DFDB6 /* libBugsnagReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 714BC0AB1F1D65CC007DFDB6 /* libBugsnagReactNative.a */; };
+		719CE6CB1F1E4699005FA9E7 /* libRCTAzureNotificationHubManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 719CE6C61F1E468E005FA9E7 /* libRCTAzureNotificationHubManager.a */; };
+		719CE6CC1F1E4699005FA9E7 /* libWindowsAzureMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 719CE6CA1F1E468E005FA9E7 /* libWindowsAzureMessaging.a */; };
 		71CCE5BCE5F5430A94B8F372 /* libSQLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A8614B9D43B471C86E12AE8 /* libSQLite.a */; };
 		7D8F97149D37496D9AC880ED /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16666ED9705445DD8C63F562 /* libRNDeviceInfo.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -193,26 +193,26 @@
 			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
 			remoteInfo = RNImagePicker;
 		};
-		714BC0831F1D62EB007DFDB6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 714BC07C1F1D62EB007DFDB6 /* RCTAzureNotificationHubManager.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 458BD4191D9EDE5E007E3F13;
-			remoteInfo = RCTAzureNotificationHubManager;
-		};
-		714BC0871F1D62EB007DFDB6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 714BC07F1F1D62EB007DFDB6 /* WindowsAzureMessaging.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 906E403816A86A3200817A11;
-			remoteInfo = WindowsAzureMessaging;
-		};
 		714BC0AA1F1D65CC007DFDB6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2982BA10418445D4B0D41B64 /* BugsnagReactNative.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8AD256131D6DE5F600C7D842;
 			remoteInfo = BugsnagReactNative;
+		};
+		719CE6C51F1E468E005FA9E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 719CE6BE1F1E468E005FA9E7 /* RCTAzureNotificationHubManager.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 458BD4191D9EDE5E007E3F13;
+			remoteInfo = RCTAzureNotificationHubManager;
+		};
+		719CE6C91F1E468E005FA9E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 719CE6C11F1E468E005FA9E7 /* WindowsAzureMessaging.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 906E403816A86A3200817A11;
+			remoteInfo = WindowsAzureMessaging;
 		};
 		78C398B81ACF4ADC00677621 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -338,9 +338,9 @@
 		5A2E880D2C394ECCB205CA8A /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		637E4719B62D4C978EB58849 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		71073F061EF11BE900BCC102 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
-		714BC07C1F1D62EB007DFDB6 /* RCTAzureNotificationHubManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAzureNotificationHubManager.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/RCTAzureNotificationHubManager.xcodeproj"; sourceTree = "<group>"; };
-		714BC07F1F1D62EB007DFDB6 /* WindowsAzureMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WindowsAzureMessaging.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/WindowsAzureMessaging.xcodeproj"; sourceTree = "<group>"; };
 		714BC0CE1F1D669F007DFDB6 /* libBugsnagLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBugsnagLib.a; path = "../node_modules/bugsnag-react-native/cocoa/vendor/bugsnag-cocoa/iOS/build/Debug-iphoneos/libBugsnagLib.a"; sourceTree = "<group>"; };
+		719CE6BE1F1E468E005FA9E7 /* RCTAzureNotificationHubManager.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAzureNotificationHubManager.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/RCTAzureNotificationHubManager.xcodeproj"; sourceTree = "<group>"; };
+		719CE6C11F1E468E005FA9E7 /* WindowsAzureMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WindowsAzureMessaging.xcodeproj; path = "../node_modules/react-native-azurenotificationhub/ios/WindowsAzureMessaging.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7DD45572B17D4A6B9C1475D0 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -378,9 +378,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				719CE6CB1F1E4699005FA9E7 /* libRCTAzureNotificationHubManager.a in Frameworks */,
+				719CE6CC1F1E4699005FA9E7 /* libWindowsAzureMessaging.a in Frameworks */,
 				714BC0CD1F1D669F007DFDB6 /* libBugsnagReactNative.a in Frameworks */,
-				714BC0891F1D6302007DFDB6 /* libRCTAzureNotificationHubManager.a in Frameworks */,
-				714BC08A1F1D6302007DFDB6 /* libWindowsAzureMessaging.a in Frameworks */,
 				504FE2D91EC99EE600E08840 /* libReact.a in Frameworks */,
 				504FE28C1EC9827100E08840 /* libART.a in Frameworks */,
 				502DB5261E9E02EE00483411 /* libRCTCameraRoll.a in Frameworks */,
@@ -599,26 +599,26 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		714BC07D1F1D62EB007DFDB6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				714BC0841F1D62EB007DFDB6 /* libRCTAzureNotificationHubManager.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		714BC0801F1D62EB007DFDB6 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				714BC0881F1D62EB007DFDB6 /* libWindowsAzureMessaging.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		714BC0A61F1D65AE007DFDB6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				714BC0AB1F1D65CC007DFDB6 /* libBugsnagReactNative.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		719CE6BF1F1E468E005FA9E7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				719CE6C61F1E468E005FA9E7 /* libRCTAzureNotificationHubManager.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		719CE6C21F1E468E005FA9E7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				719CE6CA1F1E468E005FA9E7 /* libWindowsAzureMessaging.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -635,8 +635,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				714BC07C1F1D62EB007DFDB6 /* RCTAzureNotificationHubManager.xcodeproj */,
-				714BC07F1F1D62EB007DFDB6 /* WindowsAzureMessaging.xcodeproj */,
+				719CE6BE1F1E468E005FA9E7 /* RCTAzureNotificationHubManager.xcodeproj */,
+				719CE6C11F1E468E005FA9E7 /* WindowsAzureMessaging.xcodeproj */,
 				71073F061EF11BE900BCC102 /* RNImagePicker.xcodeproj */,
 				504FE2D01EC99EB600E08840 /* React.xcodeproj */,
 				504FE25E1EC96F1800E08840 /* CodePush.xcodeproj */,
@@ -851,8 +851,8 @@
 					ProjectRef = C9ED47841E10C863007B919A /* RCTAnimation.xcodeproj */;
 				},
 				{
-					ProductGroup = 714BC07D1F1D62EB007DFDB6 /* Products */;
-					ProjectRef = 714BC07C1F1D62EB007DFDB6 /* RCTAzureNotificationHubManager.xcodeproj */;
+					ProductGroup = 719CE6BF1F1E468E005FA9E7 /* Products */;
+					ProjectRef = 719CE6BE1F1E468E005FA9E7 /* RCTAzureNotificationHubManager.xcodeproj */;
 				},
 				{
 					ProductGroup = 509596BA1E72D11C00D0F121 /* Products */;
@@ -931,8 +931,8 @@
 					ProjectRef = FBD7A287D6B14B2484800317 /* SQLite.xcodeproj */;
 				},
 				{
-					ProductGroup = 714BC0801F1D62EB007DFDB6 /* Products */;
-					ProjectRef = 714BC07F1F1D62EB007DFDB6 /* WindowsAzureMessaging.xcodeproj */;
+					ProductGroup = 719CE6C21F1E468E005FA9E7 /* Products */;
+					ProjectRef = 719CE6C11F1E468E005FA9E7 /* WindowsAzureMessaging.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1077,25 +1077,25 @@
 			remoteRef = 71073F261EF11BE900BCC102 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		714BC0841F1D62EB007DFDB6 /* libRCTAzureNotificationHubManager.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTAzureNotificationHubManager.a;
-			remoteRef = 714BC0831F1D62EB007DFDB6 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		714BC0881F1D62EB007DFDB6 /* libWindowsAzureMessaging.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libWindowsAzureMessaging.a;
-			remoteRef = 714BC0871F1D62EB007DFDB6 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		714BC0AB1F1D65CC007DFDB6 /* libBugsnagReactNative.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libBugsnagReactNative.a;
 			remoteRef = 714BC0AA1F1D65CC007DFDB6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		719CE6C61F1E468E005FA9E7 /* libRCTAzureNotificationHubManager.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAzureNotificationHubManager.a;
+			remoteRef = 719CE6C51F1E468E005FA9E7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		719CE6CA1F1E468E005FA9E7 /* libWindowsAzureMessaging.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libWindowsAzureMessaging.a;
+			remoteRef = 719CE6C91F1E468E005FA9E7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		78C398B91ACF4ADC00677621 /* libRCTLinking.a */ = {

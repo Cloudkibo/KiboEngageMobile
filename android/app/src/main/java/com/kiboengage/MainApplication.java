@@ -4,9 +4,9 @@ import android.app.Application;
 
 import com.azure.reactnative.notificationhub.ReactNativeNotificationHubPackage;
 import com.facebook.react.ReactApplication;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
-import com.learnium.RNDeviceInfo.RNDeviceInfo;
-import com.bugsnag.BugsnagReactNative;
+//import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+//import com.learnium.RNDeviceInfo.RNDeviceInfo;
+//import com.bugsnag.BugsnagReactNative;
 import com.microsoft.codepush.react.CodePush;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -66,9 +66,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new GoogleAnalyticsBridgePackage(),
-            new RNDeviceInfo(),
-            BugsnagReactNative.getPackage(),
+            //new GoogleAnalyticsBridgePackage(),
+            //new RNDeviceInfo(),
+            //BugsnagReactNative.getPackage(),
            // new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
             new RNSoundPackage(),
             new ImagePickerPackage(),
@@ -98,9 +98,9 @@ public class MainApplication extends Application implements ReactApplication {
 
             //new RNGRPPackage(),
            // new ReactNativeAudioStreamingPackage()
-  
-          
-        
+
+
+
       );
     }
   };
