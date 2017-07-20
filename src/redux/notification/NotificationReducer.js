@@ -24,6 +24,9 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, notificationerror: 'Notification sending failed', loading: false };
     case ActionTypes.RESET_NOTIFICATIONS:
       return { ...state, notificationerror: '', notificationsuccess :''};
+     case ActionTypes.RESET_STATUS:
+      return { ...state, notificationerror: '', notificationsuccess : '', loading: false };
+
     default:
       return state;
   }

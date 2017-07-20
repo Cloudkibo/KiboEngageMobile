@@ -40,6 +40,21 @@ export const notificationFetch = (token) => {
   };
 };
 
+const notificationCreateFail = () => {
+  return{ type: ActionTypes.CREATE_NOTIFICATION_FAIL };
+};
+
+const notificationCreateSuccess = (res) => {
+  console.log('notification created');
+  //Actions.main();
+  return{
+    type: ActionTypes.CREATE_NOTIFICATION_SUCCESS,
+    payload: res
+  };
+
+
+};
+
 
 
 export const createNotification = (notification) => {
@@ -63,7 +78,12 @@ export const createNotification = (notification) => {
   console.log(data);
       
   return (dispatch) => {
-    axios.post(`${baseURLKiboEngage}/api/createNotification`,data,config).then(res => dispatch(notificationCreateSuccess(res)))
+    axios.post(`${baseURLKiboEngage}/api/createNotification`,data,config).then
+    (res => {
+
+      dispatch(notificationCreateSuccess(res));
+      dispatch(notificationFetch(token));
+    })
       .catch(function (error) {
         console.log('Error occured');
         console.log(error);
@@ -107,20 +127,6 @@ export const resendNotification = (notification) => {
 };
 
 
-const notificationCreateFail = () => {
-  return{ type: ActionTypes.CREATE_NOTIFICATION_FAIL };
-};
-
-const notificationCreateSuccess = (res) => {
-  console.log('notification created');
-  //Actions.main();
-  return{
-    type: ActionTypes.CREATE_NOTIFICATION_SUCCESS,
-    payload: res
-  };
-
-
-};
 
 
 const notificationResendFail = () => {
