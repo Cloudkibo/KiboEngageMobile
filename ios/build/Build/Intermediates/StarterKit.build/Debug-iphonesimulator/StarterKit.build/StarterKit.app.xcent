@@ -6,5 +6,19 @@
 	<string>LRN8T5S99N.NotificationHubs.SampleProject</string>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.icloud-container-identifiers</key>
+	<array>
+		<string>iCloud.NotificationHubs.SampleProject</string>
+	</array>
+	<key>com.apple.developer.icloud-services</key>
+	<array>
+		<string>CloudDocuments</string>
+	</array>
+	<key>com.apple.developer.ubiquity-container-identifiers</key>
+	<array>
+		<string>iCloud.NotificationHubs.SampleProject</string>
+	</array>
+	<key>com.apple.developer.ubiquity-kvstore-identifier</key>
+	<string>LRN8T5S99N.NotificationHubs.SampleProject</string>
 </dict>
 </plist>

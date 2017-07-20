@@ -40,7 +40,14 @@ export default (state = INITIAL_STATE, action) => {
 
     case ActionTypes.REGISTER_UPDATE:
       return { ...state, [action.payload.prop]: action.payload.value };
-   
+   case ActionTypes.FORGOT_PASSWORD_FAIL:
+        return { ...state, error: 'Authentication Failed.', forgotpassword_status: 'Password reset Failed.', password: '', loading: false };
+  
+    case ActionTypes.FORGOT_PASSWORD_SUCCESS:
+    return { ...state, error: 'Authentication Failed.', forgotpassword_status: 'Please check your email to reset password', password: '', loading: false };
+  
+
+
     default:
       return state;
   }
