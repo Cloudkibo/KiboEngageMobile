@@ -102,7 +102,7 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		ycknato9ZS2UAwm7LZrF0kctXmE=
+		SO/BTjYP+O2EiJolDqWjvbJsEGc=
 		</data>
 		<key>Entypo.ttf</key>
 		<data>
@@ -315,7 +315,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		thiptpAkstHJIzVYn+SRd4ixU0U=
+		FqU557CEXU6XjIubnb6EhKn+bIM=
 		</data>
 		<key>Ionicons.ttf</key>
 		<data>
@@ -323,7 +323,7 @@
 		</data>
 		<key>LaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		q3jQXDNqEXEqx0tXuBXwAp/QtBE=
+		nNeLCq5T0JX8Xq86ysfDmdCYOj0=
 		</data>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -331,11 +331,11 @@
 		</data>
 		<key>LaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		4NxU0SilOddSzgLxIXFBKs7oDH8=
+		ZBgsVVrqp8ZAt+V5UHwoTJhofWg=
 		</data>
 		<key>MaterialCommunityIcons.ttf</key>
 		<data>
-		W28Wp8frwGzTm8xVYZzGjCm0cW4=
+		DSN6NXpkKNkGErJOcadN65obBio=
 		</data>
 		<key>MaterialIcons.ttf</key>
 		<data>
@@ -355,7 +355,7 @@
 		</data>
 		<key>PlugIns/StarterKitTests.xctest/StarterKitTests</key>
 		<data>
-		8tTgdLYVv9I479Gnta+ilicS1us=
+		yHMuWt2RNxBPX/NKRDPjFq47QcY=
 		</data>
 		<key>PlugIns/StarterKitTests.xctest/_CodeSignature/CodeResources</key>
 		<data>
@@ -368,6 +368,70 @@
 		<key>Zocial.ttf</key>
 		<data>
 		C9pZx7zT05J94EfgkYdaRCi/0as=
+		</data>
+		<key>assets/node_modules/react-native-camera-roll-picker/circle-check.png</key>
+		<data>
+		DFEb2lyWdjiXqmSxHlLxe8doBSU=
+		</data>
+		<key>assets/node_modules/react-native-experimental-navigation/assets/back.png</key>
+		<data>
+		HQQuB4amjtwGUXBLceBrWJNimVs=
+		</data>
+		<key>assets/node_modules/react-native-experimental-navigation/assets/back@1.5x.png</key>
+		<data>
+		fyhAnrjV5JZ0o7tt89t5OIcPTLk=
+		</data>
+		<key>assets/node_modules/react-native-experimental-navigation/assets/back@2x.png</key>
+		<data>
+		YQmWVwhekbk+X2RKpCPehMO0Ldk=
+		</data>
+		<key>assets/node_modules/react-native-experimental-navigation/assets/back@3x.png</key>
+		<data>
+		QKLfEeBLZVOc0niKWvbIrcWyxuM=
+		</data>
+		<key>assets/node_modules/react-native-experimental-navigation/assets/back@4x.png</key>
+		<data>
+		h6iaRr2yULlW7VdhK/SZVFO7UBM=
+		</data>
+		<key>assets/node_modules/react-native-router-flux/src/back_chevron.png</key>
+		<data>
+		KyDOmELG9q7jtKOEZOg9eG+fICA=
+		</data>
+		<key>assets/node_modules/react-native-router-flux/src/menu_burger.png</key>
+		<data>
+		/lUjbxSapnKIM5HE110tY8prb9U=
+		</data>
+		<key>assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon.png</key>
+		<data>
+		HQQuB4amjtwGUXBLceBrWJNimVs=
+		</data>
+		<key>assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@1.5x.png</key>
+		<data>
+		fyhAnrjV5JZ0o7tt89t5OIcPTLk=
+		</data>
+		<key>assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@2x.png</key>
+		<data>
+		YQmWVwhekbk+X2RKpCPehMO0Ldk=
+		</data>
+		<key>assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@3x.png</key>
+		<data>
+		QKLfEeBLZVOc0niKWvbIrcWyxuM=
+		</data>
+		<key>assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@4x.png</key>
+		<data>
+		h6iaRr2yULlW7VdhK/SZVFO7UBM=
+		</data>
+		<key>assets/src/images/launch.jpg</key>
+		<data>
+		lTQqgV/ZmtwpVyhU0dDwU3ua6h8=
+		</data>
+		<key>assets/src/images/login.jpg</key>
+		<data>
+		uymoIVuaT6w4O3tpYg9K9LEJh/A=
+		</data>
+		<key>main.jsbundle</key>
+		<data>
+		hDTWt46MySErIh3SlhWrQRK86vc=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -640,11 +704,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			ycknato9ZS2UAwm7LZrF0kctXmE=
+			SO/BTjYP+O2EiJolDqWjvbJsEGc=
 			</data>
 			<key>hash2</key>
 			<data>
-			Q06DRgfrmKhotU5gOj8d6ANndQ0IPXJ8npQ97lQBSvU=
+			XPkrliVekzvCx5jOt+E7ZW7CVGTQtscb8nSNJEj0cvI=
 			</data>
 		</dict>
 		<key>Entypo.ttf</key>
@@ -1230,11 +1294,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			q3jQXDNqEXEqx0tXuBXwAp/QtBE=
+			nNeLCq5T0JX8Xq86ysfDmdCYOj0=
 			</data>
 			<key>hash2</key>
 			<data>
-			lxzVSKJt4q6DPoc/5goavhEGkcIUixqdShzdxOSUZNA=
+			UmDh7BCZjoytTuzQNEIkWALD8ZYCDRssNtNFlqMTF0I=
 			</data>
 		</dict>
 		<key>LaunchScreen.storyboardc/Info.plist</key>
@@ -1252,22 +1316,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			4NxU0SilOddSzgLxIXFBKs7oDH8=
+			ZBgsVVrqp8ZAt+V5UHwoTJhofWg=
 			</data>
 			<key>hash2</key>
 			<data>
-			UcprCggVgrQ9n+/OXwHhvg56gMNbFoNEDtnoFsm79eU=
+			sIRV3w0uBXP4+xV9TOvmHCmmsGuxALOheUeF1/smbSY=
 			</data>
 		</dict>
 		<key>MaterialCommunityIcons.ttf</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			W28Wp8frwGzTm8xVYZzGjCm0cW4=
+			DSN6NXpkKNkGErJOcadN65obBio=
 			</data>
 			<key>hash2</key>
 			<data>
-			MDrqh7+l+hNgAV8dCByqY6LZ0ainLHm9rBg2H+vNdnU=
+			23dV6HNW9c2rGDZbm9uO2NLcl2/WhbSACZldABqN9m0=
 			</data>
 		</dict>
 		<key>MaterialIcons.ttf</key>
@@ -1307,11 +1371,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			8tTgdLYVv9I479Gnta+ilicS1us=
+			yHMuWt2RNxBPX/NKRDPjFq47QcY=
 			</data>
 			<key>hash2</key>
 			<data>
-			HemHzra5Wi8vpvKZRt/UKJsyn9s4qrXoacCsmU7coIw=
+			2/ClUXah2WO9OB3FU4UWF79LnmD3KR3dXZP2GkjwDWY=
 			</data>
 		</dict>
 		<key>PlugIns/StarterKitTests.xctest/_CodeSignature/CodeResources</key>
@@ -1347,6 +1411,182 @@
 			17EKHr4YMOWi8I9JA7moDiwZEsDdL3O5P88r+DIhZgI=
 			</data>
 		</dict>
+		<key>assets/node_modules/react-native-camera-roll-picker/circle-check.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			DFEb2lyWdjiXqmSxHlLxe8doBSU=
+			</data>
+			<key>hash2</key>
+			<data>
+			7TzVWvSsdqpD7zXS/+rfN9kinR4RD7ETYOjikEqX5mE=
+			</data>
+		</dict>
+		<key>assets/node_modules/react-native-experimental-navigation/assets/back.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			HQQuB4amjtwGUXBLceBrWJNimVs=
+			</data>
+			<key>hash2</key>
+			<data>
+			ZRmGSaJTHS3L1geJPCTsy3ta28sYsD/gSOfZHsq95eA=
+			</data>
+		</dict>
+		<key>assets/node_modules/react-native-experimental-navigation/assets/back@1.5x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			fyhAnrjV5JZ0o7tt89t5OIcPTLk=
+			</data>
+			<key>hash2</key>
+			<data>
+			sy0MsvX5EG4qN5eyCJTMmuBXN1YgSb0fT1H6KD3Xkj8=
+			</data>
+		</dict>
+		<key>assets/node_modules/react-native-experimental-navigation/assets/back@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			YQmWVwhekbk+X2RKpCPehMO0Ldk=
+			</data>
+			<key>hash2</key>
+			<data>
+			xeXoDgmh6mz50dLBF7YNRharVPyFToLffO76MoOETlg=
+			</data>
+		</dict>
+		<key>assets/node_modules/react-native-experimental-navigation/assets/back@3x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			QKLfEeBLZVOc0niKWvbIrcWyxuM=
+			</data>
+			<key>hash2</key>
+			<data>
+			GrXKevPCf+AB3RpyQfVtjn5ladOg7y5vToH8KQfVcMg=
+			</data>
+		</dict>
+		<key>assets/node_modules/react-native-experimental-navigation/assets/back@4x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			h6iaRr2yULlW7VdhK/SZVFO7UBM=
+			</data>
+			<key>hash2</key>
+			<data>
+			yxFa1GbJewG0cdCqfhCkFthTjRQEENRWSwgGsiXcyFQ=
+			</data>
+		</dict>
+		<key>assets/node_modules/react-native-router-flux/src/back_chevron.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			KyDOmELG9q7jtKOEZOg9eG+fICA=
+			</data>
+			<key>hash2</key>
+			<data>
+			Loj3Nw7HSgzYmwmcBsCdDOvLJfzz28u4RTDv3OcfuMU=
+			</data>
+		</dict>
+		<key>assets/node_modules/react-native-router-flux/src/menu_burger.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			/lUjbxSapnKIM5HE110tY8prb9U=
+			</data>
+			<key>hash2</key>
+			<data>
+			cI6Qo2WAJc/MitIa03tTHKWTH8VjbqIgBSc+kTb59tM=
+			</data>
+		</dict>
+		<key>assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			HQQuB4amjtwGUXBLceBrWJNimVs=
+			</data>
+			<key>hash2</key>
+			<data>
+			ZRmGSaJTHS3L1geJPCTsy3ta28sYsD/gSOfZHsq95eA=
+			</data>
+		</dict>
+		<key>assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@1.5x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			fyhAnrjV5JZ0o7tt89t5OIcPTLk=
+			</data>
+			<key>hash2</key>
+			<data>
+			sy0MsvX5EG4qN5eyCJTMmuBXN1YgSb0fT1H6KD3Xkj8=
+			</data>
+		</dict>
+		<key>assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@2x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			YQmWVwhekbk+X2RKpCPehMO0Ldk=
+			</data>
+			<key>hash2</key>
+			<data>
+			xeXoDgmh6mz50dLBF7YNRharVPyFToLffO76MoOETlg=
+			</data>
+		</dict>
+		<key>assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@3x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			QKLfEeBLZVOc0niKWvbIrcWyxuM=
+			</data>
+			<key>hash2</key>
+			<data>
+			GrXKevPCf+AB3RpyQfVtjn5ladOg7y5vToH8KQfVcMg=
+			</data>
+		</dict>
+		<key>assets/node_modules/react-native/Libraries/CustomComponents/NavigationExperimental/assets/back-icon@4x.png</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			h6iaRr2yULlW7VdhK/SZVFO7UBM=
+			</data>
+			<key>hash2</key>
+			<data>
+			yxFa1GbJewG0cdCqfhCkFthTjRQEENRWSwgGsiXcyFQ=
+			</data>
+		</dict>
+		<key>assets/src/images/launch.jpg</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			lTQqgV/ZmtwpVyhU0dDwU3ua6h8=
+			</data>
+			<key>hash2</key>
+			<data>
+			vRzu87XTrF0B7aDVG0AqLFO6f0iRComX5oFI4OK0BKk=
+			</data>
+		</dict>
+		<key>assets/src/images/login.jpg</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			uymoIVuaT6w4O3tpYg9K9LEJh/A=
+			</data>
+			<key>hash2</key>
+			<data>
+			+hD2aLiWY/YA6c7W8FczhXbt5Uuw7mnQiPqdwcqOuik=
+			</data>
+		</dict>
+		<key>main.jsbundle</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			hDTWt46MySErIh3SlhWrQRK86vc=
+			</data>
+			<key>hash2</key>
+			<data>
+			1DCIiCU6uvUL0y5nMfZGWuGgnEzcNFeMI9pc+QmI7t8=
+			</data>
+		</dict>
 	</dict>
 	<key>rules</key>
 	<dict>
@@ -1365,11 +1605,6 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
-		</dict>
-		<key>^Base\.lproj/</key>
-		<dict>
-			<key>weight</key>
-			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -1415,11 +1650,6 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
-		</dict>
-		<key>^Base\.lproj/</key>
-		<dict>
-			<key>weight</key>
-			<real>1010</real>
 		</dict>
 		<key>^Info\.plist$</key>
 		<dict>

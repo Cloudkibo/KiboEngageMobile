@@ -35,6 +35,51 @@ export const passwordChanged = (text) => {
 };
 
 
+
+export const forgotpassword = (creds) => {
+    var config = {
+      rejectUnauthorized : false,
+      headers: {
+           'kibo-app-id' : '5wdqvvi8jyvfhxrxmu73dxun9za8x5u6n59',
+           'kibo-app-secret': 'jcmhec567tllydwhhy2z692l79j8bkxmaa98do1bjer16cdu5h79xvx',
+           'kibo-client-id': 'cd89f71715f2014725163952',
+           'content-type' : 'application/x-www-form-urlencoded'
+            },
+      
+          };
+      var data =  {
+        email : creds.email,
+        website : creds.website
+      }
+    console.log(data);
+  return (dispatch) => {
+    dispatch(loginInAction());
+    console.log('calling api');
+    axios.post(`${baseURL}/api/users/requestpasswordchangeKiboEngage`,querystring.stringify(data),config).then(user => 
+
+      {dispatch(forgotpasswordsuccess(user));
+        //dispatch(SideMenuActionTypes.close());
+      }
+      )
+      .catch(function (error) {
+        console.log('Error occured');
+        console.log(error);
+        dispatch(forgotpasswordfail());
+      });
+    
+  };
+};
+
+const forgotpasswordfail = () => {
+  return{ type: ActionTypes.FORGOT_PASSWORD_FAIL };
+};
+
+const forgotpasswordsuccess = (user) => {
+  return{ type: ActionTypes.FORGOT_PASSWORD_SUCCESS };
+};
+
+
+
 export const loginUser = (creds) => {
     var config = {
       rejectUnauthorized : false,
