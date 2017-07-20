@@ -128,19 +128,27 @@ class Teams extends Component {
          Actions.teamJoin({team:team,teamagents : this.props.teamagents})
       }
   }
-  renderRow = (team) => (
-    <ListItem
-      key={`list-row-${team._id}`}
-      onPress={this.goToView2.bind(this,team)}
-      title={team.groupname}
-      subtitle={team.status +'\n' + team.groupdescription || null}
-
-
-    />
-
-
-  )
-
+  renderRow = (team) => {
+    if (team.groupname == 'All') {
+      return (
+        <ListItem
+          key={`list-row-${team._id}`}
+          title={team.groupname}
+          subtitle={team.status +'\n' + team.groupdescription || null}
+          hideChevron
+        />
+      );
+    } else {
+      return (
+        <ListItem
+          key={`list-row-${team._id}`}
+          onPress={this.goToView2.bind(this,team)}
+          title={team.groupname}
+          subtitle={team.status +'\n' + team.groupdescription || null}
+        />
+      );
+    }
+  }
 
   /**
     * Header Component
