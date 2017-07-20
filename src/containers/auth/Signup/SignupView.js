@@ -217,14 +217,12 @@ class Signup extends Component {
             success={this.state.resultMsg.success}
             error={this.state.resultMsg.error}
           />
-
-          <Form
+           <Form
             ref={(b) => { this.form = b; }}
             type={this.state.form_fields}
             value={this.state.form_values}
             options={this.state.options}
           />
-
           <Button
             title={'Signup'}
             onPress={this.signup}

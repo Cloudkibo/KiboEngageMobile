@@ -9,7 +9,7 @@ import {
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
-  View
+  View, Dimensions, findNodeHandle,
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
@@ -21,6 +21,7 @@ import { AppStyles } from '@theme/';
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 
+var RCTUIManager = require('NativeModules').UIManager;
 /* Component ==================================================================== */
 class Login extends Component {
   static componentName = 'Login';
@@ -97,6 +98,9 @@ class Login extends Component {
     };
   }
 
+
+
+
   componentDidMount = async () => {
     // Get user data from AsyncStorage to populate fields
     const values = await AsyncStorage.getItem('api/credentials');
@@ -119,6 +123,30 @@ class Login extends Component {
       this.setState({ resultMsg: { status: nextProps.login_status } });
     }
   }
+
+  onInputFocus(refName) {
+  setTimeout(() => {
+    let scrollResponder = this.refs.scrollView.getScrollResponder()
+    scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
+      findNodeHandle(this.refs[refName]),
+      10, // additionalOffset
+      true
+    )
+  }, 80)
+}
+ 
+resetWindowHeight() {
+  let scrollView = this.refs.scrollView
+  let screenHeight = Dimensions.get('window').height
+  setTimeout(() => {
+    RCTUIManager.measure(scrollView.getInnerViewNode(), (...data) => { 
+      // data[3] is the height of the ScrollView component with content.
+      scrollView.scrollTo({ y: data[3] - screenHeight, animated: true })
+    })
+  }, 100)
+}
+
+
   /**
     * Login
     */
@@ -165,9 +193,9 @@ class Login extends Component {
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
-      <ScrollView
-        ref={(a) => { this.scrollView = a; }}
-      >
+     <ScrollView style={styles.scrollView} keyboardDismissMode="on-drag" ref="scrollView">
+        
+      
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
