@@ -149,12 +149,12 @@ class AddNotification extends Component {
 const mapDispatchToProps = {
   customerFetch: CustomerActions.customerFetch,
   createNotification: NotificationActions.createNotification,
+   notificationFetch: NotificationActions.notificationFetch,
 };
 function mapStateToProps(state) {
   const { notifications, notificationerror, notificationsuccess } = state.notifications;
   const { customers } = state.customers;
   const { userdetails } = state.user;
-
   return { notifications, userdetails, notificationerror, notificationsuccess, customers };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AddNotification);
