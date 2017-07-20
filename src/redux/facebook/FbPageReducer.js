@@ -41,6 +41,9 @@ export default (state = INITIAL_STATE, action) => {
     case ActionTypes.SHOW_UNREAD_COUNT:
       return { ...state, unreadcountData: action.payload };
 
+    case ActionTypes.ADD_LASTMESSAGE_FB_SESSION:
+      return { ...state, fbSessions: action.payload };
+
     case ActionTypes.SHOW_FB_SELECTEDCHATS:
     return { ...state,fbchatSelected:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false,fbCustomerSelected:action.fbCustomerSelected };
 

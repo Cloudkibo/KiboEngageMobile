@@ -81,6 +81,33 @@ export const getunreadsessionscount = (token, agentid) => {
   };
 };
 
+/**function orderByDate(arr, dateProp, order = 0) {
+  return arr.slice().sort(function (a, b) {
+    if (order == 0) {
+      return b['lastmessage'][dateProp] - a['lastmessage'][dateProp];
+    } else {
+      return a['lastmessage'][dateProp] - b['lastmessage'][dateProp];
+    }
+  });
+}
+
+export const appendlastmessage = (fbsessions, fbchats) => {
+  let newFBSessions = [];
+  for (let i = 0; i < fbsessions.length; i++) {
+    const selectedchat = fbchats.filter((c) => c.senderid == fbsessions[i].user_id.user_id || c.recipientid == fbsessions[i].user_id.user_id);
+    const lastmessage = selectedchat[selectedchat.length - 1];
+    const newfbsession = fbsessions[i];
+    newfbsession.lastmessage = lastmessage;
+    newFBSessions.push(newfbsession);
+  }
+  const sorted = orderByDate(newFBSessions, 'timestamp');
+
+  return {
+    type: ActionTypes.ADD_LASTMESSAGE_FB_SESSION,
+    payload: sorted,
+  };
+}**/
+
 export const deleteunreadcountforAgent = (token, details) => {
   const config = {
     rejectUnauthorized: false,
