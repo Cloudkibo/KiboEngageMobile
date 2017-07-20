@@ -10,7 +10,7 @@ export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
 
     case ActionTypes.ADD_CUSTOMERS:
-      return { ...state, customers: action.payload };
+      return { ...state, customers: action.payload, sendEmailError: '', sendEmailSuccess: '' };
 
     case ActionTypes.SEND_EMAIL:
       return { ...state, sendEmailError: '', sendEmailSuccess: '' };

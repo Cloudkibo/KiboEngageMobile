@@ -36,7 +36,7 @@ export const getCustomers = (token) => {
     axios.get(`${baseURL}/api/customers`, config)
     .then((res) => res).then(res => {
          dispatch(writeCustomers(res.data));
-      
+
     })
       .catch(function (error) {
         //console.log(error.response)
@@ -237,7 +237,10 @@ export const emailCustomer = (emailMsg, token) => {
   return (dispatch) => {
     dispatch(sendEmailInAction());
     console.log('calling api');
-    axios.post(`${baseURLKiboEngage}/api/emailCustomer`, data, config).then(res => dispatch(sendEmailSuccess(res)))
+    axios.post(`${baseURLKiboEngage}/api/emailCustomer`, data, config).then(res =>{
+      dispatch(sendEmailSuccess(res));
+      dispatch(getCustomers(token));
+    })
       .catch((error) => {
         console.log('Error occured');
         console.log(error);
