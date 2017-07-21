@@ -85,7 +85,7 @@ public class MainApplication extends Application implements ReactApplication {
            // new LinearGradientPackage(),
            // new VectorIconsPackage(),
            // new ReactVideoPackage(),
-            new CodePush("wjqmL8L7u3UrsmpIQPYm--N74H5I4klroPZkQ", MainApplication.this, BuildConfig.DEBUG),
+            new CodePush("C_quR5ADaCjFBaP1bSIzpwQ9k_uH1db4cfe8-1dc6-465b-bf89-790091cf6de7", MainApplication.this, BuildConfig.DEBUG),
           //  new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
            // new RNSoundPackage(),
            // new MediaPlayerPackage(),

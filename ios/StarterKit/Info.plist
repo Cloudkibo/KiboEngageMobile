@@ -23,7 +23,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>CodePushDeploymentKey</key>
-	<string>lzmIcyL9fFfzrptUrGCPQCedLKow4klroPZkQ</string>
+	<string>VU0qQZnGaqsI-yZ2pShiyePKiGdR1db4cfe8-1dc6-465b-bf89-790091cf6de7</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -68,7 +68,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-  <key>BugsnagAPIKey</key>
-  <string>e5532b20f8ffbbae395b99b77dfa3086</string>
+	<key>BugsnagAPIKey</key>
+	<string>e5532b20f8ffbbae395b99b77dfa3086</string>
 </dict>
 </plist>
