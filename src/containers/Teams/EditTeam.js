@@ -60,8 +60,7 @@ class EditTeam extends Component {
         return true;
       },
     );
-
-    this.newFellowAgents  = []
+    this.newFellowAgents = [];
     this.state = {
       resultMsg: {
         status: '',
@@ -69,11 +68,11 @@ class EditTeam extends Component {
         error: '',
 
       },
-      dataSourceAllAgents  : new ListView.DataSource({
-            rowHasChanged : (row1, row2) => true
+      dataSourceAllAgents: new ListView.DataSource({
+            rowHasChanged: (row1, row2) => true
         }),
-      dataSourceFellowAgents  : new ListView.DataSource({
-            rowHasChanged : (row1, row2) => true
+      dataSourceFellowAgents: new ListView.DataSource({
+            rowHasChanged: (row1, row2) => true
         }),
 
 
@@ -114,37 +113,21 @@ class EditTeam extends Component {
         },
       },
     };
-
-
-
-
-
   }
 
-  componentDidMount =  () => {
+  componentDidMount = () => {
     // Get user data from AsyncStorage to populate fields
+    const fellow = this.props.teamagents.filter((c) => c.groupid == this.props.team._id);
+    console.log(fellow);
+    this.newFellowAgents = fellow;
 
-      console.log("Fellow", this.props.fellow);
-      this.newFellowAgents  = this.props.teamagents.filter((c) => c._id == this.props.team._id)
+    const ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
+    const ds2 = this.state.dataSourceFellowAgents.cloneWithRows(fellow);
 
-      let ds = this.state.dataSourceAllAgents.cloneWithRows(this.props.agents);
-      let ds2 = this.state.dataSourceFellowAgents.cloneWithRows(this.props.fellow);
-
-      console.log('dataSourceAllAgents');
-      console.log(this.state.dataSourceAllAgents);
-      console.log("This team fellowAgent agents", this.newFellowAgents);
-      console.log("This team fellowAgent agents", this.props.teamagents);
-    console.log(ds);
-    console.log(ds2);
-
-      this.setState({
-
-          dataSourceAllAgents  : ds,
-          dataSourceFellowAgents  : ds2,
-
-      });
-
-      
+    this.setState({
+      dataSourceAllAgents: ds,
+      dataSourceFellowAgents: ds2,
+    });
   }
 
   /**
@@ -158,6 +141,7 @@ class EditTeam extends Component {
       leftIcon={{ name: 'add-circle' }}
     />
     )
+
   editTeam = async () => {
     // Get new credentials and update
     const credentials = this.form.getValue();
@@ -178,8 +162,6 @@ class EditTeam extends Component {
             console.log(token);
 
             var agentid =[];
-            console.log('this.newFellowAgents');
-            console.log(this.newFellowAgents);
             for(var j=0;j<this.newFellowAgents.length;j++){
                agentid.push({"_id" :this.newFellowAgents[j].agentid})
             }
@@ -198,18 +180,33 @@ class EditTeam extends Component {
     }
   }
 
-
-
   addAgent = (c) =>{
     console.log('addAgent is called');
     this.newFellowAgents.push({'teamid': this.props.team._id,'agentid': c._id})
-    // update the DataSource in the component state
 
+    for (let j = 0; j < this.newFellowAgents.length; j++) {
+      if (c._id == this.newFellowAgents[j].agentid) {
+        Alert.alert(
+          'Already Added',
+          'Please select a different agent',
 
-   this.setState({
-            form_values: this.state.form_values,
-            dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
-        });
+          [{
+            text: 'Dismiss',
+            onPress: null,
+          }],
+        );
+        return null;
+      }
+    }
+
+    this.setState({
+      form_values: {
+        teamName: this.form.getValue().teamName,
+        teamDescription: this.form.getValue().teamDescription,
+        status: this.form.getValue().status,
+      },
+      dataSourceFellowAgents: this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
+    });
   }
 
 
@@ -218,48 +215,34 @@ class EditTeam extends Component {
     var indexOfItem = this.newFellowAgents.findIndex((item) => item.teamid === c.teamid && item.agentid === c.agentid);
     this.newFellowAgents.splice(indexOfItem, 1);
     // update the DataSource in the component state
-   this.setState({
-            form_values: this.state.form_values,
-            dataSourceFellowAgents  : this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
-        });
+    this.setState({
+      form_values: {
+        teamName: this.form.getValue().teamName,
+        teamDescription: this.form.getValue().teamDescription,
+        status: this.form.getValue().status,
+      },
+      dataSourceFellowAgents: this.state.dataSourceFellowAgents.cloneWithRows(this.newFellowAgents)
+    });
   }
+
   renderFellowAgents = (fellowAgent) =>{
-      console.log("Render Team Agents", this.props.teamagents);
-      console.log("Render All Agents", this.props.agents);
-      console.log("Render All fellowAgents", this.newFellowAgents);
-      console.log("This team", this.props.team);
-      var name = "Test";
-    //   for(var j=0; j < this.newFellowAgents.length; j++){
-    //     if(fellowAgent.agentid==this.newFellowAgents[j].agentid){
-          
-    // // Alert.alert(
-    // //         'Already Added',
-    // //         'Please select a different agent',
+    let name;
 
-    // //         [{
-    // //           text: 'Dismiss',
-    // //           onPress: null,
-    // //         }]
-    // //       );
-    //       return null;
-    //     } 
-    //   }
-
-      for(var i=0; i < this.props.agents.length; i++){
-        if(fellowAgent.agentid == this.props.agents[i]._id){
-          name = this.props.agents[i].firstname + " " + this.props.agents[i].lastname;
-          break;
-        }
+    for (let i = 0; i < this.props.agents.length; i++) {
+      if (fellowAgent.agentid == this.props.agents[i]._id) {
+        name = this.props.agents[i].firstname + " " + this.props.agents[i].lastname;
+        break;
       }
-     return(
-      <ListItem
-      key={`list-row-${fellowAgent.agentid}`}
-              title={name}
-              leftIcon={{ name: 'remove-circle' }}
-              onPress={this.removeAgent.bind(this,fellowAgent)}
-              /> 
-    );
+    }
 
+    return (
+      <ListItem
+        key={`list-row-${fellowAgent.agentid}`}
+        title={name}
+        leftIcon={{ name: 'remove-circle' }}
+        onPress={this.removeAgent.bind(this, fellowAgent)}
+      />
+    );
   }
 
   confirmDelete = async() => {
@@ -293,9 +276,6 @@ class EditTeam extends Component {
               {text: 'Yes', onPress: () => this.confirmDelete()},
             ]
           )
-
-
-
   }
 
 
