@@ -146,7 +146,7 @@ class FbSettings extends Component {
         user_id:this.props.currentSession.user_id._id, //_id field
 
       };
-      this.props.resolveChatSessions(token, data, this.props.currentSession._id);
+      this.props.resolveChatSessions(token, data, this.props.currentSession._id, this.props.currentSession, this.props.userdetails._id);
     }
   }
 

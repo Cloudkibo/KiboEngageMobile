@@ -219,9 +219,10 @@ renderLoadingView(){
           if(token != ''){
             this.props.fetchPushChatSessions(token);
             this.props.getfbChatsUpdate(token,this.props.currentSession);
-            // this.props.updateChatPush(token, this.props.fbCustomerSelected);
-            //this.forceUpdate();
-
+            this.props.getunreadsessionscount(token, this.props.userdetails._id);
+            this.props.getfbChats(token);
+            this.props.fetchChatSession(token);
+            this.props.appendlastmessage(this.props.fbSessions, this.props.fbchats);
            }
     }
     //chat message received from mobile/web client
@@ -274,8 +275,6 @@ renderLoadingView(){
 }
 }
 
-
-
 const mapDispatchToProps = {
   getuser: UserActions.getuser,
   getsqlData:UserActions.getsqlData,
@@ -289,14 +288,17 @@ const mapDispatchToProps = {
   sessionsFetch: chatActions.sessionsFetch,
   updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
   closemenu: menuActions.close,
+  getunreadsessionscount: FbActions.getunreadsessionscount,
+  fetchChatSession: FbActions.fetchChatSessions,
+  appendlastmessage: FbActions.appendlastmessage,
  };
 
 function mapStateToProps(state) {
   const { userdetails, fetchedR } = state.user;
-  const { fbchatSelected, fbSessions, currentSession, fbCustomerSelected } = state.fbpages;
+  const { fbchatSelected, fbSessions, fbchats, currentSession, fbCustomerSelected } = state.fbpages;
   const { chat, singleChat, data } = state.chat;
 
-  return { userdetails, fetchedR, fbchatSelected, chat, singleChat, fbSessions, currentSession, data, fbCustomerSelected };
+  return { userdetails, fetchedR, fbchatSelected, chat, singleChat, fbSessions, fbchats, currentSession, data, fbCustomerSelected };
 
 }
  Dashboard = codePush(codePushOptions)(Dashboard);

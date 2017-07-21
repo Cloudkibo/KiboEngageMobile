@@ -103,33 +103,20 @@ class FbCustomers extends Component {
     // console.log('componentWillReceiveProps is called with chat session data');
     // console.log(nextProps.groups);
     if(nextProps.fbSessions && nextProps.unreadcountData && nextProps.fbchats){
-       this.appendlastmessage(nextProps.fbSessions, nextProps.fbchats, nextProps.unreadcountData);
+      if (!nextProps.fbSessions[0].lastmessage) {
+        this.props.appendlastmessage(nextProps.fbSessions, nextProps.fbchats);
+      }
+      if (nextProps.fbSessions[0].lastmessage && nextProps.unreadcountData.length > 0) {
+        this.renderCard(nextProps.fbSessions, nextProps.unreadcountData);
+      }
        this.setState({loading:false});
      }
   }
 
-  orderByDate = (arr, dateProp, order = 0) => {
-    return arr.slice().sort(function (a, b) {
-      if (order == 0) {
-        return b['lastmessage'][dateProp] - a['lastmessage'][dateProp];
-      } else {
-        return a['lastmessage'][dateProp] - b['lastmessage'][dateProp];
-      }
-    });
-  }
-
-  appendlastmessage = (fbsessions, fbchats, unreadcountData) => {
-    let newFBSessions = [];
-    for (let i = 0; i < fbsessions.length; i++) {
-      const selectedchat = fbchats.filter((c) => c.senderid == fbsessions[i].user_id.user_id || c.recipientid == fbsessions[i].user_id.user_id);
-      const lastmessage = selectedchat[selectedchat.length - 1];
-      const newfbsession = fbsessions[i];
-      newfbsession.lastmessage = lastmessage;
-      newFBSessions.push(newfbsession);
+  componentDidUpdate(prevProps) {
+    if (prevProps.unreadcountData.length < this.props.unreadcountData) {
+      this.renderCard(this.props.fbSessions, this.props.unreadcountData);
     }
-    console.log(newFBSessions);
-    const sorted = this.orderByDate(newFBSessions, 'timestamp');
-    this.renderCard(sorted, unreadcountData);
   }
 
   gotoChatBox = (item) => {
@@ -152,14 +139,12 @@ class FbCustomers extends Component {
       var name =  item.user_id.first_name + ' ' + item.user_id.last_name;
       console.log(item.pageid.pageid + '$' + item.user_id.user_id);
       let unreadCountArray = unreadcountData.filter((c) => c._id.request_id == item.pageid.pageid + '$' + item.user_id.user_id);
-      console.log(unreadCountArray);
       let unreadCount;
       if (unreadCountArray.length > 0) {
         unreadCount = unreadCountArray[0].count;
       } else {
         unreadCount = 0;
       }
-      console.log(unreadCount);
       if (unreadCount == 0) {
         return this.state.menuItems.push(
           <ListItem
@@ -180,7 +165,7 @@ class FbCustomers extends Component {
             title={name}
             onPress={this.gotoChatBox.bind(this,item)}
             subtitle={item.pageid.pageTitle + ", " + item.status}
-            badge={{ value: unreadCount, containerStyle: { backgroundColor: 'red' } }}
+            badge={{ value: unreadCount, badgeContainerStyle: { marginTop: 4, backgroundColor: 'red' } }}
           />
         );
       }
@@ -210,6 +195,7 @@ const mapDispatchToProps = {
   fetchSession:FbActions.fetchChatSessions,
   setSession: FbActions.setCurrentSession,
   getunreadsessionscount: FbActions.getunreadsessionscount,
+  appendlastmessage: FbActions.appendlastmessage,
 };
 function mapStateToProps(state) {
   const { fbcustomers, fbchats, fbchatSelected, fbSessions, unreadcountData } = state.fbpages;

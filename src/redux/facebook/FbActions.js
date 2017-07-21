@@ -51,6 +51,46 @@ const fbpageEditSuccess = (res) => {
 
 };
 
+
+function orderByDate(arr, dateProp, order = 0) {
+  return arr.slice().sort(function (a, b) {
+    if (order == 0) {
+      return b['lastmessage'][dateProp] - a['lastmessage'][dateProp];
+    } else {
+      return a['lastmessage'][dateProp] - b['lastmessage'][dateProp];
+    }
+  });
+}
+
+function orderByDateFbChats(arr, dateProp) {
+  return arr.slice().sort(function (a, b) {
+      return a[dateProp] - b[dateProp];
+
+    }
+  );
+}
+
+export const appendlastmessage = (fbsessions, fbchats) => {
+  console.log(fbchats);
+  const newfbchats = orderByDateFbChats(fbchats, 'timestamp');
+  console.log(newfbchats);
+  let newFBSessions = [];
+  for (let i = 0; i < fbsessions.length; i++) {
+    const selectedchat = newfbchats.filter((c) => c.senderid == fbsessions[i].user_id.user_id || c.recipientid == fbsessions[i].user_id.user_id);
+    const lastmessage = selectedchat[selectedchat.length - 1];
+    const newfbsession = fbsessions[i];
+    newfbsession.lastmessage = lastmessage;
+    newFBSessions.push(newfbsession);
+  }
+  const sessions = newFBSessions.filter((c) => c.status !== 'resolved');
+  const sorted = orderByDate(sessions, 'timestamp');
+  console.log(sorted);
+  return {
+    type: ActionTypes.ADD_LASTMESSAGE_FB_SESSION,
+    payload: sorted,
+  };
+}
+
 const showUnreadCount = (res) => {
   console.log(res);
   return {
@@ -81,33 +121,6 @@ export const getunreadsessionscount = (token, agentid) => {
   };
 };
 
-/**function orderByDate(arr, dateProp, order = 0) {
-  return arr.slice().sort(function (a, b) {
-    if (order == 0) {
-      return b['lastmessage'][dateProp] - a['lastmessage'][dateProp];
-    } else {
-      return a['lastmessage'][dateProp] - b['lastmessage'][dateProp];
-    }
-  });
-}
-
-export const appendlastmessage = (fbsessions, fbchats) => {
-  let newFBSessions = [];
-  for (let i = 0; i < fbsessions.length; i++) {
-    const selectedchat = fbchats.filter((c) => c.senderid == fbsessions[i].user_id.user_id || c.recipientid == fbsessions[i].user_id.user_id);
-    const lastmessage = selectedchat[selectedchat.length - 1];
-    const newfbsession = fbsessions[i];
-    newfbsession.lastmessage = lastmessage;
-    newFBSessions.push(newfbsession);
-  }
-  const sorted = orderByDate(newFBSessions, 'timestamp');
-
-  return {
-    type: ActionTypes.ADD_LASTMESSAGE_FB_SESSION,
-    payload: sorted,
-  };
-}**/
-
 export const deleteunreadcountforAgent = (token, details) => {
   const config = {
     rejectUnauthorized: false,
@@ -118,7 +131,6 @@ export const deleteunreadcountforAgent = (token, details) => {
   };
   const data = {
     "agent_id": details.agent_id,
-    "message_id": details.message_id,
     "request_id": details.request_id,
   };
 
@@ -127,6 +139,7 @@ export const deleteunreadcountforAgent = (token, details) => {
     axios.post(`${baseURL}/api/readstatus/deleteforagent`, data, config).then(res => {
       console.log('Messages seen by agent');
       console.log(res);
+      dispatch(getunreadsessionscount(token, details.agent_id));
     })
       .catch(function (error) {
         console.log('Error occured in delete unread count for agent');
@@ -135,7 +148,7 @@ export const deleteunreadcountforAgent = (token, details) => {
   };
 };
 
-export const deleteunreadcountResoleSession = (token, requestid) => {
+export const deleteunreadcountResoleSession = (token, requestid, agent_id) => {
   const config = {
     rejectUnauthorized: false,
     headers: {
@@ -156,6 +169,7 @@ export const deleteunreadcountResoleSession = (token, requestid) => {
       .catch(function (error) {
         console.log('Error occured in delete unread count for resolved session');
         console.log(error);
+        dispatch(getunreadsessionscount(token, agent_id));
       });
   };
 };
@@ -696,10 +710,9 @@ export const fetchPushChatSessions=(token) => {
 //   };
 // };
 
-
-
-export const resolveChatSessions=(token, data, id) => {
+export const resolveChatSessions = (token, data, id, currentSession, agent_id) => {
     var token = token;
+    const request_id = currentSession.pageid.pageid + '$' + currentSession.user_id.user_id;
     var config = {
       headers: {
             'Content-Type': 'application/json',
@@ -707,14 +720,18 @@ export const resolveChatSessions=(token, data, id) => {
             },
 
           };
+    const postData = {
+      resolvesessiondetails: data,
+    }
 
 
   return (dispatch) => {
-    axios.post(`${baseURLKiboEngage}/api/resolvechatsessionfb`,data, config).then(res => {
+    axios.post(`${baseURLKiboEngage}/api/resolvechatsessionfb`, postData, config).then(res => {
       console.log("Facebook chat session was marked resolved", res);
       dispatch(updateAssignAgentStatus({status: "Marked Resolved"}));
       dispatch(updateStateResolve("resolved"));
       dispatch(updateFbSessionsStatus({_id: id, status: 'resolved'}));
+      dispatch(deleteunreadcountResoleSession(token, request_id, agent_id));
     })
       .catch(function (error) {
         console.log('Error occured, cannot mark chat session resolved');

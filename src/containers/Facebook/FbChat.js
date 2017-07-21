@@ -61,17 +61,22 @@ class FbChat extends Component {
    // this.renderChat(this.props.fbchatSelected);
   }
 
-  componentDidMount(){
+  componentDidMount = async () => {
     console.log('component did. mount called');
-    if(this.props.fbchatSelected && this.props.fbCustomerSelected){
-      console.log(this.props.fbchatSelected);
+    const token = await auth.getToken();
+    if (this.props.fbchatSelected && this.props.fbCustomerSelected) {
+      const details = {
+        agent_id: this.props.userdetails._id,
+        request_id: this.props.fbCustomerSelected.pageid.pageid + '$' + this.props.fbCustomerSelected.user_id.user_id,
+      };
+      this.props.deleteunreadcountforAgent(token, details);
       this.renderChat(this.props);
      // this.forceUpdate();
     }
   }
 
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps = async (nextProps) => {
     // nextProps are the next set of props that this component
     // will be rendered with
     // this.props is still the old set of props
@@ -79,12 +84,18 @@ class FbChat extends Component {
     // console.log(nextProps.groups);
       this.renderGif(nextProps);
       this.renderSticker(nextProps);
+      const token = await auth.getToken();
 
      if(nextProps.upload){
        console.log("Upload updated");
       //  this.renderChat(nextProps);
      }
      if(nextProps.fbchatSelected && nextProps.fbCustomerSelected){
+       const details = {
+         agent_id: this.props.userdetails._id,
+         request_id: nextProps.fbCustomerSelected.pageid.pageid + '$' + nextProps.fbCustomerSelected.user_id.user_id,
+       };
+       this.props.deleteunreadcountforAgent(token, details);
       this.renderChat(nextProps);
      // this.forceUpdate();
     }
@@ -755,9 +766,6 @@ class FbChat extends Component {
 
 
 const mapDispatchToProps = {
- // fetchfbcustomers: FbActions.fetchfbcustomers,
- // getfbChats:FbActions.getfbChats,
- // updatedSelectedFbChats:FbActions.updatedSelectedFbChats,
   getfbchatfromAgent:FbActions.getfbchatfromAgent,
   uploadFbChatfile:FbActions.uploadFbChatfile,
   uploadFbChatDocfile:FbActions.uploadFbChatDocfile,
@@ -765,6 +773,7 @@ const mapDispatchToProps = {
   toggleGif:FbActions.gifToggle,
   toggleSticker:FbActions.stickerToggle,
   downloadFileFromFb: FbActions.downloadFile,
+  deleteunreadcountforAgent: FbActions.deleteunreadcountforAgent,
 };
 function mapStateToProps(state) {
    const { fbcustomers,fbchats,fbCustomerSelected,fbchatSelected, emojiVisible, gifVisible, gifs, stickers, stickerVisible, upload} = state.fbpages;
