@@ -10,13 +10,14 @@ import {
   ListView,
   ScrollView,
   StyleSheet,
+  Platform,
   TouchableOpacity,
 } from 'react-native';
 import { TabViewAnimated, TabBarTop } from 'react-native-tab-view';
 import { List, ListItem, SocialIcon, Card, Button, Icon } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-
+import * as FbActions from '@redux/facebook/FbActions';
 import * as chatActions from '@redux/chat/chatActions';
 import * as GroupActions from '@redux/group/groupActions';
 import * as AgentActions from '@redux/agents/agentActions';
@@ -94,7 +95,7 @@ class ChatSession extends Component {
         this.props.teamFetch(token);
         this.props.getDeptTeams(token);
         this.props.getuser(token);
-        // this.props.getAllSessions(token, this.props.userdetails.uniqueid);
+        this.props.getunreadsessionscount(token, this.props.userdetails._id);
        }
   }
 
@@ -104,10 +105,17 @@ class ChatSession extends Component {
     // this.props is still the old set of props
     // console.log('componentWillReceiveProps is called with chat session data');
     // console.log(nextProps.groups);
-    if(nextProps.data && nextProps.userdetails && nextProps.deptteams && nextProps.teams && nextProps.chat && nextProps.agents && nextProps.groupagents && nextProps.teamagents && nextProps.groups){
+    if(nextProps.data && nextProps.unreadcountData && nextProps.userdetails && nextProps.deptteams && nextProps.teams && nextProps.chat && nextProps.agents && nextProps.groupagents && nextProps.teamagents && nextProps.groups){
        console.log("Next Props Received in chat session");
-       this.renderCard(nextProps);
-       this.setState({loading:false});
+       if (nextProps.chat.length > 0 &&nextProps.data.length > 0 && !nextProps.data[0].lastmessage) {
+         this.props.appendlastmessage(nextProps.data, nextProps.chat);
+       }
+       console.log(nextProps.data);
+       console.log(nextProps.unreadcountData);
+       if (nextProps.data.length > 0 && nextProps.data[0].lastmessage && nextProps.unreadcountData) {
+         this.renderCard(nextProps);
+         this.setState({ loading: false });
+       }
      }
   }
 
@@ -115,6 +123,9 @@ class ChatSession extends Component {
     console.log('component did update called before');
     if (prevProps.data.length < this.props.data.length) {
       console.log('component did update called');
+      this.renderCard(this.props);
+    }
+    if (prevProps.unreadcountData.length < this.props.unreadcountData.length) {
       this.renderCard(this.props);
     }
   }
@@ -143,6 +154,13 @@ class ChatSession extends Component {
     this.state.menuItems = [];
     // Build the actual Menu Items
     data.map((item, index) => {
+      let unreadCountArray = nextProps.unreadcountData.filter((c) => c._id.request_id == item.request_id);
+      let unreadCount;
+      if (unreadCountArray.length > 0) {
+        unreadCount = unreadCountArray[0].count;
+      } else {
+        unreadCount = 0;
+      }
       let name = item.customerID;
       let agentinteam = false;
       const group = nextProps.groups.filter((t) => t._id === item.departmentid);
@@ -183,94 +201,63 @@ class ChatSession extends Component {
           }
         }
 
+
         // var agent_name = nextProps.teamagents.filter((g) => g.agent_id == channelname);
         var subgroupName = nextProps.subgroups.filter((c) => c._id == channelname);
-        return this.state.menuItems.push(
-
-          <Card title = {name} key={index}>
-             <View>
-                <Text style={[styles.menuItem_text]}>
-                    { group.length>0?group[0].deptname :'-'}
-                </Text>
-                 <View style={[styles.menuItem]}>
-                    <View style={styles.iconContainer}>
-                        <Icon name={ "today" }/>
-                    </View>
-                    <View>
-                        <Text style={[styles.menuItem_text]}>
-                        {item.requesttime}
-                        </Text>
-                    </View>
-
-                    </View>
-                <View style={[styles.menuItem]}>
-                    <View style={styles.iconContainer}>
-                        <Icon name={ "dashboard" }/>
-                    </View>
-                    <View>
-                        <Text style={[styles.menuItem_text]}>
-                        {subgroupName.length>0?subgroupName[0].msg_channel_name:'-'}
-                        </Text>
-                    </View>
-
-                    </View>
-                 <View style={[styles.menuItem]}>
-                    <View style={styles.iconContainer}>
-                        <Icon name={ "assignment-turned-in" }/>
-                    </View>
-                    <View>
-                        <Text style={[styles.menuItem_text]}>
-                        { item.status }
-                        </Text>
-                    </View>
-
-                    </View>
-                <View style={[styles.menuItem]}>
-                    <View style={styles.iconContainer}>
-                        <Icon name={ "account-circle" }/>
-                    </View>
-                    <View>
-                        <Text style={[styles.menuItem_text]}>
-                        {
-                         group_agents_name
-                        }
-                        </Text>
-                    </View>
-
-                    </View>
-             </View>
-                <Button
-                    key = {index + '_button'}
-                    backgroundColor='#03A9F4'
-                    buttonStyle={{borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0}}
-                    title='View Chats'
-                    onPress = {() => this.gotoChatBox(nextProps, item.request_id, item.companyid, item._id, item.departmentid, item.status, group[0].deptname ? group[0].deptname:'-', subgroupName[0].msg_channel_name?subgroupName[0].msg_channel_name:'-', item)} />
-                </Card>
+        if (group.length>0 && subgroupName.length>0) {
+          let assignment = 'Not assigned yet';
+          if (group_agents_name !== 'Not assigned yet') {
+            assignment = `Agent - ${group_agents_name}`;
+          }
+          if (unreadCount == 0) {
+            return this.state.menuItems.push(
+              <ListItem
+                roundAvatar
+                avatar={require('./user.png')}
+                key={index}
+                title={name}
+                onPress={this.gotoChatBox.bind(this, nextProps, item.request_id, item.companyid, item._id, item.departmentid, item.status, group[0].deptname, subgroupName[0].msg_channel_name, item)}
+                subtitle={`${group[0].deptname} - ${subgroupName[0].msg_channel_name} , ${item.status}\n${assignment}`}
+              />
             );
+          } else {
+            return this.state.menuItems.push(
+              <ListItem
+                roundAvatar
+                avatar={require('./user.png')}
+                key={index}
+                title={name}
+                onPress={this.gotoChatBox.bind(this, nextProps, item.request_id, item.companyid, item._id, item.departmentid, item.status, group[0].deptname, subgroupName[0].msg_channel_name, item)}
+                subtitle={`${group[0].deptname} - ${subgroupName[0].msg_channel_name} , ${item.status}\n${assignment}`}
+                badge={{ value: unreadCount, badgeContainerStyle: { backgroundColor: 'red' } }}
+              />
+            );
+          }
+        }
       }
     }, this);
   }
 
   render = () => {
-    if (this.state.loading) return <Loading />;
-    // this.renderCard();
-    console.log("Render Session was called");
-    return(
-          <View style={[AppStyles.container]}>
-          <Spacer size={15} />
-            <ScrollView
-              automaticallyAdjustContentInsets={false}
-              style={[AppStyles.container]}
-            >
-             <Spacer size={50} />
-             <View>{this.state.menuItems}</View>
-
-
-            </ScrollView>
-            </View>
-
-  );
-}
+    if (this.state.loading) {
+      console.log('Loading');
+      return <Loading />;
+    } else {
+      return (
+        <View style={[AppStyles.container]}>
+          <Spacer size={25} />
+          <ScrollView
+            automaticallyAdjustContentInsets={false}
+            style={[AppStyles.container]}
+          >
+            <List containerStyle={{marginTop: 50}}>
+              {this.state.menuItems}
+            </List>
+          </ScrollView>
+        </View>
+      );
+    }
+  }
 }
 
 const mapDispatchToProps = {
@@ -287,14 +274,17 @@ const mapDispatchToProps = {
   updateChat: chatActions.updateChat,
   getDeptTeams: GroupActions.getDeptTeams,
   getuser: actions.getuser,
+  getunreadsessionscount: chatActions.getunreadsessionscount,
+  appendlastmessage: chatActions.appendlastmessage,
 };
 function mapStateToProps(state) {
-  const { data, loading, chat } = state.chat;
+  const { data, loading, chat, unreadcountData } = state.chat;
   const { groups, groupagents, deptteams } = state.groups;
   const { subgroups } = state.subgroups;
   const { agents } = state.agents;
   const { teamagents, teams } = state.teams;
   const { userdetails } = state.user;
-  return { data, loading, groups, groupagents, agents, chat, subgroups, teamagents, teams, deptteams, userdetails };
+
+  return { data, loading, unreadcountData, groups, groupagents, agents, chat, subgroups, teamagents, teams, deptteams, userdetails };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSession);

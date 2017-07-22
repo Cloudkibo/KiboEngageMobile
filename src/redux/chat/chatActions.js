@@ -47,6 +47,36 @@ export const sessionsFetch = (token) => {
   };
 };
 
+const showUnreadCount = (res) => {
+  console.log(res);
+  return {
+    type: ActionTypes.ADD_UNREAD_COUNT,
+    payload: res,
+  };
+};
+
+export const getunreadsessionscount = (token, agentid) => {
+  const config = {
+    rejectUnauthorized: false,
+    headers: {
+        'Authorization': `Bearer ${token}`,
+        'content-type' : 'application/json'
+    },
+  };
+  const data = {
+    "agent_id": agentid,
+  };
+
+  return (dispatch) => {
+    console.log('calling api');
+    axios.post(`${baseURL}/api/readstatus/getunreadsessionscount`, data, config).then(res => dispatch(showUnreadCount(res.data)))
+      .catch(function (error) {
+        console.log('Error occured in getting unread count');
+        console.log(error);
+      });
+  };
+};
+
 export const deleteunreadcountforAgent = (token, details) => {
   const config = {
     rejectUnauthorized: false,
@@ -57,7 +87,6 @@ export const deleteunreadcountforAgent = (token, details) => {
   };
   const data = {
     "agent_id": details.agent_id,
-    "message_id": details.message_id,
     "request_id": details.request_id,
   };
 
@@ -66,6 +95,7 @@ export const deleteunreadcountforAgent = (token, details) => {
     axios.post(`${baseURL}/api/readstatus/deleteforagent`, data, config).then(res => {
       console.log('Messages seen by agent');
       console.log(res);
+      dispatch(getunreadsessionscount(token, details.agent_id));
     })
       .catch(function (error) {
         console.log('Error occured in delete unread count for agent');
@@ -74,7 +104,7 @@ export const deleteunreadcountforAgent = (token, details) => {
   };
 };
 
-export const deleteunreadcountResoleSession = (token, requestid) => {
+export const deleteunreadcountResoleSession = (token, requestid, agent_id) => {
   const config = {
     rejectUnauthorized: false,
     headers: {
@@ -91,6 +121,7 @@ export const deleteunreadcountResoleSession = (token, requestid) => {
     axios.post(`${baseURL}/api/readstatus/deleteforsession`, data, config).then(res => {
       console.log('Unseen messages records for resolved session deleted.');
       console.log(res);
+      dispatch(getunreadsessionscount(token, agent_id));
     })
       .catch(function (error) {
         console.log('Error occured in delete unread count for resolved session');
@@ -211,6 +242,47 @@ export const fetchSingleSession = (token, chat) => {
     });
   };
 };
+
+function orderByDate(arr, dateProp, order = 0) {
+  return arr.slice().sort(function (a, b) {
+    if (order == 0) {
+      return new Date(b['lastmessage'][dateProp]) - new Date(a['lastmessage'][dateProp]);
+    } else {
+      return new Date(a['lastmessage'][dateProp]) - new Date(b['lastmessage'][dateProp]);
+    }
+  });
+}
+
+function orderByDateFbChats(arr, dateProp) {
+  return arr.slice().sort(function (a, b) {
+    return new Date(a[dateProp]) - new Date(b[dateProp]);
+  });
+}
+
+export const appendlastmessage = (sessions, chats) => {
+  console.log(chats);
+  const newchats = orderByDateFbChats(chats, 'datetime');
+  console.log(newchats);
+  let newSessions = [];
+  for (let i = 0; i < sessions.length; i++) {
+    if (sessions[i].customerid) {
+      const selectedchat = newchats.filter((c) => c.from == sessions[i].customerID || c.to == sessions[i].customerID);
+      const lastmessage = selectedchat[selectedchat.length - 1];
+      const newsession = sessions[i];
+      if (lastmessage && newsession) {
+        newsession.lastmessage = lastmessage;
+        newSessions.push(newsession);
+      }
+    }
+  }
+  const chatSessions = newSessions.filter((c) => c.status !== 'resolved');
+  const sorted = orderByDate(chatSessions, 'datetime');
+  console.log(sorted);
+  return {
+    type: ActionTypes.ADD_LASTMESSAGE_CHAT_SESSION,
+    payload: sorted,
+  };
+}
 
 export const assignAgent = (token, input, session, allsessions, stringvaluestatus) => {
   const config = {
@@ -336,7 +408,7 @@ export const sendChat = (token, input) => {
   };
 };
 
-export const resolveChatSession = (token, sessionid) => {
+export const resolveChatSession = (token, sessionid, agentid) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -353,6 +425,7 @@ export const resolveChatSession = (token, sessionid) => {
     .then(res => {
       dispatch(chatsFetch(token));
       dispatch(assign_agent_status('Chat Marked As Resolved'));
+      dispatch(deleteunreadcountResoleSession(token, sessionid, agentid));
     }).catch(function (error) {
       dispatch(assign_agent_status('Unable to mark chat as resolved'));
     });

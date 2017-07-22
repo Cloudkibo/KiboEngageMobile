@@ -106,15 +106,15 @@ class FbCustomers extends Component {
       if (!nextProps.fbSessions[0].lastmessage) {
         this.props.appendlastmessage(nextProps.fbSessions, nextProps.fbchats);
       }
-      if (nextProps.fbSessions[0].lastmessage && nextProps.unreadcountData.length > 0) {
+      if (nextProps.fbSessions[0].lastmessage && nextProps.unreadcountData) {
         this.renderCard(nextProps.fbSessions, nextProps.unreadcountData);
+        this.setState({loading:false});
       }
-       this.setState({loading:false});
      }
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.unreadcountData.length < this.props.unreadcountData) {
+    if (prevProps.unreadcountData.length < this.props.unreadcountData.length) {
       this.renderCard(this.props.fbSessions, this.props.unreadcountData);
     }
   }

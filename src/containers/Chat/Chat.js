@@ -53,10 +53,16 @@ class Chat extends Component {
     this.renderCanned = this.renderCanned.bind(this);
   }
 
-   componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps = async (nextProps) => {
     console.log('componentWillReceiveProps is called with chat session data');
-    if(nextProps.currentChats){
+    const token = await auth.getToken();
+    if (nextProps.currentChats) {
       console.log("Next Props Current Chat:", nextProps.currentChats);
+      const details = {
+        agent_id: this.props.userdetails._id,
+        request_id: this.props.sessioninfo.request_id,
+      };
+      this.props.deleteunreadcountforAgent(token, details);
       this.renderChat(nextProps.currentChats);
       this.forceUpdate();
     }
@@ -66,11 +72,17 @@ class Chat extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate = async (prevProps) => {
     console.log('componentDidUpdate');
+    const token = await auth.getToken();
     if (prevProps.chat.length < this.props.chat.length) {
       console.log('componentDidUpdate: new chat appened');
       const mychats = this.props.chat.filter((c)=> c.request_id == this.props.chat[this.props.chat.length-1].request_id);
+      const details = {
+        agent_id: this.props.userdetails._id,
+        request_id: this.props.sessioninfo.request_id,
+      };
+      this.props.deleteunreadcountforAgent(token, details);
       this.renderChat(mychats);
       console.log(mychats);
       this.forceUpdate();
@@ -515,15 +527,16 @@ const mapDispatchToProps = {
   sendChat: chatActions.sendChat,
   uploadChatDocfile: chatActions.uploadChatDocfile,
   cannedFetch: CannedActions.cannedFetch,
+  deleteunreadcountforAgent: chatActions.deleteunreadcountforAgent,
 };
 function mapStateToProps(state) {
-   const { userdetails } = state.user;
-   const { agents } = state.agents;
-   const { teams, teamagents } = state.teams;
-   const { subgroups} = state.subgroups;
-   const {cannedresponses} = state.cannedresponses
-   const { singleChat,invite_agent_status, upload, currentChats, chat } = state.chat;
-   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, upload, currentChats, cannedresponses, chat };
+  const { userdetails } = state.user;
+  const { agents } = state.agents;
+  const { teams, teamagents } = state.teams;
+  const { subgroups } = state.subgroups;
+  const { cannedresponses } = state.cannedresponses
+  const { singleChat, invite_agent_status, upload, currentChats, chat } = state.chat;
+  return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, upload, currentChats, cannedresponses, chat };
 
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);
