@@ -36,7 +36,11 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state,fbcustomers:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
 
     case ActionTypes.SHOW_FB_CHATS:
-    return { ...state,fbchats:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false };
+    if(state.fbchatSelected.length>0){
+      var currentSession= state.currentSession;
+      var selectedchatupdate = action.payload.filter((c)=>c.senderid == currentSession.user_id.user_id || c.recipientid == currentSession.user_id.user_id).reverse();
+    }
+    return { ...state,fbchats:action.payload,fbpageerror: '', fbpagesuccess:'' ,loading: false,fbchatSelected:selectedchatupdate?selectedchatupdate:state.fbchatSelected };
 
     case ActionTypes.SHOW_UNREAD_COUNT:
       return { ...state, unreadcountData: action.payload };

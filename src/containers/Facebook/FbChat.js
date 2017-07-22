@@ -91,6 +91,7 @@ class FbChat extends Component {
       //  this.renderChat(nextProps);
      }
      if(nextProps.fbchatSelected && nextProps.fbCustomerSelected){
+       console.log('i am called again');
        const details = {
          agent_id: this.props.userdetails._id,
          request_id: nextProps.fbCustomerSelected.pageid.pageid + '$' + nextProps.fbCustomerSelected.user_id.user_id,
@@ -113,10 +114,7 @@ class FbChat extends Component {
        if(nextProps.fbchatSelected[i].message){
             var item = nextProps.fbchatSelected[i];
             if(item.message.text){
-              if(nextProps.fbCustomerSelected.user_id.user_id === item.senderid){
-                  console.log('true');
-              }
-
+             
                temparray.push(
                      {
                     _id: i,
@@ -275,15 +273,7 @@ class FbChat extends Component {
     }
 
   async onSend(messages = [],filesize =0 ) {
-  //   var data = {
-  //     _id:"9be49b8a-d930-4b0b-8962-af54fa0cd86b",
-  //     createdAt: Date.now(),
-  //     text:this.state.text,
-  //     user: {
-  //       _id:1
-  //     },
-  // };
-  // messages[0] = data;
+ 
     console.log("On Send", messages);
   //  messages[0].text = this.state.text;
   if(messages[0].text == ''){
@@ -297,6 +287,8 @@ class FbChat extends Component {
   //   message[0].text = false;
   // }
    var msgObj = messages[0];
+   console.log(msgObj);
+   console.log('for gif');
    console.log('msgObj');
    console.log(msgObj);
    var today = new Date();
@@ -330,32 +322,9 @@ class FbChat extends Component {
                 this.props.getfbchatfromAgent(saveMsg, newtoken);
               }
             }
-             else if(msgObj.image && msgObj.type == 'gif'){
-                      var saveMsg = {
-                                   senderid: this.props.userdetails._id,
-                                   recipientid:this.props.fbCustomerSelected.user_id.user_id,
-                                   companyid:this.props.userdetails.uniqueid,
-                                   timestamp:Date.now(),
-                                   message:{
-                                     mid:unique_id,
-                                     seq:1,
-                                     attachments:[{
-                                       type:'image',
-                                       payload:{
-                                         url:msgObj.image,
-                                       }
-
-                                     }]
-                                   },
-
-                                  pageid:pageid
-
-                             }
-             if(newtoken != ''){
-              this.props.getfbchatfromAgent(saveMsg, newtoken);
-             }
-             }
+    
     else if(msgObj.image && msgObj.type != 'gif'){
+      console.log('i am called for gif');
       /*** for image file ******/
     var filename = msgObj.image.split('/');
     var fileext = filename[filename.length-1].split('.');
@@ -395,7 +364,7 @@ class FbChat extends Component {
                             }
 
 
-                  this.props.uploadFbChatfile(photo,saveMsg);
+                  this.props.uploadFbChatfile(photo,saveMsg,token);
 
             }
             else {
@@ -425,7 +394,31 @@ class FbChat extends Component {
             }
   }
 
+    else if(msgObj.image && msgObj.type == 'gif'){
+                var saveMsg = {
+                                   senderid: this.props.userdetails._id,
+                                   recipientid:this.props.fbCustomerSelected.user_id.user_id,
+                                   companyid:this.props.userdetails.uniqueid,
+                                   timestamp:Date.now(),
+                                   message:{
+                                     mid:unique_id,
+                                     seq:1,
+                                     attachments:[{
+                                       type:'image',
+                                       payload:{
+                                         url:msgObj.image,
+                                       }
 
+                                     }]
+                                   },
+
+                                  pageid:pageid
+
+                             }
+              if(newtoken != ''){
+              this.props.getfbchatfromAgent(saveMsg, newtoken);
+              }
+            }
 
    else if(msgObj.file){
       /*** for image file ******/
@@ -482,13 +475,13 @@ class FbChat extends Component {
     }
   }
     this.state.stickgif = false;
-    this.setState((previousState) => {
+    /*this.setState((previousState) => {
       return {
         messages: GChat.GiftedChat.append(previousState.messages, messages),
       };
     });
 
-    console.log("Messages after send", messages);
+    console.log("Messages after send", messages);*/
   }
 
 
@@ -673,8 +666,8 @@ class FbChat extends Component {
           indicator={Progress.CircleSnail }
         /></TouchableOpacity>);
     }
-    console.log("In render gif");
-    console.log(nextProps.gifs);
+    //console.log("In render gif");
+   // console.log(nextProps.gifs);
   }
 
   renderSticker(nextProps){
@@ -688,8 +681,8 @@ class FbChat extends Component {
         /></TouchableOpacity>);
     }
     console.log("In render sticker");
-    console.log(this.props.stickerVisible);
-    console.log(nextProps.stickers);
+  //  console.log(this.props.stickerVisible);
+  //  console.log(nextProps.stickers);
   }
 
   sendStickerGif(image_uri){

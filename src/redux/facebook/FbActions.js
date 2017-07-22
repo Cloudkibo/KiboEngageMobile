@@ -472,7 +472,7 @@ export function getfbchatfromAgent(chat, token){
 
  return (dispatch) => {
     axios.post(`${baseURLKiboEngage}/api/sendfbchat`,chat,config).then(res =>{
-      dispatch(fbchatmessageSent(res));
+    //  dispatch(fbchatmessageSent(res));
       dispatch(getfbChats(token));
     })
     .catch(function (error) {
@@ -519,7 +519,8 @@ export function updateStateResolve(data){
 }
 
 
-export const uploadFbChatfile =(filedata,chatmsg)=>{
+export const uploadFbChatfile =(filedata,chatmsg,token)=>{
+  console.log('uploadchatfilefb called');
      return (dispatch) => {
 
                 RNFetchBlob.fetch('POST', `${baseURLKiboEngage}/api/uploadchatfilefb/`, {
@@ -538,7 +539,10 @@ export const uploadFbChatfile =(filedata,chatmsg)=>{
                                 .then((resp) => {
                                    if(resp.statusCode == 200){
                                       console.log('File uploaded')
+                                       
+
                                   }
+                                  dispatch(getfbChats(token));
                                 })
                                 .catch((err) => {
                                   console.warn(err);

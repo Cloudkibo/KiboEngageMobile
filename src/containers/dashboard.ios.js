@@ -425,8 +425,8 @@ renderLoadingView(){
 
 
 const mapDispatchToProps = {
-   closemenu: menuActions.close,
-   getuser: UserActions.getuser,
+  closemenu: menuActions.close,
+  getuser: UserActions.getuser,
   getsqlData:UserActions.getsqlData,
   fetchChat: chatActions.fetchChat,
   fetchSingleChat: chatActions.fetchSingleChat,
