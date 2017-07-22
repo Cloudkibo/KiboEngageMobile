@@ -239,7 +239,6 @@ export const emailCustomer = (emailMsg, token) => {
     console.log('calling api');
     axios.post(`${baseURLKiboEngage}/api/emailCustomer`, data, config).then(res =>{
       dispatch(sendEmailSuccess(res));
-      dispatch(getCustomers(token));
     })
       .catch((error) => {
         console.log('Error occured');

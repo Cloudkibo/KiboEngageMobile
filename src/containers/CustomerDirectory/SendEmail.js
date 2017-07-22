@@ -14,6 +14,10 @@ class SendEmail extends Component {
   static componentName = 'SendEmail';
 
   constructor(props) {
+    const token = auth.getToken();
+    if (token != '') {
+      props.getCustomers(token);
+    }
     super(props);
     const stylesheet = _.cloneDeep(FormValidation.form.Form.stylesheet);
     stylesheet.textbox.normal.height = 80;
@@ -187,6 +191,7 @@ SendEmail.propTypes = {
 const mapDispatchToProps = {
   getuser: UserActions.getuser,
   emailCustomer: CustomerActions.emailCustomer,
+  getCustomers: CustomerActions.getCustomers,
 };
 
 function mapStateToProps(state) {
