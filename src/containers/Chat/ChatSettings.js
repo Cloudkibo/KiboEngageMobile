@@ -184,7 +184,7 @@ class ChatSettings extends Component {
       this.scrollView.scrollTo({ y: 0 });
     }
 
-      this.props.markResolve(token, this.props.singleChat.request_id);
+      this.props.markResolve(token, this.props.singleChat.request_id, this.props.userdetails._id);
     }
   }
 

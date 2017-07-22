@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   invite_agent_status: '',
   upload: [],
   currentChats: [],
+  unreadcountData: [],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -19,11 +20,15 @@ export default (state = INITIAL_STATE, action) => {
 
    case ActionTypes.FETCH_CHATS:
       return {...state,chat:action.payload, loading:false};
+    case ActionTypes.ADD_UNREAD_COUNT:
+      return { ...state, unreadcountData: action.payload };
 
     case ActionTypes.SINGLE_CHAT_FETCH:
       return { ...state, chat: [...state.chat, action.payload[0]], loading:false };
     case ActionTypes.SINGLE_SESSION_FETCH:
       return { ...state, data: [...state.data, action.payload[0]], loading:false };
+    case ActionTypes.ADD_LASTMESSAGE_CHAT_SESSION:
+      return { ...state, data: action.payload };
 
    case ActionTypes.SINGLE_CHATS:
       return {...state,singleChat:action.payload, loading:false};

@@ -231,8 +231,13 @@ renderLoadingView(){
       console.log(notif.data);
       console.log(this.props.data);
       const token = await auth.getToken();
-      this.props.fetchSingleChat(token, notif.data);
       this.props.sessionsFetch(token);
+      this.props.chatsFetch(token);
+      this.props.getunreadsessionscount(token, this.props.userdetails._id);
+      this.props.fetchSingleChat(token, notif.data);
+      if (this.props.data.length > 0 && this.props.chat.length > 0) {
+        this.props.appendlastmsg(this.props.data, this.props.chat);
+      }
     }
     /*if(notif.data.request_id && notif.data.uniqueid){
       console.log("Fetching the receieved chat");
@@ -291,6 +296,8 @@ const mapDispatchToProps = {
   getunreadsessionscount: FbActions.getunreadsessionscount,
   fetchChatSession: FbActions.fetchChatSessions,
   appendlastmessage: FbActions.appendlastmessage,
+  appendlastmsg: chatActions.appendlastmessage,
+  chatsFetch: chatActions.chatsFetch,
  };
 
 function mapStateToProps(state) {
