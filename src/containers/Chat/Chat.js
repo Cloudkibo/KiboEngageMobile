@@ -103,32 +103,6 @@ class Chat extends Component {
           }
   }
 
-
-  renderChat = (newchats) => {
-      var temp = [];
-      console.log("Single Chat", this.props.singleChat);
-      // console.log("In renderChat", newchats);
-     newchats.map((item, index) => {
-
-      temp.push(
-           {
-          _id: index,
-          text: item.msg,
-          createdAt:  handleDate(item.datetime),
-          timestamp:item.datetime,
-          user: {
-            _id: (this.props.userdetails.firstname == item.from) ? 1:2,
-            name:  item.from,
-            avatar: 'https://facebook.github.io/react/img/logo_og.png',
-          },
-        }
-        );
-
-    }, this);
-    temp.reverse();
-    this.setState({messages: temp});
-  }
-
   async onSend(messages = []) {
 
     var msgObj = messages[0];
@@ -439,6 +413,27 @@ class Chat extends Component {
         this.setState({isCanned: false});
       }
   };
+
+  renderChat = (newchats) => {
+    const temp = [];
+    console.log('Single Chat', this.props.singleChat);
+
+    newchats.map((item, index) => {
+      temp.push({
+        _id: index,
+        text: item.msg,
+        createdAt: handleDate(item.datetime),
+        timestamp: item.datetime,
+        user: {
+          _id: (this.props.sessioninfo.customerID == item.from) ? 2 : 1,
+          name:  item.from,
+          avatar: 'https://facebook.github.io/react/img/logo_og.png',
+        },
+      });
+    }, this);
+    temp.reverse();
+    this.setState({ messages: temp });
+  }
 
     renderFooter(propy) {
       if(this.state.isCanned){
