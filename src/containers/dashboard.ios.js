@@ -33,8 +33,15 @@ import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 //let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 
 const NotificationHub = require('react-native-azurenotificationhub/index.ios');
-const connectionString = 'Endpoint=sb://kiboengagetesthub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=XitK1UR1T+Tb5Hi2btmM/jNEmTvCO/5ocyfXYhhDaVs=';
-const hubName = 'kiboengagetesthub';          // The Notification Hub name
+//const connectionString = 'Endpoint=sb://kiboengagetesthub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=XitK1UR1T+Tb5Hi2btmM/jNEmTvCO/5ocyfXYhhDaVs=';
+//const hubName = 'kiboengagetesthub';          // The Notification Hub name
+
+
+//PRPDUCTION
+const connectionString = 'Endpoint=sb://kiboengagens.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=B2do9BVVK6ca1OQsJWQIE+6WlFfcGuWjr+280C+tIVY=';
+const hubName = 'KiboEngagePush';          // The Notification Hub name production
+
+
 const senderID = '';         // The Sender ID from the Cloud Messaging tab of the Firebase console
 const tagName = '';           // The set of tags to subscribe to
 
@@ -289,9 +296,13 @@ renderLoadingView(){
           var token =  await auth.getToken();
           // console.log('token is Launchview is: ' + token);
           if(token != ''){
-            this.props.fetchfbcustomers(token);
+           this.props.fetchPushChatSessions(token);
             this.props.getfbChatsUpdate(token,this.props.currentSession);
-
+            this.props.getunreadsessionscount(token, this.props.userdetails._id);
+            this.props.getfbChats(token);
+            this.props.fetchChatSession(token);
+            this.props.appendlastmessage(this.props.fbSessions, this.props.fbchats);
+          
             //this.forceUpdate();
             
            }
@@ -425,27 +436,31 @@ renderLoadingView(){
 
 
 const mapDispatchToProps = {
-  closemenu: menuActions.close,
   getuser: UserActions.getuser,
   getsqlData:UserActions.getsqlData,
   fetchChat: chatActions.fetchChat,
   fetchSingleChat: chatActions.fetchSingleChat,
   fetchSingleSession: chatActions.fetchSingleSession,
-  fetchChatSessions: FbActions.fetchChatSessions,
+  fetchPushChatSessions: FbActions.fetchPushChatSessions,
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
   sessionsFetch: chatActions.sessionsFetch,
   updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
+  closemenu: menuActions.close,
+  getunreadsessionscount: FbActions.getunreadsessionscount,
+  fetchChatSession: FbActions.fetchChatSessions,
+  appendlastmessage: FbActions.appendlastmessage,
+  appendlastmsg: chatActions.appendlastmessage,
+  chatsFetch: chatActions.chatsFetch,
  };
 
 function mapStateToProps(state) {
-   const { userdetails,fetchedR} = state.user;
-   const {fbchatSelected, fbSessions,currentSession} = state.fbpages;
-   const { chat, singleChat, data } = state.chat;
+  const { userdetails, fetchedR } = state.user;
+  const { fbchatSelected, fbSessions, fbchats, currentSession, fbCustomerSelected } = state.fbpages;
+  const { chat, singleChat, data } = state.chat;
 
-  return { userdetails, fetchedR, fbchatSelected, chat, singleChat, fbSessions, currentSession, data };
-
+  return { userdetails, fetchedR, fbchatSelected, chat, singleChat, fbSessions, fbchats, currentSession, data, fbCustomerSelected };
 
 }
 //Dashboard = codePush(codePushOptions)(Dashboard);
