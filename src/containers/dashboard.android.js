@@ -134,7 +134,6 @@ class Dashboard extends Component {
       if(token != ''){
 
            this.props.getuser(token);
-           this.props.sessionsFetch(token);
 
           }
 
@@ -231,7 +230,17 @@ renderLoadingView(){
       console.log(notif.data);
       console.log(this.props.data);
       const token = await auth.getToken();
-      this.props.sessionsFetch(token);
+      this.props.sessionsFetch(token, this.props.userdetails.uniqueid);
+      this.props.chatsFetch(token);
+      this.props.getUnreadSessionCount(token, this.props.userdetails._id);
+      this.props.fetchSingleChat(token, notif.data);
+      if (this.props.data.length > 0 && this.props.chat.length > 0) {
+        this.props.appendlastmsg(this.props.data, this.props.chat);
+      }
+    }
+    if (notif.data.type == 'customer-left') {
+      const token = await auth.getToken();
+      this.props.sessionsFetch(token, this.props.userdetails.uniqueid);
       this.props.chatsFetch(token);
       this.props.getUnreadSessionCount(token, this.props.userdetails._id);
       this.props.fetchSingleChat(token, notif.data);
@@ -290,7 +299,7 @@ const mapDispatchToProps = {
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
-  sessionsFetch: chatActions.sessionsFetch,
+  sessionsFetch: chatActions.getAllSessions,
   updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
   closemenu: menuActions.close,
   getunreadsessionscount: FbActions.getunreadsessionscount,
