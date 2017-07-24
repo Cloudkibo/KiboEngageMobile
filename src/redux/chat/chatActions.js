@@ -27,6 +27,16 @@ export function showSessions(data) {
   };
 }
 
+export function updateChannelInfo(data, singleChat) {
+  return {
+    type: ActionTypes.UPDATE_CHANNEL_INFO,
+    payload: {
+      sessions: data,
+      currentSession: singleChat,
+    },
+  };
+}
+
 export const sessionsFetch = (token) => {
   const config = {
     headers: {

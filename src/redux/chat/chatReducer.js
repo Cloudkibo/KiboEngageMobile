@@ -22,6 +22,8 @@ export default (state = INITIAL_STATE, action) => {
       return {...state,chat:action.payload, loading:false};
     case ActionTypes.ADD_UNREAD_COUNT:
       return { ...state, unreadcountData: action.payload };
+    case ActionTypes.UPDATE_CHANNEL_INFO:
+      return { ...state, data: action.payload.sessions, singleChat: action.payload.currentSession };
 
     case ActionTypes.SINGLE_CHAT_FETCH:
       return { ...state, chat: [...state.chat, action.payload[0]], loading:false };
