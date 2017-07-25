@@ -33,12 +33,15 @@ import { Alerts, Card, Spacer, Text, Button } from '@ui/';
 //let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 
 const NotificationHub = require('react-native-azurenotificationhub/index.ios');
-const connectionString = 'Endpoint=sb://kiboengagetesthub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=XitK1UR1T+Tb5Hi2btmM/jNEmTvCO/5ocyfXYhhDaVs=';
-const hubName = 'kiboengagetesthub';          // The Notification Hub name
+//const connectionString = 'Endpoint=sb://kiboengagetesthub.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=XitK1UR1T+Tb5Hi2btmM/jNEmTvCO/5ocyfXYhhDaVs=';
+//const hubName = 'kiboengagetesthub';          // The Notification Hub name
 const senderID = '';         // The Sender ID from the Cloud Messaging tab of the Firebase console
 const tagName = '';           // The set of tags to subscribe to
 
 
+const hubName = 'KiboEngagePush';          // The Notification Hub name
+
+const connectionString = 'Endpoint=sb://kiboengagens.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=KBDPypyy6r2vmfhX7yjwhrudnoZeSzRXjmIXEsFugdY=';
 
 var remoteNotificationsDeviceToken = '';  // The device token registered with APNS
 
@@ -289,9 +292,13 @@ renderLoadingView(){
           var token =  await auth.getToken();
           // console.log('token is Launchview is: ' + token);
           if(token != ''){
-            this.props.fetchfbcustomers(token);
+              this.props.fetchPushChatSessions(token);
             this.props.getfbChatsUpdate(token,this.props.currentSession);
-
+            this.props.getunreadsessionscount(token, this.props.userdetails._id);
+            this.props.getfbChats(token);
+            this.props.fetchChatSession(token);
+            this.props.appendlastmessage(this.props.fbSessions, this.props.fbchats);
+         
             //this.forceUpdate();
             
            }
@@ -300,11 +307,17 @@ renderLoadingView(){
         //chat message received from mobile/web client
     if (notif.data.type == 'chatsession') {
       console.log('notification receieved');
+         console.log('notification receieved');
       console.log(notif.data);
       console.log(this.props.data);
       const token = await auth.getToken();
-      this.props.fetchSingleChat(token, notif.data);
       this.props.sessionsFetch(token);
+      this.props.chatsFetch(token);
+      this.props.getunreadsessionscount(token, this.props.userdetails._id);
+      this.props.fetchSingleChat(token, notif.data);
+      if (this.props.data.length > 0 && this.props.chat.length > 0) {
+        this.props.appendlastmsg(this.props.data, this.props.chat);
+  
     }
     /*if(notif.data.request_id && notif.data.uniqueid){
       console.log("Fetching the receieved chat");
@@ -423,29 +436,32 @@ renderLoadingView(){
 }
 
 
-
 const mapDispatchToProps = {
-  closemenu: menuActions.close,
   getuser: UserActions.getuser,
   getsqlData:UserActions.getsqlData,
   fetchChat: chatActions.fetchChat,
   fetchSingleChat: chatActions.fetchSingleChat,
   fetchSingleSession: chatActions.fetchSingleSession,
-  fetchChatSessions: FbActions.fetchChatSessions,
+  fetchPushChatSessions: FbActions.fetchPushChatSessions,
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
   sessionsFetch: chatActions.sessionsFetch,
   updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
+  closemenu: menuActions.close,
+  getunreadsessionscount: FbActions.getunreadsessionscount,
+  fetchChatSession: FbActions.fetchChatSessions,
+  appendlastmessage: FbActions.appendlastmessage,
+  appendlastmsg: chatActions.appendlastmessage,
+  chatsFetch: chatActions.chatsFetch,
  };
 
 function mapStateToProps(state) {
-   const { userdetails,fetchedR} = state.user;
-   const {fbchatSelected, fbSessions,currentSession} = state.fbpages;
-   const { chat, singleChat, data } = state.chat;
+  const { userdetails, fetchedR } = state.user;
+  const { fbchatSelected, fbSessions, fbchats, currentSession, fbCustomerSelected } = state.fbpages;
+  const { chat, singleChat, data } = state.chat;
 
-  return { userdetails, fetchedR, fbchatSelected, chat, singleChat, fbSessions, currentSession, data };
-
+  return { userdetails, fetchedR, fbchatSelected, chat, singleChat, fbSessions, fbchats, currentSession, data, fbCustomerSelected };
 
 }
 //Dashboard = codePush(codePushOptions)(Dashboard);
