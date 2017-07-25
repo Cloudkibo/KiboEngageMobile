@@ -516,7 +516,7 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = {
-  sessionsFetch: chatActions.sessionsFetch,
+  sessionsFetch: chatActions.getAllSessions,
   chatsFetch: chatActions.chatsFetch,
   groupFetch: GroupActions.groupFetch,
   agentGroupFetch : GroupActions.agentGroupFetch,
