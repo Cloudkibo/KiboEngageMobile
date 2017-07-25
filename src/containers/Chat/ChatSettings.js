@@ -33,8 +33,6 @@ styles = {
 }
 
 
-
-
 class ChatSettings extends Component {
 
   constructor(props) {
@@ -161,16 +159,28 @@ class ChatSettings extends Component {
 
 
         //preparing data
-        input = {
+        const input = {
           channel_to: this.state.assignedChannel,
-          channel_from: this.props.singleChat.departmentid,
+          channel_from: this.props.currentChats[0].messagechannel,
           agentidBy: this.props.userdetails._id,
           companyid: this.props.singleChat.companyid,
           requestid: this.props.singleChat.request_id,
           _id: this.props.singleChat._id,
         };
         console.log("Calling move subgroup");
-        this.props.moveChannel(token, input);
+        const messagechannel = [this.state.assignedChannel];
+        const messagechannelName = this.props.subgroups.filter((c) => c._id == this.state.assignedChannel)[0].msg_channel_name;
+        for (let i = 0; i < this.props.data.length; i++) {
+          if (this.props.data[i].request_id == this.props.singleChat.request_id) {
+            this.props.data[i].messagechannel = messagechannel;
+            break;
+          }
+        }
+        this.props.singleChat.channel_name = messagechannelName;
+
+        console.log(this.props.singleChat);
+
+        this.props.moveChannel(token, input, this.props.data, this.props.singleChat);
         // console.log("Channel Move called");
        }
   }
@@ -180,9 +190,9 @@ class ChatSettings extends Component {
     if(token != ''){
 
       // Scroll to top, to show message
-    if (this.scrollView) {
-      this.scrollView.scrollTo({ y: 0 });
-    }
+      if (this.scrollView) {
+        this.scrollView.scrollTo({ y: 0 });
+      }
 
       this.props.markResolve(token, this.props.singleChat.request_id, this.props.userdetails._id);
     }
@@ -205,7 +215,7 @@ class ChatSettings extends Component {
       />
       <Text>Status</Text>
       <Text style={styles.cardDescription}>
-        Current Status - {this.props.invite_agent_status.contains('Resolved') ? 'resolved':this.props.invite_agent_status.contains('Assigned') ? 'assigned':this.props.singleChat.status}
+        Current Status - {this.props.invite_agent_status.indexOf('Resolved') !== -1 ? 'resolved':this.props.invite_agent_status.indexOf('Assigned') !== -1 ? 'assigned':this.props.singleChat.status}
       </Text>
       <Text style={styles.cardDescription}>
         {this.props.singleChat.team_name} - {this.props.singleChat.channel_name}
@@ -277,7 +287,7 @@ function mapStateToProps(state) {
    const { teams, teamagents } = state.teams;
    const { subgroups} = state.subgroups;
    const { userdetails } = state.user;
-   const { singleChat,invite_agent_status,data } = state.chat;
-   return { agents, teams, subgroups, userdetails, singleChat, invite_agent_status, teamagents, data };
+   const { singleChat, invite_agent_status, data, currentChats } = state.chat;
+   return { agents, teams, subgroups, currentChats, userdetails, singleChat, invite_agent_status, teamagents, data };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ChatSettings);
