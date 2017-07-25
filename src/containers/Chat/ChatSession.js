@@ -126,6 +126,7 @@ class ChatSession extends Component {
       this.renderCard(this.props);
     }
     if (prevProps.unreadcountData.length < this.props.unreadcountData.length) {
+      console.log('render card in componentDidUpdate');
       this.renderCard(this.props);
     }
   }

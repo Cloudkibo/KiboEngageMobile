@@ -233,7 +233,7 @@ renderLoadingView(){
       const token = await auth.getToken();
       this.props.sessionsFetch(token);
       this.props.chatsFetch(token);
-      this.props.getunreadsessionscount(token, this.props.userdetails._id);
+      this.props.getUnreadSessionCount(token, this.props.userdetails._id);
       this.props.fetchSingleChat(token, notif.data);
       if (this.props.data.length > 0 && this.props.chat.length > 0) {
         this.props.appendlastmsg(this.props.data, this.props.chat);
@@ -298,6 +298,7 @@ const mapDispatchToProps = {
   appendlastmessage: FbActions.appendlastmessage,
   appendlastmsg: chatActions.appendlastmessage,
   chatsFetch: chatActions.chatsFetch,
+  getUnreadSessionCount: chatActions.getunreadsessionscount,
  };
 
 function mapStateToProps(state) {

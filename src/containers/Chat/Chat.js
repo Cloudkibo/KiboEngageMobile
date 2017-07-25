@@ -55,6 +55,7 @@ class Chat extends Component {
 
   componentWillReceiveProps = async (nextProps) => {
     console.log('componentWillReceiveProps is called with chat session data');
+    console.log(this.props.sessioninfo);
     const token = await auth.getToken();
     if (nextProps.currentChats) {
       console.log("Next Props Current Chat:", nextProps.currentChats);
