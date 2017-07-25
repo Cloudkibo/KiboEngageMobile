@@ -79,14 +79,16 @@ class Chat extends Component {
     if (prevProps.chat.length < this.props.chat.length) {
       console.log('componentDidUpdate: new chat appened');
       const mychats = this.props.chat.filter((c)=> c.request_id == this.props.chat[this.props.chat.length-1].request_id);
+      this.props.currentChats.push(mychats[mychats.length-1]);
       const details = {
         agent_id: this.props.userdetails._id,
         request_id: this.props.sessioninfo.request_id,
       };
       this.props.deleteunreadcountforAgent(token, details);
-      this.renderChat(mychats);
+      console.log(this.props.currentChats);
+      this.renderChat(this.props.currentChats);
       console.log(mychats);
-      this.forceUpdate();
+      //this.forceUpdate();
     }
   }
 
@@ -181,6 +183,7 @@ class Chat extends Component {
         messages: GiftedChat.append(previousState.messages, messages),
       };
     });
+    console.log(this.state.messages);
                    this.props.uploadChatDocfile(fileobj, {});
     }
   }else{
@@ -287,7 +290,7 @@ class Chat extends Component {
   }
 
     renderBubble(prop) {
-    // console.log("IN render bubble", prop.currentMessage);
+    console.log("IN render bubble", prop.currentMessage);
     var isFile = false;
     var fileUpload = {};
     if(this.props.upload){
