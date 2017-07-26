@@ -421,19 +421,34 @@ class Chat extends Component {
   renderChat = (newchats) => {
     const temp = [];
     console.log('Single Chat', this.props.singleChat);
+    console.log(this.props.sessioninfo);
 
     newchats.map((item, index) => {
-      temp.push({
-        _id: index,
-        text: item.msg,
-        createdAt: handleDate(item.datetime),
-        timestamp: item.datetime,
-        user: {
-          _id: (this.props.sessioninfo.customerID == item.from) ? 2 : 1,
-          name:  item.from,
-          avatar: 'https://facebook.github.io/react/img/logo_og.png',
-        },
-      });
+      if (this.props.sessioninfo.platform == 'mobile') {
+        temp.push({
+          _id: index,
+          text: item.msg,
+          createdAt: handleDate(item.datetime),
+          timestamp: item.datetime,
+          user: {
+            _id: (this.props.sessioninfo.customerid.customerID == item.from) ? 2 : 1,
+            name:  item.from,
+            avatar: 'https://facebook.github.io/react/img/logo_og.png',
+          },
+        });
+      } else if (this.props.sessioninfo.platform == 'web') {
+        temp.push({
+          _id: index,
+          text: item.msg,
+          createdAt: handleDate(item.datetime),
+          timestamp: item.datetime,
+          user: {
+            _id: (this.props.sessioninfo.customerid.name == item.from) ? 2 : 1,
+            name:  item.from,
+            avatar: 'https://facebook.github.io/react/img/logo_og.png',
+          },
+        });
+      }
     }, this);
     temp.reverse();
     this.setState({ messages: temp });
