@@ -311,9 +311,9 @@ renderLoadingView(){
       console.log(notif.data);
       console.log(this.props.data);
       const token = await auth.getToken();
-      this.props.sessionsFetch(token);
+      this.props.sessionsFetch(token, this.props.userdetails.uniqueid);
       this.props.chatsFetch(token);
-      this.props.getunreadsessionscount(token, this.props.userdetails._id);
+      this.props.getUnreadSessionCount(token, this.props.userdetails._id);
       this.props.fetchSingleChat(token, notif.data);
       if (this.props.data.length > 0 && this.props.chat.length > 0) {
         this.props.appendlastmsg(this.props.data, this.props.chat);
@@ -393,6 +393,7 @@ renderLoadingView(){
             this.props.updateFbSessionsAssignedStatus(newSessions);
            // this.forceUpdate();
 
+  }
   }
 }
 
