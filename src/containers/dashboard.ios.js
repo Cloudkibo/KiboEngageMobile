@@ -49,17 +49,17 @@ var remoteNotificationsDeviceToken = '';  // The device token registered with AP
 class Dashboard extends Component {
   static componentName = 'Dashboard';
 
- 
+
   constructor(props) {
     super(props);
-    
+
     this.state = {'userdetails' : null,loading : true,connectionInfo:''};
    // this.register = this.register.bind(this);
    this._onRemoteNotification = this._onRemoteNotification.bind(this);
    this.requestPermissions = this.requestPermissions.bind(this);
 
   }
- 
+
   requestPermissions() {
     NotificationHub.addEventListener('register', this._onRegistered);
     NotificationHub.addEventListener('registrationError', this._onRegistrationError);
@@ -74,7 +74,7 @@ class Dashboard extends Component {
   async register() {
     console.log('registerering to hub');
    // var token = NotificationHub.register({connectionString, hubName, senderID, tags})
-    
+
     try {
     var {
      message
@@ -104,7 +104,7 @@ class Dashboard extends Component {
   }
   }
 
- 
+
 
   unregister() {
     console.log('unregisterering to hub');
@@ -118,14 +118,14 @@ class Dashboard extends Component {
           userdetails: props.userdetails,
           loading : false,
         });
-       tagName = 'Agent-'+props.userdetails.email; 
+       tagName = 'Agent-'+props.userdetails.email;
       this.requestPermissions();
     }
 
 
-  
+
   }
- 
+
 
   componentDidMount = async() => {
   console.log('login component did mount');
@@ -136,21 +136,21 @@ class Dashboard extends Component {
     NotificationHub.addEventListener('azureNotificationHubRegistrationError', this._onAzureNotificationHubRegistrationError);
     NotificationHub.addEventListener('notification', this._onRemoteNotification);
     NotificationHub.addEventListener('localNotification', this._onLocalNotification);
-   
+
 
     var token =  await auth.getToken();
       console.log('token is Launchview is: ' + token);
       if(token != ''){
-     
+
            this.props.getuser(token);
          //  this.props.getsqlData();
-            
-          }
-    
-      
 
-   
-  
+          }
+
+
+
+
+
   }
 
   componentWillMount() {
@@ -158,13 +158,13 @@ class Dashboard extends Component {
                        'onNotificationReceived',
                        this._onRemoteNotification);*/
    // DeviceEventEmitter.addListener('onNotificationReceived', this._onRemoteNotification);
- 
-  
+
+
   }
-  
+
   rendername(){
 
-        
+
    return (
      <View style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
@@ -172,10 +172,10 @@ class Dashboard extends Component {
       <Spacer size={55} />
         <Card>
          <Text> Hello This is {this.state.userdetails.firstname}</Text>
-          
+
         </Card>
       </View>
-    
+
     );
   }
 
@@ -189,7 +189,7 @@ renderLoadingView(){
           <Text> Loading User data ...</Text>
         </Card>
       </View>
-    
+
     );
   }
   render = () => {
@@ -197,7 +197,7 @@ renderLoadingView(){
      //console.log(this.props.userdetails);
      //   console.log(this.props.userdetails.lastname);
      if (this.state.loading) return <Loading />;
-      
+
 
       return(<View style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
@@ -205,21 +205,21 @@ renderLoadingView(){
       <Spacer size={55} />
         <Card>
           <Text> Hello This is{this.props.userdetails.firstname}</Text>
-         
+
         </Card>
 
-       
+
       </View>
       );
-    
-    
+
+
   }
 
-  
+
    async _onRegistered(deviceToken) {
     remoteNotificationsDeviceToken = deviceToken;
     //this.register();
-    
+
     Alert.alert(
       'Registered For Remote Push',
       `Device Token: ${deviceToken} ${tagName}`,
@@ -231,7 +231,7 @@ renderLoadingView(){
 
      console.log('registerering to hub');
    // var token = NotificationHub.register({connectionString, hubName, senderID, tags})
-    
+
     try {
     var {
      message
@@ -261,7 +261,7 @@ renderLoadingView(){
   }
 
 
-     
+
   }
 
   _onRegistrationError(error) {
@@ -298,9 +298,9 @@ renderLoadingView(){
             this.props.getfbChats(token);
             this.props.fetchChatSession(token);
             this.props.appendlastmessage(this.props.fbSessions, this.props.fbchats);
-         
+
             //this.forceUpdate();
-            
+
            }
     }
 
@@ -317,20 +317,18 @@ renderLoadingView(){
       this.props.fetchSingleChat(token, notif.data);
       if (this.props.data.length > 0 && this.props.chat.length > 0) {
         this.props.appendlastmsg(this.props.data, this.props.chat);
-  
+
     }
-    /*if(notif.data.request_id && notif.data.uniqueid){
-      console.log("Fetching the receieved chat");
-          var token =  await auth.getToken();
-          // console.log('token is Launchview is: ' + token);
-          if(token != ''){
-            if(notif.data.request_id == this.props.singleChat.request_id){
-              this.props.fetchChat(token, notif.data);
-            }
-
-           }
-
-    }*/
+    if (notif.data.type == 'customer-left') {
+      const token = await auth.getToken();
+      this.props.sessionsFetch(token, this.props.userdetails.uniqueid);
+      this.props.chatsFetch(token);
+      this.props.getUnreadSessionCount(token, this.props.userdetails._id);
+      this.props.fetchSingleChat(token, notif.data);
+      if (this.props.data.length > 0 && this.props.chat.length > 0) {
+        this.props.appendlastmsg(this.props.data, this.props.chat);
+      }
+    }
     if(notif.data.type == "fb_chat_assigned"){
             console.log("Updating FbSession Status to assigned");
             var newSessions = this.props.fbSessions.map((obj) => {
@@ -367,9 +365,9 @@ renderLoadingView(){
             if(notif.data.request_id == this.props.singleChat.request_id){
               this.props.fetchChat(token, notif.data);
             }
-            
+
            }
-      
+
     }*/
     if(notif.data.type == "fb_chat_assigned"){
             console.log("Updating FbSession Status to assigned");
@@ -394,10 +392,10 @@ renderLoadingView(){
             });
             this.props.updateFbSessionsAssignedStatus(newSessions);
            // this.forceUpdate();
-    
+
   }
 }
-  
+
 
   _onAzureNotificationHubRegistered(registrationInfo) {
     console.log('registered');
@@ -446,7 +444,7 @@ const mapDispatchToProps = {
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
-  sessionsFetch: chatActions.sessionsFetch,
+  sessionsFetch: chatActions.getAllSessions,
   updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
   closemenu: menuActions.close,
   getunreadsessionscount: FbActions.getunreadsessionscount,
@@ -454,6 +452,7 @@ const mapDispatchToProps = {
   appendlastmessage: FbActions.appendlastmessage,
   appendlastmsg: chatActions.appendlastmessage,
   chatsFetch: chatActions.chatsFetch,
+  getUnreadSessionCount: chatActions.getunreadsessionscount,
  };
 
 function mapStateToProps(state) {
@@ -466,4 +465,3 @@ function mapStateToProps(state) {
 }
 //Dashboard = codePush(codePushOptions)(Dashboard);
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
-
