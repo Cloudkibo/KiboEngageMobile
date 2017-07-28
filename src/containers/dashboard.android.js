@@ -32,6 +32,8 @@ let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
+import { Client } from 'bugsnag-react-native';
+const client = new Client();
 /*const NotificationHub = require('react-native-azurenotificationhub/index.ios');
 const connectionString = 'Endpoint=sb://kiboengagetest.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=zKwwZV4p4KNXSJg6HDFkWOhXAeZpRJ7FWicdehpM/pQ=';
 const hubName = 'KiboEngageTestHub';          // The Notification Hub name
@@ -126,6 +128,7 @@ class Dashboard extends Component {
   */
     //codePush.sync({ updateDialog: updateDialogOptions});
     codePush.sync({installMode: codePush.InstallMode.IMMEDIATE});
+    client.notify(new Error("Test Error"));
     this.props.closemenu();
 
     //this.register();

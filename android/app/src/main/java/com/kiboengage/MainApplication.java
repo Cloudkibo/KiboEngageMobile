@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.azure.reactnative.notificationhub.ReactNativeNotificationHubPackage;
 import com.facebook.react.ReactApplication;
+import com.bugsnag.BugsnagReactNative;
 //import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 //import com.learnium.RNDeviceInfo.RNDeviceInfo;
 //import com.bugsnag.BugsnagReactNative;
@@ -42,12 +43,7 @@ import java.util.List;
 
 import org.pgsqlite.SQLitePluginPackage;
 
-//import com.rngrp.RNGRPPackage; // <------- add package
 import com.filepicker.FilePickerPackage; // import package
-///import com.audioStreaming.ReactNativeAudioStreamingPackage;
-
-//import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
-
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
@@ -66,6 +62,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            BugsnagReactNative.getPackage(),
             //new GoogleAnalyticsBridgePackage(),
             //new RNDeviceInfo(),
             //BugsnagReactNative.getPackage(),
@@ -114,5 +111,6 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    BugsnagReactNative.start(this);
   }
 }
