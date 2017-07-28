@@ -189,7 +189,7 @@ renderLoadingView(){
       >
       <Spacer size={55} />
         <Card>
-          <Text> Hi, {this.props.userdetails.firstname}</Text>
+          <Text> Hi, {this.props.userdetails.firstname}, this is updated versions</Text>
         </Card>
 
 
