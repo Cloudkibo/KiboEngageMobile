@@ -9,7 +9,7 @@ import {
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
-  View
+  View,KeyboardAvoidingView
 } from 'react-native';
 import FormValidation from 'tcomb-form-native';
 import { Actions } from 'react-native-router-flux';
@@ -114,6 +114,19 @@ class Login extends Component {
     }
   }
 
+
+// Scroll a component into view. Just pass the component ref string.
+inputFocused (refName) {
+  setTimeout(() => {
+    let scrollResponder = this.refs.scrollView.getScrollResponder();
+    scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
+      React.findNodeHandle(this.refs[refName]),
+      110, //additionalOffset
+      true
+    );
+  }, 50);
+}
+
   componentWillReceiveProps(nextProps) {
     if(nextProps.login_status){
       this.setState({ resultMsg: { status: nextProps.login_status } });
@@ -160,34 +173,35 @@ class Login extends Component {
     const Form = FormValidation.form.Form;
 
     return (
-      <View
-        automaticallyAdjustContentInsets={false}
+     <View
         style={[AppStyles.container]}
         contentContainerStyle={[AppStyles.container]}
       >
-      <ScrollView
-        ref={(a) => { this.scrollView = a; }}
-      >
+        <ScrollView
+          automaticallyAdjustContentInsets={true}
+          style={[AppStyles.container]}
+          ref={(b) => { this.scrollView = b; }}
+        >
+
         <Card>
           <Alerts
             status={this.state.resultMsg.status}
             success={this.state.resultMsg.success}
             error={this.state.resultMsg.error}
           />
-
           <Form
             ref={(b) => { this.form = b; }}
             type={this.state.form_fields}
             value={this.state.form_values}
-            options={this.state.options}
-          />
+            options={this.state.options} />
+         
 
           <Button
             title={'Login'}
             onPress={this.login}
           />
 
-          <Spacer size={10} />
+          <Spacer size={20} />
 
           <TouchableOpacity onPress={Actions.passwordReset}>
             <Text p style={[AppStyles.textCenterAligned, AppStyles.link]}>
@@ -195,7 +209,7 @@ class Login extends Component {
             </Text>
           </TouchableOpacity>
 
-          <Spacer size={10} />
+          <Spacer size={20} />
 
           <Text p style={[AppStyles.textCenterAligned]}>
             - or -
@@ -205,6 +219,9 @@ class Login extends Component {
             title={'Sign Up'}
             onPress={Actions.signUp}
           />
+           <Spacer size={20} />
+            <Spacer size={20} />
+             <Spacer size={20} />
         </Card>
         </ScrollView>
       </View>
