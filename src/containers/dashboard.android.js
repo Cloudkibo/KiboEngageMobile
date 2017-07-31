@@ -32,6 +32,8 @@ let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 
 // Components
 import { Alerts, Card, Spacer, Text, Button } from '@ui/';
+import { Client } from 'bugsnag-react-native';
+const client = new Client();
 /*const NotificationHub = require('react-native-azurenotificationhub/index.ios');
 const connectionString = 'Endpoint=sb://kiboengagetest.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=zKwwZV4p4KNXSJg6HDFkWOhXAeZpRJ7FWicdehpM/pQ=';
 const hubName = 'KiboEngageTestHub';          // The Notification Hub name
@@ -126,6 +128,7 @@ class Dashboard extends Component {
   */
     //codePush.sync({ updateDialog: updateDialogOptions});
     codePush.sync({installMode: codePush.InstallMode.IMMEDIATE});
+    client.notify(new Error("Test Error"));
     this.props.closemenu();
 
     //this.register();
@@ -134,7 +137,6 @@ class Dashboard extends Component {
       if(token != ''){
 
            this.props.getuser(token);
-           this.props.sessionsFetch(token);
 
           }
 
@@ -187,7 +189,7 @@ renderLoadingView(){
       >
       <Spacer size={55} />
         <Card>
-          <Text> Hi, {this.props.userdetails.firstname}</Text>
+          <Text> Hi, {this.props.userdetails.firstname}, this is updated versions</Text>
         </Card>
 
 
@@ -231,9 +233,19 @@ renderLoadingView(){
       console.log(notif.data);
       console.log(this.props.data);
       const token = await auth.getToken();
-      this.props.sessionsFetch(token);
+      this.props.sessionsFetch(token, this.props.userdetails.uniqueid);
       this.props.chatsFetch(token);
-      this.props.getunreadsessionscount(token, this.props.userdetails._id);
+      this.props.getUnreadSessionCount(token, this.props.userdetails._id);
+      this.props.fetchSingleChat(token, notif.data);
+      if (this.props.data.length > 0 && this.props.chat.length > 0) {
+        this.props.appendlastmsg(this.props.data, this.props.chat);
+      }
+    }
+    if (notif.data.type == 'customer-left') {
+      const token = await auth.getToken();
+      this.props.sessionsFetch(token, this.props.userdetails.uniqueid);
+      this.props.chatsFetch(token);
+      this.props.getUnreadSessionCount(token, this.props.userdetails._id);
       this.props.fetchSingleChat(token, notif.data);
       if (this.props.data.length > 0 && this.props.chat.length > 0) {
         this.props.appendlastmsg(this.props.data, this.props.chat);
@@ -290,7 +302,7 @@ const mapDispatchToProps = {
   fetchfbcustomers: FbActions.fetchfbcustomers,
   getfbChats:FbActions.getfbChats,
   getfbChatsUpdate:FbActions.getfbChatsUpdate,
-  sessionsFetch: chatActions.sessionsFetch,
+  sessionsFetch: chatActions.getAllSessions,
   updateFbSessionsAssignedStatus: FbActions.updateFbSessionsAssignedStatus,
   closemenu: menuActions.close,
   getunreadsessionscount: FbActions.getunreadsessionscount,
@@ -298,6 +310,7 @@ const mapDispatchToProps = {
   appendlastmessage: FbActions.appendlastmessage,
   appendlastmsg: chatActions.appendlastmessage,
   chatsFetch: chatActions.chatsFetch,
+  getUnreadSessionCount: chatActions.getunreadsessionscount,
  };
 
 function mapStateToProps(state) {

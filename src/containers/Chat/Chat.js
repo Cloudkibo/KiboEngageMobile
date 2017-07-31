@@ -55,6 +55,7 @@ class Chat extends Component {
 
   componentWillReceiveProps = async (nextProps) => {
     console.log('componentWillReceiveProps is called with chat session data');
+    console.log(this.props.sessioninfo);
     const token = await auth.getToken();
     if (nextProps.currentChats) {
       console.log("Next Props Current Chat:", nextProps.currentChats);
@@ -78,14 +79,16 @@ class Chat extends Component {
     if (prevProps.chat.length < this.props.chat.length) {
       console.log('componentDidUpdate: new chat appened');
       const mychats = this.props.chat.filter((c)=> c.request_id == this.props.chat[this.props.chat.length-1].request_id);
+      this.props.currentChats.push(mychats[mychats.length-1]);
       const details = {
         agent_id: this.props.userdetails._id,
         request_id: this.props.sessioninfo.request_id,
       };
       this.props.deleteunreadcountforAgent(token, details);
-      this.renderChat(mychats);
+      console.log(this.props.currentChats);
+      this.renderChat(this.props.currentChats);
       console.log(mychats);
-      this.forceUpdate();
+      //this.forceUpdate();
     }
   }
 
@@ -180,6 +183,7 @@ class Chat extends Component {
         messages: GiftedChat.append(previousState.messages, messages),
       };
     });
+    console.log(this.state.messages);
                    this.props.uploadChatDocfile(fileobj, {});
     }
   }else{
@@ -286,7 +290,7 @@ class Chat extends Component {
   }
 
     renderBubble(prop) {
-    // console.log("IN render bubble", prop.currentMessage);
+    console.log("IN render bubble", prop.currentMessage);
     var isFile = false;
     var fileUpload = {};
     if(this.props.upload){
@@ -417,19 +421,34 @@ class Chat extends Component {
   renderChat = (newchats) => {
     const temp = [];
     console.log('Single Chat', this.props.singleChat);
+    console.log(this.props.sessioninfo);
 
     newchats.map((item, index) => {
-      temp.push({
-        _id: index,
-        text: item.msg,
-        createdAt: handleDate(item.datetime),
-        timestamp: item.datetime,
-        user: {
-          _id: (this.props.sessioninfo.customerID == item.from) ? 2 : 1,
-          name:  item.from,
-          avatar: 'https://facebook.github.io/react/img/logo_og.png',
-        },
-      });
+      if (this.props.sessioninfo.platform == 'mobile') {
+        temp.push({
+          _id: index,
+          text: item.msg,
+          createdAt: handleDate(item.datetime),
+          timestamp: item.datetime,
+          user: {
+            _id: (this.props.sessioninfo.customerid.customerID == item.from) ? 2 : 1,
+            name:  item.from,
+            avatar: 'https://facebook.github.io/react/img/logo_og.png',
+          },
+        });
+      } else if (this.props.sessioninfo.platform == 'web') {
+        temp.push({
+          _id: index,
+          text: item.msg,
+          createdAt: handleDate(item.datetime),
+          timestamp: item.datetime,
+          user: {
+            _id: (this.props.sessioninfo.customerid.name == item.from) ? 2 : 1,
+            name:  item.from,
+            avatar: 'https://facebook.github.io/react/img/logo_og.png',
+          },
+        });
+      }
     }, this);
     temp.reverse();
     this.setState({ messages: temp });
@@ -515,7 +534,7 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = {
-  sessionsFetch: chatActions.sessionsFetch,
+  sessionsFetch: chatActions.getAllSessions,
   chatsFetch: chatActions.chatsFetch,
   groupFetch: GroupActions.groupFetch,
   agentGroupFetch : GroupActions.agentGroupFetch,

@@ -1,6 +1,7 @@
 //import { Actions } from 'react-native-router-flux';
 import axios from 'axios';
 import * as ActionTypes from '../types';
+import { updateChannelInfo } from '../chat/chatActions';
 var querystring = require('querystring');
 import SqliteCalls from '../../services/SqliteCalls';
 var SQLite = require('react-native-sqlite-storage')
@@ -32,7 +33,7 @@ export const channelFetch = (token) => {
   return (dispatch) => {
     dispatch(readChannels());
     axios.get(`${baseURL}/api/messagechannels`,config)
-    .then((res) => res).then(res => 
+    .then((res) => res).then(res =>
 
       dispatch(writeChannels(res.data))
 // dispatch(readChannels())
@@ -157,7 +158,7 @@ export const deleteSubgroup = (subgroup,token) => {
   return (dispatch) => {
     console.log('calling api');
     console.log(config.headers.authorization);
-    axios.delete(`${baseURLKiboEngage}/api/deleteSubgroup?id=${subgroup._id}`,config).then(res => 
+    axios.delete(`${baseURLKiboEngage}/api/deleteSubgroup?id=${subgroup._id}`,config).then(res =>
 
       {dispatch(channelDeleteSuccess(res));
       dispatch(channelFetch(token));
@@ -319,7 +320,7 @@ export function readChannels(){
 
 
 // Assign Agent
-export const assignChannel = (token, input) => {
+export const assignChannel = (token, input, sessionsData, singleChat) => {
   console.log("Move Channel Called");
     var config = {
       rejectUnauthorized : false,
@@ -345,11 +346,12 @@ export const assignChannel = (token, input) => {
       console.log("After data");
   console.log(data);
     return (dispatch) => {
-    axios.post(`${baseURLKiboEngage}/api/movedToMessageChannel`, data,config)
+    axios.post(`${baseURLKiboEngage}/api/movedToMessageChannel`, data, config)
       .then((res) => {
         // dispatch(confirmInvite(res))
         console.log("Channel Successfully Assigned");
         console.log(res);
+        dispatch(updateChannelInfo(sessionsData, singleChat));
         dispatch(assign_agent_status('Successfully Moved'));
       })
       .catch(function (error) {
