@@ -178,7 +178,7 @@ inputFocused (refName) {
         contentContainerStyle={[AppStyles.container]}
       >
         <ScrollView
-          automaticallyAdjustContentInsets={false}
+          automaticallyAdjustContentInsets={true}
           style={[AppStyles.container]}
           ref={(b) => { this.scrollView = b; }}
         >
@@ -195,12 +195,13 @@ inputFocused (refName) {
             value={this.state.form_values}
             options={this.state.options} />
          
+
           <Button
             title={'Login'}
             onPress={this.login}
           />
 
-          <Spacer size={10} />
+          <Spacer size={20} />
 
           <TouchableOpacity onPress={Actions.passwordReset}>
             <Text p style={[AppStyles.textCenterAligned, AppStyles.link]}>
@@ -208,7 +209,7 @@ inputFocused (refName) {
             </Text>
           </TouchableOpacity>
 
-          <Spacer size={10} />
+          <Spacer size={20} />
 
           <Text p style={[AppStyles.textCenterAligned]}>
             - or -
@@ -218,6 +219,9 @@ inputFocused (refName) {
             title={'Sign Up'}
             onPress={Actions.signUp}
           />
+           <Spacer size={20} />
+            <Spacer size={20} />
+             <Spacer size={20} />
         </Card>
         </ScrollView>
       </View>
