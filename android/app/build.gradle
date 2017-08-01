@@ -138,6 +138,12 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-native-video-player')
+    compile project(':react-native-media-kit')
+    compile project(':react-native-video')
+    compile project(':react-native-google-analytics-bridge')
+    compile project(':react-native-device-info')
+    compile project(':bugsnag-react-native')
     //compile project(':react-native-google-analytics-bridge')
     //compile project(':react-native-device-info')
     //compile project(':bugsnag-react-native')
