@@ -4,6 +4,13 @@ import android.app.Application;
 
 import com.azure.reactnative.notificationhub.ReactNativeNotificationHubPackage;
 import com.facebook.react.ReactApplication;
+//import com.wog.videoplayer.VideoPlayerPackage;
+//import com.greatdroid.reactnative.media.MediaKitPackage;
+//import com.brentvatne.react.ReactVideoPackage;
+//import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
+//import com.learnium.RNDeviceInfo.RNDeviceInfo;
+
+//>>>>>>> master
 import com.bugsnag.BugsnagReactNative;
 //import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 //import com.learnium.RNDeviceInfo.RNDeviceInfo;
@@ -62,6 +69,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+
             BugsnagReactNative.getPackage(),
             //new GoogleAnalyticsBridgePackage(),
             //new RNDeviceInfo(),

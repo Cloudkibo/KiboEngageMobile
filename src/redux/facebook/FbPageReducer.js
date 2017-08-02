@@ -19,6 +19,7 @@ const INITIAL_STATE = {
  agent_assign_status: '',
  fbteams: [],
  unreadcountData: [],
+ filetype:'',
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -95,7 +96,8 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, fbpageerror: 'There is an error occurred. Please try later', fbpagesuccess: '' };
     case ActionTypes.ADD_FBPAGETEAMS:
       return { ...state, fbteams: action.payload };
-
+      case ActionTypes.DOWNLOAD_VIDEO_FILE:
+      return {...state,filetype:action.payload};
     default:
       return state;
   }

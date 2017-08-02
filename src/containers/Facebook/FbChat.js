@@ -34,6 +34,10 @@ import CustomView from './CustomView';
 import AudioPlayer from './AudioPlayer';
 
 import GoogleStaticMap from 'react-native-google-static-map';
+import Video from 'react-native-video';
+//import VideoPlayer from 'react-native-native-video-player';
+//var VideoPlayer = require('react-native-native-video-player');
+
 var moment = require('moment');
 
 var handleDate = function(d){
@@ -85,6 +89,7 @@ class FbChat extends Component {
       this.renderGif(nextProps);
       this.renderSticker(nextProps);
       const token = await auth.getToken();
+
 
      if(nextProps.upload){
        console.log("Upload updated");
@@ -194,7 +199,7 @@ class FbChat extends Component {
                  temparray.push(
                     {
                     _id: i,
-                    text: "Some stupid video",
+                    text: url.split('/')[url.split('/').length-1].split('?')[0],
                     createdAt: handleDate(item.timestamp),
                     timestamp:item.timestamp,
                     senderid:item.senderid,
@@ -520,16 +525,47 @@ class FbChat extends Component {
     }
   else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'video'){
         console.log("Video", prop.currentMessage.attachments[0].payload.url);
+       // if(this.props.filetype)
+       // {
+        //   this.props.viewVideo(prop.currentMessage.attachments[0].payload.url, prop.currentMessage.text);
+      
+        //}
+       // else{
 
-        return (
-          <WebView
-        source={{uri: prop.currentMessage.attachments[0].payload.url}}
-        style={{width:250,height:200,flexDirection: 'row'}}
-        javaScriptEnabled={true}
+           console.log('video path prop '+this.props.filetype);
+     
+             return (
+        
+      <GChat.Bubble
+        onLongPress = {() => {
 
+          if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'video'){
+    console.log("In Props: ", prop.currentMessage.text);
+          console.log(prop.currentMessage.attachments[0].payload.url)
+          Alert.alert(
+            'Download File',
+            "Do you want to download this file: " + prop.currentMessage.text,
+            [
+              {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+              {text: 'OK', onPress: () => { this.props.downloadVideoFileFromFb(prop.currentMessage.attachments[0].payload.url, prop.currentMessage.text)}},
+            ]
+        );}}}
+        {...prop}
+        wrapperStyle={{
+          left: {
+            backgroundColor: '#f0f0f0',
+          }
+        }}
       />
-          // <Text>{prop.currentMessage.text}</Text>
-        );
+    );
+ 
+// Later to trigger fullscreen
+
+       // }
+       
+      
+
+
     }else if(prop.currentMessage.attachments && prop.currentMessage.attachments[0].type == 'audio'){
         console.log("Audio", prop.currentMessage.attachments[0].payload.url);
         return (
@@ -766,12 +802,14 @@ const mapDispatchToProps = {
   toggleGif:FbActions.gifToggle,
   toggleSticker:FbActions.stickerToggle,
   downloadFileFromFb: FbActions.downloadFile,
+  downloadVideoFileFromFb: FbActions.downloadVideoFileFromFb,
   deleteunreadcountforAgent: FbActions.deleteunreadcountforAgent,
+  viewVideo:FbActions.viewVideo,
 };
 function mapStateToProps(state) {
-   const { fbcustomers,fbchats,fbCustomerSelected,fbchatSelected, emojiVisible, gifVisible, gifs, stickers, stickerVisible, upload} = state.fbpages;
+   const { filetype,fbcustomers,fbchats,fbCustomerSelected,fbchatSelected, emojiVisible, gifVisible, gifs, stickers, stickerVisible, upload} = state.fbpages;
     const { userdetails} = state.user;
-  return { fbcustomers,fbchats,fbCustomerSelected,fbchatSelected,userdetails, emojiVisible, gifVisible, gifs, stickers, stickerVisible, upload};
+  return { filetype,fbcustomers,fbchats,fbCustomerSelected,fbchatSelected,userdetails, emojiVisible, gifVisible, gifs, stickers, stickerVisible, upload};
 
 }
 

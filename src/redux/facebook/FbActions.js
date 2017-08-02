@@ -915,11 +915,11 @@ async function requestCameraPermission() {
 export function downloadFile(url_file, name_file){
   let dirs = RNFetchBlob.fs.dirs;
   var fext = name_file.split('.');
-  RNFetchBlob.fs.exists(dirs.DocumentDir + '/' + name)
+  RNFetchBlob.fs.exists(dirs.DocumentDir + '/' + name_file)
   .then((exist) => {
       console.log(`file ${exist ? '' : 'not'} exists`)
       if(exist == true){
-            RNFetchBlob.ios.openDocument(dirs.DocumentDir + '/' + name); // results in path/to/file.jpg
+            RNFetchBlob.ios.openDocument(dirs.DocumentDir + '/' + name_file); // results in path/to/file.jpg
 
       }
       else{
@@ -936,7 +936,7 @@ export function downloadFile(url_file, name_file){
                     mime : 'application/octet-stream',
                 },
                  appendExt: fext[fext.length-1], // only append an extension if the res.path() does not return one
-                 path : dirs.DocumentDir + '/' + name
+                 path : dirs.DocumentDir + '/' + name_file
             })
           .fetch('GET', url_file, {
             //some headers
@@ -949,7 +949,7 @@ export function downloadFile(url_file, name_file){
                         console.log(res.path());
                         if(ReactNative.Platform.OS == 'ios'){
                              RNFetchBlob.ios.openDocument(res.path()); // results in path/to/file.jpg
-                            //dispatch(filecomplete());
+                            
                         }
 
 
@@ -957,17 +957,97 @@ export function downloadFile(url_file, name_file){
       }
   })
 
- return{
-    type: ActionTypes.DOWNLOAD_FILE,
-    payload: 'File Downloaded Successfully'
-  };
 
 }
 
-export function filecomplete(){
-  return{
-    type: ActionTypes.DOWNLOAD_FILE,
-    payload: 'File Downloaded Successfully'
+export function viewVideo(url_file, name_file){
+   var filepath='';
+  let dirs = RNFetchBlob.fs.dirs;
+  var fext = name_file.split('.');
+
+        return (dispatch) => {
+  RNFetchBlob.fs.exists(dirs.DocumentDir + '/' + name_file)
+  .then((exist) => {
+      console.log(`file ${exist ? '' : 'not'} exists`)
+      if(exist == true){
+RNFetchBlob.ios.openDocument(dirs.DocumentDir + '/' + name_file);
+}
+})
+}
+}
+
+export function downloadVideoFileFromFb(url_file, name_file){
+
+  var filepath='';
+  let dirs = RNFetchBlob.fs.dirs;
+  var fext = name_file.split('.');
+
+        return (dispatch) => {
+  RNFetchBlob.fs.exists(dirs.DocumentDir + '/' + name_file)
+  .then((exist) => {
+      console.log(`file ${exist ? '' : 'not'} exists`)
+      if(exist == true){
+        filepath=dirs.DocumentDir + '/' + name_file;
+
+                    console.log('file path 1 is '+filepath);
+                   
+                      dispatch(filecomplete(filepath));
+                    RNFetchBlob.ios.openDocument(filepath);
+
+                    //dispatch(filecomplete(filepath));
+            //RNFetchBlob.ios.openDocument(dirs.DocumentDir + '/' + name); // results in path/to/file.jpg
+
+      }
+      else{
+        RNFetchBlob
+          .config({
+                fileCache : true,
+                trusty : true,
+                addAndroidDownloads : {
+                    useDownloadManager : true, // <-- this is the only thing required
+                    // Optional, but recommended since android DownloadManager will fail when
+                    // the url does not contains a file extension, by default the mime type will be text/plain
+                    description : 'File downloaded by download manager.',
+                    mediaScannable : true,
+                    mime : 'application/octet-stream',
+                },
+                 appendExt: fext[fext.length-1], // only append an extension if the res.path() does not return one
+                 path : dirs.DocumentDir + '/' + name_file
+            })
+          .fetch('GET', url_file, {
+            //some headers
+          })
+          // listen to download progress event
+            .progress((received, total) => {
+                console.log('progress', received / total)
+            })
+          .then((res) => {
+                        console.log(res.path());
+                        if(ReactNative.Platform.OS == 'ios'){
+
+                    filepath=res.path();
+                    console.log('filepath is '+ filepath);
+                    console.log('file path is '+filepath);
+                   
+                         dispatch(filecomplete(filepath));
+                       //    RNFetchBlob.ios.openDocument(res.path()); // results in path/to/file.jpg
+                          
+                           // dispatch(filecomplete(filepath));
+                        }
+
+
+          })
+      }
+  })
+}
+
+
+}
+
+export function filecomplete(filepath){
+   return{
+    type: ActionTypes.DOWNLOAD_VIDEO_FILE,
+    payload: filepath,
   };
 }
 
