@@ -86,7 +86,7 @@ class ChatSession extends Component {
      var token =  await auth.getToken();
       // console.log('token is Launchview is: ' + token);
       if(token != ''){
-        this.props.sessionsFetch(token);
+        this.props.sessionsFetch(token, this.props.userdetails.uniqueid);
         this.props.groupFetch(token);
         this.props.chatsFetch(token);
         this.props.channelFetch(token);
@@ -121,11 +121,12 @@ class ChatSession extends Component {
 
   componentDidUpdate(prevProps) {
     console.log('component did update called before');
-    if (prevProps.data.length < this.props.data.length) {
+    if (prevProps.data.length !== this.props.data.length) {
       console.log('component did update called');
       this.renderCard(this.props);
     }
     if (prevProps.unreadcountData.length < this.props.unreadcountData.length) {
+      console.log('render card in componentDidUpdate');
       this.renderCard(this.props);
     }
   }
@@ -261,8 +262,7 @@ class ChatSession extends Component {
 }
 
 const mapDispatchToProps = {
-  sessionsFetch: chatActions.sessionsFetch,
-  getAllSessions: chatActions.getAllSessions,
+  sessionsFetch: chatActions.getAllSessions,
   chatsFetch: chatActions.chatsFetch,
   groupFetch: GroupActions.groupFetch,
   agentGroupFetch : GroupActions.agentGroupFetch,

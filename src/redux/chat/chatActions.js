@@ -18,12 +18,20 @@ export function showChats(data) {
 }
 
 export function showSessions(data) {
-  const final = data.data.filter(function (el) {
-    return el.platform == "mobile";
-  });
+
   return {
     type: ActionTypes.FETCH_SESSIONS,
-    payload: final,
+    payload: data,
+  };
+}
+
+export function updateChannelInfo(data, singleChat) {
+  return {
+    type: ActionTypes.UPDATE_CHANNEL_INFO,
+    payload: {
+      sessions: data,
+      currentSession: singleChat,
+    },
   };
 }
 
@@ -144,7 +152,7 @@ export const getAllSessions = (token, companyid) => {
   console.log('inside get all session fetch');
   return (dispatch) => {
     console.log("Calling api for get all")
-    axios.post(`${BaseURLKiboengage}/api/getallsessions`, data, config)
+    axios.post(`${baseURLKiboEngage}/api/getallsessions`, data, config)
     .then(res =>{
       console.log('Get All session response', res);
       dispatch(writeSessions(res.data));
@@ -260,13 +268,13 @@ function orderByDateFbChats(arr, dateProp) {
 }
 
 export const appendlastmessage = (sessions, chats) => {
-  console.log(chats);
+  console.log(sessions);
   const newchats = orderByDateFbChats(chats, 'datetime');
   console.log(newchats);
   let newSessions = [];
   for (let i = 0; i < sessions.length; i++) {
     if (sessions[i].customerid) {
-      const selectedchat = newchats.filter((c) => c.from == sessions[i].customerID || c.to == sessions[i].customerID);
+      const selectedchat = newchats.filter((c) => c.from == sessions[i].customerID || c.to == sessions[i].customerID || c.from == sessions[i].customerid.name || c.to == sessions[i].customerid.name);
       const lastmessage = selectedchat[selectedchat.length - 1];
       const newsession = sessions[i];
       if (lastmessage && newsession) {

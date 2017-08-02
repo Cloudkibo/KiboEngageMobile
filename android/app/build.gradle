@@ -91,8 +91,8 @@ android {
         applicationId "com.kiboengage"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 5
-        versionName "2.0.3"
+        versionCode 6
+        versionName "2.0.4"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -138,11 +138,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-native-video-player')
-    compile project(':react-native-media-kit')
-    compile project(':react-native-video')
-    compile project(':react-native-google-analytics-bridge')
-    compile project(':react-native-device-info')
     compile project(':bugsnag-react-native')
     //compile project(':react-native-google-analytics-bridge')
     //compile project(':react-native-device-info')
